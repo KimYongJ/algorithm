@@ -1,9 +1,8 @@
 class Solution {
     public int[] solution(int[] num_list) {
-        int j = num_list.length;
-        int[] result= new int[j--];
+        int[] result= new int[num_list.length];
         for(int i=0;i<num_list.length;i++)
-            result[j--]=num_list[i];
+            result[i]=num_list[num_list.length-1-i];
 
         return result;
     }
