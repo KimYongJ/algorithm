@@ -6,13 +6,13 @@ class Main{
         StringBuilder sb = new StringBuilder();
         int len = Integer.parseInt(in.readLine());
         String[] str = new String[len];
-        int result,cnt;
         for(int i=0;i<len;i++){
             str[i] = in.readLine();
         }
+        
         for(int i=0;i<len;i++){
-        	result =0;
-        	cnt=0;
+        	int result =0;
+        	int cnt=0;
             for(int j=0;j<str[i].length();j++){
                 if(str[i].charAt(j)=='O') ++cnt;
                 else cnt=0;
