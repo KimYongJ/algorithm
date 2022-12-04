@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.*;
+
 class Solution {
     public int solution(String[] s1, String[] s2) {
         int result =0;
