@@ -6,7 +6,6 @@ class Solution {
         for(int x : numbers){
             list.add(x);
         }
-        System.out.println(1);
         Collections.sort(list);
         return list.get(len-1)*list.get(len-2);
     }
