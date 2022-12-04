@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 class Solution {
     public int[] solution(String my_string) {
-        List<Integer> list = new ArrayList<>();
-        for(char x : my_string.toCharArray()){
-            if(Character.isDigit(x)){
-                list.add(x-'0');
-            }
-        }
-        Collections.sort(list);
-        return list.stream().mapToInt(i->i).toArray();
+  return Arrays.stream(my_string.replaceAll("[A-Z|a-z]", "").split("")).sorted().mapToInt(Integer::parseInt).toArray();
     }
 }
