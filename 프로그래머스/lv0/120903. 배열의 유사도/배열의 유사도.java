@@ -1,11 +1,13 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.*;
 class Solution {
     public int solution(String[] s1, String[] s2) {
         int result =0;
-        for(String x : s1){
-            for(int i=0;i<s2.length;i++){
-                if(x.equals(s2[i]))result++;
-            }                
-        }
+        List<String> list = Arrays.stream(s2).collect(Collectors.toList());
+        for(String x : s1)
+            if(list.contains(x))result++;       
         return result;
     }
 }
