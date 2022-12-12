@@ -1,16 +1,12 @@
 class Solution {
-    private int fac(int n){
-        if(n==0){
-            return 1;
-        }
-        return n*fac(n-1);
-    }
+
     public int solution(int n) {
-        int data=0;
-        int result =0;
-        while(n>=data){
-            data = fac(++result);
+        int data =1;
+        for(int i=1;i<=10;i++){
+            data*=i;
+            if(n<data) return --i;
+            else if(n==data) return i;
         }
-        return --result;
+        return 1;
     }
 }
