@@ -1,20 +1,22 @@
 import java.util.*;
 class Solution {
     public String solution(String s) {
-        String x = "";
-        char[] cl = s.toCharArray();
-        for(int i=0;i<cl.length;i++){
-            int cnt=0;
-            for(int j=0;j<cl.length;j++){
-                if(cnt>1) break;
-                if(cl[i]==cl[j]){
-                    cnt++;
-                }
+        String result ="";
+        for(char c : s.toCharArray()){
+            if(compare(s,c)){
+                result +=c+"";
             }
-            if(cnt==1) x+= cl[i]+"";
         }
-        char[] result = x.toCharArray();
-        Arrays.sort(result);
-        return new String(result);
+        char[] r = result.toCharArray();
+        Arrays.sort(r);
+        return new String(r);
     }
+    private static boolean compare(String s, char c){
+        if(s.length()-s.replaceAll(c+"","").length()==1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 }
