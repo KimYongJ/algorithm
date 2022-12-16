@@ -1,6 +1,3 @@
-import java.util.*;
-import java.util.stream.Collectors;
-
 class Solution {
     public int solution(int[] array) {
         String str ="";
