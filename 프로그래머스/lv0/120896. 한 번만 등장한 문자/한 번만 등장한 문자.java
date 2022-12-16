@@ -1,22 +1,18 @@
 import java.util.*;
 class Solution {
     public String solution(String s) {
-        String result ="";
+        int[] alpha = new int[26];
         for(char c : s.toCharArray()){
-            if(compare(s,c)){
-                result +=c+"";
+            alpha[c - 'a']++;
+        }
+
+        StringBuilder answer = new StringBuilder();
+        for(int i = 0; i < 26; i++){
+            if(alpha[i] == 1){
+                answer.append((char)(i + 'a'));
             }
         }
-        char[] r = result.toCharArray();
-        Arrays.sort(r);
-        return new String(r);
-    }
-    private static boolean compare(String s, char c){
-        if(s.length()-s.replaceAll(c+"","").length()==1){
-            return true;
-        }else{
-            return false;
-        }
+        return answer.toString();
     }
     
 }
