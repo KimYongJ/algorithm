@@ -3,13 +3,11 @@ import java.util.stream.Collectors;
 
 class Solution {
     public int solution(int[] array) {
-        return (int) Arrays.stream(
-                        Arrays.stream(array)
-                                .mapToObj(String::valueOf)
-                                .collect(Collectors.joining())
-                                .split("")
-                )
-                .filter(s -> s.equals("7"))
-                .count();
+        String str ="";
+        
+        for(int x : array)
+            str+= Integer.toString(x);
+        
+        return str.length() - str.replaceAll("7","").length();
     }
 }
