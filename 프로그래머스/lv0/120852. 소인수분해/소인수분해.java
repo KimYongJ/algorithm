@@ -1,7 +1,7 @@
 import java.util.*;
 class Solution {
     public int[] solution(int n) {
-        List<Integer> list = new ArrayList<Integer>();
+        HashSet<Integer> list = new HashSet<Integer>();
         int div =2;
         while(n!=0){
             if(n%div==0){
@@ -11,7 +11,9 @@ class Solution {
             }else
                 ++div;
         }
-        return list.stream().mapToInt(i->i).toArray();
+        int[] result = list.stream().mapToInt(i->i).toArray();
+        Arrays.sort(result);
+        return result;
     }
     
     private static int div(int div,int n){
