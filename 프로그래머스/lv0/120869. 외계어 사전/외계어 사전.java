@@ -1,25 +1,8 @@
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 class Solution {
     public int solution(String[] spell, String[] dic) {
-        boolean check = false;
-        for(String d : dic){
-            for(String s : spell){
-                if(check(d,s))
-                    check = true;
-                else{
-                    check = false;
-                    break;
-                }
-            }
-            if(check)
-                return 1;   
-        }
-        return 2;
+        return Arrays.stream(dic).map(s -> s.chars().sorted().mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining())).collect(Collectors.toList()).contains(Arrays.stream(spell).sorted().collect(Collectors.joining())) ? 1 : 2;
     }
-    public static boolean check(String d, String s){
-        if(d.length()-d.replaceAll(s,"").length()==1)
-            return true;
-        else
-            return false;
-    }
-    
 }
