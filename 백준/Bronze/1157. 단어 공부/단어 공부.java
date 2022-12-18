@@ -5,26 +5,22 @@ class Main{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine().toLowerCase();
         int[] cl = new int[26];
-        int max = 0 ;
-        String result = "";
-        for(int i=0;i<str.length();i++){
-            char c = str.charAt(i);
-            cl[c-'a']++;
-            if(max<cl[c-'a']){
+        int max=0, cnt=0;
+        char result =' ';
+        
+        for(char c : str.toCharArray()){
+            if(max<++cl[c-'a']){
                 max = cl[c-'a'];
-                result = c+"";
-            }
+                result = c;
+                cnt=32;
+            }else if(max == cl[c-'a'])
+                cnt ++;
         }
-        int cnt = 0;
-        for(int i =0;i<26;i++){
-            if(max==cl[i]) cnt++;
-            if (cnt==1){
-                result = result.toUpperCase()+"";
-            }else if(cnt>1){
-                result = "?"; break;
-            }
-        }
-        System.out.println(result);
+        if(cnt==32)
+            System.out.println((char)(result-cnt));
+        else
+            System.out.println("?");
+        
         
     }
 }
