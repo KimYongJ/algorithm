@@ -8,6 +8,6 @@ class Main{
         while(sum<x)
             sum += ++floor;
         int denominator = floor % 2 == 0 ? sum-x+1 : floor-sum+x;
-        System.out.println(String.valueOf(floor+1-denominator)+"/"+String.valueOf(denominator));
+        System.out.println(floor+1-denominator+"/"+denominator);
     }
 }
