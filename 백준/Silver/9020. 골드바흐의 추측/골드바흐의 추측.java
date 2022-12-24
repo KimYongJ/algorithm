@@ -8,8 +8,7 @@ class Main{
         StringBuilder sb = new StringBuilder();
         int len = Integer.parseInt(br.readLine());
         for(int i=0; i<len; i++){
-            int n = Integer.parseInt(br.readLine());
-            int a=0,b=10000;
+            int n = Integer.parseInt(br.readLine()),a=0,b=10000;
             for(int j=2;j<=n/2;j++){
                 if(check[j] && check[n-j]){
                     if(b-a>Math.abs(n-2*j)){
