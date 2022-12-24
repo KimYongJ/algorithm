@@ -9,28 +9,20 @@ class Main{
         int len = Integer.parseInt(br.readLine());
         for(int i=0; i<len; i++){
             int n = Integer.parseInt(br.readLine());
-            int a=0,b=0;
-            for(int j=n/2 ;j>=2;j--){
-                if(check[j] && check[n-j]){
-                    a = j;
-                    b = n-j;
+            for(int j=n/2 ;j>=2;j--)
+                if(!check[j] && !check[n-j]){
+                    sb.append(j).append(" ").append(n-j).append("\n");
                     break;
                 }      
-            }
-            sb.append(a).append(" ").append(b).append("\n");
         }
         System.out.println(sb);
     }
     public static void checked(){
-        for(int x=2; x<10001; x++){
-            boolean c = true;
-            for(int i=2; i*i<=x; i++){
+        for(int x=2; x<10001; x++)
+            for(int i=2; i*i<=x; i++)
                 if(x%i==0){ 
-                    c = false;
+                    check[x] = true;
                     break;
                 }
-            }
-            check[x] = c;
-        }
     }
 }
