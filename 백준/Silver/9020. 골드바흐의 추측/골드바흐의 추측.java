@@ -11,15 +11,16 @@ class Main{
             int a=0,b=10000;
             for(int j=n/2 ;j>=2;j--){
                 if(check[j] && check[n-j]){
-                    if(b-a>Math.abs(n-2*j)){
-                        if(n-j > j){
+                 //   if(b-a>Math.abs(n-2*j)){
+                 //       if(n-j > j){
                             a = j;
                             b = n-j;
-                        }else{
-                            a = n-j;
-                            b = j;
-                        }
-                    }
+                    break;
+                  //      }else{
+                  //          a = n-j;
+                  //          b = j;
+                 //       }
+                 //   }
                 }      
             }
             sb.append(a).append(" ").append(b).append("\n");
