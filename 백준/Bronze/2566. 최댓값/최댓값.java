@@ -18,6 +18,6 @@ class Main{
             }
         }
         System.out.println(max);
-        System.out.println(Integer.toString(r+1)+" "+Integer.toString(h+1));  
+        System.out.println((r+1)+" "+(h+1));  
     }
 }
