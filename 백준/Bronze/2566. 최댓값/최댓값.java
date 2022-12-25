@@ -4,6 +4,7 @@ import java.util.*;
 class Main{
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         StringTokenizer st;
         int max=0, n, r=0, h=0;
         for(int i=0; i<9; i++){
@@ -17,7 +18,7 @@ class Main{
                 }
             }
         }
-        System.out.println(max);
-        System.out.println((r+1)+" "+(h+1));  
+        sb.append(max).append("\n").append(r+1).append(" ").append(h+1);
+        System.out.println(sb);
     }
 }
