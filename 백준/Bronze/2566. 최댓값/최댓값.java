@@ -5,7 +5,7 @@ class Main{
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        int max=0, n=0, r=0, h=0;
+        int max=0, n, r=0, h=0;
         for(int i=0; i<9; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<9; j++){
