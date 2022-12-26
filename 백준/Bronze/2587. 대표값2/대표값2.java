@@ -3,6 +3,7 @@ import java.util.*;
 class Main{
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int sum=0;
         short[] r = new short[5];
         for(int i=0;i<5;i++){
@@ -11,7 +12,7 @@ class Main{
             r[i] = data;
         }
         Arrays.sort(r);
-        System.out.println(sum/5);
-        System.out.println(r[2]);
+        sb.append(sum/5).append('\n').append(r[2]);
+        System.out.println(sb);
     }
 }
