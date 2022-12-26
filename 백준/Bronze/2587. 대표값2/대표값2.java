@@ -11,6 +11,7 @@ class Main{
             r[i] = data;
         }
         Arrays.sort(r);
-        System.out.println(sum/5+"\n"+r[2]);
+        System.out.println(sum/5);
+        System.out.println(r[2]);
     }
 }
