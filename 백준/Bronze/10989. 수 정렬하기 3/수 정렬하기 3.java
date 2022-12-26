@@ -3,7 +3,7 @@ import java.io.*;
 class Main{
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int[] arr = new int[10001];
         int l = Integer.parseInt(br.readLine());
         
@@ -11,9 +11,10 @@ class Main{
             arr[Integer.parseInt(br.readLine())]++;
 
         for(int j=0; j<10001; j++)
-            for(int x=0; x<arr[j]; x++)
-                sb.append(j).append("\n");
+            if(arr[j]!=0)
+                bw.write((j+"\n").repeat(arr[j]));
 
-        System.out.println(sb);
+        bw.flush();
+        bw.close();
     }
 }
