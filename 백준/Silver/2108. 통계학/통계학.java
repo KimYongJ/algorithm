@@ -1,6 +1,7 @@
 import java.io.*;
 
 class Main{
+    public static final int MAX = 4000;
     public static int[] b = new int[8001];
     public static StringBuilder sb = new StringBuilder();
     public static int l;
@@ -8,10 +9,10 @@ class Main{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         l = Integer.parseInt(br.readLine());
         double sum = 0;
-        int min =4000, max = -4000;
+        int max=-MAX, min=MAX;
         for(int i=0; i<l; i++){
             int num = Integer.parseInt(br.readLine());
-            b[num+4000]++;
+            b[num+MAX]++;
             sum+=num;
             if(num>max) max = num;
             if(num<min) min = num;
@@ -19,38 +20,36 @@ class Main{
         sb.append(Math.round(sum/l)).append("\n");
         center();
         cntFunc();
-        sb.append(max-min).append("\n");
+        sb.append(max-min);
         System.out.println(sb);        
     }
     public static void center(){ // 중앙값
         int c = l/2+1;
         int sum = 0;
-        for(int i=0; i<8001; i++){
+        for(int i=0; i<MAX*2+1; i++){
             sum += b[i];
             if(sum>=c){
-                sb.append(i-4000).append("\n");
+                sb.append(i-MAX).append("\n");
                 return;
             }
         }
-        
-        
     }
     public static void cntFunc(){ // 최빈값
-        int max = -4001, num =0;
-        for(int x=0; x<8001; x++)
+        int max = -MAX-1, num =0;
+        for(int x=0; x<MAX*2+1; x++)
             if(b[x]>max){
                 max = b[x];
                 num = x;
             }
         int cnt = 0;
-        for(int y=0; y<8001; y++){
+        for(int y=0; y<MAX*2+1; y++){
             if(b[y]==max)
                 cnt++;
             if(cnt==2){
-                sb.append(y-4000).append("\n");
+                sb.append(y-MAX).append("\n");
                 return;
             }
         }
-        sb.append(num-4000).append("\n");
+        sb.append(num-MAX).append("\n");
     }
 }
