@@ -22,9 +22,8 @@ class Main{
         sb.append(max-min);
         System.out.println(sb);        
     }
-    public static void cntFunc(){ // 중앙값 + 최빈값
-        int max = -MAX-1, num = 0, sum = 0, cnt = 0;
-        int c = l/2+1;
+    public static void cntFunc(){ // 중앙값 + 최빈값 + 최소최대차이
+        int max = -MAX-1, num = 0, sum = 0, c = l/2+1;
         boolean flag = true;
         for(int x=0; x<MAX*2+1; x++){
             if(b[x]>max){
@@ -34,19 +33,20 @@ class Main{
             if(flag){
                 sum += b[x];
                 if(sum>=c){
-                    sb.append(x-MAX).append("\n");
+                    c=x;
                     flag = false;
                 }
             }
         }
+        sum=0;
         for(int y=0; y<MAX*2+1; y++){
             if(b[y]==max)
-                cnt++;
-            if(cnt==2){
-                sb.append(y-MAX).append("\n");
-                return;
+                sum++;
+            if(sum==2){
+                num = y;
+                break;
             }
         }
-        sb.append(num-MAX).append("\n");
+        sb.append(c-MAX).append("\n").append(num-MAX).append("\n");
     }
 }
