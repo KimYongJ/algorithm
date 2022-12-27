@@ -18,30 +18,27 @@ class Main{
             if(num<min) min = num;
         }
         sb.append(Math.round(sum/l)).append("\n");
-        center();
         cntFunc();
         sb.append(max-min);
         System.out.println(sb);        
     }
-    public static void center(){ // 중앙값
+    public static void cntFunc(){ // 중앙값 + 최빈값
+        int max = -MAX-1, num = 0, sum = 0, cnt = 0;
         int c = l/2+1;
-        int sum = 0;
-        for(int i=0; i<MAX*2+1; i++){
-            sum += b[i];
-            if(sum>=c){
-                sb.append(i-MAX).append("\n");
-                return;
-            }
-        }
-    }
-    public static void cntFunc(){ // 최빈값
-        int max = -MAX-1, num =0;
-        for(int x=0; x<MAX*2+1; x++)
+        boolean flag = true;
+        for(int x=0; x<MAX*2+1; x++){
             if(b[x]>max){
                 max = b[x];
                 num = x;
             }
-        int cnt = 0;
+            if(flag){
+                sum += b[x];
+                if(sum>=c){
+                    sb.append(x-MAX).append("\n");
+                    flag = false;
+                }
+            }
+        }
         for(int y=0; y<MAX*2+1; y++){
             if(b[y]==max)
                 cnt++;
