@@ -3,16 +3,15 @@ class Solution {
         int len = s.length();
         int[] arr = new int[len];
         for(int i=0;i<len; i++){
+            arr[i] = -1;
             int p = 0;
-            boolean check =false;
             for(int j=i-1; j>=0; j--){
                 p++;
                 if(s.charAt(i)==s.charAt(j)){
-                    check =true;
+                    arr[i] = p;
                     break;
                 }        
             }
-            arr[i] = check ? p : -1;
         }
         return arr;
         
