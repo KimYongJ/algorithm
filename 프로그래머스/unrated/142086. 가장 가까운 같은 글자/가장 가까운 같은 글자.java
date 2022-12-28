@@ -4,14 +4,11 @@ class Solution {
         int[] arr = new int[len];
         for(int i=0;i<len; i++){
             arr[i] = -1;
-            int p = 0;
-            for(int j=i-1; j>=0; j--){
-                p++;
+            for(int j=i-1; j>=0; j--)
                 if(s.charAt(i)==s.charAt(j)){
-                    arr[i] = p;
+                    arr[i] = i-j;
                     break;
                 }        
-            }
         }
         return arr;
         
