@@ -4,6 +4,7 @@ import java.util.*;
 class Main{
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int l = Integer.parseInt(br.readLine());
         StringBuilder[] sbArray = new StringBuilder[201];
         for(int i=0; i<201; i++)
@@ -16,11 +17,12 @@ class Main{
             sbArray[age].append(age).append(" ").append(st.nextToken()).append("\n");
         }
         
-        StringBuilder sb = new StringBuilder();
         for(StringBuilder s : sbArray)
-            sb.append(s);
+            if(s!=null)
+                bw.write(s.toString());
         
-        System.out.println(sb);
+        bw.flush();
+        bw.close();
         
     }
 }
