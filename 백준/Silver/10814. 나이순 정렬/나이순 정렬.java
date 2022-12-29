@@ -6,7 +6,7 @@ class Main{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int l = Integer.parseInt(br.readLine());
         StringBuilder[] sbArray = new StringBuilder[201];
-        for(int i=0; i<sbArray.length; i++)
+        for(int i=0; i<201; i++)
             sbArray[i] = new StringBuilder();
         
         StringTokenizer st;
