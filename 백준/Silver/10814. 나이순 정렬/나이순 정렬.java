@@ -14,7 +14,8 @@ class Main{
         for(int j=0; j<l; j++){
             st = new StringTokenizer(br.readLine());
             int age = Integer.parseInt(st.nextToken());
-            sbArray[age].append(age).append(" ").append(st.nextToken()).append("\n");
+            String name = st.nextToken();
+            sbArray[age].append(age).append(" ").append(name).append("\n");
         }
         
         for(StringBuilder s : sbArray)
