@@ -6,12 +6,7 @@ class Main{
         System.out.println(p(Integer.parseInt(br.readLine())));
     }
     public static int p(int n){
-        int r1 = 0, r2 = 1;
-        for(int i=0; i<n; i++){
-            int x = r2;
-            r2+=r1;
-            r1 = x;
-        }
-        return r1;
+        if(n<=1) return n;
+        else return p(n-1) + p(n-2);
     }
 }
