@@ -6,7 +6,11 @@ class Main{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int l = Integer.parseInt(br.readLine());
-        int[] arr = Stream.of(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int[] arr = new int[l];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i=0; i<l; i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
         int[] copy = arr.clone();
         Arrays.sort(copy);
         HashMap<Integer,Integer> hm = new HashMap<>();
