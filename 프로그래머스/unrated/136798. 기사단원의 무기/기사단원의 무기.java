@@ -11,9 +11,12 @@ class Solution {
     }
     public int measure(int m){
         int c = 0;
-        for(int i=1; i<=m/2; i++)
-            if(m%i==0)
+        for(int i=1; i*i<=m; i++)
+            if(m%i==0){
                 c++;
-        return ++c;
+                if(i*i<m)
+                    c++;
+            }
+        return c;
     }
 }
