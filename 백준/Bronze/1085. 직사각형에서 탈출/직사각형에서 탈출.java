@@ -8,12 +8,8 @@ class Main{
         int y = Integer.parseInt(st.nextToken());
         int w = Integer.parseInt(st.nextToken());
         int h = Integer.parseInt(st.nextToken());
-        int result = 0;
         x = x<Math.abs(x-w) ? x : Math.abs(x-w);
         y = y<Math.abs(y-h) ? y : Math.abs(y-h);
-        
-        
-        
         System.out.println(x<y ? x : y);
     }
 }
