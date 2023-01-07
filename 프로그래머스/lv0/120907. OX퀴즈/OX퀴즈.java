@@ -1,22 +1,14 @@
 class Solution {
     public String[] solution(String[] quiz) {
-        String[] result = new String[quiz.length];
-        int cnt = 0;
-        for(String str : quiz){
-            String[] s = str.split(" = ");
-            int cal = Integer.parseInt(s[1]);
-            
-            if(s[0].contains("+")){
-                String[] n = s[0].split(" \\+ ");
-                result [cnt++] = Integer.parseInt(n[0])+Integer.parseInt(n[1])== cal ?
-                                            "O" : "X";
-            }else{
-                String[] n = s[0].split(" \\- ");
-                result [cnt++] = Integer.parseInt(n[0])-Integer.parseInt(n[1])== cal ?
-                                            "O" : "X";
-            }
-            
+        for(int i=0; i<quiz.length; i++){
+            String[] str = quiz[i].split(" ");
+            int x = Integer.parseInt(str[0]);
+            int y = Integer.parseInt(str[2]);
+            int result = Integer.parseInt(str[4]);
+            quiz[i] = str[1].equals("+") ? 
+                            (x+y == result ? "O" : "X") :
+                            (x-y == result ? "O" : "X");
         }
-        return result;        
+        return quiz;
     }
 }
