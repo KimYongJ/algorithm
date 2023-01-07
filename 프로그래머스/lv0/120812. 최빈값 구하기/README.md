@@ -1,10 +1,10 @@
 # [level 0] 최빈값 구하기 - 120812 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120812?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120812) 
 
 ### 성능 요약
 
-메모리: 73.2 MB, 시간: 0.05 ms
+메모리: 73.6 MB, 시간: 0.10 ms
 
 ### 구분
 
