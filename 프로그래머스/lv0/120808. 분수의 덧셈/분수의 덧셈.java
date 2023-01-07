@@ -1,8 +1,9 @@
 class Solution {
+    public int gcd,n,denum;
     public int[] solution(int dn1, int n1, int dn2, int n2) {
-        int gcd = gcd(Math.max(n1,n2),Math.min(n1,n2));
-        int n = n1*n2/gcd;
-        int denum = (dn1*n/n1 + dn2*n/n2);
+        gcd = gcd(Math.max(n1,n2),Math.min(n1,n2));
+        n = n1*n2/gcd;
+        denum = (dn1*n/n1 + dn2*n/n2);
         
         gcd = gcd(Math.max(n,denum),Math.min(n,denum));
         n/=gcd;
