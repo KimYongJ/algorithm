@@ -22,11 +22,13 @@ class Main{
         System.out.println(sb);
     }
     public static int find(int x1,int y1,int r1, int x2, int y2, int r2){
-        int d = (int)(Math.pow(x1-x2,2)+Math.pow(y1-y2,2));
+        int d = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+        int sub = (r1-r2)*(r1-r2);
+        int sum = (r1+r2)*(r1+r2);
         int cnt = 2;
         if(x1==x2 && y1==y2 && r1==r2) cnt = -1;
-        else if(d>Math.pow(r1+r2,2) || d<Math.pow(r1-r2,2)) cnt = 0;
-        else if(d==Math.pow(r1+r2,2) || d==Math.pow(r1-r2,2)) cnt = 1;
+        else if(d>sum || d<sub) cnt = 0;
+        else if(d==sum || d==sub) cnt = 1;
         return cnt;
     }
 }
