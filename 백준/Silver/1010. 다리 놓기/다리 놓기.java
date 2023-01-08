@@ -11,7 +11,7 @@ class Main{
         int[][] dp = new int[31][31];
 
         for(int i=1; i<= 30; i++)
-            dp[i][1] = i;
+            dp[i][1] = dp[i][0] = i;
         
         for(int i=2; i<=30; i++)
             for(int j=2; j<=30; j++)
