@@ -10,6 +10,6 @@ class Main{
         x = x < y ? x : y;
         y = Integer.parseInt(br.readLine());
         int z = Integer.parseInt(br.readLine());
-        System.out.println(x-50+(y<z?y:z));
+        System.out.println(x-50+ (y<z?y:z));
     }
 }
