@@ -2,36 +2,36 @@ import java.io.*;
 import java.util.*;
 
 class Main{
-	static int[] arr = new int[7];
-	static int[] origin = new int[9];
-	static int sum = 0;
-	static boolean[] c = new boolean[100];
+
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		for(int i=0; i<9; i++) 
-			origin[i] = Integer.parseInt(br.readLine()); 
+		int[] origin = new int[9];
+		int sum = 0;
+		for(int i=0; i<9; i++) {
+			origin[i] = Integer.parseInt(br.readLine());
+			sum += origin[i];
+		}
 		
-		back(0);
+		int[] result = new int[7];
 		
-		Arrays.sort(arr);
-		for(int x : arr)
-			System.out.println(x);
-	}
-	public static void back(int depth) {
-			if(depth == 7 && sum!=100) {
-				sum = 0;
-				for(int i=0; i<7;i++) 
-					sum += arr[i];
-				return;
-			}
-			
-			for(int i=0; i<9; i++) {
-				if(!c[origin[i]] && sum!=100) {
-					arr[depth] = origin[i];
-					c[origin[i]] = true;
-					back(depth+1);
-					c[origin[i]] = false;
+		
+		int cnt = 0;
+		for(int i=0;i<8;i++) 
+			for(int j=0; j<9; j++) {
+				if(i==j) continue;
+				if(sum-origin[i]-origin[j] == 100) {
+					for(int x=0; x<9; x++) 
+						if(x!=i && x!=j)
+							result[cnt++] = origin[x];
+					Arrays.sort(result);
+					for(int x : result)
+						System.out.println(x);
+					return;
 				}
 			}
+					
+
+		
 	}
+
 }
