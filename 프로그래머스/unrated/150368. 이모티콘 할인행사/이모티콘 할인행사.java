@@ -1,16 +1,14 @@
 class Solution {
     static int[] sale;
     static int[] sdata = {10,20,30,40};
-    static int len;
     static int[] answer = new int[2];
     public int[] solution(int[][] u, int[] e) {
-        len = e.length;
-        sale = new int[len];
+        sale = new int[e.length];
         back(u,e,0);
         return answer;
     }
     public void back(int[][] u, int[] e,int depth){
-        if(depth == len){
+        if(depth == e.length){
             // 여기서 해당 비교코드 들어가면됨
             int[] result = new int[2];
             for(int i=0; i<u.length; i++){ // 사람에 대해서 반복
