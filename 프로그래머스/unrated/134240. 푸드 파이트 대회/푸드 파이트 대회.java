@@ -1,10 +1,10 @@
 class Solution {
     public String solution(int[] food) {
-        String str1 = "";
-        for(int i=1; i<food.length; i++)
+        String str = "0";
+        for(int i=food.length-1; i>0; i--)
             for(int j=0;j<food[i]/2; j++)
-                str1 += String.valueOf(i);
+                str = i + str + i;
 
-        return str1+"0"+new StringBuffer(str1).reverse().toString();
+        return str;
     }
 }
