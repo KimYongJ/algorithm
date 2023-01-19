@@ -4,10 +4,8 @@ class Solution {
         int result = 0;
         
         while(a<=n){
-            int my = (n/a)*b; // 내가 받는 병의 개수
-            result += my;
-            my += n%a; // 나머지 까지 더해줘야 내 병의 갯수가 완성된다.
-            n = my;
+            result += (n/a)*b;
+            n =(n/a)*b + n%a;
         }
         return result;
     }
