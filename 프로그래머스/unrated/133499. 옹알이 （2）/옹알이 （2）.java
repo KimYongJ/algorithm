@@ -4,8 +4,8 @@ class Solution {
         String[] except = {"ayaaya","yeye","woowoo","mama"};
         String[] com = {"aya","ye","woo","ma"};
         for(String str : b){
-            for(String x: except)
-                str = str.replaceAll(x,"1");
+            if(str.contains("ayaaya") || str.contains("yeye") || str.contains("woowoo") || str.contains("mama") )
+                continue;
             
             for(String x: com)
                 str = str.replaceAll(x,"2");
