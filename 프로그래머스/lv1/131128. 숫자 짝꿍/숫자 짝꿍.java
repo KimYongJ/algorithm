@@ -9,11 +9,9 @@ class Solution {
         for(char c : Y.toCharArray())
             dpy[c-'0']++;
         
-        for(int i=10; i>=0; i--){
-            int n = dpx[i]>dpy[i] ? dpy[i] : dpx[i];
-            str += String.valueOf(i).repeat(n);
-        }
-        str =  "".equals(str) ? "-1" : str.charAt(0)=='0' ? "0" : str;
-        return str;       
+        for(int i=10; i>=0; i--)
+            str += String.valueOf(i).repeat(dpx[i]>dpy[i] ? dpy[i] : dpx[i]);
+        
+        return "".equals(str) ? "-1" : str.charAt(0)=='0' ? "0" : str;
     }
 }
