@@ -19,11 +19,8 @@ class Solution {
             set.add(a);
             reporter.put(b,set);
             
-            if(reported.containsKey(b)){
-                reported.put(b,reported.get(b)+1);
-            }else{
-                reported.put(b,1);
-            }
+            reported.put(b,reported.getOrDefault(b,0)+1);
+            
         }
         for(String item : reporter.keySet())
             if(reported.get(item)>=k)
