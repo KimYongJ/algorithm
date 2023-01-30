@@ -3,23 +3,21 @@ import java.util.*;
 class Solution {
     public int[] solution(String[] list, String[] report, int k) {
         HashMap<String,Integer> reported = new HashMap<>(); // 신고당한 사람 : 횟수
-        HashMap<String,Set<String>> reporter = new HashMap<>(); // 신고당한 사람 : 신고한사람list
-
+        HashMap<String,HashSet<String>> reporter = new HashMap<>(); // 신고당한 사람 : 신고한사람list
         int[] result = new int[list.length];
 
         for(String item : report){
-            String a = item.split(" ")[0];
-            String b = item.split(" ")[1];
+            String[] tmp = item.split(" ");
             
-            Set<String> set = new HashSet<>();
-            if(reporter.containsKey(b)){
-                set = reporter.get(b);
-                if(set.contains(a)) continue;
+            HashSet<String> set = new HashSet<>();
+            if(reporter.containsKey(tmp[1])){
+                set = reporter.get(tmp[1]);
+                if(set.contains(tmp[0])) continue;
             }
-            set.add(a);
-            reporter.put(b,set);
+            set.add(tmp[0]);
+            reporter.put(tmp[1],set);
             
-            reported.put(b,reported.getOrDefault(b,0)+1);
+            reported.put(tmp[1],reported.getOrDefault(tmp[1],0)+1);
             
         }
         for(String item : reporter.keySet())
