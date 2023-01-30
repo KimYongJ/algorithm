@@ -21,10 +21,11 @@ class Solution {
             
         }
         for(String item : reporter.keySet())
-            if(reported.get(item)>=k)
-                for(String name : reporter.get(item))
-                    for(int i=0; i<list.length; i++)
-                        if(name.equals(list[i])) result[i]++;
+            if(reported.get(item)>=k){
+                HashSet<String> compare = reporter.get(item);
+                for(int i=0; i<list.length; i++)
+                    if(compare.contains(list[i])) result[i]++;
+            }
         
         return result;
     }
