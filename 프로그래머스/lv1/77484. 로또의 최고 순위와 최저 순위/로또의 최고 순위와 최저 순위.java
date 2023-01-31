@@ -3,7 +3,10 @@ class Solution {
         int[] arr = new int[2];
         
         for(int a : l){
-            if(a==0) arr[1]++;
+            if(a==0) {
+                arr[1]++;
+                continue;
+            }
             for(int b : w)
                 if(a==b)
                     arr[0]++;
