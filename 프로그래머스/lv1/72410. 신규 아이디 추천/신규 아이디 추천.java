@@ -1,11 +1,11 @@
 class Solution {
     public String solution(String id) {
         id = id.toLowerCase().replaceAll("[^a-z0-9-_.]","");
-        while(true){
-            int len1 = id.length();
-            id = id.replaceAll("\\.\\.",".");
-            if(len1==id.length()) break;
-        }
+        // while(true){
+        //     int len1 = id.length();
+            id = id.replaceAll("[.]{2,}",".");
+        //     if(len1==id.length()) break;
+        // }
         id = deleteDot(id);
         if(id.length()==0)
             id = "a";
