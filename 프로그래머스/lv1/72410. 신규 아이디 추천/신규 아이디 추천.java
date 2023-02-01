@@ -1,17 +1,12 @@
 class Solution {
     public String solution(String id) {
-        id = id.toLowerCase().replaceAll("[^a-z0-9-_.]","");
-        // while(true){
-        //     int len1 = id.length();
-            id = id.replaceAll("[.]{2,}",".");
-        //     if(len1==id.length()) break;
-        // }
+        id = id.toLowerCase().replaceAll("[^a-z0-9-_.]","").replaceAll("[.]{2,}",".");
         id = deleteDot(id);
         if(id.length()==0)
             id = "a";
         else if(id.length()>15)
-            id = id.substring(0,15);
-        id = deleteDot(id);
+            id = deleteDot(id.substring(0,15));
+
         
         if(id.length()<3){
             int len = id.length();
