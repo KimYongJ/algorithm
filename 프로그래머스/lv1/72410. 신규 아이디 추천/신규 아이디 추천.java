@@ -9,8 +9,7 @@ class Solution {
 
         
         if(id.length()<3){
-            int len = id.length();
-            for(int i=0; i<3-len; i++)
+            while(id.length()<3)
                 id += id.charAt(id.length()-1);
         }
         
