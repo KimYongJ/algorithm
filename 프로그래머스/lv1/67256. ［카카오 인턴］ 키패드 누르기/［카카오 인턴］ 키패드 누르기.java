@@ -1,37 +1,37 @@
 class Solution {
     public String solution(int[] n, String h) {
-        String result = "";
+        StringBuilder sb = new StringBuilder();
         int left = 12, right = 12;
         for(int x : n){
             if(x==1 || x==4 || x==7){
                 left = x+2;
-                result += "L";
+                sb.append("L");
             }else if(x==3 || x==6 || x==9){
                 right = x;
-                result += "R";
+                sb.append("R");
             }else{
                 if(x==0) x=11;
                 int l_distance = check(Math.abs(left-x));
                 int r_distance = check(Math.abs(right-x));
                 
                 if(l_distance<r_distance){
-                    result += "L";
+                    sb.append("L");
                     left = x;
                 }else if(l_distance>r_distance){
-                    result += "R";
+                    sb.append("R");
                     right = x;
                 }else if(l_distance==r_distance){
                     if(h.equals("left")){
-                        result += "L";
+                        sb.append("L");
                         left = x;
                     }else{
-                        result += "R";
+                        sb.append("R");
                         right = x;
                     }
                 }
             }
         }
-        return result;
+        return sb.toString();
     }
     public int check(int x){
         if(x<3)
