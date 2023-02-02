@@ -13,7 +13,6 @@ class Solution {
             if(a>=b)
                 list.add(i+1);
         }
-
         
         int[] result = new int[list.size()];
         Iterator itor = list.iterator();
@@ -29,7 +28,6 @@ class Solution {
         int year = Integer.parseInt(st.nextToken());
         int month = Integer.parseInt(st.nextToken());
         int day = Integer.parseInt(st.nextToken());
-        
         return year*12*28+month*28+day;
     }
 }
