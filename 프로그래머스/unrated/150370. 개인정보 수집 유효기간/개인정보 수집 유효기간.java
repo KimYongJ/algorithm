@@ -8,8 +8,9 @@ class Solution {
             map.put(x[0],Integer.parseInt(x[1]));
         }
         for(int i=0; i<privacies.length; i++){
+            String[] pr = privacies[i].split(" ");
             int a = getDay(t);
-            int b = getDay(privacies[i].split(" ")[0]) + map.get(privacies[i].split(" ")[1])*28;
+            int b = getDay(pr[0]) + map.get(pr[1])*28;
             if(a>=b)
                 list.add(i+1);
         }
