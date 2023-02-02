@@ -1,7 +1,7 @@
 class Solution {
     public String solution(int[] n, String h) {
         StringBuilder sb = new StringBuilder();
-        int left = 12, right = 12;
+        int left = 12,right = 12;
         for(int x : n){
             if(x==1 || x==4 || x==7){
                 left = x+2;
