@@ -16,18 +16,18 @@ class Solution {
             lost_list.add(lost[i]);
         }
 
-        int len = lost_list.size();
+        n -= lost_list.size();
         for(int i=0; i<lost_list.size(); i++){
             int x = lost_list.get(i);
             if(tf[x-1]){
                 tf[x-1]=false;
-                len--;
+                n++;
             }else if(tf[x+1]){
                 tf[x+1]=false;
-                len--;
+                n++;
             }
         }
-        return n-len;
+        return n;
         
     }
 }
