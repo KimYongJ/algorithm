@@ -3,7 +3,7 @@ class Solution {
     public int solution(int n, int[] lost, int[] r) {
         Arrays.sort(lost);
 
-        boolean[] tf = new boolean[n+1];
+        boolean[] tf = new boolean[n+2];
         for(int x : r)
             tf[x] = true;
 
@@ -22,7 +22,7 @@ class Solution {
             if(tf[x-1]){
                 tf[x-1]=false;
                 len--;
-            }else if(x+1<=n && tf[x+1]){
+            }else if(tf[x+1]){
                 tf[x+1]=false;
                 len--;
             }
