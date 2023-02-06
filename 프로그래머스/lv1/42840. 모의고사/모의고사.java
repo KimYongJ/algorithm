@@ -10,16 +10,14 @@ class Solution {
         int a2 = find(p2,answers,0);    count = 0;
         int a3 = find(p3,answers,0);
          
-        return result(a1,a2,a3);
+        return result(new int[] {a1,a2,a3});
     }
-    public int[] result(int a1,int a2, int a3){
-        int[] arr = {a1,a2,a3};
+    public int[] result(int[] arr){
         int max = 0;
         for(int i=0; i<3; i++)
             if(max<arr[i]) max = arr[i];
         
         List<Integer> list = new ArrayList<>();
-
         for(int i=0; i<3; i++)
             if(max==arr[i]) list.add(i+1);
         
