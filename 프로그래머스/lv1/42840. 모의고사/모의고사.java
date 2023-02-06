@@ -18,10 +18,13 @@ class Solution {
             if(max<arr[i]) max = arr[i];
         
         List<Integer> list = new ArrayList<>();
-        for(int i=0; i<3; i++)
-            if(max==arr[i]) list.add(i+1);
+        for(int i=0; i<3; i++) if(max==arr[i]) list.add(i+1);
         
-        return list.stream().mapToInt(i->i).toArray();
+        int[] result = new int[list.size()];
+        int cnt = 0;
+        for(int x : list) result[cnt++] = x;
+
+        return result;
     }
     public int find(int[] p,int[] answers, int idx){
         for(int x : p)
