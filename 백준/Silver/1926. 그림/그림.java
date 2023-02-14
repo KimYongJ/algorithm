@@ -2,9 +2,12 @@ import java.io.*;
 import java.util.*;
 
 class Main{
+    static int[] dx = {0,0,1,-1};
+    static int[] dy = {1,-1,0,0};
     public static void main(String[] args)throws Exception{
         int cnt=0,max=0;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(br.readLine());
         int x = Integer.parseInt(st.nextToken());
         int y = Integer.parseInt(st.nextToken());
@@ -16,8 +19,6 @@ class Main{
                 arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        int[] dx = {0,0,1,-1};
-        int[] dy = {1,-1,0,0};
         for(int a=1; a<=x; a++)
             for(int b=1; b<=y; b++){
                 if(arr[a][b]==1){
@@ -39,9 +40,10 @@ class Main{
                             max1++;
                         }
                     }
-                    if(max<max1) max = max1;
+                    max = max<max1 ? max1 : max;
                 }
             }
-        System.out.print(cnt+"\n"+max);
+        sb.append(cnt).append("\n").append(max);
+        System.out.print(sb);
     }
 }
