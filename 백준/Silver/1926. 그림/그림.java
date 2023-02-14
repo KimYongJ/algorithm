@@ -12,7 +12,7 @@ class Main{
         int x = Integer.parseInt(st.nextToken());
         int y = Integer.parseInt(st.nextToken());
         char[][] arr = new char[x+2][y+2];
-        Queue<int[]> q = new LinkedList<>();
+        ArrayDeque<int[]> q = new ArrayDeque<>();
         for(int i=1; i<=x; i++){
             String s = br.readLine();
             for(int j=1, index = 0; j<=y; j++,index+=2){
