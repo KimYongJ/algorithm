@@ -2,23 +2,14 @@ import java.io.*;
 import java.util.*;
 
 class Main{
-    static int cnt = 0,max = 0;
-    static class Cur{
-        int x;
-        int y;
-        Cur(int x,int y){
-            this.x = x;
-            this.y = y;
-        }
-    }
     public static void main(String[] args)throws Exception{
+        int cnt=0,max=0;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int x = Integer.parseInt(st.nextToken());
         int y = Integer.parseInt(st.nextToken());
         int[][] arr = new int[x+2][y+2];
-        boolean[][] visit = new boolean[x+2][y+2];
-        Queue<Cur> q = new LinkedList<>();
+        Queue<int[]> q = new LinkedList<>();
         for(int i=1; i<=x; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=1; j<=y; j++){
@@ -29,22 +20,22 @@ class Main{
         int[] dy = {1,-1,0,0};
         for(int a=1; a<=x; a++)
             for(int b=1; b<=y; b++){
-                if(arr[a][b]==1&&!visit[a][b]){
+                if(arr[a][b]==1){
                 	int max1 = 1;
                     cnt++;
-                    q.add(new Cur(a,b));
-                    visit[a][b] = true;
+                    q.add(new int[]{a,b});
+                    arr[a][b]=0;
                     while(!q.isEmpty()){ 
-                        Cur c = q.poll();
+                        int[] c = q.poll();
                         for(int i=0; i<4; i++){
-                            int x1 = c.x+dx[i];
-                            int y1 = c.y+dy[i];         
+                            int x1 = c[0]+dx[i];
+                            int y1 = c[1]+dy[i];         
                             if(x1<1 || y1<1 || x1>x || y1>y || 
-                               visit[x1][y1] || arr[x1][y1]==0){
+                                arr[x1][y1]==0){
                                 continue;
                             }
-                            visit[x1][y1] = true;
-                            q.add(new Cur(x1,y1));
+                            q.add(new int[]{x1,y1});
+                            arr[x1][y1]=0;
                             max1++;
                         }
                     }
