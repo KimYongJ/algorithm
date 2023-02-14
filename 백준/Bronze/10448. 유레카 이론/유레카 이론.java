@@ -28,7 +28,7 @@ class Main{
     }
     public static void check(int x){
         for(int i=1; i<x; i++)
-            if(eureka(i)>=x){
+            if((i*i+i)/x>=2){ // 입력된 값을 넘는 Tx구하기
                 search(0,i-1); 
                 return;
             }
