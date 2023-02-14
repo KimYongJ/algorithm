@@ -17,22 +17,20 @@ class Main{
     }
     public static void search(int depth, int max){
         if(depth==3){
-            if(arr[0]+arr[1]+arr[2]==num)
-                result = 1;
+            if(arr[0]+arr[1]+arr[2]==num) result = 1;
             return;         
         }
         for(int i=1; i<=max;i++){
             arr[depth] = eureka(i);
             search(depth+1,max);
-            if(result==1)
-                return;
+            if(result==1) return;
         }
     }
     public static void check(int x){
         for(int i=1; i<x; i++)
             if(eureka(i)>=x){
                 search(0,i-1); 
-                break;
+                return;
             }
     }
     public static int eureka(int x){
