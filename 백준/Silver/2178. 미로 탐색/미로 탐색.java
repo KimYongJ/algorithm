@@ -2,8 +2,7 @@ import java.io.*;
 import java.util.*;
 
 class Main{
-    static int[] dx = {0,0,-1,1};
-    static int[] dy = {-1,1,0,0};
+    static int[][] dxy = {{0,-1},{0,1},{-1,0},{1,0}};
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -21,9 +20,9 @@ class Main{
         
         while(!q.isEmpty()){
             int[] qData = q.poll();
-            for(int a=0; a<4; a++){
-                int x1 = qData[0] + dx[a];
-                int y1 = qData[1] + dy[a];
+            for(int[] d : dxy){
+                int x1 = qData[0] + d[0];
+                int y1 = qData[1] + d[1];
                 int depth = qData[2] + 1;
                 if(x1<1 || y1<1|| x1>x || y1>y || arr[x1][y1]=='0')
                     continue;
