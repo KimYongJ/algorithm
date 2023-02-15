@@ -15,8 +15,10 @@ class Main{
             for(int j=1; j<=y; j++)
                 arr[i][j] = s.charAt(j-1);
         }
+        
         ArrayDeque<int[]> q = new ArrayDeque<>();
         q.add(new int[]{1,1,1});
+        
         while(!q.isEmpty()){
             int[] qData = q.poll();
             for(int a=0; a<4; a++){
