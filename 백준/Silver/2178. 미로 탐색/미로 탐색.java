@@ -19,22 +19,19 @@ class Main{
         q.add(new int[]{1,1,1});
         while(!q.isEmpty()){
             int[] qData = q.poll();
-            for(int i=1; i<=x; i++)
-                for(int j=1; j<=y; j++)
-                    for(int a=0; a<4; a++){
-                        int x1 = qData[0] + dx[a];
-                        int y1 = qData[1] + dy[a];
-                        int depth = qData[2] + 1;
-                
-                        if(x1<1 || y1<1|| x1>x || y1>y || arr[x1][y1]=='0')
-                            continue;
-                        if(x1==x && y1==y){
-                            System.out.println(depth);
-                            return;
-                        }
-                        arr[x1][y1] = '0';
-                        q.add(new int[]{x1,y1,depth});
-                   }
+            for(int a=0; a<4; a++){
+                int x1 = qData[0] + dx[a];
+                int y1 = qData[1] + dy[a];
+                int depth = qData[2] + 1;
+                if(x1<1 || y1<1|| x1>x || y1>y || arr[x1][y1]=='0')
+                    continue;
+                if(x1==x && y1==y){
+                    System.out.println(depth);
+                    return;
+                }
+                arr[x1][y1] = '0';
+                q.add(new int[]{x1,y1,depth});
+           }
         }
     }
 }
