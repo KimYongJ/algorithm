@@ -10,16 +10,15 @@ class Main{
         int x = Integer.parseInt(st.nextToken());
         int y = Integer.parseInt(st.nextToken());
         int[][] arr = new int[y][x];
-        int result = 0;
+        int result = 0, noneTomato = 0;
         for(int i=0; i<y; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<x; j++){
-                int num = Integer.parseInt(st.nextToken());
-                arr[i][j] = num;
+                arr[i][j] = Integer.parseInt(st.nextToken());
                 if(arr[i][j]==1){
                     result++;
                     q.add(new int[]{i,j,0});
-                }
+                }else if(arr[i][j]==0) noneTomato++;
             }
         }
         if(result==x*y){
@@ -27,7 +26,6 @@ class Main{
             return;
         }
         // i = y , j = x 이다. {y,x,dist}
-        result = 0;
         while(!q.isEmpty()){
             int[] qData = q.poll();
             for(int[] d : dxy){
@@ -39,17 +37,12 @@ class Main{
                    arr[y1][x1]==1 || arr[y1][x1]==-1)
                     continue;
                 arr[y1][x1]=1;
+                noneTomato--;
                 q.add(new int[]{y1,x1,dist});
+                
             }
-            result = result<qData[2] ? qData[2] : result;
+            result = qData[2];
         }
-        for(int i=0; i<y; i++)
-            for(int j=0; j<x; j++)
-                if(arr[i][j]==0){
-                    System.out.println(-1);
-                    return;
-                }
-        
-        System.out.println(result);
+        System.out.println(noneTomato==0 ? result : -1);
     }
 }
