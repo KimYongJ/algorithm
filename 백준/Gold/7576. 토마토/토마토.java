@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+
+class Main{
+    static int[][] dxy = {{0,1},{0,-1},{1,0},{-1,0}};
+    public static void main(String[] args)throws Exception{
+        BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        int x = Integer.parseInt(st.nextToken());
+        int y = Integer.parseInt(st.nextToken());
+        char[][] arr = new char[y][x];
+        int result = 0;
+        for(int i=0; i<y; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j=0; j<x; j++){
+                int num = Integer.parseInt(st.nextToken());
+                num = num==-1 ? '2' : num+'0';
+                arr[i][j] = (char)num;
+                if(arr[i][j]=='1'){
+                    result++;
+                    q.add(new int[]{i,j,0});
+                }
+            }
+        }
+        if(result==x*y){
+            System.out.println(0);
+            return;
+        }
+        // i = y , j = x 이다. {y,x,dist}
+        result = 0;
+        while(!q.isEmpty()){
+            int[] qData = q.poll();
+            for(int[] d : dxy){
+                int y1 = d[0]+qData[0];
+                int x1 = d[1]+qData[1];
+                int dist = qData[2]+1;
+                
+                if(y1<0 || x1<0 || y1>=y || x1>=x ||
+                   arr[y1][x1]=='1' || arr[y1][x1]=='2')
+                    continue;
+                arr[y1][x1]='1';
+                q.add(new int[]{y1,x1,dist});
+                result = result<dist ? dist : result;
+            }
+        }
+        for(int i=0; i<y; i++)
+            for(int j=0; j<x; j++)
+                if(arr[i][j]=='0'){
+                    System.out.println(-1);
+                    return;
+                }
+        
+        System.out.println(result);
+    }
+}
