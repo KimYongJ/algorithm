@@ -9,16 +9,16 @@ class Main{
         ArrayDeque<int[]> q = new ArrayDeque<>();
         int x = Integer.parseInt(st.nextToken());
         int y = Integer.parseInt(st.nextToken());
-        int[][] arr = new int[y][x];
+        char[][] arr = new char[y][x];
         int result = 0, noneTomato = 0;
         for(int i=0; i<y; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<x; j++){
-                arr[i][j] = Integer.parseInt(st.nextToken());
-                if(arr[i][j]==1){
+                arr[i][j] = st.nextToken().charAt(0);
+                if(arr[i][j]=='1'){
                     result++;
                     q.add(new int[]{i,j,0});
-                }else if(arr[i][j]==0) noneTomato++;
+                }else if(arr[i][j]=='0') noneTomato++;
             }
         }
         if(result==x*y){
@@ -34,9 +34,9 @@ class Main{
                 int dist = qData[2]+1;
                 
                 if(y1<0 || x1<0 || y1>=y || x1>=x ||
-                   arr[y1][x1]==1 || arr[y1][x1]==-1)
+                   arr[y1][x1]=='1' || arr[y1][x1]=='-')
                     continue;
-                arr[y1][x1]=1;
+                arr[y1][x1]='1';
                 noneTomato--;
                 q.add(new int[]{y1,x1,dist});
                 
