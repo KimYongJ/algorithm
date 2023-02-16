@@ -2,15 +2,17 @@ import java.io.*;
 import java.util.*;
 
 class Main{
+    static ArrayDeque<int[]> q = new ArrayDeque<>();
     static int[][] dxy = {{0,1},{0,-1},{1,0},{-1,0}};
+    static char[][] arr;
+    static int x,y , result = 0 , noneTomato = 0;
+
     public static void main(String[] args)throws Exception{
         BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        ArrayDeque<int[]> q = new ArrayDeque<>();
-        int x = Integer.parseInt(st.nextToken());
-        int y = Integer.parseInt(st.nextToken());
-        char[][] arr = new char[y][x];
-        int result = 0, noneTomato = 0;
+        x = Integer.parseInt(st.nextToken());
+        y = Integer.parseInt(st.nextToken());
+        arr = new char[y][x];
         for(int i=0; i<y; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<x; j++){
