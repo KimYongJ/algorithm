@@ -34,19 +34,17 @@ class Main{
                 int y1 = qData[2] + p[2];
                 int dist = qData[3] + 1;
                 
-                if(a1<0 || a1>=z || x1<0 || x1>=x || y1<0 || y1>=y ||
-                   arr[a1][x1][y1]=='-' || arr[a1][x1][y1]=='1')
+                if(a1<0 || a1>=z || x1<0 || x1>=x || y1<0 || y1>=y)
                     continue;
-                
-                arr[a1][x1][y1] = '1';
-                nTomato--;
-                q.add(new int[]{a1,x1,y1,dist});
+                if(arr[a1][x1][y1]=='0'){
+                    arr[a1][x1][y1] = '1';
+                    nTomato--;
+                    q.add(new int[]{a1,x1,y1,dist});    
+                }
             }
             result = qData[3];
         }
-        
         System.out.println(nTomato==0? result : -1);
-        
     }
     public static char read()throws Exception{
         while(true){
