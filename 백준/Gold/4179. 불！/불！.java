@@ -48,7 +48,7 @@ class Main{
                         System.out.println(dist);
                         return;
 					}
-					if(arr[nx][ny] != '#' && arr[nx][ny] !='F' && arr[nx][ny] != 'J') {
+					if(arr[nx][ny] == '.') {
 							j_q.add(new int[]{nx,ny,dist});
 							arr[nx][ny] = 'J';
 					}
