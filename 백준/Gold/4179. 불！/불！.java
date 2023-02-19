@@ -26,43 +26,41 @@ class Main{
             for(int i=0; i<fire_q_len; i++){
                 int[] f_qData = f_q.poll();
                 for(int[] xy : dxy){
-                    int nx = f_qData[0] + xy[0];
-                    int ny = f_qData[1] + xy[1];
-					if(0 <= nx && nx < x && 0 <= ny && ny < y) {
-						if(arr[nx][ny] != '#' && arr[nx][ny] !='F') {
-						    arr[nx][ny]='F';
-                            f_q.add(new int[]{nx,ny});
-						}
-					} 
+                    int x1 = f_qData[0] + xy[0];
+                    int y1 = f_qData[1] + xy[1];
+                
+                    if(x1>=0 && y1>=0 && x1<x && y1<y &&
+                      arr[x1][y1]!='F' && arr[x1][y1]!='#'){
+                        arr[x1][y1]='F';
+                        f_q.add(new int[]{x1,y1});
+                    }
                 }
             }
             int jihun_q_len = j_q.size();
             for(int i=0; i<jihun_q_len; i++){
                 int[] j_qData = j_q.poll();
                 for(int[] xy : dxy){
-                    int nx = j_qData[0] + xy[0];
-                    int ny = j_qData[1] + xy[1];
+                    int x1 = j_qData[0] + xy[0];
+                    int y1 = j_qData[1] + xy[1];
                     int dist = j_qData[2] + 1;
-
-                    if(nx < 0 || nx >= x || ny < 0 || ny >= y) {
-                        System.out.println(dist);
+                    if(x1<0 || y1<0 || x1>=x || y1>=y){
+                        System.out.print(dist);
                         return;
-					}
-					if(arr[nx][ny] == '.') {
-							j_q.add(new int[]{nx,ny,dist});
-							arr[nx][ny] = 'J';
-					}
+                    }
+                    if(arr[x1][y1]=='.'){
+                        arr[x1][y1]='J';
+                        j_q.add(new int[]{x1,y1,dist});
+                    }
                 }
             }
         }
         System.out.println("IMPOSSIBLE");
     }
-
     public static char read()throws Exception{
         while(true){
-            int data = br.read();
-            if(data=='#' || data=='.' || data=='J' || data=='F')
-                return (char)data;
+            int num = br.read();
+            if(num!='\n')
+                return (char)num;
         }
     }
 }
