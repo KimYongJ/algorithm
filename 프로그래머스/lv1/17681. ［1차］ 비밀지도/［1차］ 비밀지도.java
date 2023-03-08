@@ -1,26 +1,14 @@
 // https://github.com/KimYongJ
 class Solution {
-    static boolean[] bool;
     public String[] solution(int n, int[] arr1, int[] arr2) {
         String[] rString = new String[n];
         for(int i=0; i<n; i++){
-            StringBuilder sb = new StringBuilder();
-            bool = new boolean[n];
-            check(n,arr1[i]);
-            check(n,arr2[i]);
-            for(boolean x : bool)
-                if(x) sb.append("#");
-                else sb.append(" ");
-            rString[i] = sb.toString();
+            String str = Integer.toBinaryString(arr1[i] | arr2[i]);
+            while(n!=str.length()) str = "0"+str;
+            str = str.replaceAll("0"," ");
+            str = str.replaceAll("1","#");
+            rString[i] = str;
         }
         return rString;
-    }
-    public void check(int n,int data){
-        String bin = Integer.toBinaryString(data);
-        
-        while(n!=bin.length()) bin = "0"+bin;
-        
-        for(int x=0; x<bin.length(); x++)
-            if(bin.charAt(x)=='1') bool[x]=true;
     }
 }
