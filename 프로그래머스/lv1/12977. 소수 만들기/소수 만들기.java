@@ -1,17 +1,14 @@
 // https://github.com/KimYongJ
 class Solution {
-    static boolean[] bool = new boolean[1001];
     static int result;
     public int solution(int[] nums) {
         int len = nums.length;
-        for(int a=0; a<len-2; a++){
-            for(int b=a+1; b<len-1; b++){
-                for(int c=b+1; c<len; c++){
+        for(int a=0; a<len-2; a++)
+            for(int b=a+1; b<len-1; b++)
+                for(int c=b+1; c<len; c++)
                     if(prime(nums[a]+nums[b]+nums[c]))
                         result++;
-                }
-            }
-        }
+
         return result;
     }
     public boolean prime(int n){
