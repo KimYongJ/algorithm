@@ -5,6 +5,6 @@ class Solution {
         for(char c : String.valueOf(x).toCharArray())
             sum += c-48;
         
-        return x%sum==0 ? true : false;
+        return x%sum==0;
     }
 }
