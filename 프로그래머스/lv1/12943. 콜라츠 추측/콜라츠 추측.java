@@ -1,6 +1,5 @@
 class Solution {
     public int solution(int num) {
-        if(num==1) return 0;
         return find(0,num);
     }
     public int find(int depth, long num){
