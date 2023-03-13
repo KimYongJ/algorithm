@@ -19,9 +19,7 @@ class Solution{
             for(int a=arr[0]; a<arr[2]; a++)
                 result += daylist[a-1];
             
-            result += arr[3]-arr[1];
-			
-            result = result == 0 ? 0 : result+1;
+            result += arr[3]-arr[1]+1;
 
             sb.append("#").append(i).append(" ").append(result).append("\n");
         }
