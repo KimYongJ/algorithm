@@ -9,21 +9,21 @@ class Solution{
         StringBuilder sb = new StringBuilder();
         int l = Integer.parseInt(br.readLine());
         for(int i=1; i<=l; i++){
-            int day1=0, day2=0;
-            
+            int[] arr = new int[4];
+            int result = 0;
             StringTokenizer st = new StringTokenizer(br.readLine());
             
-            len = Integer.parseInt(st.nextToken());
-            for(int x=0; x<len-1;x++)
-                day1 += daylist[x];
-            day1 += Integer.parseInt(st.nextToken());
+            for(int a=0; a<4; a++)
+                arr[a] = Integer.parseInt(st.nextToken());
             
-            len = Integer.parseInt(st.nextToken());
-            for(int x=0; x<len-1;x++) 
-                day2 += daylist[x];
-            day2 += Integer.parseInt(st.nextToken());
+            for(int a=arr[0]; a<arr[2]; a++)
+                result += daylist[a-1];
+            
+            result += arr[3]-arr[1];
+			
+            result = result == 0 ? 0 : result+1;
 
-            sb.append("#").append(i).append(" ").append(day2-day1+1).append("\n");
+            sb.append("#").append(i).append(" ").append(result).append("\n");
         }
         System.out.println(sb);
     }
