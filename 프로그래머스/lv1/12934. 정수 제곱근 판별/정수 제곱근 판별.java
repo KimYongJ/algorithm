@@ -1,9 +1,6 @@
 class Solution {
     public long solution(long n) {
-        if(n==1) return 4;
-        for(long i=2; i*i<=n; i++)
-            if(i*i==n)
-                return (i+1)*(i+1);
-        return -1;
+        double x = Math.sqrt(n);
+        return Math.floor(x) == x ? (long)Math.pow(x+1,2) : -1;
     }
 }
