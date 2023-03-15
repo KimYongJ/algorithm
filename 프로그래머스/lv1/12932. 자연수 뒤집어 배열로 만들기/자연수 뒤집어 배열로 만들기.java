@@ -1,8 +1,7 @@
 class Solution {
     public int[] solution(long n) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.valueOf(n));
-        String str = sb.reverse().toString();
+        String str = new StringBuilder().append(String.valueOf(n)).reverse().toString();
+
         int[] arr = new int[str.length()];
         
         for(int i=0; i<str.length(); i++)
