@@ -8,6 +8,6 @@ class Solution {
             if(c=='y')
                 n--;
         }        
-        return n==0 ? true : false;
+        return n==0;
     }
 }
