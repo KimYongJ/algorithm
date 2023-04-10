@@ -7,9 +7,10 @@ public class Solution {
         int x = -1;
         
         for(int a : arr){
-            if(x==a) continue;
-            list.add(a);
-            x = a;
+            if(x!=a){
+                list.add(a);
+                x = a;
+            }
         }
         int[] result = new int[list.size()];
         
