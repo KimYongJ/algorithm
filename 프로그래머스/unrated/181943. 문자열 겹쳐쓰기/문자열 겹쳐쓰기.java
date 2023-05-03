@@ -1,7 +1,9 @@
 class Solution {
     public String solution(String str, String ostr, int s) {
-        return str.substring(0,s)
-                +ostr
-                +str.substring(s+ostr.length(),str.length());
+        char[] c = str.toCharArray();
+        for(int i=0; i<ostr.length(); i++)
+            c[s+i] = ostr.charAt(i);
+        
+        return String.valueOf(c);
     }
 }
