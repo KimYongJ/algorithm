@@ -12,11 +12,9 @@ class Member{
 class Solution {
     static char[] getString = {'d','l','r','u'};
     static int[][] dxy = {{1,0},{0,-1},{0,1},{-1,0}};
-    static int[][] arr;
     public String solution(int n, int m, int x1, int y1, int r, int c, int k) {
         boolean[][][] visit = new boolean[n][m][k+1];
         ArrayDeque<Member> q = new ArrayDeque<>();
-        arr = new int[n][m];
         q.add(new Member(x1-1,y1-1,""));
         visit[x1-1][y1-1][0] = true;
         while(!q.isEmpty()){
