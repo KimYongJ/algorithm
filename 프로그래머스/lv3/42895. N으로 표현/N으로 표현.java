@@ -15,8 +15,7 @@ class Solution {
                         set[i].add(a+b);
                         set[i].add(a-b);
                         set[i].add(a*b);
-                        if(a!=0)
-                            set[i].add(b/a);
+
                         if(b!=0)
                             set[i].add(a/b);
                     }
