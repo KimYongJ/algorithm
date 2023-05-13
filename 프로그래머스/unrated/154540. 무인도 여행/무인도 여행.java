@@ -1,4 +1,3 @@
-// https://github.com/KimYongJ
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +25,6 @@ class Solution {
     }
     public void bfs(char[][] crr,int i, int j){
             int num = crr[i][j]-'0';
-            q = new ArrayDeque<>();
             q.add(new int[]{i,j});
             crr[i][j] = 'X';
             while(!q.isEmpty()){
