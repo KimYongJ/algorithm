@@ -1,14 +1,14 @@
 import java.util.Arrays;
 class Solution {
     public String solution(String s) {
-        String[] str = s.split(" ");
-        int[] arr = new int[str.length];
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
         
-        for(int i=0; i<str.length; i++)
-            arr[i] = Integer.parseInt(str[i]);
-        
-        Arrays.sort(arr);
-        
-        return arr[0]+" "+arr[str.length-1];
+        for(String str : s.split(" ")){
+            int num = Integer.parseInt(str);
+            if(num<min) min = num;
+            if(num>max) max = num;
+        }
+        return min+" "+max;
     }
 }
