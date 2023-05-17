@@ -2,7 +2,7 @@ class Solution {
     public String solution(String s) {
         StringBuilder sb = new StringBuilder();
         boolean check = true;
-        for(char c : s.toCharArray()){
+        for(char c : s.toLowerCase().toCharArray()){
             if(c == ' '){
                 check = true;
                 sb.append(" ");
@@ -11,8 +11,6 @@ class Solution {
             if(check){
                 c = Character.toUpperCase(c);
                 check = false;
-            }else{
-                c = Character.toLowerCase(c);
             }
             sb.append(c);
         }
