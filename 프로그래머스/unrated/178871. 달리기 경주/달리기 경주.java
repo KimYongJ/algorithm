@@ -2,26 +2,24 @@ import java.util.HashMap;
 import java.util.Map;
 class Solution {
     public String[] solution(String[] players, String[] callings) {
-        HashMap<String,Integer> hmS = new HashMap<>();
-        HashMap<Integer,String> hmI = new HashMap<>();
-        for(int i=0; i < players.length; i++){
-            hmS.put(players[i],i);
-            hmI.put(i,players[i]);
-        }
+        HashMap<String,Integer> hm = new HashMap<>();
         
-        for(String str : callings){
-            int value = hmS.get(str);// value를 가져온다.
-            String front = hmI.get(value-1); // 앞사람의 이름을 가져온다.
+        for(int i=0; i<players.length; i++)
+            hm.put(players[i],i);
+        
+        for(String call : callings){
+            int idx = hm.get(call);
             
-            hmS.put(str,value-1);
-            hmS.put(front,value);
-            hmI.put(value,front);
-            hmI.put(value-1,str);
+            if(idx>0){
+                String tmp = players[idx-1];
+                players[idx-1] = players[idx];
+                players[idx] = tmp;
+                
+                hm.put(players[idx],idx-1);
+                hm.put(players[idx-1],idx);
+                
+            }
         }
-        
-        for(Map.Entry<String,Integer> entry : hmS.entrySet())
-            players[entry.getValue()] = entry.getKey();
-        
         return players;
     }
 }
