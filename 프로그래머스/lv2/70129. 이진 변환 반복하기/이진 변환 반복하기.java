@@ -1,7 +1,6 @@
 class Solution {
     static int cnt, zero;
     public int[] solution(String s) {
-        int len=0;
         while(!s.equals("1")){
             zero += s.length();
             s = s.replaceAll("0","");
