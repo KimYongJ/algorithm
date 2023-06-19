@@ -6,8 +6,8 @@ class Solution
         while(true){
             if(meat(a,b))
                 return ++idx;
-            a = check(a);
-            b = check(b);
+            a = a%2==1 ? (a+1)/2 : a/2;
+            b = b%2==1 ? (b+1)/2 : b/2;
             ++idx;
         }
     }
@@ -15,8 +15,5 @@ class Solution
         int min = Math.min(a,b);
         int max = Math.max(a,b);
         return min+1==max && min%2!=0 ? true : false;
-    }
-    public int check(int num){
-        return num%2==1 ? (num+1)/2 : num/2;
     }
 }
