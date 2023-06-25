@@ -7,13 +7,11 @@ class Solution {
             cnt[a]++; // 카운팅 정렬, idx번 이상 인용된 논문의 갯수
         }
         int before = max;
-        for(int i=max-1; i>=0; i--){
-           // if(cnt[i]!=0){
-                cnt[i] += cnt[before]; //cnt[i] 값을 dp처럼사용해서 인용 횟수에 따른 논문 갯수를 cnt[i]안에 저장
-                before = i;
-                if(i<=cnt[i] && arr.length-cnt[i] <=i)
-                    return i;
-          //  }
+        for(int h=max-1; h>=0; h--){
+            cnt[h] += cnt[before]; //cnt[i] 값을 dp처럼사용해서 인용 횟수에 따른 논문 갯수를 cnt[i]안에 저장
+            before = h;
+            if(h<=cnt[h] && arr.length-cnt[h] <=h)
+                return h;
         }
         return 0;
     }
