@@ -13,18 +13,14 @@ class Solution {
             idx++;
             // 해쉬맵의 값과 비교한다.
             boolean bool = true;
-            for(int x = 0; x<want.length; x++){
-                String baseString = want[x];
-                int baseNumber = number[x];
-                if(!hm.containsKey(baseString) ||baseNumber != hm.get(baseString) ){
+            for(int x = 0; x<want.length; x++)
+                if(!hm.containsKey(want[x]) ||number[x] != hm.get(want[x]) ){
                     bool = false;
                     break;
                 }
-            }
-            if(bool) result++;
             
+            if(bool) result++;
         }
-        
         
         return result;
     }
