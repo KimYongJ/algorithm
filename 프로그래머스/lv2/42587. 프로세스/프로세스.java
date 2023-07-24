@@ -13,7 +13,7 @@ class Solution {
             if(idx==location && max == list[idx])
                 break;
             else if(max==list[idx]){
-                list[idx] = -1;
+               // list[idx] = -1;
                 max = q.poll();
                 result++;
             }
