@@ -18,7 +18,7 @@ function solution(s) {
             }
         }
         // 110 넣기
-        let lastZero = newStr.lastIndexOf('0')+1;
+        let lastZero = newStr.lastIndexOf('0')+1; // +1을해주면 -1일인 경우를 생각할 필요가 없게 됨.
         newStr = newStr.join('');
         newStr = newStr.slice(0, lastZero) + oneCnt + newStr.slice(lastZero, newStr.length)
 1
@@ -58,22 +58,23 @@ function solution(s) {
         }
 
         // 110 넣기
-        let lastZero = newStr.lastIndexOf('0')+1; // +1을 해주면 -1인 경우를 생각할 필요가 없게 됨
+        let lastZero = newStr.lastIndexOf('0')
         
-        
-//         if(stack && lastZero === -1) {
-//             newStr = '110' + newStr
-//             lastZero = 2
-//             stack--
-//         }
-        
-//         while(stack) {
-//             newStr = newStr.slice(0, lastZero+1) + '110' + newStr.slice(lastZero+1, newStr.length)
-//             lastZero += 3
-//             stack--
-//         }
         newStr = newStr.join('')
-        newStr = newStr.slice(0, lastZero) + '110'.repeat(stack) + newStr.slice(lastZero, newStr.length)
+        
+        if(stack && lastZero === -1) {
+            newStr = '110' + newStr
+            lastZero = 2
+            stack--
+        }
+        
+        newStr = newStr.slice(0, lastZero+1) + '110'.repeat(stack) + newStr.slice(lastZero+1, newStr.length)
+        
+        // while(stack) {
+        //     newStr = newStr.slice(0, lastZero+1) + '110' + newStr.slice(lastZero+1, newStr.length)
+        //     lastZero += 3
+        //     stack--
+        // }
         
         answer.push(newStr)
     })
