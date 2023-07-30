@@ -1,44 +1,30 @@
-import java.util.Stack;
-
+//https://github.com/KimYongJ
+// 전체 설명 : 문자열을 앞에서부터 훑으면서 110을 계속 뽑아낸다. 결과적으로 110만있는 문자열과 110이
+// 없는 문자열을 만든다, 그 후 110이 완전히 제거된 문자열의 마지막 0을 찾아낸 후 그 뒤에 110을 붙여
+// 넣는다. 이 때 마지막 0이 없다면 맨앞에 110을 붙여 넣는다. 
 class Solution {
     public String[] solution(String[] s) {
-     // 110의 갯수를새고 110을 제외한 문자열을 만든다.
-     // 앞에서부터 111이 반복되는 숫자를 찾아서 찾을 경우 그곳에 110을 넣고 하나도 없으면 뒤에 계속 붙인다.
-        String[] result = new String[s.length];  
+        
+        String[] result = new String[s.length];  // 결과 배열 선언
         
         for(int i=0; i<s.length; i++){
-            int cnt = 0;
+            int len = 0; 
+            StringBuilder sb        = new StringBuilder();// 110을 제외하고 문자열을 담을 sb선언
+            StringBuilder str110    = new StringBuilder();// 110을 담을 sb선언
             
-            Stack<Character> st = new Stack<>();
-            // 문자열에서 110의 갯수와, 110을 제거한 문자열을 스텍에 담는다.
             for(int j=0; j<s[i].length(); j++){
                 char a = s[i].charAt(j);
-                if(st.size()>=2){
-                    char b = st.pop();
-                    char c = st.pop();
-                    if(c=='1' && b=='1' && a=='0')
-                        cnt++;
-                    else{
-                        st.push(c);
-                        st.push(b);
-                        st.push(a);
-                    }
-                }else{
-                    st.push(a);
+                sb.append(a);
+                len = sb.length();
+                // StrinBuilder에 값을 저장하고 저장된 값중에서 뒤에서 3번째까지 글자가 110인지 찾는다.
+                if(len>=3 && sb.charAt(len-3)=='1' && sb.charAt(len-2)=='1' && sb.charAt(len-1)=='0'){
+                    str110.append("110");
+                    sb.delete(len-3,len);
                 }
             }
-            StringBuilder sb = new StringBuilder();
-            while(!st.isEmpty())
-                sb.append(st.pop()); // 스택에 담긴 char들을 string으로 바꾼다.
-            sb = new StringBuilder(sb.reverse().toString());// 110을 제외한 문자열을 구한다.
             
             int idx = sb.lastIndexOf("0")+1; // 0의 마지막 위치를 구한다.
-
-            while(cnt!=0){
-                sb.insert(idx,"110"); // 0의 마지막위치가 없으면 자동적으로 맨앞에 110이 추가된다.
-                cnt--;
-            }
-            
+            sb.insert(idx,str110); // 0의 마지막위치가 없으면 자동적으로 맨앞에 110이 추가된다.
             result[i] = sb.toString();
         }
         return result;
