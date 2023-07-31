@@ -16,8 +16,9 @@ class Solution {
             if(sum==t) result++;
             return;
         }else{
-            DFS(sum+arr[depth],depth+1);
             DFS(sum-arr[depth],depth+1);
+            DFS(sum+arr[depth],depth+1);
+            
         }
     }
 }
