@@ -2,9 +2,7 @@
 class Solution {
     static private int result;
     public int solution(int n, int k) {
-        String[] arr = Long.toString(n,k).split("0");
-        
-        for(String s : arr)
+        for(String s : Integer.toString(n,k).split("0"))
             if(s.length()>0 && prime(Long.parseLong(s)))
                 result++;
         
