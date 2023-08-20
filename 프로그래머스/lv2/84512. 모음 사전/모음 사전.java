@@ -1,12 +1,13 @@
 class Solution {
     static int x;
-    static String[] arr = {"A","E","I","O","U"};
-    static boolean endCondition = false;
-    public int solution(String word) {
-        DFS("",0,word);
+    String arr[] = {"A","E","I","O","U"}, word;
+    boolean endCondition = false;
+    public int solution(String w) {
+        word = w;
+        DFS("",0);
         return x;
     }
-    public void DFS(String part,int depth,String word){
+    public void DFS(String part,int depth){
         if(word.equals(part)){
             endCondition = true;
         }
@@ -16,8 +17,8 @@ class Solution {
         for(int i=0; i<5; i++){
             if(!endCondition){
                 x++;
-                DFS(part+arr[i],depth+1,word);
-            }
+                DFS(part+arr[i],depth+1);
+            }else return;
         }
     }
 }
