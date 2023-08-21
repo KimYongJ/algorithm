@@ -14,7 +14,8 @@ class Solution {
             for(char c : s.toCharArray()){
                 if(list.contains(c)){ // 스킬트리에 있는 값만 아래 실행
                     if(!check.contains(c)) continue loop;
-                    if(c == skill.charAt(level++)){ // 현재 레밸과 같은거라면 level플러스
+                    if(c == skill.charAt(level)){ // 현재 레밸과 같은거라면 level플러스
+                        level++;
                         if(level== skill.length())  // level이 마지막이라면 break문으로 결과에 +1이 되도록함
                             break;
                         check.add(skill.charAt(level));
