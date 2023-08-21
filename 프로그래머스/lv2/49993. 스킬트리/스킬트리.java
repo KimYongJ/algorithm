@@ -1,6 +1,5 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Stack;
 class Solution {
     int result = 0;
     List<Character> list = new ArrayList<>();
@@ -10,16 +9,15 @@ class Solution {
         
         loop : for(String s : skill_trees){
             int level = 0;
-            Stack<Character> stack = new Stack<>();
-            stack.push(skill.charAt(level));
+            List<Character> check = new ArrayList<>();
+            check.add(skill.charAt(level));
             for(char c : s.toCharArray()){
                 if(list.contains(c)){ // 스킬트리에 있는 값만 아래 실행
-                    if(!stack.contains(c)) continue loop;
-                    if(c == skill.charAt(level)){ // 현재 레밸과 같은거라면 level플러스
-                        level++;
-                        if(level== skill.length()) 
+                    if(!check.contains(c)) continue loop;
+                    if(c == skill.charAt(level++)){ // 현재 레밸과 같은거라면 level플러스
+                        if(level== skill.length())  // level이 마지막이라면 break문으로 결과에 +1이 되도록함
                             break;
-                        stack.push(skill.charAt(level));
+                        check.add(skill.charAt(level));
                     }
                 }
             }
