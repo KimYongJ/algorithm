@@ -1,9 +1,8 @@
 import java.util.PriorityQueue;
-import java.util.Collections;
 class Solution {
     class DualPriority_Q{
         PriorityQueue<Integer> q = new PriorityQueue<>();
-        PriorityQueue<Integer> mq = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> mq = new PriorityQueue<>((a,b)->b-a);
         
         public void add(int num){ // 큐에 데이터 추가
                 q.add(num);
