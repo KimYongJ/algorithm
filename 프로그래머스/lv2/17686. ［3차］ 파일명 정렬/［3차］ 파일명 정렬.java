@@ -1,10 +1,11 @@
 import java.util.Arrays;
 import java.util.Comparator;
 public class Solution {
+
     public String[] solution(String[] files) {
         Arrays.sort(files,new Comparator<String>(){
             @Override
-            public int compare(String A,String B){
+             public int compare(String A,String B){
                 A = A.toUpperCase();
                 B = B.toUpperCase();
                 String head1 = A.split("[0-9]")[0];
