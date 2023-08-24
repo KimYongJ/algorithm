@@ -38,15 +38,6 @@ class Solution {
             }
     }
     
-    public boolean excute(char[][] arr){
-        findValue();        // 지울 데이터를 추가해주는 로직
-        if(!cntCheck()){    // 지울 데이터를 실제로 지워주는 로직 지울게 없다면 false반환
-            return false;
-        }
-        sort();             // 지운 후 데이터를 정렬하는 로직
-        return true;
-    }
-    
     public int solution(int m, int n, String[] board) {
         this.m = m; 
         this.n =n;
@@ -54,7 +45,13 @@ class Solution {
         arr = new char[m][n];
         for(int i=0; i<m; i++) arr[i] = board[i].toCharArray();
         
-        while(excute(arr));
+        while(true){
+            findValue();        // 지울 데이터를 추가해주는 로직
+            if(!cntCheck()){    // 지울 데이터를 실제로 지워주는 로직 지울게 없다면 false반환
+                break;
+            }
+            sort();             // 지운 후 데이터를 정렬하는 로직
+        }
         
         return result;
     }
