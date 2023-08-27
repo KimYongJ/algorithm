@@ -1,27 +1,27 @@
-// https://github.com/KimYongJ
-// 규칙 : 짝수면 +1, 홀수면 가장 먼저나오는0을 1로바꿈, 0이 없는 홀수는 가장 맨 앞의 1을 0으로바꾸고 그앞에 1을 더함
+
 class Solution {
     public long[] solution(long[] n) {
         for(int i=0; i<n.length; i++){
             
-            long sum = 0;
+            long sum = 0; // 최종 계산에 더할 값
             
-            if(n[i]%2==0){ // 짝수
+            if(n[i]%2==0){ // 짝수일 때
                 sum = 1;
-            }else{ // 홀수
+            }else{ // 홀수일 때
                 String base = Long.toBinaryString(n[i]);        // 2진수로 변경
-                for(int j=base.length()-2; j>0; j--){
-                    if(base.charAt(j)=='0'){
-                        j = base.length()-1-j;
-                        sum = (long)Math.pow(2,j)-(long)Math.pow(2,j-1);
+                for(int j=base.length()-2; j>0; j--){ // 2진수를 오른쪽에서 부터 탐색
+                    if(base.charAt(j)=='0'){ // 2진수에서 0이 발견되면
+                        j = base.length()-1-j; // 0이 발견된 index를 계산해서 j 변수에 담는다.
+                        sum = (long)Math.pow(2,j)-(long)Math.pow(2,j-1); // 0이 발견된 인덱스를 1로 바꾸고 그전 인덱스를 0으로 바꾸는것, 더하고빼기로 계산가능
                         break;
                     }
                 }
-                if(sum==0){
-                    sum = (long)Math.pow(2,base.length())-(long)Math.pow(2,base.length()-1);    
+                if(sum==0){ // 모든 비트가 1일 때 sum은 0이게 되어 현재 이 if문을 타게 된다.
+                    sum = (long)Math.pow(2,base.length())-(long)Math.pow(2,base.length()-1); 
+                    // 가장큰 비트를 0으로 바꾸고 그앞에 비트 1을 붙여주는 것이다.
                 }
             }   
-            n[i] += sum;
+            n[i] += sum;//계산한 sum을 최종값에 더해준다.
         }
         return n;
     }
