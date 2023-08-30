@@ -6,7 +6,7 @@ class Solution {
         
         for(int i=0; i<numbers.length; i++) arr[i] = String.valueOf(numbers[i]);
         
-        Arrays.sort(arr,(o1,o2) -> (o2+o1).compareTo(o1+o2)); // 내림차순 정렬을 해야 하기 때문에 o2+o1부터 해준다.
+        Arrays.sort(arr,(o1,o2) -> (o2.concat(o1)).compareTo(o1.concat(o2))); // 내림차순 정렬을 해야 하기 때문에 o2+o1부터 해준다.
         if(arr[0].equals("0"))  // numbers에 0이 여러개 있을 경우
             return "0";
         
