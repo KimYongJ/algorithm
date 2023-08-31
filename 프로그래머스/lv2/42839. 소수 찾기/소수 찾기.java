@@ -18,7 +18,8 @@ class Solution {
     }
     public void DFS(int depth,String str){
         int num = Integer.parseInt(str);
-        if(makeList.contains(num)) return;
+        if(makeList.contains(num)) 
+            return;
         makeList.add(num);
         if(depth==len){
             if(isPrime(num)) result++;
@@ -36,7 +37,7 @@ class Solution {
     }
     public boolean isPrime(int x){
         if(x<=1) return false;
-        for(int i=2; i*i<=x; i++)
+        for(int i=3; i*i<=x; i+=2)
             if(x%i==0)return false;
         return true;
     }
