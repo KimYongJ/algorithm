@@ -3,18 +3,16 @@
 import java.util.ArrayDeque;
 class Solution {
     
-    public int result = 1;
+    public int result = 0;
     
     public int solution(int bridge_length, int weight, int[] truck_weights) {
         ArrayDeque<Integer> q = new ArrayDeque<>(); // 다리를 건너는 중인 트럭을 담을 큐
-        int weightSum = truck_weights[0];// 현재 다리를 건너는 중인 트럭의 무게의 총합을 구하는 변수
-        int idx = 1; // 대기트럭 배열을 순회할 인덱스
+        int weightSum = 0;// 현재 다리를 건너는 중인 트럭의 무게의 총합을 구하는 변수
+        int idx = 0; // 대기트럭 배열을 순회할 인덱스
         
-        for(int i=0; i<bridge_length-1; i++){
-            q.add(0); // 다리 길이-1 만큼 큐에 0을 넣는다.
+        for(int i=0; i<bridge_length; i++){
+            q.add(0); // 다리 길이 만큼 큐에 0을 넣는다.
         }
-        
-        q.add(truck_weights[0]); // 큐의 마지막에 대기트럭의 첫번 째 인덱스를 넣는다.
         
         while(idx<truck_weights.length){ // 대기트럭의 길이보다 인덱스가 작을 때만 반복
 
