@@ -16,12 +16,8 @@ class Solution {
         
         q.add(truck_weights[0]); // 큐의 마지막에 대기트럭의 첫번 째 인덱스를 넣는다.
         
-        while(!q.isEmpty()){ // 큐가 빌 때 까지 반복
-            if(idx>=truck_weights.length){ // 대기 트럭의 인덱스가 초과할 경우
-                result += q.size();
-                break;
-            }
-            
+        while(idx<truck_weights.length){ // 대기트럭의 길이보다 인덱스가 작을 때만 반복
+
             int truck = q.poll(); // 큐에서 데이터를 하나 뽑아온다.
             
             if(truck != 0){ // 트럭의 무게 측정 0이 아닌 경우
@@ -37,6 +33,6 @@ class Solution {
             }
             result++;
         }
-        return result;
+        return result + q.size(); // 큐가 비어있지 않을 경우 큐의 크기만큼 결과에 더해준다. 큐 1개당 1초기 때문이다.
     }
 }
