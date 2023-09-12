@@ -12,9 +12,9 @@ class Solution {
         
         for(int i=0; i<n; i++){
             int qData = q.poll();
-            if(--qData<0)
+            if(qData==0)
                 return 0;
-            q.add(qData); // 큰 수 들을 뽑아서 -1 한 후 다시 insert
+            q.add(--qData); // 큰 수 들을 뽑아서 -1 한 후 다시 insert
         }
         
         while(!q.isEmpty())
