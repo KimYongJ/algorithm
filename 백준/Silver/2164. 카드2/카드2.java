@@ -9,15 +9,9 @@ class Main{
         for(int i=1; i<=n; i++){
             q.add(i);
         }
-        boolean flag =true;
         while(q.size()!=1){
-            if(flag){
-                q.poll();
-                flag = false;
-            }else{
-                q.add(q.poll());
-                flag = true;
-            }
+            q.poll();
+            q.add(q.poll());
         }
         System.out.println(q.peek());
     }
