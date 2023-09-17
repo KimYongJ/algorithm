@@ -13,22 +13,17 @@ class Main{
         System.out.println(sb.toString());
     }
     public static String excute(String str){
-        String result = "YES";
-        Stack<Character>stack = new Stack<>();
+        int cnt = 0;
         for(char c : str.toCharArray()){
-            if(c==')'){
-               if(stack.isEmpty() || stack.peek()!='('){
-                   result = "NO";
-                   break;
-               }
-               stack.pop();
+            if(c=='('){
+                cnt++;
             }else{
-                stack.push(c);
+                cnt--;
+            }
+            if(cnt<0){
+                return "NO";
             }
         }
-        if(!stack.isEmpty()){
-            result = "NO";
-        }
-        return result;
+        return cnt != 0 ? "NO" : "YES";
     }
 }
