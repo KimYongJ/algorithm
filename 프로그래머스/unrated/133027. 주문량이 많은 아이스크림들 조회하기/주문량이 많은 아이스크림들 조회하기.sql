@@ -1,0 +1,14 @@
+SELECT FLAVOR
+FROM (
+    SELECT  A.FLAVOR
+    ,       (A.TOTAL_ORDER + B.TOTAL_ORDER) AS TOTAL
+    FROM FIRST_HALF A
+    JOIN (
+            SELECT  FLAVOR
+            ,       SUM(TOTAL_ORDER) TOTAL_ORDER
+            FROM JULY
+            GROUP BY FLAVOR
+        ) B ON B.FLAVOR = A.FLAVOR
+    ORDER BY TOTAL DESC
+) A
+LIMIT 3
