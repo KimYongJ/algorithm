@@ -1,0 +1,21 @@
+-- APNT_YMD 예약일시 / APNT_NO 진료예약번호 / 진료과코드 MCDP_CD / 의사이름 DR_NAME
+-- PT_NO 환자번호 / PT_NAME 환자이름
+-- 진료예약번호, 환자이름, 환자번호, 진료과코드, 의사이름, 진료예약일시
+-- APNT_NO , PT_NAME , PT_NO , MCDP_CD , DR_NAME ,APNT_YMD
+
+SELECT  A.APNT_NO
+,       B.PT_NAME
+,       B.PT_NO
+,       A.MCDP_CD 
+,       C.DR_NAME 
+,       A.APNT_YMD
+FROM APPOINTMENT A
+LEFT OUTER JOIN PATIENT B 
+    ON B.PT_NO = A.PT_NO
+LEFT OUTER JOIN DOCTOR C 
+    ON C.MCDP_CD = A.MCDP_CD
+    AND C.DR_ID = A.MDDR_ID
+WHERE DATE_FORMAT(A.APNT_YMD,'%Y-%m-%d') = '2022-04-13'
+AND A.APNT_CNCL_YN = 'N'
+AND A.MCDP_CD = 'CS'
+ORDER BY APNT_YMD
