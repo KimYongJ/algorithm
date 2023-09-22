@@ -59,11 +59,11 @@ class Solution {
     }
     public String printString(){ // 완성된 조합을 문자열로 출력해주는 함수
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i<strArr.length; i++){
-            if(visit[i]){
+        
+        for(int i=0; i<strArr.length; i++)
+            if(visit[i])
                 sb.append(strArr[i]);
-            }
-        }
+        
         return sb.toString();
     }
 }
