@@ -1,25 +1,17 @@
 class Main{
     public static void main(String[] args)throws Exception{        
-        int T = read();
+        int T = read(), idx = 0,result = 0,data = 0;
         int[] arr = new int[T];
-        int idx = 0;
+
         while(T-->0){
-            int data = read();
             
-            if(data!=0){
-                arr[idx++] = data;
-            }else{
-                arr[--idx] = 0;
-            }
+            if((data=read())!=0)
+                result +=(arr[idx++] = data);
+            else
+                result -= arr[--idx];
             
         }
         
-        int result = 0;
-        for(int data : arr){
-            result += data;
-            if(data==0) 
-                break;
-        }
         System.out.println(result);
         
     }
