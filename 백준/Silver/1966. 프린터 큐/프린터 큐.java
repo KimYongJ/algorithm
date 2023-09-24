@@ -1,21 +1,19 @@
 import java.util.ArrayDeque;
-import java.util.Scanner;
 import java.util.Arrays;
 class Main{
     public static void main(String[] args)throws Exception{
         StringBuilder sb = new StringBuilder();
-        Scanner in = new Scanner(System.in);
         
-        int T = in.nextInt();
+        int T = readInt();
         
         while(T-->0){
             ArrayDeque<int[]> q = new ArrayDeque<>(); // 큐
-            int n = in.nextInt(); // 총 문서의 갯수
-            int m = in.nextInt(); // 몇번 째 것을 찾아야 하는지
+            int n = readInt(); // 총 문서의 갯수
+            int m = readInt(); // 몇번 째 것을 찾아야 하는지
             
             Integer[] prio = new Integer[n]; // 우선순위를 담을 배열, 추후 우선순위 비교시 사용
             for(int i=0; i<n; i++){
-                int priority = in.nextInt();
+                int priority = readInt();
                 prio[i] = priority; // 우선순위를 차례로 담는다.
                 q.add(new int[]{i,priority}); // q에 기본 숫자인 i와 우선순위를 같이 담는다.
             }
@@ -38,4 +36,11 @@ class Main{
         }
         System.out.println(sb.toString());
     }
+    
+    static int readInt() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
+    
 }
