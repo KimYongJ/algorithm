@@ -13,26 +13,16 @@ class Main{
         int m = Integer.parseInt(st.nextToken());
         
         HashSet<String> nSet = new HashSet<>(); // n개의 string담을 Set선언
-        HashSet<String> mSet = new HashSet<>(); // m개의 string담을 Set선언
+
         
         for(int i=0; i<n; i++)
             nSet.add(br.readLine()); // set에 문자열을 담는다.
         
-        for(int i=0; i<m; i++)
-            mSet.add(br.readLine()); // set에 문자열을 담는다.
-        
         PriorityQueue<String> q = new PriorityQueue<>(); // 사전순 자동 정렬을 위한 우선순위 큐
-        if(n<m){ // n이 더작을 경우 nSet의 값을 mSet에서 찾는다.
-            for(String str : nSet){
-                if(mSet.contains(str)){
-                    q.add(str);
-                }
-            }
-        }else{ // m이 더작을 경우 mSet의 값을 nSet에서 찾는다.
-           for(String str : mSet){
-                if(nSet.contains(str)){
-                    q.add(str);
-                }
+        for(int i=0; i<m; i++){// m개를 돌면서 같은게 있는지 찾는다. 
+            String str = br.readLine();
+            if(nSet.contains(str)){
+                q.add(str);
             }
         }
         
