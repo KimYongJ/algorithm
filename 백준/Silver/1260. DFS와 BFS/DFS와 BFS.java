@@ -1,31 +1,28 @@
+// https://github.com/KimYongJ/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 class Main{
-    
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static StringBuilder sb = new StringBuilder();
     private static int N,M,start;
     private static ArrayList<ArrayList<Integer>> List = new ArrayList<>();
     private static boolean[] visit; // DFS와 BFS 진행시 방문 체크할 배열
    
     public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        start = Integer.parseInt(st.nextToken());
+        N = readInt();
+        M = readInt();
+        start = readInt();
         visit= new boolean[N+1];
         
         for(int i=0; i<=N; i++)
             List.add(new ArrayList<>()); // 노드 갯수만큼 리스트 생성
         
         for(int i=0; i<M; i++){
-            st = new StringTokenizer(br.readLine());
-            int aNode = Integer.parseInt(st.nextToken());
-            int bNode = Integer.parseInt(st.nextToken());
+            int aNode = readInt();
+            int bNode = readInt();
             
             List.get(aNode).add(bNode); // 양 방향 셋팅
             List.get(bNode).add(aNode); // 양 방향 셋팅
@@ -74,6 +71,19 @@ class Main{
                     q.add(node);
                 }
             }
+        }
+    }
+    static int readInt() throws Exception {
+        int sum = 0;
+        boolean isNegative = false;
+        while(true){
+            int input = br.read();
+            if(input=='\n' || input==' ' || input ==',' || input==']')
+                return isNegative ? sum*-1 : sum;
+            else if(input=='-')
+                isNegative = true;
+            else
+                sum = (sum*10)+input-'0';
         }
     }
 }
