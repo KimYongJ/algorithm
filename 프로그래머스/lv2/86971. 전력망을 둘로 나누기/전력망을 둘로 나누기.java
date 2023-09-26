@@ -1,76 +1,52 @@
 // https://github.com/KimYongJ/algorithm
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 class Solution {
     
     private int result = Integer.MAX_VALUE;
-    private int[] parent;
+    private int[][] matrix;
+    private int n;
     
     public int solution(int n, int[][] wires) {
-        // wires에서 1개를 제외하고 송전탑 연결 탐색
-        for(int i=0; i<n-1; i++){           // 완전 탐색을 위한 2중 for문
-            setParent(n);                   // 부모노드를 담을 배열 초기화 함수
-            for(int j=0; j<n-1; j++){       // 완전 탐색을 위한 2중 for문
-                if(i==j){
-                    continue;
-                }else{
-                    int aParent = getParent(wires[j][0]); // 부모노드를 불러옴
-                    int bParent = getParent(wires[j][1]); // 부모노드를 불러옴
-                    
-                    if(aParent > bParent){
-                        change(aParent,bParent);// parent배열에서 값이 aParent인 것을 모두 bParent로 바꾼다.
-                    }else{
-                        change(bParent,aParent);// parent배열에서 값이 bParent인 것을 모두 aParent로 바꾼다.
-                    }
-                    
-                }
-            }
-            // 이하 네트워크가 2개인지 확인하는 코드
-            int[] counting = new int[n+1];
-            for(int x=1; x<n+1; x++){
-                counting[parent[x]]++; // 부모노드의 갯수 카운팅 정렬
-            }
-            ArrayList<Integer> list = new ArrayList<>(); // 부모노드를 담는다(내부 값은 자식노드의 갯수)
-            for(int cnt : counting){
-                if(cnt!=0){
-                    list.add(cnt); // list에 담긴 것은 같은 부모노드의 갯수들
-                }
-            }
-            if(list.size()==2){ // 노드들이 2개로 나누어져있다면 아래 코드실행
-                result = Math.min(result,Math.abs(list.get(0)-list.get(1)));
-            }
-            // 이하 네트워크가 2개인지 확인하는 코드 version 2(hashMap사용법)
-            // HashMap<Integer,Integer> hm = new HashMap<>(); // 부모노드가 2개인 것만 추려내기 위해 hashmap사용
-            // for(int x=1; x<n+1; x++){
-            //     int pNode = parent[x];
-            //     hm.put(pNode,hm.getOrDefault(pNode,0)+1); // 부모노드의 
-            // }
-            // if(hm.size()==2){
-            //     int[] arr = new int[2];
-            //     int idx = 0;
-            //     for(Map.Entry<Integer,Integer> entry : hm.entrySet()){
-            //         arr[idx++] = entry.getValue();
-            //     }
-            //     result = Math.min(result,Math.abs(arr[0]-arr[1]));
-            // }
+        this.n = n;
+        matrix = new int[n+1][n+1];
+        
+        for(int[] w: wires){
+            matrix[w[0]][w[1]] = 1; // 양방향 인접리스트 생성 
+            matrix[w[1]][w[0]] = 1; // 양방향 인접리스트 생성
         }
         
+        for(int i=0; i<wires.length; i++){
+            int aNode = wires[i][0];    // 제외할 노드
+            int bNode = wires[i][1];    // 제외할 노드
+            
+            matrix[aNode][bNode] = 0;   // 해당 간선을 인접행렬에서 제거
+            matrix[bNode][aNode] = 0;   // 해당 간선을 인접행렬에서 제거
+            
+            result = BFS(aNode);        // 임의의점을 전달하며 BFS 실행
+            
+            matrix[aNode][bNode] = 1;   // 해당 간선을 인접행렬에서 다시 추가
+            matrix[bNode][aNode] = 1;   // 해당 간선을 인접행렬에서 다시 추가
+        }
         return result;
     }
-    public void change(int before,int after){
-        for(int i=0;i <parent.length; i++){
-            if(parent[i]==before){
-                parent[i] = after;
+    public int BFS(int start){
+        ArrayDeque<Integer> q = new ArrayDeque<>(); // BFS 진행할 큐
+        boolean[] visit = new boolean[n+1]; // 방문 체크할 배열
+        int cnt = 1; // start노드를 방문했기 때문에 초기 값은 1 이다.
+        
+        q.add(start); // start노드를 큐에 넣어준다.
+        while(!q.isEmpty()){ // 큐가 빌때까지 반복
+            int node = q.poll(); // 큐의 노드를 꺼낸다.
+            visit[node] = true;  // 꺼낸 노드 방문 처리
+            for(int i=1; i< n+1; i++){ // 노드의 갯수를 순회한다.
+                if(!visit[i] && matrix[node][i]==1){// 노드를 방문하지 않았고, 연결된 노드라면 q에 넣고 방문노드 1추가(cnt+1)
+                    q.add(i);
+                    cnt++;
+                }
             }
+
         }
-    }
-    public void setParent(int n){ // 부모노드를 담을 배열 초기화 함수
-        parent = new int[n+1];
-        for(int i=1; i<=n; i++)
-            parent[i] = i;
-    }
-    public int getParent(int x){ // 부모 노드의 값을 가져오는 것
-        if(parent[x]==x) return x;
-        return getParent(parent[x]);
+        return Math.min(result,Math.abs(n-2*cnt));// 네트워크가 2개일 경우는 방문 노드의 차가 가장 작을 경우이기 때문에 해당 코드로도 네트워크가 2개인 경우를 걸러낼 수 있다.
     }
     
 }
