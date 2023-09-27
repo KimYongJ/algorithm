@@ -24,7 +24,7 @@ class Solution {
             
             visit = new boolean[n+1];   // DFS를 진행할 때 방문 체크할 배열
             
-            int cnt = DFS(aNode,1);     // DFS진행시 임의의 노드와 방문노드 1을 전달
+            int cnt = DFS(aNode,1);     // DFS진행시 임의의 노드와 방문한 노드 갯수1을 전달
             
             result = Math.min(result,Math.abs(n-2*cnt));// 최소 노드를 result에 세팅
             
