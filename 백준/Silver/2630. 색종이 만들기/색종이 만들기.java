@@ -14,7 +14,8 @@ class Main{
         
         DivdeAndConquer(arr,n,0,0);
         
-        System.out.println(white+"\n"+blue);
+        System.out.println(white);
+        System.out.println(blue);
     }
     /*
      * 모두 같은지 체크 후 다르다면 1~4분면으로 나눠서 재귀적으로 함수 실행
