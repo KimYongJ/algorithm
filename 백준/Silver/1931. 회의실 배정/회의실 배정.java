@@ -31,7 +31,7 @@ class Main{
             }
         }
         
-        System.out.println(result);
+        System.out.print(result);
     }
     private static int read() throws Exception {
         int c, n = System.in.read() & 15;
