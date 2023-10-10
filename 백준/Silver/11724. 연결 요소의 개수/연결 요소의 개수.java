@@ -1,24 +1,18 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.StringTokenizer;
 class Main{
 	public static int[] parent;
     public static void main(String[] args)throws Exception{
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken()); // 정점의 갯수
-        int m = Integer.parseInt(st.nextToken()); // 간선의 갯수
+        int n = read(); // 정점의 갯수
+        int m = read(); // 간선의 갯수
         
         parent = new int[n+1]; // 부모 노드를 담을 배열
         for(int i=1; i<n+1; i++)
         	parent[i] = i; // 자기자신으로 부모노드 초기화
         
         for(int i=0; i<m; i++) {
-        	st = new StringTokenizer(br.readLine());
-        	int aNode = Integer.parseInt(st.nextToken());
-        	int bNode = Integer.parseInt(st.nextToken());
+        	int aNode = read();
+        	int bNode = read();
         	
         	int aParent = getParent(aNode);
         	int bParent = getParent(bNode);
@@ -45,5 +39,10 @@ class Main{
     public static int getParent(int x) {
     	if(parent[x]==x) return x;
     	return getParent(parent[x]);
+    }
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
     }
 }
