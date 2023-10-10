@@ -1,23 +1,17 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 class Main{
 	
     static int result[][], x,y,start[]= new int[2];
     static int[][] dxy = {{0,1},{0,-1},{1,0},{-1,0}};
     
     public static void main(String[] args)throws Exception{
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	StringTokenizer st = new StringTokenizer(br.readLine());
-        y = Integer.parseInt(st.nextToken());
-        x = Integer.parseInt(st.nextToken());
+        y = read();
+        x = read();
         result = new int[y][x];
         for(int i=0; i<y; i++) {
-        	st = new StringTokenizer(br.readLine());
         	for(int j=0; j<x; j++) {
-        		result[i][j] = Integer.parseInt(st.nextToken());
+        		result[i][j] = read();
                 if(result[i][j]==2) {
                     start[0] = i;
                     start[1] = j;
@@ -58,5 +52,17 @@ class Main{
                 
             }
         }
+    }
+    public static int read() throws Exception {
+        int ret = 0;
+
+        while (true) {
+            int input = System.in.read();
+            if (input == ' ' || input == '\n')
+                break;
+            else
+                ret = ret * 10 + (input - '0');
+        }
+        return ret;
     }
 }
