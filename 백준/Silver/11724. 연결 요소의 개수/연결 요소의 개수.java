@@ -5,7 +5,7 @@ class Main{
     public static void main(String[] args)throws Exception{
         int n = read(); // 정점의 갯수
         int m = read(); // 간선의 갯수
-        
+        int result = n; // 결과값
         parent = new int[n+1]; // 부모 노드를 담을 배열
         for(int i=1; i<n+1; i++)
         	parent[i] = i; // 자기자신으로 부모노드 초기화
@@ -19,15 +19,11 @@ class Main{
         	
         	if(aParent!=bParent) { // 부모노드가 같지 않다면 aParent의 값을 모두 bParent로 치환
         		changeAtoB(aParent,bParent,n);
+                result--;
         	}
-        	
         }
         
-        HashSet<Integer> set = new HashSet<>();
-        for(int i=1; i<n+1; i++)
-        	set.add(parent[i]);
-        
-        System.out.println(set.size());
+        System.out.println(result);
     }
     public static void changeAtoB(int a, int b,int len) {
     	for(int i=0; i<len+1; i++) {
