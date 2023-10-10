@@ -1,17 +1,12 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 import java.util.Arrays;
 class Main{
     public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
+        int N = read();
         int[][] arr = new int[N][2];
         for(int i=0; i<N; i++){
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            arr[i][0] = Integer.parseInt(st.nextToken());
-            arr[i][1] = Integer.parseInt(st.nextToken());
+            arr[i][0] = read();
+            arr[i][1] = read();
         }
         /*
          * 회의 종료 시간이 가장 빠른 것을 앞으로 한다. 
@@ -37,5 +32,12 @@ class Main{
         }
         
         System.out.println(result);
+    }
+    private static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while((c = System.in.read()) > 32) {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+        return n;
     }
 }
