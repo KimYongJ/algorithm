@@ -11,16 +11,10 @@ class Solution {
         return list;
     }
     public void hanoi(int N, int start, int to, int via){
-        if(N==1){
-            move(start,to);
-        }
-        else{
+        if(N>0){
             hanoi(N-1,start,via,to);
-            move(start,to);
+            list.add(new int[]{start,to});
             hanoi(N-1,via,to,start);
         }
-    }
-    public void move(int start, int to){
-        list.add(new int[]{start,to});
     }
 }
