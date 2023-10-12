@@ -4,17 +4,17 @@ class Solution {
     
     private ArrayList<int[]> list = new ArrayList<>();
     
-    public ArrayList<int[]> solution(int n) {
+    public ArrayList<?> solution(int n) {
         
-        hanoi(n,1,3,2);
+        recursion(n,1,3,2);// 1번에서 3번으로 간다.
         
         return list;
     }
-    public void hanoi(int N, int start, int to, int via){
-        if(N>0){
-            hanoi(N-1,start,via,to);
-            list.add(new int[]{start,to});
-            hanoi(N-1,via,to,start);
+    public void recursion(int n, int one, int three, int two){
+        if(n>0){
+            recursion(n-1,one,two,three);// 1번에서 2번으로 간다.
+            list.add(new int[]{one,three});
+            recursion(n-1,two,three,one);// 2번에서 3번으로 간다.
         }
     }
 }
