@@ -1,5 +1,4 @@
 //https://github.com/KimYongJ/algorithm
-import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.OutputStreamWriter;
