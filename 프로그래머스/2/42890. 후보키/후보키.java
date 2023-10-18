@@ -4,8 +4,8 @@ class Solution {
     int row,col;
     boolean[] visit;
     String[][] t;
-    ArrayList<String> list = new ArrayList<>();
-    ArrayList<String> resultList = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+    HashSet<ArrayList<Integer>> resultList = new HashSet<>();
     public int solution(String[][] t) {
         this.t = t;
         row = t.length;
@@ -22,10 +22,10 @@ class Solution {
     // 조합 만드는 섹터
     public void combination(int n, int r, int start) {
         if(r==0) {
-            StringBuilder sb = new StringBuilder();
+            ArrayList<Integer> part = new ArrayList<>();
             for(int i=0; i<n; i++)
-                if(visit[i]) sb.append(i);
-            list.add(sb.toString());
+                if(visit[i]) part.add(i);
+            list.add(part);
         }
         for(int i=start; i<n; i++) {
             visit[i] = true;
@@ -36,41 +36,28 @@ class Solution {
     // 검증 섹터
     public void validate() {
         // 리스트의 조합 하나씩 순회
-        for(String str : list) {
-            if(checkMinimal(str) && checkUniq(str)) { // 최소성과 유니크 탐색
-                resultList.add(str);
+        for(ArrayList<Integer> part : list) {
+            if(checkMinimal(part) && checkUniq(part)) { // 최소성과 유니크 탐색
+                resultList.add(part);
             }
         }
     }
     // 최소성 판단 섹터
-    public boolean checkMinimal(String str) {
-        // 최소성 판단시, 최종적으로 구한 후보키들과 새로만들어서 비교해야할 예비 후보키를 비교할 때 속도가 느려서 카운팅정렬을 사용해 속도를 높였다.
-        boolean[] CountingSort = new boolean[9];
-        for(char c : str.toCharArray()){
-            CountingSort[c-'0'] = true;
-        }
-        
-        for(String hubo : resultList){
-            int cnt = 0;
-            int len = hubo.length();
-            for(int i=0; i<len; i++){
-                if(CountingSort[hubo.charAt(i)-'0']){
-                    cnt++;
-                }
-            }
-            if(cnt == len){ // 확정된 후보키가 예비 후보키안에 모두 포함이 되어있을 때(이 경우 예비 후보키는 탈락이다.)
+    public boolean checkMinimal(ArrayList<Integer> part) {
+        for(ArrayList<Integer> hubo : resultList){
+            if(part.containsAll(hubo)){
                 return false;
             }
         }
         return true;
     }
     // 유일성 판단 섹터
-    public boolean checkUniq(String str) {
+    public boolean checkUniq(ArrayList<Integer> part) {
         HashSet<String> set = new HashSet<>();
         for(int i=0; i<row; i++) {
             StringBuilder key = new StringBuilder();
-            for(int j=0; j<str.length(); j++) {
-                key.append(t[i][str.charAt(j)-'0']);
+            for(int j=0; j<part.size(); j++) {
+                key.append(t[i][part.get(j)]);
             }
             if(!set.add(key.toString())) { // set에 add할 때 중복일 경우 false를 반환함.
                 return false;
