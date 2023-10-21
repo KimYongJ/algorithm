@@ -6,7 +6,7 @@ class Solution {
     ArrayList<Double> result = new ArrayList<>();// 결과를 반환할 리스트
     
     public ArrayList<Double> solution(int k, int[][] ranges) {
-        k = ubak(k); // 몇번 우박수열을 해야하는지 구해 온다.
+        k = ubak(k); // 반복 횟수와 우박수열 사다리꼴 넓이를 DP식으로 list에 담는다.
         for(int[] range : ranges){
             int a = range[0]; // 우박수열의 값을 구할 시작 범위
             int b = k+range[1];// 우박수열의 값을 구할 끝 범위
@@ -22,6 +22,10 @@ class Solution {
         
         return result;
     }
+    /*
+    * 1이 되기 위해 반복해야 하는 횟수를 구하고,
+    * 0~k 까지의 우박수열 사다리꼴 넓이 값을 dp형식으로 더해간다.
+    */
     public int ubak(int k){
         int before = 0; // 이전 k의 값(사다리꼴 넓이의 왼쪽변 구할 때 사용)
         int idx = 1;    // 리스트의 인덱스이며, 1부터 시작토록한다.
