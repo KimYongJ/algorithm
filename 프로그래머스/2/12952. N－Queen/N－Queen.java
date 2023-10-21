@@ -9,17 +9,17 @@ class Solution {
         DFS(0);// 순서 : 세로인덱스
         return result;
     }
-    public void DFS(int depth){// depth는 세로 인덱스(y)를 의미한다.
+    public void DFS(int y){// depth는 세로 인덱스(y)를 의미한다.
         if(idx==n){
             result++;
             return;
         }
-        for(int i=0; i<n; i++){
-            if(isPossible(depth,i)){// 퀸을 놓을 수 있는 곳인지 체크 
-                queens[idx][0] = depth;// 퀸의 y좌표
-                queens[idx][1] = i;// 퀸의 x좌표
+        for(int x=0; x<n; x++){
+            if(isPossible(y,x)){// 퀸을 놓을 수 있는 곳인지 체크 
+                queens[idx][0] = y;// 퀸의 y좌표
+                queens[idx][1] = x;// 퀸의 x좌표
                 idx++;// 저장한 퀸의 갯수 및 퀸의 좌표를담은 배열의 idx
-                DFS(depth+1);
+                DFS(y+1);
                 idx--;
             }
         }
