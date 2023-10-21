@@ -2,31 +2,25 @@
 class Solution {
     
     static int n, idx, result, queens[][];
-    static boolean col[];
     
     public int solution(int n) {
         this.n = n;
         queens = new int[n][2];
-        col = new boolean[n+1];// 가로를 이미 방문했는지 체크
         DFS(0);// 순서 : 세로인덱스
         return result;
     }
-    public void DFS(int a){
+    public void DFS(int depth){// depth는 세로 인덱스(y)를 의미한다.
         if(idx==n){
             result++;
             return;
         }
         for(int i=0; i<n; i++){
-            if(col[i])
-                continue;
-            if(isPossible(a,i)){// 퀸을 놓을 수 있는 곳인지 체크 
-                col[i] = true;
-                queens[idx][0] = a;// 퀸의 y좌표
+            if(isPossible(depth,i)){// 퀸을 놓을 수 있는 곳인지 체크 
+                queens[idx][0] = depth;// 퀸의 y좌표
                 queens[idx][1] = i;// 퀸의 x좌표
                 idx++;// 저장한 퀸의 갯수 및 퀸의 좌표를담은 배열의 idx
-                DFS(a+1);
+                DFS(depth+1);
                 idx--;
-                col[i] = false;
             }
         }
     }
@@ -35,7 +29,8 @@ class Solution {
     */
     public boolean isPossible(int i,int j){
         for(int x=0; x<idx; x++)
-            if( Math.abs(queens[x][0]-i)==Math.abs(queens[x][1]-j))// 대각선 체크
+            if(  queens[x][1]==j ||// 가로를 체크한다. 세로체크는 할필요가없다.세로는 DFS에서 전달되는 인자인 깊이(depth)로 겹칠일이 없기 때문이다.
+                Math.abs(queens[x][0]-i)==Math.abs(queens[x][1]-j))// 대각선 체크
                 return false;
         
         return true;
