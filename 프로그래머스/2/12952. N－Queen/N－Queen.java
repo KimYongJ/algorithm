@@ -9,7 +9,7 @@ class Solution {
         DFS(0);// 순서 : 세로인덱스
         return result;
     }
-    public void DFS(int y){// depth는 세로 인덱스(y)를 의미한다.
+    public void DFS(int y){// y는 깊이(depth)를 의미하며 세로 인덱스(y)로 사용된다.
         if(idx==n){
             result++;
             return;
