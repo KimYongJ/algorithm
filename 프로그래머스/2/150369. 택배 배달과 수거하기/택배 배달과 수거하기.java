@@ -7,7 +7,7 @@ class Solution {
                 answer += (i+1)*2;
                 minus(d,i,cap);
                 minus(p,i,cap);
-                if(d[i]!=0 ||p[i]!=0) i++;
+                if(d[i]!=0 || p[i]!=0) i++;
             }
         }
         return answer;   
