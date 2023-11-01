@@ -5,24 +5,24 @@ import java.util.StringTokenizer;
 import java.util.ArrayDeque;
 class Main{
     public static void main(String[] args)throws Exception{
-        ArrayDeque<Position> q = new ArrayDeque<>();  //BFS탐색을 위한 셋팅
-        int[] dy = {1,-1,0,0};                        //BFS탐색을 위한 셋팅
-        int[] dx = {0,0,1,-1};                        //BFS탐색을 위한 셋팅
-        int result = 0;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int y = Integer.parseInt(st.nextToken());
         int x = Integer.parseInt(st.nextToken());
         char[][] arr = new char[y][x];
+        int result = 0;
+        
+        ArrayDeque<Position> q = new ArrayDeque<>();  //BFS탐색을 위한 셋팅
+        int[] dy = {1,-1,0,0};                        //BFS탐색을 위한 셋팅
+        int[] dx = {0,0,1,-1};                        //BFS탐색을 위한 셋팅
         
         for(int i=0; i<y; i++){
-            String str = br.readLine();
             for(int j=0; j<x; j++){
-                arr[i][j] = str.charAt(j);           // 문자열로 바꾸어 arr배열에 넣는다.
-                if(arr[i][j]=='I'){
+                arr[i][j] = (char)br.read();         // 문자를 arr에 넣는다.
+                if(arr[i][j]=='I')
                     q.add(new Position(i,j));        // 도연이의 위치를 넣는다.
-                }
             }
+            br.read();
         }
         
         while(!q.isEmpty()){
