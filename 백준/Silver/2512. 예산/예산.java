@@ -25,7 +25,9 @@ class Main{
             }
             if(sum>max){ // 요청 예산을 모두 더한 값이 총예산보다 크다면
                 right = mid-1;// 중간 값 -1
-            }else{// 요청 예산을 모두 더한 값이 총예산과 같거나 작다면
+            }else if(sum==max){
+                System.out.println(mid); return;
+            }else {// 요청 예산을 모두 더한 값이 총예산과 같거나 작다면
                 left = mid+1;// 중간 값 +1
             }
         }
