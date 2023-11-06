@@ -4,13 +4,13 @@ class Main{
     public static void main(String[] args)throws Exception{
     	int N = read(); // 도현이의 집 개수
     	int C = read(); // 공유기 개수
-    	int right = 0;
-    	int left = 0;
+    	int right = 0, left = 0;
     	int[] arr = new int[N]; // 집의 위치를 담을 배열
     	for(int i=0; i<N; i++)
     		arr[i] = read();
     	
     	Arrays.sort(arr); // 집 위치를 오름차순 정렬
+        
     	right = arr[N-1]; // 가장 큰 값을 저장 
     	while(left<=right) {
     		int mid = right + left >> 1;
