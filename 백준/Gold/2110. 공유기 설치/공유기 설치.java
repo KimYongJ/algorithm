@@ -25,26 +25,19 @@ class Main{
     		int housePosition = arr[0];
     		// 공유기 갯수 카운트 로직
     		for(int i=1; i<N; i++) {
-    			if(arr[i]-housePosition<mid) { // 두집 사이의 거리가 중간 보다 작다면
-    				for(i=i+1; i<N; i++) {
-    					if(arr[i]-housePosition>=mid) {
-    						cnt++;
-    	    				housePosition = arr[i];
-    	    				break;
-    					}
-    				}
-    			}else {
+    			if(arr[i]-housePosition>=mid) { // 두집 사이의 거리가 mid보다 멀다면 
+					cnt++;
     				housePosition = arr[i];
-    				cnt++;
     			}
     		}
-    		/////////////////
+
     		if(cnt<C) { // 공유기가 남았다 : mid를 줄여야 한다.
     			right = mid-1;
     		}else { // 공유기가 모자르거나 같다 : mid를 1늘린다.
     			left = mid+1;
     		}
     	} 
+
     	System.out.println(left - 1);
     }
 }
