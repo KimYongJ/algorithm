@@ -31,7 +31,7 @@ class Main{
     		}
     	} 
 
-    	System.out.println(left - 1);
+    	System.out.println(right);
     }
     private static int read() throws Exception {
         int value = 0;
