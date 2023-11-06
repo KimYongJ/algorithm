@@ -21,20 +21,19 @@ class Main{
     	System.out.println(sb.toString());
     }
     public static int find(int num) {
-    	int result = 0;
     	left = 0;
     	right = N-1;
     	while(left<=right) {
     		mid = right+left>>1;
     		if(arr[mid]==num) {
-    			result = 1; break;
+    			return 1;
     		}else if(arr[mid]<num) {
     			left = mid+1;
     		}else {
     			right = mid-1;
     		}
     	}
-    	return result;    	
+    	return 0;    	
     }
     static int read() throws Exception {
         int c, n = System.in.read() & 15;
