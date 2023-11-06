@@ -1,8 +1,4 @@
 // https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 import java.util.Arrays;
 class Main{
 
@@ -10,21 +6,17 @@ class Main{
 	static int N,M, left, right, mid, arr[];
 	
     public static void main(String[] args)throws Exception{
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	N = Integer.parseInt(br.readLine());
+    	N = read();
     	arr = new int[N];
-    	StringTokenizer st = new StringTokenizer(br.readLine());
     	for(int i=0; i<N; i++) // 상근이의 숫자카드를 넣는다.  
-    		arr[i] = Integer.parseInt(st.nextToken());
+    		arr[i] = read();
     	
     	Arrays.sort(arr); // 상근이 카드를 정렬 한다.
     	
-    	M = Integer.parseInt(br.readLine());
-    	st = new StringTokenizer(br.readLine());
+    	M = read();
     	for(int i=0; i<M; i++) {
-    		int num = Integer.parseInt(st.nextToken());
+    		int num = read();
     		sb.append(find(num)).append(" ");
-    				
     	}
     	System.out.println(sb.toString());
     }
@@ -43,5 +35,12 @@ class Main{
     		}
     	}
     	return result;    	
+    }
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean isNegative = n == 13;
+        if (isNegative) n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return isNegative ? ~n + 1 : n;
     }
 }
