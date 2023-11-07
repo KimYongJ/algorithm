@@ -1,18 +1,13 @@
 //https://github.com/KimYongJ/algorithm
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
     public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        int n = read();
         int[] arr = new int[n+1];// 입력되는 값을 담을 배열
         int[] dp = new int[n+1];// 인덱스 마다의 최대길이를 dp로 담는다.
         int max = 0;
         
-        StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=1; i<=n; i++)
-            arr[i] = Integer.parseInt(st.nextToken());
+            arr[i] = read();
         
         
         for(int i=1; i<=n; i++){
@@ -35,5 +30,13 @@ class Main{
         }
         return idx;
     }
+    static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32)
+			n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13)
+			System.in.read();
+		return n;
+	}
     
 }
