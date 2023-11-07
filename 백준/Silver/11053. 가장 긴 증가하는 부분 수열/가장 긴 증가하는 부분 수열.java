@@ -11,9 +11,9 @@ class Main{
         int max = 0;
         
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i=1; i<=n; i++){
+        for(int i=1; i<=n; i++)
             arr[i] = Integer.parseInt(st.nextToken());
-        }
+        
         
         for(int i=1; i<=n; i++){
             int min_idx = getIndex(arr,dp,i);// arr안에서 인덱스가 i값인데 arr[i]보다 작으면서 가장 큰 수를 찾는다.
@@ -28,11 +28,9 @@ class Main{
         int idx = 0;
         int max = 0;
         for(int j=0; j<i; j++){
-           if(arr[i]>arr[j] && dp[i]<dp[j]+1){
-               if(dp[j]>max){
-                   max = dp[j];
-                   idx = j;
-               }
+           if(arr[i]>arr[j] && dp[j]>max){
+               max = dp[j];
+               idx = j;
            }
         }
         return idx;
