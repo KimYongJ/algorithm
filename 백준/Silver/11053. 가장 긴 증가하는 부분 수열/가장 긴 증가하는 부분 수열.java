@@ -11,11 +11,10 @@ class Main{
         
         
         for(int i=1; i<=n; i++){
-            int min_idx = getIndex(arr,dp,i);// arr안에서 인덱스가 i값인데 arr[i]보다 작으면서 가장 큰 수를 찾는다.
-            dp[i] = dp[min_idx] + 1;
-            if(max<dp[i]){
+            // getIndex 함수 : arr안에서 인덱스가 i인 값보다 저장된 값이 작으면서 dp값이 최대인 것을 찾는다.
+            dp[i] = dp[ getIndex(arr,dp,i) ] + 1;
+            if(max<dp[i])
                 max = dp[i];
-            }
         }
         System.out.println(max);
     }
