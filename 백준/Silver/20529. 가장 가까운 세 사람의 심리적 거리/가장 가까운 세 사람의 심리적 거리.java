@@ -11,12 +11,12 @@ class Main{
       int T = Integer.parseInt(br.readLine());
       while(T-->0){
           N = Integer.parseInt(br.readLine());
-          min = Integer.MAX_VALUE;
           mbti = br.readLine().split(" ");
           if(N<33){
-            combination(0,0); // N개 중 3개를 뽑는 조합을 구현한다.
+              min = Integer.MAX_VALUE;
+              combination(0,0); // N개 중 3개를 뽑는 조합을 구현한다.
           }else{
-             min = 0;
+              min = 0;
           }
           sb.append(min).append('\n');
       }
@@ -24,9 +24,7 @@ class Main{
   }
   public static void combination(int depth,int start){
       if(depth==3){ // 3개를 뽑을 경우 거리를 측정한다.
-          int dist = getDist();
-          if(min>dist)
-              min = dist;
+          min = Math.min( min , getDist() );
           return;
       }
       if(min == 0) 
