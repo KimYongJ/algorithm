@@ -1,0 +1,48 @@
+//https://github.com/KimYongJ/algorithm
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+class Main{
+  static int min,N;
+  static String[] mbti;
+  static String[] comb = new String[3];
+  public static void main(String[] args)throws Exception{
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder sb = new StringBuilder();
+      int T = Integer.parseInt(br.readLine());
+      while(T-->0){
+          N = Integer.parseInt(br.readLine());
+          min = Integer.MAX_VALUE;
+          mbti = br.readLine().split(" ");
+          if(N<33){
+            combination(0,0); // N개 중 3개를 뽑는 조합을 구현한다.
+          }else{
+             min = 0;
+          }
+          sb.append(min).append('\n');
+      }
+      System.out.println(sb.toString());
+  }
+  public static void combination(int depth,int start){
+      if(depth==3){ // 3개를 뽑을 경우 거리를 측정한다.
+          int dist = getDist();
+          if(min>dist)
+              min = dist;
+          return;
+      }
+      if(min == 0) 
+          return;
+      for(int i=start; i<N; i++){
+          comb[depth] = mbti[i];
+          combination(depth+1,i+1);
+      }
+  }
+  public static int getDist(){ // 거리 측정 함수
+      int dist = 0;
+      for(int i=0; i<4; i++){
+          if(comb[0].charAt(i) != comb[1].charAt(i))dist++;
+          if(comb[2].charAt(i) != comb[1].charAt(i))dist++;
+          if(comb[2].charAt(i) != comb[0].charAt(i))dist++;
+      }
+      return dist;
+  }
+}
