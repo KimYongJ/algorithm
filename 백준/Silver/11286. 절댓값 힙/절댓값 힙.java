@@ -1,18 +1,15 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 
 class Main{
     public static void main(String[] args)throws Exception{
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         PriorityQueue<Integer> p = new PriorityQueue<>();// 양수를 담을 것
         PriorityQueue<Integer> n = new PriorityQueue<>((a,b)->b-a);// 음수를 담을 것 음수는 내림차순
         
         StringBuilder sb = new StringBuilder();
-        int N = Integer.parseInt(br.readLine());
+        int N = read();
         while(N-->0){
-            int num = Integer.parseInt(br.readLine());
+            int num = read();
             if(num==0){
                 Integer num1 = p.peek();
                 Integer num2 = n.peek();
@@ -39,5 +36,12 @@ class Main{
             }
         }
         System.out.println(sb.toString());
+    }
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean isNegative = n == 13;
+        if (isNegative) n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return isNegative ? ~n + 1 : n;
     }
 }
