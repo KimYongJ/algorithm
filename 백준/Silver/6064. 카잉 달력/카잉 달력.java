@@ -22,14 +22,17 @@ class Main{
         int N = read();
         int X = read();
         int Y = read();
-        int S = X;
+        
         int MAX = M*N/GCD(M,N);
+        int result = -1;
         
-        for(; S<=MAX ; S+=M)
-        	if( Y == (S%N == 0 ? N : S%N))
+        for(int S=X; S<=MAX ; S+=M)
+        	if( Y == (S%N == 0 ? N : S%N)){
+                result = S;
                 break;
+            }
         
-        sb.append( S > MAX ? -1 : S).append('\n');
+        sb.append( result ).append('\n');
  	}
      System.out.println(sb);
    }
