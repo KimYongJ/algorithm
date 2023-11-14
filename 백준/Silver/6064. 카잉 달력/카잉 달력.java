@@ -10,7 +10,7 @@
 //X+M 값으로 한 S를 N으로 나눠 나머지가 Y인지 확인합니다. 아니라면 S에 M을 더해 갑니다.
 //위 과정 반복..
 //반복 문의 탈출 조건은 S가 M과 N의 최소 공배수 이상일 때 종료합니다.
-//그 이유는 최소 공배수 이상이면 나머지 연산에서 무한 반복에 빠지기 때문입니다.
+//그 이유는 최소 공배수 이상이면 나머지 연산에서 무한 반복에 빠지기 때문입니다. 최소 공배수 처럼 큰수로 해도 됩니다. ex) M*N처럼.
 //구현시 주의사항 : S%N을 할 때 답이 0이면 0이 아니라 N으로 계산해 Y와 비교해봐야 합니다.
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,19 +29,15 @@ class Main{
         int X = Integer.parseInt(st.nextToken());
         int Y = Integer.parseInt(st.nextToken());
         int S = X;
-        int LCM = getLCM(M,N,M,N);
-        for(; S<=LCM ; S+=M)
+        int MAX = M*N;
+        for(; S<=MAX ; S+=M)
         	if( Y == (S%N == 0 ? N : S%N))break;
         	
-        if(S>LCM){
+        if(S>MAX){
             S = -1;
         }
         sb.append(S).append('\n');
  	}
-     System.out.println(sb.toString());
- }
- public static int getLCM(int x,int y, int X,int Y){// 최대 공약수와 최소 공배수 한꺼번에 구함
-     if(y==0) return X*Y/x;
-     return getLCM(y,x%y,X,Y);
+     System.out.println(sb);
  }
 }
