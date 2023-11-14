@@ -18,12 +18,12 @@ class Main{
  	StringBuilder sb = new StringBuilder();
  	int T = read();
  	for(int i=0; i<T; i++) {
-		int M = read(),
-            N = read(),
-            X = read(),
-            Y = read(),
-            S = X,
-            MAX = M*N;
+		int M = read();
+        int N = read();
+        int X = read();
+        int Y = read();
+        int S = X;
+        int MAX = M*N/GCD(M,N);
         
         for(; S<=MAX ; S+=M)
         	if( Y == (S%N == 0 ? N : S%N))
@@ -33,6 +33,10 @@ class Main{
  	}
      System.out.println(sb);
    }
+   public static int GCD(int x,int y){
+     if(y==0) return x;
+     return GCD(y,x%y);
+   }    
     static int read() throws Exception {
         int c, n = System.in.read() & 15;
         while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
