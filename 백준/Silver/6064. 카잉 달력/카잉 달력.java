@@ -12,32 +12,30 @@
 //반복 문의 탈출 조건은 S가 M과 N의 최소 공배수 이상일 때 종료합니다.
 //그 이유는 최소 공배수 이상이면 나머지 연산에서 무한 반복에 빠지기 때문입니다. 최소 공배수 처럼 큰수로 해도 됩니다. ex) M*N처럼.
 //구현시 주의사항 : S%N을 할 때 답이 0이면 0이 아니라 N으로 계산해 Y와 비교해봐야 합니다.
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
  public static void main(String[] args)throws Exception{
- 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
  	StringBuilder sb = new StringBuilder();
- 	int T = Integer.parseInt(br.readLine());
- 	
+ 	int T = read();
  	for(int i=0; i<T; i++) {
- 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int M = Integer.parseInt(st.nextToken());
-        int N = Integer.parseInt(st.nextToken());
-        int X = Integer.parseInt(st.nextToken());
-        int Y = Integer.parseInt(st.nextToken());
-        int S = X;
-        int MAX = M*N;
+		int M = read(),
+            N = read(),
+            X = read(),
+            Y = read(),
+            S = X,
+            MAX = M*N;
+        
         for(; S<=MAX ; S+=M)
-        	if( Y == (S%N == 0 ? N : S%N))break;
-        	
-        if(S>MAX){
-            S = -1;
-        }
-        sb.append(S).append('\n');
+        	if( Y == (S%N == 0 ? N : S%N))
+                break;
+        
+        sb.append( S > MAX ? -1 : S).append('\n');
  	}
      System.out.println(sb);
- }
+   }
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
 }
