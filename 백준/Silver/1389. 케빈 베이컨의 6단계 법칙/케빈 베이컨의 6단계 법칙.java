@@ -1,7 +1,5 @@
 // https://github.com/KimYongJ/algorithm
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
 
 class Person{
     int node, cnt;
@@ -11,12 +9,15 @@ class Person{
     }
 }
 class Main{
+    
+    static int resultNode=9999, sum=9999;
+    
     private static int read() throws Exception {
         int c, n = System.in.read() & 15;
         while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
         return n;
     }
-    public static void BFS(int baseNode, int N, ArrayList<Person>list, int[][] arr){
+    public static void BFS(int baseNode, int N, int[][] arr){
         ArrayDeque<int[]> q = new ArrayDeque<>(){{ add(new int[] {baseNode,1}); }};
         boolean[] visit = new boolean[N+1];
         visit[baseNode] = true;
@@ -31,11 +32,15 @@ class Main{
                 }
             }
         }
-        list.add( new Person(baseNode,kevin) );
+        if(sum>kevin){
+            resultNode = baseNode;
+            sum = kevin;
+        }else if(sum==kevin){
+            resultNode = Math.min(resultNode, baseNode);
+        }
     }
     
     public static void main(String[] args)throws Exception{
-        ArrayList<Person> list = new ArrayList<>();
         int N = read();
         int M = read();
         
@@ -49,14 +54,9 @@ class Main{
         }
         
         for(int i=1; i<N+1; i++)
-            BFS(i,N,list,arr);
+            BFS(i,N,arr);
         
-        Collections.sort(list,(a,b)->{
-           if(a.cnt==b.cnt){
-               return a.node - b.node;
-           } 
-           return a.cnt-b.cnt;
-        });
-        System.out.print(list.get(0).node);
+
+        System.out.print(resultNode);
     }
 }
