@@ -1,10 +1,7 @@
 // https://github.com/KimYongJ/algorithm
-import java.util.ArrayList;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 class Person{
     int node, cnt;
@@ -14,6 +11,11 @@ class Person{
     }
 }
 class Main{
+    private static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
     public static void BFS(int baseNode, int N, ArrayList<Person>list, int[][] arr){
         ArrayDeque<int[]> q = new ArrayDeque<>(){{ add(new int[] {baseNode,1}); }};
         boolean[] visit = new boolean[N+1];
@@ -33,18 +35,15 @@ class Main{
     }
     
     public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<Person> list = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        int N = read();
+        int M = read();
         
         int[][] arr = new int[N+1][N+1];
         
         for(int i=0; i<M; i++){
-            st = new StringTokenizer(br.readLine());
-            int Anode = Integer.parseInt(st.nextToken());
-            int Bnode = Integer.parseInt(st.nextToken());
+            int Anode = read();
+            int Bnode = read();
             arr[Anode][Bnode] = 1;
             arr[Bnode][Anode] = 1;
         }
