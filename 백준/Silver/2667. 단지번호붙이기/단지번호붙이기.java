@@ -8,12 +8,11 @@ import java.util.Collections;
 
 class Main{
     
-    static int dx[] = {0,0,1,-1}, dy[] = {1,-1,0,0};
-    
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<Integer> list = new ArrayList<>();
         ArrayDeque<int[]> q = new ArrayDeque<>();
+        int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
         StringBuilder sb = new StringBuilder();
         
         int N = Integer.parseInt(br.readLine());
@@ -29,7 +28,7 @@ class Main{
                     cnt++;
                     q.add(new int[] {i,j,arr[i][j]});
                     arr[i][j] = '0';
-                    list.add( BFS(q,arr,N) );
+                    list.add( BFS(q, arr, N, dxy) );
                 }
         
         sb.append(cnt).append('\n');
@@ -42,20 +41,20 @@ class Main{
         System.out.print(sb);
     }
 
-    public static int BFS(ArrayDeque<int[]> q,char[][] arr,int N){
+    public static int BFS(ArrayDeque<int[]> q, char[][] arr, int N, int[][] dxy){
         int area = 1;
         while(!q.isEmpty()){
             int[] node = q.poll();
             for(int i=0; i<4; i++){
-                int x1 = node[0] + dx[i];
-                int y1 = node[1] + dy[i];
+                int x1 = node[0] + dxy[i][0];
+                int y1 = node[1] + dxy[i][1];
                 
-                if(x1<0 || y1<0 || x1>=N || y1>=N || arr[x1][y1] != node[2])
-                    continue;
-                
-                arr[x1][y1] = '0';
-                q.add(new int[] {x1,y1,node[2]});
-                area++;
+                if( !(x1<0 || y1<0 || x1>=N || y1>=N || arr[x1][y1] != node[2]) )
+                {
+                    arr[x1][y1] = '0';
+                    q.add(new int[] {x1,y1,node[2]});
+                    area++;
+                }
             }
         }
         return area;
