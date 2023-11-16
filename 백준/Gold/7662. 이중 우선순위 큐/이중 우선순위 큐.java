@@ -2,6 +2,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.TreeMap;
+import java.util.Map;
 class Main{
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,20 +19,19 @@ class Main{
                         tree.put(num,tree.getOrDefault(num, 0)+1);
                         break;
                     case "D":
-                    	if(tree.size()>0) {
-                    		int key = num == 1 ? tree.lastKey() : tree.firstKey();
-                    		int value = tree.get(key);
-                    		if(value==1) {
-                    			tree.remove(key);
+                    	if(!tree.isEmpty()) {
+                    		Map.Entry<Integer,Integer> entry = num == 1 ? tree.lastEntry() : tree.firstEntry();
+                    		if(entry.getValue()==1) {
+                    			tree.remove(entry.getKey());
                     		}else {
-                    			tree.put(key, value-1);
+                    			tree.put(entry.getKey(), entry.getValue()-1);
                     		}
 	                        break;
                     	}
                 }
             }
             String result = "EMPTY";
-            if(tree.size()>0) {
+            if(!tree.isEmpty()) {
             	result = tree.lastEntry().getKey()+" " + tree.firstEntry().getKey();
             }
             sb.append(result).append("\n");
