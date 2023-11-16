@@ -3,11 +3,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 class Main{
 	
-	public static int[][] dxy = {{-1,0},{1,0},{0,-1},{0,1}};
+	public static int N, dxy[][] = {{-1,0},{1,0},{0,-1},{0,1}};
+	public static char base;
+	
     public static void main(String[] args)throws Exception{
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     	StringBuilder sb = new StringBuilder();
-    	int N = Integer.parseInt(br.readLine());
+    	N = Integer.parseInt(br.readLine());
     	
     	char[][] blind_no = new char[N][N]; // 적록색약이 아닌 사람
     	char[][] blind_yes = new char[N][N];// 적록색약인 사람
@@ -20,33 +22,32 @@ class Main{
     		}
     	}
     	
-    	sb.append( check(blind_no,N) )
+    	sb.append( check(blind_no) )
 	    	.append(' ')
-	    	.append( check(blind_yes,N) );
+	    	.append( check(blind_yes) );
 	
     	System.out.println(sb);
     	
     }
-    public static int check(char[][] arr,int N) {
+    public static int check(char[][] arr) {
     	int cnt = 0; 
     	for(int i=0; i<N; i++) 
     		for(int j=0; j<N; j++) 
     			if(arr[i][j] != 0) {
     				cnt++;
-    				DFS(arr,i,j,N,arr[i][j]);
+    				base = arr[i][j];
+    				DFS(arr,i,j);
     			}
     	return cnt;
     }
-    public static void DFS(char[][]arr,int x, int y,int N,char base) {
+    public static void DFS(char[][]arr,int x, int y) {
     	arr[x][y] = 0;
     	for(int i=0; i<4; i++) {
     		int x1 = x + dxy[i][0];
     		int y1 = y + dxy[i][1];
-    		
-    		if( x1<0 || y1<0 || x1>=N || y1>=N || arr[x1][y1]==0 || arr[x1][y1] != base)
+    		if( x1<0 || y1<0 || x1>=N || y1>=N || arr[x1][y1] != base)
     			continue;
-    		
-    		DFS(arr,x1,y1,N,base);
+    		DFS(arr,x1,y1);
     	}
     }
 }
