@@ -53,7 +53,8 @@ class Main{
 		}else if(arr.length == 10) {
 			System.out.print(Math.abs( goalInt - 100 ));return;
 		}
-		for(int i=1; i<=goalLength+1; i++)
+		int i = goalLength == 1 ? goalLength : goalLength-1;
+		for(; i<=goalLength+1; i++)
 			DFS(0,"",arr,i); // 숫자 c 만들기 
 
         min = Math.min(min, Math.abs(goalInt-100));
