@@ -1,10 +1,13 @@
 // https://github.com/KimYongJ/algorithm
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 class Main{
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringBuilder sb = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0) {
@@ -22,38 +25,30 @@ class Main{
 					error = true;
 					break;
 				}
-				if( c == 'R') {
-					flag = !flag;
-				}else {
-					if(flag) {
-						endIndex--;
-					}else {
-						startIndex++;
-					}
+				if( c == 'R') flag = !flag;
+				else {
+					if(flag) endIndex--;
+					else startIndex++;
 				}
 			}
 			if(error) {
-				sb.append("error").append('\n');
+				bw.write("error\n");
 			}else {
 				sb.append('[');
 				if(!flag) {
-					for(int i=startIndex; i<endIndex; i++) {
-						sb.append(before2[i]);
-						if(i!=endIndex-1) {
-							sb.append(',');
-						}
-					}
+					for(int i=startIndex; i<endIndex; i++)
+						sb.append(before2[i]).append(',');
 				}else {
-					for(int i=endIndex-1; i>=startIndex; i--) {
-						sb.append(before2[i]);
-						if(i!=startIndex) {
-							sb.append(',');
-						}
-					}
+					for(int i=endIndex-1; i>=startIndex; i--)
+						sb.append(before2[i]).append(',');
 				}
+				if(startIndex!=endIndex)sb.deleteCharAt(sb.length() - 1);
 				sb.append(']').append('\n');
+				bw.write(sb.toString());
+				sb = new StringBuilder();
 			}
 		}
-		System.out.println(sb);
+		bw.flush();
+		bw.close();
 	}
 }
