@@ -15,31 +15,27 @@ class Main{
         StringTokenizer st;
         int T = Integer.parseInt(br.readLine());
         
+        Loop :
         while(T-->0){
             st = new StringTokenizer(br.readLine());
             start = Integer.parseInt(st.nextToken());
             end = Integer.parseInt(st.nextToken());
             visit = new boolean[10000];
-            BFS();
+            q = new ArrayDeque<>();
+            
+            insertData("",start);// 큐에 값을 넣는다.
+            
+            while(!q.isEmpty()){
+                Order o = q.poll();
+                if(o.num == end){ // 종료조건
+                    sb.append(o.cmd).append('\n');
+                    continue Loop;
+                }
+                insertData(o.cmd,o.num);// 큐에 값을 넣는다.        
+            }
         }
         
         System.out.println(sb);
-    }
-    public static void BFS(){
-        q = new ArrayDeque<>();
-        
-        insertData("",start);// 큐에 값을 넣는다.
-        
-        while(!q.isEmpty()){
-            Order o = q.poll();
-            
-            if(o.num == end){ // 종료조건
-                sb.append(o.cmd).append('\n');
-                return;
-            }
-            
-            insertData(o.cmd,o.num);// 큐에 값을 넣는다.        
-        }
     }
     public static void insertData(String base,int num){
         for(int i=0; i<4; i++) {
