@@ -43,7 +43,7 @@ class Main{
     }
     public static void insertData(String base,int num){
         for(int i=0; i<4; i++) {
-        	int result = DSLR(num,cmdList[i]);
+        	int result = DSLR(num,i);
         	if(!visit[result]) {
         		visit[result] = true;
         		q.add(new Order(base + cmdList[i] , result));
@@ -51,23 +51,14 @@ class Main{
         }
         
     }
-    public static int DSLR(int n,char cmd){
-    	int result = 0;
+    public static int DSLR(int n,int cmd){
         switch(cmd){
-            case 'D': 
-            	result = (2*n)%10000; 
-            	break;
-            case 'S': 
-            	result = n==0 ? 9999 : n-1;
-            	break;
-            case 'L':
-                result = (n % 1000) * 10 + n / 1000;    
-                break;
-            case 'R':
-                result = (n % 10) * 1000 + n / 10;
-                break;
+            case 0: return (2*n)%10000;
+            case 1: return n==0 ? 9999 : n-1;
+            case 2: return (n % 1000) * 10 + n / 1000;  
+            case 3: return (n % 10) * 1000 + n / 10;
         }
-        return result;
+        return 0;
     }
 }
 class Order{
