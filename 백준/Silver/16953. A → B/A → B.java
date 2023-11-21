@@ -12,7 +12,7 @@ class Main{
 		int num = b;
 		int cnt = 0;
 		while(num>a) {
-			if(num%2 == 0)num/=2;
+			if(num%2 == 0)num>>=1;
 			else if(num%10==1)num/=10;
 			else break;
 			cnt++;
