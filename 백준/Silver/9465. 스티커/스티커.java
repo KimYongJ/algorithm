@@ -6,17 +6,16 @@ class Main{
 		while(T-->0) {
 			int N = read();
 			
-			int[][] arr = new int[2][N+2];
 			int[][] DP  = new int[2][N+2];
 			
-			for(int i=2; i<N+2;i++) arr[0][i] = read();
+			for(int i=2; i<N+2;i++) DP[0][i] = read();
 
-			for(int i=2; i<N+2; i++) arr[1][i] = read();
+			for(int i=2; i<N+2; i++) DP[1][i] = read();
 			
 			for(int i=2; i<N+2; i++) {
 				// DP 시작
-				DP[0][i] = Math.max(DP[1][i-1], DP[1][i-2])+arr[0][i];
-				DP[1][i] = Math.max(DP[0][i-1], DP[0][i-2])+arr[1][i];
+				DP[0][i] += Math.max(DP[1][i-1], DP[1][i-2]);
+				DP[1][i] += Math.max(DP[0][i-1], DP[0][i-2]);
 			}
 			sb.append(Math.max(DP[0][N+1], DP[1][N+1])).append('\n');
 		}
