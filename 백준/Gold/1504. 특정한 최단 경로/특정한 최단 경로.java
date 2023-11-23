@@ -10,6 +10,7 @@ class Main{
 	
 	final static int MAX = Integer.MAX_VALUE;
 	static int n, arr[][], dist[];
+	static boolean[] visit;
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -18,7 +19,9 @@ class Main{
 		int e = Integer.parseInt(st.nextToken()); // 간선의 갯수
 
 		arr = new int[n+1][n+1]; // 노드 갯수를 2차원 배열로 선언
-		dist = new int[n+1];
+		
+		dist = new int[n+1]; // 다익스트라 알고리즘 실행시 사용할 거리를 담을 배열
+		visit = new boolean[n+1]; // 다익스트라 알고리즘 실행시 사용할 방문을 담을 배열
 		
 		for(int i=0; i<e; i++) {
 			st = new StringTokenizer(br.readLine());// 정점과 간선을 입력 받는다.
@@ -44,17 +47,17 @@ class Main{
 		}
 		
 		// 1번 방법 -> 반드시 거칠노드 1-> 반드시 거칠노드 2-> N
-		long case1 = -1;
+		int case1 = -1;
 		if(AtoM1 !=-1 && M1toM2 !=-1 && M2toN!=-1) {
 			case1 = AtoM1 + M1toM2 + M2toN;
 		}
 		// 2번 방법 -> 반드시 거칠노드 2-> 반드시 거칠노드 1-> N
-		long case2 = -1;
+		int case2 = -1;
 		if(AtoM2 !=-1 && M1toM2 !=-1 && M1toN!=-1) {
 			case2 = AtoM2 + M1toM2 + M1toN;
 		}
 		
-		long result = Math.max(case1, case2);
+		int result = Math.max(case1, case2);
 		
 		// 둘다 -1이 아닐 때 min
 		if( case2!=-1 && case1 !=-1) {
@@ -65,23 +68,23 @@ class Main{
 	}	
 	public static int Dijkstra(int start, int end) {
 		PriorityQueue<Node> q = new PriorityQueue<Node>((a,b)->a.dist-b.dist);
-		boolean[] visit = new boolean[n+1];
+		Arrays.fill(visit, false);
 		Arrays.fill(dist,MAX);
 		
 		dist[start] = 0; // 자기 자신은 0으로 초기화
 		
-		q.add(new Node(start,0));
+		q.add(new Node(start,0)); // 자기 자신과 거리를 넣어준다.
 		
-		while(!q.isEmpty()) {
-			Node curNode = q.poll();
-			int cur = curNode.end;
+		while(!q.isEmpty()) { //큐가 빌 때까지 반복
+			Node curNode = q.poll(); // 큐 를 하나 꺼내준다. 
+			int cur = curNode.end; // 꺼낸 데이터의 현재 노드
 			
-			if(!visit[cur]) {
-				visit[cur] = true;
-				for(int i=1; i<=n; i++) {
+			if(!visit[cur]) { // 꺼낸 데이터를 방문하지 않은 경우만 연산 실행 
+				visit[cur] = true; // 방문 처리 
+				for(int i=1; i<=n; i++) { // 노드를 하나씩 순회한다. 
 					if(arr[cur][i] != 0) { // 노드가 연결되어 있다면 
-						int nextDistance = arr[cur][i] + curNode.dist;
-						if(dist[i] > nextDistance) {
+						int nextDistance = arr[cur][i] + curNode.dist; // 현재노드에서 다음노드까지 거리 + 현재까지 오기위한 거리 
+						if(dist[i] > nextDistance) { // start 노드에서 i까지 거리가(dist[i]) , 현재 노드에서 다음 노드까지 거리보다 길다면 이하 실행
 							dist[i] = nextDistance;
 							q.add(new Node(i,nextDistance));
 						}
