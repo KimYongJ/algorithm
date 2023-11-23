@@ -29,11 +29,11 @@ class Main{
 		int mNode1 = read(); // 반드시 방문 해야 하는 노드 1
 		int mNode2 = read(); // 반드시 방문 해야 하는 노드 2
 		
-		int AtoM1 = Dijkstra(1,mNode1);
-		int AtoM2 = Dijkstra(1,mNode2);
-		int M1toM2 = Dijkstra(mNode1,mNode2);
-		int M1toN = Dijkstra(mNode1,n);
-		int M2toN = Dijkstra(mNode2,n);
+		long AtoM1 = Dijkstra(1,mNode1); // 1번 노드부터 반드시 방문해야할 노드1 까지 거리
+		long AtoM2 = Dijkstra(1,mNode2); // 1번 노드부터 반드시 방문해야할 노드2 까지 거리
+		long M1toM2 = Dijkstra(mNode1,mNode2); // 반드시 방문해야할 두노드의 거리 
+		long M1toN = Dijkstra(mNode1,n); // 반드시 방문해야할 노드1부터 N까지 거리 
+		long M2toN = Dijkstra(mNode2,n); // 반드시 방문해야할 노드2부터 N까지 거리 
 		
 		if(M1toM2 == -1) { // 반드시 지나야 하는 노드가 서로 방문 불가일 경우 
 			System.out.println(-1);
@@ -41,21 +41,15 @@ class Main{
 		}
 		
 		// 1번 방법 -> 반드시 거칠노드 1-> 반드시 거칠노드 2-> N
-		int case1 = -1; // 방문 불가일 경우를 가정해 -1로 셋팅
-		if(AtoM1 !=-1 && M1toM2 !=-1 && M2toN!=-1) {
-			case1 = AtoM1 + M1toM2 + M2toN; // 방문 가능할 경우 거리 연산
-		}
+		long case1 = AtoM1 + M1toM2 + M2toN;
+
 		// 2번 방법 -> 반드시 거칠노드 2-> 반드시 거칠노드 1-> N
-		int case2 = -1;
-		if(AtoM2 !=-1 && M1toM2 !=-1 && M1toN!=-1) {
-			case2 = AtoM2 + M1toM2 + M1toN;
-		}
+		long case2 = AtoM2 + M1toM2 + M1toN;
+
+		long result = Math.min(case1, case2);
 		
-		int result = Math.max(case1, case2); // 둘 중 하나라도 -1일 경우를 대비해 미리 Math.max연산
-		
-		// 둘다 -1이 아닐 때 min
-		if( case2!=-1 && case1 !=-1) {
-			result = Math.min(case1, case2); // 둘다 -1이 아닐 때 min연산
+		if( result>=MAX) {
+			result = -1; 
 		}
 
 		System.out.println(result);
@@ -88,7 +82,7 @@ class Main{
 			}
 
 		}
-		return dist[end] == MAX ? -1 : dist[end]; // 거리가 MAX면 방문 불가이므로 -1 반환
+		return dist[end];
 	}
     private static int read() throws Exception {
         int c, n = System.in.read() & 15;
