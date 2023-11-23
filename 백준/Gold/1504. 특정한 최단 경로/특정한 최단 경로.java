@@ -7,7 +7,7 @@ class Main{
 	
 	final static int MAX = Integer.MAX_VALUE;
 	static int n, arr[][], dist[];
-	static boolean[] visit;
+
 	public static void main(String[] args)throws Exception{
 		n = read(); // 노드 갯수
 		int e = read(); // 간선의 갯수
@@ -15,7 +15,7 @@ class Main{
 		arr = new int[n+1][n+1]; // 노드 갯수를 2차원 배열로 선언
 		
 		dist = new int[n+1]; // 다익스트라 알고리즘 실행시 사용할 거리를 담을 배열
-		visit = new boolean[n+1]; // 다익스트라 알고리즘 실행시 사용할 방문을 담을 배열
+		
 		
 		for(int i=0; i<e; i++) {
 			// 정점과 간선을 입력 받는다.
@@ -41,9 +41,9 @@ class Main{
 		}
 		
 		// 1번 방법 -> 반드시 거칠노드 1-> 반드시 거칠노드 2-> N
-		int case1 = -1;
+		int case1 = -1; // 방문 불가일 경우를 가정해 -1로 셋팅
 		if(AtoM1 !=-1 && M1toM2 !=-1 && M2toN!=-1) {
-			case1 = AtoM1 + M1toM2 + M2toN;
+			case1 = AtoM1 + M1toM2 + M2toN; // 방문 가능할 경우 거리 연산
 		}
 		// 2번 방법 -> 반드시 거칠노드 2-> 반드시 거칠노드 1-> N
 		int case2 = -1;
@@ -51,18 +51,18 @@ class Main{
 			case2 = AtoM2 + M1toM2 + M1toN;
 		}
 		
-		int result = Math.max(case1, case2);
+		int result = Math.max(case1, case2); // 둘 중 하나라도 -1일 경우를 대비해 미리 Math.max연산
 		
 		// 둘다 -1이 아닐 때 min
 		if( case2!=-1 && case1 !=-1) {
-			result = Math.min(case1, case2);
+			result = Math.min(case1, case2); // 둘다 -1이 아닐 때 min연산
 		}
 
 		System.out.println(result);
 	}	
 	public static int Dijkstra(int start, int end) {
 		PriorityQueue<Node> q = new PriorityQueue<Node>((a,b)->a.dist-b.dist);
-		Arrays.fill(visit, false);
+		boolean[] visit = new boolean[n+1]; // 다익스트라 알고리즘 실행시 사용할 방문을 담을 배열
 		Arrays.fill(dist,MAX);
 		
 		dist[start] = 0; // 자기 자신은 0으로 초기화
@@ -88,7 +88,7 @@ class Main{
 			}
 
 		}
-		return dist[end] == MAX ? -1 : dist[end];
+		return dist[end] == MAX ? -1 : dist[end]; // 거리가 MAX면 방문 불가이므로 -1 반환
 	}
     private static int read() throws Exception {
         int c, n = System.in.read() & 15;
