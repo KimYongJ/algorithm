@@ -13,14 +13,12 @@ class Main{
     
         // 플로이드와샬 알고리즘을 위한 셋팅, 자기자신은 0, 아닌것은 MAX로 셋팅
         for(int i=1; i<=N; i++)
-            for(int j=1; j<=N; j++){
-                if(i==j) continue;
+            for(int j=1; j<=N; j++)
                 arr[i][j] = INF;
-            }
+            
         
         // 값 셋팅
         for(int i=0; i<M; i++){
-
             int nodeA = read();
             int nodeB = read();
             int dist = read();
