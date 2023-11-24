@@ -1,17 +1,12 @@
 //https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Main{
     public static void main(String[] args)throws Exception{
         final int INF = 100_000_001;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        int N = Integer.parseInt(br.readLine());
-        int B = Integer.parseInt(br.readLine());
+        int N = read();
+        int B = read();
         
         ArrayList<Node>[] list = new ArrayList[N+1]; // 노드의 연결과 가중치를 담을 list 배열
         
@@ -19,15 +14,13 @@ class Main{
             list[i] = new ArrayList<Node>();
             
         for(int i=0; i<B; i++){// 노드 정보를 입력 받는다.
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int d = Integer.parseInt(st.nextToken());
+            int a = read();
+            int b = read();
+            int d = read();
             list[a].add(new Node(b,d)); // a노드에 인접한 b노드와 d를 넣음 
         }
-        st = new StringTokenizer(br.readLine());
-        int start = Integer.parseInt(st.nextToken());// 시작 인덱스
-        int end = Integer.parseInt(st.nextToken());// 종료인덱스
+        int start = read();// 시작 인덱스
+        int end = read();// 종료인덱스
         
         // 다익스트라 알고리즘을 위해 거리를 내림차순으로 하는 우선순위 큐 생성
         PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.dist-b.dist);
@@ -60,6 +53,12 @@ class Main{
         
         System.out.println(dist[end]);
     }
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32)
+			n = (n << 3) + (n << 1) + (c & 15);
+		return n;
+	}
 }
 class Node{
     int node,dist;
