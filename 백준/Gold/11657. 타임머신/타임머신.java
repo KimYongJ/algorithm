@@ -1,16 +1,11 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
     
     public static void main(String[] args)throws Exception{
     	final int INF = 5_000_001;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        int N = read();
+        int M = read();
         Node[] node = new Node[M];
         long[] dist = new long[N+1];
         Arrays.fill(dist,INF);
@@ -18,10 +13,9 @@ class Main{
         dist[1] = 0;
         
         for(int i=0; i<M; i++){
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int d = Integer.parseInt(st.nextToken());
+            int a = read();
+            int b = read();
+            int d = read();
             node[i] = new Node(a,b,d);
         }
         // 노드 n-1만큼 만복하여 노드의 최단거리를 구한다.
@@ -40,7 +34,7 @@ class Main{
             }
         }
         
-        // 음의 간선이 있는지 체크 
+        // 음의 사이클이 있는지 체크 : 음의 사이클이 없다면 값이 갱신되지 않음
         for(int j=0; j<M; j++){
             int start = node[j].start;
             int end = node[j].end;
@@ -62,6 +56,14 @@ class Main{
         }
         System.out.println(sb);
     }
+    public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 }
 class Node{
     int start, end, dist;
