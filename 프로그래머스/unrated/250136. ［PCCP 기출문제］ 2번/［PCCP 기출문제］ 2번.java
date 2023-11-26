@@ -8,7 +8,8 @@ class Solution {
     static HashMap<Integer, Integer> hm = new HashMap<>(); // 고유번호 : 석유 매장량
     static int ylen, xlen, max, land[][];
     static int dxy[][] = {{0,1},{0,-1},{1,0},{-1,0}};
-    static ArrayDeque<int[]> q;    
+    static ArrayDeque<int[]> q;  
+    
     public int solution(int[][] land) {
         this.land = land;
         ylen = land.length; 
