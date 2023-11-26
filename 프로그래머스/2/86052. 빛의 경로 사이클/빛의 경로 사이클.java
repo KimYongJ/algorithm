@@ -5,7 +5,6 @@ import java.util.Collections;
 
 class Solution {
     
-    char[][] arr;
     boolean[][][] visit; // 좌표에 따른 방문 위치 저장 : 상하좌우
     ArrayList<Integer> list = new ArrayList<>(); // 결과를 담을 리스트
     int ylen, xlen, 
@@ -14,31 +13,27 @@ class Solution {
     public ArrayList<Integer> solution(String[] grid) {
         ylen = grid.length;
         xlen = grid[0].length();
-        arr = new char[ylen][xlen];
         visit = new boolean[ylen][xlen][4];
-        
-        for(int y=0; y<ylen; y++)
-            arr[y] = grid[y].toCharArray();// string을 char배열로 변환
         
         for(int y=0; y<ylen; y++)
             for(int x=0; x<xlen; x++)
                 for(int p=0; p<4; p++)
                     if(!visit[y][x][p]){
                         visit[y][x][p] = true;
-                        BFS(y,x,p);
+                        BFS(y, x, p, grid);
                     }
         
         Collections.sort(list);
         
         return list;
     }
-    public void BFS(int y,int x, int p){
+    public void BFS(int y,int x, int p, String[] grid){
         ArrayDeque<Node> q = new ArrayDeque<>();
         q.add(new Node(y,x,p,0));
         
         while(!q.isEmpty()){
             Node node = q.poll();
-            int nextP = getNextPosition(arr[node.y][node.x], node.p); // 도착한 좌표의 문자와 진입 경로를 통해 다음 좌표와 진입경로를 입력한다.
+            int nextP = getNextPosition(grid[node.y].charAt(node.x), node.p); // 도착한 좌표의 문자와 진입 경로를 통해 다음 좌표와 진입경로를 입력한다.
             int nextY = node.y + dxy[nextP][0];
             int nextX = node.x + dxy[nextP][1];
             int nextDist = node.dist + 1;
