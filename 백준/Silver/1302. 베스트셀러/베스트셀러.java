@@ -10,17 +10,17 @@ class Main{
         int N = Integer.parseInt(br.readLine());
         
         int max = 0;
-        String result = "z";
+        String result = null;
         
         for(int i=0; i<N; i++){
             String str = br.readLine();
             int cnt = hm.getOrDefault(str,0)+1;
             hm.put(str, cnt);
-            if(max == cnt){
-            	result = result.compareTo(str) < 0 ? result : str;
-            }else if(max < cnt) {
+            if(max < cnt) {
             	max = cnt;
             	result = str;
+            }else if(max == cnt){
+            	result = result.compareTo(str) < 0 ? result : str;
             }
         }
         System.out.println(result);
