@@ -2,15 +2,14 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.StringTokenizer;
 
 class Main{
 	
 	static int N, M, arr[], result[];
 	static boolean visit[];
-	static LinkedHashSet<String> set = new LinkedHashSet<>();
+	static StringBuilder sb = new StringBuilder();
+	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -21,32 +20,31 @@ class Main{
 		visit	= new boolean[N];
 		
 		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++) {
+		
+		for(int i=0; i<N; i++) 
 			arr[i] = Integer.parseInt(st.nextToken());
-		}
+		
 		
 		Arrays.sort(arr);
 		
 		DFS(0);
 
-		StringBuilder sb = new StringBuilder();
-		Iterator iter = set.iterator();
-		while(iter.hasNext()) {
-			sb.append(iter.next());
-		}
+		
 		System.out.println(sb);
 	}
 	public static void DFS(int depth) {
 		if(depth == M) {
-			StringBuilder sb = new StringBuilder();
 			for(int r : result) sb.append(r).append(' ');
-			set.add(sb.toString());
+			sb.append('\n');
 			return;
 		}
+		int temp = 0;
 		for(int i=0; i<N; i++) {
+			if(temp == arr[i]) continue;
 			if(!visit[i]) {
 				visit[i] = true;
 				result[depth] = arr[i];
+				temp = arr[i];
 				DFS(depth+1);
 				visit[i] = false;
 			}
