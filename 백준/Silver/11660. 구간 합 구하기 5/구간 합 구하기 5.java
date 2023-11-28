@@ -6,21 +6,17 @@ class Main{
 		StringBuilder   sb 	= new StringBuilder();
 		int N 				= read();
 		int M 				= read();
-		int arr[][] 		= new int[N][N];
-		int sum[][]			= new int[N][N];
+		int arr[][] 		= new int[N+1][N+1];
+		int sum[][]			= new int[N+1][N+1];
 		int find[][]		= new int[M][4];
 		
 		// 배열 insert
-		for(int i=0; i<N; i++) {
-			
-			for(int j=0; j<N; j++)
+		for(int i=1; i<=N; i++) {
+			// arr배열에 원 값을 넣음 과 동시에 구간합을 구합니다. 
+			for(int j=1; j<=N; j++) {
 				arr[i][j] = read();
-			
-			// 가로 구간합을 미리 구해 놓습니다.
-			sum[i][0] = arr[i][0];
-			for(int j=1; j<N; j++) 
-				sum[i][j] = sum[i][j-1] + arr[i][j];
-			
+				sum[i][j] = arr[i][j] + sum[i][j-1] + sum[i-1][j] - sum[i-1][j-1];// 해당 좌표의 구간합 구하는 공식
+			}
 		}
 		// 구해야하는 좌표 값 insert
 		for(int i=0; i<M; i++) {
@@ -31,19 +27,18 @@ class Main{
 		}
 		
 
-		for(int i=0; i<M; i++) {//x1-1부터 x2까지 반복
+		for(int i=0; i<M; i++) {
 			int total	= 0;
 			int x1 		= find[i][0];
 			int y1 		= find[i][1];
 			int x2 		= find[i][2];
 			int y2 		= find[i][3];
 			
-			for(int x=x1-1; x<x2; x++) { // 가로 구간합 구하기 
-				total += sum[x][y2-1]; // y2-1까지의 구간합을 미리 더한다.
-				if(y1-2 >= 0) { // 왼쪽 좌표가 0이상이면 해당 구간을 빼준다. 
-					total -= sum[x][y1-2];
-				}
-			}
+			// 왼쪽 사각형 : x2 , y1-1
+			// 위쪽 사각형 : x1-1 , y2
+			// 겹치는 사각형 : x1-1, y1-1
+			total += sum[x2][y2] - sum[x2][y1-1] - sum[x1-1][y2] + sum[x1-1][y1-1];
+			
 			sb.append(total).append('\n');
 		}
 		System.out.println(sb);
