@@ -4,18 +4,19 @@ class Main{
     public static void main(String[] args)throws Exception{
     	StringBuilder sb = new StringBuilder();
     	Reader r = new Reader();
+        int n, m, i, j;
         
-        int n = r.read();
-        int m = r.read();
+        n = r.read();
+        m = r.read();
         
         int[] dp = new int[n+1];
         
-        for(int i=1; i<=n; i++)
+        for(i=1; i<=n; i++)
             dp[i] = r.read() + dp[i-1];
         
         for(int t=0; t<m; t++){
-            int i = r.read();
-            int j = r.read();
+            i = r.read();
+            j = r.read();
             sb.append( dp[j] - dp[i-1] ).append("\n");
         }
         System.out.println(sb.toString());
