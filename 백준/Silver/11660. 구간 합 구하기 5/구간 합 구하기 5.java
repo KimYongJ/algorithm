@@ -12,7 +12,7 @@ class Main{
 		
 		// 배열 insert
 		for(int i=1; i<=N; i++) 
-			// arr배열에 원 값을 넣음 과 동시에 구간합을 구합니다. 
+			// 배열에 원 값을 넣음 과 동시에 구간합을 구합니다. 
 			for(int j=1; j<=N; j++) 
 				sum[i][j] = r.read() + sum[i][j-1] + sum[i-1][j] - sum[i-1][j-1];// 해당 좌표의 구간합 구하는 공식
 			
