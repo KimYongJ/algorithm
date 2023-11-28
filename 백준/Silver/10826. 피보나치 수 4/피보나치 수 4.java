@@ -8,11 +8,7 @@ class Main{
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        if(N<2) {
-        	System.out.println(N);
-        	return;
-        }
-        
+
         BigInteger a = BigInteger.ZERO;
         BigInteger b = BigInteger.ONE;
         BigInteger c = BigInteger.ZERO;
@@ -21,6 +17,9 @@ class Main{
             c = a.add(b);
             a = b;
             b = c;
+        }
+        if(N<2) {
+        	c = new BigInteger(N+"");
         }
         System.out.println(c);
     }
