@@ -1,41 +1,33 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader  br	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
 		StringBuilder   sb 	= new StringBuilder();
-		int N 				= Integer.parseInt(st.nextToken());
-		int M 				= Integer.parseInt(st.nextToken());
+		int N 				= read();
+		int M 				= read();
 		int arr[][] 		= new int[N][N];
 		int sum[][]			= new int[N][N];
 		int find[][]		= new int[M][4];
 		
 		// 배열 insert
 		for(int i=0; i<N; i++) {
-			st = new StringTokenizer(br.readLine());
-			for(int j=0; j<N; j++) {
-				arr[i][j] = Integer.parseInt(st.nextToken());
-			}
+			
+			for(int j=0; j<N; j++)
+				arr[i][j] = read();
 			
 			// 가로 구간합을 미리 구해 놓습니다.
 			sum[i][0] = arr[i][0];
-			for(int j=1; j<N; j++) {
+			for(int j=1; j<N; j++) 
 				sum[i][j] = sum[i][j-1] + arr[i][j];
-			}
 			
 		}
 		// 구해야하는 좌표 값 insert
 		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			find[i][0] = Integer.parseInt(st.nextToken());
-			find[i][1] = Integer.parseInt(st.nextToken());
-			find[i][2] = Integer.parseInt(st.nextToken());
-			find[i][3] = Integer.parseInt(st.nextToken());
+			find[i][0] = read();
+			find[i][1] = read();
+			find[i][2] = read();
+			find[i][3] = read();
 		}
 		
 
@@ -56,8 +48,6 @@ class Main{
 		}
 		System.out.println(sb);
 	}
-	
-	
 	// 빠른 입력을 위해 만듦
     private static int read() throws Exception {
         int c, n = System.in.read() & 15;
