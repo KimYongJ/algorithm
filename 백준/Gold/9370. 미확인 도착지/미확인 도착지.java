@@ -10,7 +10,6 @@
 // 위 2개의 식 중 하나라도 참이면 최단거리다이다.
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.PriorityQueue;
 
 
@@ -23,9 +22,8 @@ class Solution {
 	
 	StringBuilder sb = new StringBuilder();
 	ArrayList<Node>[] list;
-	ArrayList<Integer> Hlist;
 	PriorityQueue<Node> pq;
-	
+	PriorityQueue<Integer> result;
 	final int INF = 1_999_001;
 	
 	int N, g_h_dist, nowNode, nextNode, 
@@ -93,9 +91,9 @@ class Solution {
 			N	= r.read(); // 노드갯수(최대 2000)
 			int M	= r.read(); // 간선갯수(최대 5만)
 			int H 	= r.read(); // 도착지후보(최대 100)
-			
-			Hlist 	= new ArrayList<>(); // 도착지 후보 중 시작점에서 g,h를 지나 도착 후보 까지 가는 거리가 최단 거리인 경우를 담을 리스트  
-			list  	= new ArrayList[N+1]; // 간선정보를 담을 리스트 선언
+			  
+			result = new PriorityQueue<>(); // 도착지 후보 중 시작점에서 g,h를 지나 도착지 후보까지 갈 수 있는 노드를 담을 큐
+			list  	= new ArrayList[N+1]; 	// 간선정보를 담을 리스트 선언
 			
 			for(int i=1; i<=N; i++)
 				list[i] = new ArrayList<Node>();
@@ -121,15 +119,16 @@ class Solution {
 			HtoAll 	= Dijkstra(g);
 			GtoAll 	= Dijkstra(h);
 			
+			
 			while(H-->0) {
 				int end = r.read();
 				if(isPossible(start, end)) { // start에서 시작하여 end로 가는 최단거리에 g,h를 지나는 간선이 있는지 체크
-					Hlist.add(end);
+					result.add(end);
 				}
 			}
-			Collections.sort(Hlist);
-			for(int i=0; i<Hlist.size(); i++)
-				sb.append(Hlist.get(i)).append(' ');
+			
+			while(!result.isEmpty()) 
+				sb.append(result.poll()).append(' ');
 			sb.append('\n');
 		}
 		System.out.println(sb);
