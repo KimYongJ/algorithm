@@ -8,13 +8,11 @@
 // HtoAll[start] + g-h거리 + GtoAll[end] = StoE[end]
 // GtoAll[start] + g-h거리 + HtoAll[end] = StoE[end]
 // 위 2개의 식 중 하나라도 참이면 최단거리다이다.
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+
 
 class Main{
     public static void main(String[] args)throws Exception{
@@ -88,14 +86,13 @@ class Solution {
 	}
 	
 	public void solution() throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Reader r = new Reader();
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = r.read();
 		while(T-->0) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			N	= Integer.parseInt(st.nextToken()); // 노드갯수(최대 2000)
-			int M	= Integer.parseInt(st.nextToken()); // 간선갯수(최대 5만)
-			int H 	= Integer.parseInt(st.nextToken()); // 도착지후보(최대 100)
+			N	= r.read(); // 노드갯수(최대 2000)
+			int M	= r.read(); // 간선갯수(최대 5만)
+			int H 	= r.read(); // 도착지후보(최대 100)
 			
 			Hlist 	= new ArrayList<>(); // 도착지 후보 중 시작점에서 g,h를 지나 도착 후보 까지 가는 거리가 최단 거리인 경우를 담을 리스트  
 			list  	= new ArrayList[N+1]; // 간선정보를 담을 리스트 선언
@@ -103,18 +100,15 @@ class Solution {
 			for(int i=1; i<=N; i++)
 				list[i] = new ArrayList<Node>();
 			
-			st 			= new StringTokenizer(br.readLine());
-			int start 	= Integer.parseInt(st.nextToken()); // 시작 노드
-			int g 		= Integer.parseInt(st.nextToken()); // g 노드
-			int h 		= Integer.parseInt(st.nextToken()); // h 노드
+			int start 	= r.read(); // 시작 노드
+			int g 		= r.read(); // g 노드
+			int h 		= r.read(); // h 노드
 			
-
 			
 			for(int i=0; i<M; i++) { // 간선 셋팅
-				st 	  = new StringTokenizer(br.readLine());
-				int a = Integer.parseInt(st.nextToken()); // 노드 a
-				int b = Integer.parseInt(st.nextToken()); // 노드 b
-				int d = Integer.parseInt(st.nextToken()); // 사이 거리(최대 1000)
+				int a = r.read(); // 노드 a
+				int b = r.read(); // 노드 b
+				int d = r.read(); // 사이 거리(최대 1000)
 				list[a].add(new Node(b,d));
 				list[b].add(new Node(a,d));
 				
@@ -128,7 +122,7 @@ class Solution {
 			GtoAll 	= Dijkstra(h);
 			
 			while(H-->0) {
-				int end = Integer.parseInt(br.readLine());
+				int end = r.read();
 				if(isPossible(start, end)) { // start에서 시작하여 end로 가는 최단거리에 g,h를 지나는 간선이 있는지 체크
 					Hlist.add(end);
 				}
