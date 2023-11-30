@@ -14,7 +14,7 @@ class Main{
 class Solution{
 	
 	StringBuilder sb = new StringBuilder();
-	int a, b, N, K, S, result;
+	int a, b, i, j, k, N, K, S, result;
 	char arr[][];
 	Reader r;
 	
@@ -24,20 +24,20 @@ class Solution{
 		K 		= r.read();
 		arr 	= new char[N][N];
 		
-		for(int i=0; i<K; i++) {
-			a 	= r.read();
-			b 	= r.read();
-			arr[a][b] = 1; // 추후 -2를 해주어 -1을 표현
-			arr[b][a] = 3; // 추후 -2를 해주어 1을 표현
+		for(i=0; i<K; i++) {
+			a 			= r.read();
+			b 			= r.read();
+			arr[a][b] 	= 1; // 추후 -2를 해주어 -1을 표현
+			arr[b][a] 	= 3; // 추후 -2를 해주어 1을 표현
 		}
 		
 		// 플로이드 와샬 알고리즘 실행
-		for(int k=1; k<N; k++) {
-			for(int i=1; i<N; i++) {
+		for(k=1; k<N; k++) {
+			for(i=1; i<N; i++) {
 				
 				if(k==i) continue; // 빠른 연산을 위한 스킵
 				
-				for(int j=1; j<N; j++) {
+				for(j=1; j<N; j++) {
 					
 					if(i==j || k==j)continue;// 빠른 연산을 위한 스킵
 					
@@ -53,13 +53,11 @@ class Solution{
 		}
 		
 		// 알고자 하는 관계의 숫자 입력
-		S = r.read();
-		
-		for(int i=0; i<S; i++) {
-			a = r.read();
-			b = r.read();
-			
-			result = arr[a][b];
+		S 			= r.read();
+		for(i=0; i<S; i++) {
+			a 		= r.read();
+			b 		= r.read();
+			result 	= arr[a][b];
 			
 			if(result!=0) // 연결되어있는 관계인 경우-2를 해줌
 				result -= 2;
