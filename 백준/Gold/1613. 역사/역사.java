@@ -6,60 +6,65 @@
 // (a,b), (b,c)를 확인하여 (a,c)를 입력해주기만 하면된다. 이 때 전과 후의 관계를 표현하기 때문에
 // 1과 3으로 입력함. 추후 -2를 해주어서 전일 때는 1-2 = -1 , 후일 때는 3-2=1로 출력되도록 함
 
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
     public static void main(String[] args)throws Exception{
     	new Solution().solution(); 
     }
 }
 class Solution{
+	
+	StringBuilder sb = new StringBuilder();
+	int a, b, N, K, S, result;
+	char arr[][];
+	Reader r;
+	
 	void solution()throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		int N = Integer.parseInt(st.nextToken())+1;
-		int K = Integer.parseInt(st.nextToken());
-		int a, b, result;
-		char arr[][] = new char[N][N];
+		r 		= new Reader();
+		N 		= r.read()+1;
+		K 		= r.read();
+		arr 	= new char[N][N];
 		
 		for(int i=0; i<K; i++) {
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
-			
+			a 	= r.read();
+			b 	= r.read();
 			arr[a][b] = 1; // 추후 -2를 해주어 -1을 표현
 			arr[b][a] = 3; // 추후 -2를 해주어 1을 표현
 		}
+		
 		// 플로이드 와샬 알고리즘 실행
 		for(int k=1; k<N; k++) {
 			for(int i=1; i<N; i++) {
-				if(k==i) continue;
+				
+				if(k==i) continue; // 빠른 연산을 위한 스킵
+				
 				for(int j=1; j<N; j++) {
-					if(i==j || k==j)
-						continue;
-					if(arr[i][k] == 1 && arr[k][j] == 1) arr[i][j] = 1;
-					else if(arr[i][k] == 3 && arr[k][j] == 3) arr[i][j] = 3;
+					
+					if(i==j || k==j)continue;// 빠른 연산을 위한 스킵
+					
+					// a>b && b>c 를 확인해 a>c를 입력함
+					if(arr[i][k] == 1 && arr[k][j] == 1) 
+						arr[i][j] = 1;
+					
+					// a<b && b<c 를 확인해 a<c를 입력함
+					else if(arr[i][k] == 3 && arr[k][j] == 3) 
+						arr[i][j] = 3;
 				}
 			}
 		}
 		
 		// 알고자 하는 관계의 숫자 입력
-		int S = Integer.parseInt(br.readLine());
+		S = r.read();
 		
 		for(int i=0; i<S; i++) {
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
+			a = r.read();
+			b = r.read();
+			
 			result = arr[a][b];
-			if(result!=0)
+			
+			if(result!=0) // 연결되어있는 관계인 경우-2를 해줌
 				result -= 2;
-			sb.append(result)
-			  .append('\n');
+			
+			sb.append(result).append('\n');
 		}
 		System.out.println(sb);
 	}
