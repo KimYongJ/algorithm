@@ -2,13 +2,9 @@
 // 문제 요약 : 1번 노드 부터 가장 먼거리에 있는 노드의 번호와 거기까지 가는 거리, 같은 거리를 갖는 노드들의 갯수 출력
 // 주의 : 가장 먼 거리 노드의 번호가 여러개이면 노드 index가 낮은 것을 우선출력
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
-
 
 class Main{
     public static void main(String[] args)throws Exception{
@@ -18,16 +14,15 @@ class Main{
 class Solution {
 	
 	public void solution() throws Exception {
+		Reader r = new Reader();
 		final int INF 			= 20_000; // 최대 노드 갯수가 2만개이고, 간선 가중치가 1이기 때문에 1번 노드부터 마지막 노드까지 가는 최대 가중치는 19,999입니다.
 		PriorityQueue<Node> pq 	= new PriorityQueue<Node>((a,b)->a.dist-b.dist);
 		StringBuilder sb 		= new StringBuilder();
-		BufferedReader br 		= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 		= new StringTokenizer(br.readLine());
-		int Node				= 0; // 1번에서 가장 거리가 먼 노드 중 번호가 가장 작은 것
-		int Max_dist			= 0; // 1번 노드부터 가장 먼노드 까지 거리
-		int Node_cnt			= 0; // 1번에서 가장 먼노드의 거리가 여러개일 때 노드의 갯수를 담을 변수   
-		int N 					= Integer.parseInt(st.nextToken())+1; // 노드 갯수
-		int M 					= Integer.parseInt(st.nextToken());   // 간선 갯수
+		int Node				= 0; 					// 1번에서 가장 거리가 먼 노드 중 번호가 가장 작은 것
+		int Max_dist			= 0; 					// 1번 노드부터 가장 먼노드 까지 거리
+		int Node_cnt			= 0; 					// 1번에서 가장 먼노드의 거리가 여러개일 때 노드의 갯수를 담을 변수   
+		int N 					= r.read()+1; 			// 노드 갯수
+		int M 					= r.read();   			// 간선 갯수
 		int dist[] 				= new int[N]; 			// 1번노드로부터 최단거리를 담을 배열
 		boolean visit[] 		= new boolean[N];		// 방문한 노드를 담을 배열
 		ArrayList<Node>[] list 	= new ArrayList[N+1];	// 인접리스트를 담을 배열
@@ -36,16 +31,15 @@ class Solution {
 			list[i] = new ArrayList<Node>(); // 인접리스트배열 초기화
 
 		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = r.read();
+			int b = r.read();
 			list[a].add(new Node(b,1));
 			list[b].add(new Node(a,1));
 		}
 		
 		Arrays.fill(dist, INF); // 최초 거리를 INF로 초기화
-		dist[1] = 0; // 1번부터 시작이기 때문에 자기 자신 0으로 초기화 
-		pq.add(new Node(1,0)); // 1번노드를 넣고 거리 0 초기화 
+		dist[1] = 0; 			// 1번부터 시작이기 때문에 자기 자신 0으로 초기화 
+		pq.add(new Node(1,0)); 	// 1번노드를 넣고 거리 0 세팅 
 		
 		while(!pq.isEmpty()) {
 			Node n 				= pq.poll();
@@ -58,24 +52,19 @@ class Solution {
 			
 			for(int i=0; i<list[nowNode].size(); i++) {
 				Node nn 		= list[nowNode].get(i); // nowNode의 인접 노드
-				int nextNode 	= nn.node; // nowNode의 인접 노드 번호
-				int nextDist 	= nn.dist; // nowNode부터 인접노드까지 연결된 거리
+				int nextNode 	= nn.node; 				// nowNode의 인접 노드 번호
+				int nextDist 	= nn.dist; 				// nowNode부터 인접노드까지 연결된 거리
 				int distSum 	= until_now_dist + nextDist; // 1번노드부터 nowNode까지 거리 + nowNode부터 nextNode까지 거리 즉, 1번노드부터 nowNode를 거쳐서 nextNode에가는 거리 
-				if(dist[nextNode] 	> distSum) { // dist에 기 저장된 nextNode까지 최단거리가 distSum보다 크면 새로운 최단거리를 발견한 것이므로 이하 실행
+				if(dist[nextNode] 	> distSum) { 		// dist에 기 저장된 nextNode까지 최단거리가 distSum보다 크면 새로운 최단거리를 발견한 것이므로 이하 실행
 					dist[nextNode] 	= distSum;
 					pq.add(new Node(nextNode, distSum));
-					if(Max_dist < distSum)
+					if(Max_dist < distSum)				// Max_dist를 바로 구하기 위한 코드
 						Max_dist = distSum;
 				}
 			}
 		}
-
-//		for(int i=1; i<N; i++)
-//			if(dist[i]!=INF && Max_dist<dist[i])
-//				Max_dist = dist[i];
-
 		
-		for(int i=1; i<N; i++) 
+		for(int i=1; i<N; i++)  // Max_dist와 같은 값을 가지는 노드의 갯수와 Max_dist값을 갖는 가장 작은 인덱스 찾기 
 			if(dist[i] == Max_dist) {
 				Node_cnt++;
 				if(Node == 0)
@@ -85,9 +74,8 @@ class Solution {
 		sb.append(Node).append(' ')
 			.append(Max_dist).append(' ')
 			.append(Node_cnt);
+		
 		System.out.println(sb);
-		
-		
 	}
 }
 class Node{
