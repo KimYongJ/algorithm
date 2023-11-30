@@ -10,11 +10,6 @@
 // 제출해야 정답이다. 이를 해결하기 위해 배열에 1과 -1로 연결을 표현해 크고 작음으로 연결되어있음을 나타내면
 // 연결되어있지 않은 값을 알 수 있다. 연결 되지 않은 것은 0으로 표현될 것이다. 
 
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
     public static void main(String[] args)throws Exception{
     	 new Solution().solution();
@@ -22,42 +17,40 @@ class Main{
 }
 class Solution{
 	void solution() throws Exception{
-		StringBuilder sb = new StringBuilder();
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		int N = Integer.parseInt(br.readLine())+1; // 노드 갯수
-		int M = Integer.parseInt(br.readLine()); // 간선의 갯수
-		
-		int arr[][] = new int[N][N];// 초기값 모두 0
+		StringBuilder sb 	= new StringBuilder();
+		Reader r 			= new Reader();
+		int N 				= r.read()+1; 		// 노드 갯수
+		int M 				= r.read(); 		// 간선의 갯수
+		int cnt 			= -1;				// 자기를 제외하고 연결 불가능 부분을 카운팅하는 변수 / 자기자신은 빼야함으로 -1로 셋팅
+		char arr[][] 		= new char[N][N];	// 초기값 모두 0
 		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			arr[a][b] = 1; // 연결표시
-			arr[b][a] = -1;// 반대 연결표시
+			int a 		= r.read();
+			int b 		= r.read();
+			arr[a][b] 	= 1; 					// 연결표시
+			arr[b][a] 	= 2;					// 반대 연결표시
 		}
 		 
 		for(int k=1; k<N; k++) {
 			for(int i=1; i<N; i++) {
-				if(i==k) continue; // 빠른 연산을 위해 불필요 연산 스킵
+				if(i==k) continue; 				// 빠른 연산을 위해 불필요 연산 스킵
 				for(int j=1; j<N; j++) {
-					if(i==j || k==j) continue;// 빠른 연산을 위해 불필요 연산 스킵
-					if(arr[i][k] == 1 && arr[k][j]==1) { // i->k로 가는게 연결되있고, k->j로 가는게 연결되어 있다면 i->j연결되어있음.
+					if(i==j || k==j) continue;	// 빠른 연산을 위해 불필요 연산 스킵
+					if(arr[i][k] == 1 && arr[k][j]==1) { 		// i->k로 가는게 연결되있고, k->j로 가는게 연결되어 있다면 i->j연결되어있음.
 						arr[i][j] = 1;
-					}else if(arr[i][k] == -1 && arr[k][j]==-1) {// i->k로 가는게 연결되있고, k->j로 가는게 연결되어 있다면 i->j연결되어있음.
-						arr[i][j] = -1;
+					}else if(arr[i][k] == 2 && arr[k][j]==2) {	// i->k로 가는게 연결되있고, k->j로 가는게 연결되어 있다면 i->j연결되어있음.
+						arr[i][j] = 2;
 					}
 				}
 			}
 		}
 		
 		for(int i=1; i<N; i++) {
-			int cnt = -1; // 자기자신은 빼야함으로 -1로 셋팅
-			for(int j=1; j<N; j++) {
-				if(arr[i][j] == 0) // 값이 0인것은 연결되지 않은 것으로 판단 
+			for(int j=1; j<N; j++)
+				if(arr[i][j] == 0) 		// 값이 0인것은 연결되지 않은 것으로 판단 
 					cnt++; 
-			}
-			sb.append(cnt).append('\n');
+			sb.append(cnt)
+			  .append('\n');
+			cnt = -1;
 		}
 		System.out.println(sb);
 	}
