@@ -1,10 +1,7 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 
 class Main{
 	public static void main(String[] args)throws Exception{
@@ -41,45 +38,44 @@ class Solution {
 		sb.append(CNT).append('\n'); 		// 위원회 숫자 카운팅
 		
 		for(int i=0; i<list.size(); i++) 
-			sb.append(list.get(i)).append('\n');// 위원회 대표 출력
+			sb.append(list.get(i))
+			  .append('\n');				// 위원회 대표 입력
 		
 		System.out.println(sb);
 	}
 	
 	void DFS(int idx) { 					// DFS 함수 , 인덱스를 인자로 받는다.
 		if(!visit[idx]) { 					// 방문한 인자가 방문하지 않았어야 DFS 실행
-			visit[idx] = true; // 방문처리
+			visit[idx] = true; 				// 방문처리
 			if(MAX_DIST > arr[idx][0]) { 	// 최대 방문거리가 더 작은 것 발견시 값 갱신
 				MAX_DIST = arr[idx][0];		// 더 작은 최대 방문 거리로 갱신
 				MAX_INDEX = idx; 			// 더 작은 최대 방문 거리를 갖는 인덱스 갱신
 			}
 			for(int i=1; i<N; i++) { 		// 인접 노드 탐색 
 				if(arr[idx][i] != INF) 		// 인접노드가 INF아니면 해당 노드를 갖고 DFS시작
-					DFS(i);
+					DFS(i);					// DFS인자로 다음 노드를 전달
 			}
 		}
 	}
 	
 	
 	void solution() throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N 		= Integer.parseInt(br.readLine())+1;
-		M 		= Integer.parseInt(br.readLine());
-		arr 	= new int[N][N];
-		visit 	= new boolean[N]; // DFS실행시 방문 체크 할 배열
+
+		N 		= read()+1;					// 노드 갯수
+		M 		= read();					// 간선 갯수
+		arr 	= new int[N][N];			// 노드간 관계를 담을 배열
+		visit 	= new boolean[N]; 			// DFS실행시 방문 체크 할 배열
 		
 		for(int i=1; i<N; i++)
 			for(int j=1; j<N; j++) {
-				if(i==j)continue;
-				arr[i][j] = INF;
+				if(i==j)continue;			// 자기자신은 0으로 놔두기 위함
+				arr[i][j] = INF; 			// 모두 INF로 초기화
 			}
 		
 		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			arr[a][b] = arr[b][a] = 1; // 양방향 입력
+			int a = read();
+			int b = read();
+			arr[a][b] = arr[b][a] = 1; 		// 양방향 입력
 		}
 		
 		// 플로이드 와샬로 모든 정점에서 모든 정점으로 가는 거리를 초기화 시켜 놓는다.
@@ -94,6 +90,7 @@ class Solution {
 				}
 			}
 		}
+		
 		// arr[i][0]인덱스에 i라인의 최댓 값을 저장
 		for(int i=1; i<N; i++) {
 			int max = 0;
@@ -102,7 +99,7 @@ class Solution {
 					max = arr[i][j];
 				}
 			}
-			arr[i][0] = max;
+			arr[i][0] = max;			// arr[i][0]인덱스에 i라인의 최댓 값을 저장
 		}
 
 		
@@ -112,11 +109,11 @@ class Solution {
 				MAX_INDEX = i; 			// 인덱스 미리 셋팅
 				MAX_DIST = arr[i][0];	// 최대 거리 셋팅 
 				DFS(i); 				// 하나라도 연결되어있다면 DFS로 탐색
-				list.add(MAX_INDEX);
+				list.add(MAX_INDEX);	// DFS 끝난 후 결과에 위원회 대표 추가
 			}
 		}
 		
-		print_result(); // 결과 출력
+		print_result(); 				// 결과 출력
 	}
 
 }
