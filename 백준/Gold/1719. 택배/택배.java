@@ -1,8 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,10 +10,8 @@ class Main{
     static PriorityQueue<Node> q; // 우선순위큐(dist기준 오름차순)
     public static void main(String[] args)throws Exception{
         
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken())+1;
-        M = Integer.parseInt(st.nextToken());
+        N = read()+1;
+        M = read();
         
         list = new ArrayList[N];
         
@@ -24,10 +19,9 @@ class Main{
             list[i] = new ArrayList<Node>();
         
         for(int i=0; i<M; i++){
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int d = Integer.parseInt(st.nextToken());
+            int a = read();
+            int b = read();
+            int d = read();
             
             list[a].add(new Node(b,d,0)); // 양방향 셋팅
             list[b].add(new Node(a,d,0)); // 양방향 셋팅
@@ -44,7 +38,6 @@ class Main{
         q = new PriorityQueue<Node>((a,b)->a.dist-b.dist); // 우선순위 큐, dist기준 오름 차순 정렬
         dist = new int[N]; // start노드의 최단거리를 담을 배열
         first = new int[N];// 처음 방문한 노드를 담을 배열
-        
         Arrays.fill(dist,INF);
         
         dist[start] = 0;
@@ -82,6 +75,11 @@ class Main{
         }
         sb.append('\n');
     }
+    static int read() throws Exception {
+	    int c, n = System.in.read() & 15;
+	    while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+	    return n;
+	}
 }
 class Node{
     int node, dist, first;
