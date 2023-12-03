@@ -20,7 +20,7 @@ class Main{
         dist = new DIST[N];
         for(int i=1; i<N; i++){
             list[i] = new ArrayList<Node>();
-            dist[i] = new DIST(INF,null);
+            dist[i] = new DIST(INF,-1);
         }
         
         for(int i=0; i<M; i++){
@@ -38,7 +38,7 @@ class Main{
         	Dijkstra();
         	sb.append(N-2).append('\n');
         	for(int i=2; i<N; i++) {
-        		int end = dist[i].list.get(0);
+        		int end = dist[i].adjacent_vertex;
         		if(end==1) {
         			sb.append(1).append(' ').append(i);
         		}else {
@@ -70,8 +70,7 @@ class Main{
                 if(dist[nextNode].dist > distSum){
                     dist[nextNode].dist = distSum;
                     pq.add(new Node(nextNode, distSum));
-                    dist[nextNode].list = new ArrayList<Integer>();
-                    dist[nextNode].list.add(nowNode);
+                    dist[nextNode].adjacent_vertex = nowNode;
                     
                 }
             }
@@ -82,10 +81,10 @@ class Main{
 }
 class DIST{
     int dist;
-    ArrayList<Integer> list;
-    DIST(int dist, ArrayList<Integer> list){
+    int adjacent_vertex;
+    DIST(int dist, int adjacent_vertex){
         this.dist = dist;
-        this.list = list;
+        this.adjacent_vertex = adjacent_vertex;
     }
 }
 class Node{
