@@ -10,7 +10,7 @@ class Main{
 	static int dxy[][] = {{0,1},{0,-1},{1,0},{-1,0}};		// 다익스트라 함수 내에서 사용할 좌표 
 
     public static void main(String[] args)throws Exception{
-        BufferedReader br  = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N 				= read()+1; 						// 세로
         M 				= read()+1; 						// 가로
         T 				= read();   						// 최대 52이하, 높이차가 T보다 작아야 함
@@ -22,13 +22,13 @@ class Main{
         
         // 입력되는 높이 값을 int로 변환 후 arr배열에 담음
         for(int i=1; i<N; i++){
-            String str = br.readLine();
+            String str         = br.readLine();
             for(int j=1; j<M; j++){
-            	char c = str.charAt(j-1);
-            	arr[i][j] = c<='Z' ? c-65 : c-71;
+            	char c         = str.charAt(j-1);
+            	arr[i][j]      = c<='Z' ? c-65 : c-71;
+                forward[i][j]  = INF;
+                backward[i][j] = INF;
             }
-            Arrays.fill(forward[i] ,INF);                   // 배열 초기화
-            Arrays.fill(backward[i],INF);                   // 배열 초기화
         }
         
         Dijkstra(true, forward);                            // 1,1에서 모든 정점으로 가는 최단거리를 구해 놓습니다. 
@@ -45,22 +45,21 @@ class Main{
     }
     public static void Dijkstra(boolean type,int dist[][]) {
         PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.time-b.time); // 시간 기준 오름차순 정렬
-        int nowY, nowX, newY, newX, newTime, until_now_time;// 다익스트라 함수 내에서 사용할 변수들	
     	
     	dist[1][1] = 0;                                     // 1,1까지 걸리는 시간은 0
     	pq.add(new Node(1,1,0));                            // 초기 값 삽입
     	
     	
     	while(!pq.isEmpty()) {
-    		Node now 		= pq.poll();
-    		nowY 			= now.y;                       // 현재 y좌표
-    		nowX 			= now.x;                       // 현재 x좌표
-    		until_now_time 	= now.time;                    // 현재 y,x좌표까지 오는데 걸린 시간
+    		Node now 			= pq.poll();
+    		int nowY 			= now.y;                       // 현재 y좌표
+    		int nowX 			= now.x;                       // 현재 x좌표
+    		int until_now_time 	= now.time;                    // 현재 y,x좌표까지 오는데 걸린 시간
     		
     		for(int xy[] : dxy) {
-    			newY 	= nowY + xy[0];
-    			newX 	= nowX + xy[1];
-    			newTime = until_now_time;
+    			int newY 		= nowY + xy[0];
+    			int newX 		= nowX + xy[1];
+    			int newTime 	= until_now_time;
     			
     			if(newY<1 || newX<1 || newY>=N || newX>=M) continue; // 새로 만든 좌표가 범위를 벗어날 경우 연산 스킵
     			if(Math.abs(arr[nowY][nowX] - arr[newY][newX]) > T) continue;// 새로만든 좌표와 현재 좌표의 높이 차가 T보다 크면 연산 스킵
