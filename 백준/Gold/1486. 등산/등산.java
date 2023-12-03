@@ -8,7 +8,7 @@ class Main{
 	static final int INF = 100_000_000;
 	static int N, M, T, D, arr[][];
 	static int dxy[][] = {{0,1},{0,-1},{1,0},{-1,0}};		// 다익스트라 함수 내에서 사용할 좌표 
-
+    static PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.time-b.time); // 시간 기준 오름차순 정렬
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N 				= read()+1; 						// 세로
@@ -44,8 +44,7 @@ class Main{
         System.out.println(max);
     }
     public static void Dijkstra(boolean type,int dist[][]) {
-        PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.time-b.time); // 시간 기준 오름차순 정렬
-    	
+        pq.clear();
     	dist[1][1] = 0;                                     // 1,1까지 걸리는 시간은 0
     	pq.add(new Node(1,1,0));                            // 초기 값 삽입
     	
