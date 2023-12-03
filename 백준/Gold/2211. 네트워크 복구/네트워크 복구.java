@@ -18,7 +18,7 @@ class Main{
         dist = new DIST[N];
         for(int i=1; i<N; i++){
             list[i] = new ArrayList<Node>();
-            dist[i] = new DIST(INF,-1);
+            dist[i] = new DIST(INF,0);
         }
         
         for(int i=0; i<M; i++){
@@ -63,7 +63,7 @@ class Main{
                 if(dist[nextNode].dist > distSum){
                     dist[nextNode].dist = distSum;
                     pq.add(new Node(nextNode, distSum));
-                    dist[nextNode].adjacent_vertex = nowNode;
+                    dist[nextNode].adjacent_vertex = nowNode;// 빠른 최단거리를 갱신할 때마다 붙어있던 노드 갱신
                     
                 }
             }
