@@ -11,11 +11,9 @@ class Main{
     static ArrayList<Node>[] list;// 인접리스트
     static final int INF = 9_999;
     public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
         StringBuilder sb = new StringBuilder();
-        N = Integer.parseInt(st.nextToken())+1;
-        M = Integer.parseInt(st.nextToken());
+        N = read()+1;
+        M = read();
         list = new ArrayList[N];
         dist = new DIST[N];
         for(int i=1; i<N; i++){
@@ -24,10 +22,9 @@ class Main{
         }
         
         for(int i=0; i<M; i++){
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int d = Integer.parseInt(st.nextToken());
+            int a = read();
+            int b = read();
+            int d = read();
             list[a].add(new Node(b,d));
             list[b].add(new Node(a,d));
         }
@@ -39,11 +36,7 @@ class Main{
         	sb.append(N-2).append('\n');
         	for(int i=2; i<N; i++) {
         		int end = dist[i].adjacent_vertex;
-        		if(end==1) {
-        			sb.append(1).append(' ').append(i);
-        		}else {
-        			sb.append(i).append(' ').append(end);
-        		}
+        		sb.append(i).append(' ').append(end);
         		sb.append('\n');
         	}
         }
@@ -78,6 +71,12 @@ class Main{
         }
         
     }
+    static int read() throws Exception { // 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
+
 }
 class DIST{
     int dist;
