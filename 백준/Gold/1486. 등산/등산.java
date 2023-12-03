@@ -54,16 +54,19 @@ class Main{
     	dist[1][1] = 0; // 1,1까지 걸리는 시간은 0
     	pq.add(new Node(1,1,0));// 초기 값 삽입
     	
+    	int nowY, nowX, newY, newX, newTime, until_now_time;
+    	Node now;
+    	
     	while(!pq.isEmpty()) {
-    		Node now = pq.poll();
-    		int nowY = now.y;// 현재 y좌표
-    		int nowX = now.x;// 현재 x좌표
-    		int until_now_time = now.time;// 현재 y,x좌표까지 오는데 걸린 시간
+    		now = pq.poll();
+    		nowY = now.y;// 현재 y좌표
+    		nowX = now.x;// 현재 x좌표
+    		until_now_time = now.time;// 현재 y,x좌표까지 오는데 걸린 시간
     		
     		for(int xy[] : dxy) {
-    			int newY = nowY + xy[0];
-    			int newX = nowX + xy[1];
-    			int newTime = until_now_time;
+    			newY = nowY + xy[0];
+    			newX = nowX + xy[1];
+    			newTime = until_now_time;
     			
     			if(newY<1 || newX<1 || newY>=N || newX>=M) continue; // 새로 만든 좌표가 범위를 벗어날 경우 연산 스킵
     			if(Math.abs(arr[nowY][nowX] - arr[newY][newX]) > T) continue;// 새로만든 좌표와 현재 좌표의 높이 차가 T보다 크면 연산 스킵
