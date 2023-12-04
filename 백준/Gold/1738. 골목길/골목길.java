@@ -23,6 +23,7 @@ class Solution{
 	ArrayList<Node>[] node;
 	
 	ArrayList<Integer> result = new ArrayList<>();
+	
 	void solution()throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -70,9 +71,9 @@ class Solution{
 		
 		Arrays.fill(dist, MIN_INF); // 최장거리를 구하기 위해 셋팅
 		dist[1] = 0;
-		
+		boolean isUpdate;
 		for(int i=0; i<N-1; i++) {// n-1번까지 반복하여 양의 사이클이 없다면 최단거리를 만들어 놓음 
-			
+			isUpdate = false;
 			for(int j=1; j<N+1; j++) {
 				for(Node now : node[j]) {
 					int start = j; // 시작점
@@ -84,12 +85,15 @@ class Solution{
 					int distSum = dist[start] + distance;
 					
 					if(dist[end] < distSum) { // 최장거리를 구하기 위한 셋팅
+						isUpdate = true;
 						dist[end] = distSum;
 						beforeAndAfter[start][1] = end; // start노드의 후 노드에 end를 저장
 						beforeAndAfter[end][0] = start; // end노드의 전 노드에 start를 저장
 					}
 				}
 			}
+			if(!isUpdate) // 업데이트 된 것이 없다면 다음 반복도 업데이트되는것이 없으므로 스킵
+				break;
 		}
 		
 		if(dist[N] == MIN_INF) // N에 도달할 수 없을 경우 이하 연산 스킵 
@@ -137,6 +141,14 @@ class Solution{
 			}
 		}
 		return goToEnd;
+	}
+	int read() throws Exception{ 			// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		boolean negative = n == 13;
+		if(negative) n = System.in.read() & 15;
+		while((c = System.in.read()) > 32) n = (n<<3) + (n<<1) + (c & 15);
+		if(c == 13) System.in.read();
+		return negative?~n+1:n;
 	}
 }
 
