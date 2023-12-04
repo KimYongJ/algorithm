@@ -29,7 +29,8 @@ class Main{
 	}
 
 	
-	public static boolean BFS(int start, int end, boolean[] visit) {
+	public static boolean BFS(int start, int end) {
+        boolean visit[]    = new boolean[N];
 		boolean isPossible = false;
 		ArrayDeque<Integer> q = new ArrayDeque<>();
 		q.add(start);
@@ -107,8 +108,8 @@ class Main{
 //						newEndMoney = MAX_INF;
 					
 					if(MONEY[end] < newEndMoney) { 					// 사이클이 있으면 시작노드->end노드->도착 노드까지 연결되어있는지 확인
-						boolean is_START_to_NODE= BFS(START_CITY, end, new boolean[N]);
-						boolean is_NODE_TO_END 	= BFS(end, END_CITY, new boolean[N]);
+						boolean is_START_to_NODE= BFS(START_CITY, end);
+						boolean is_NODE_TO_END 	= BFS(end, END_CITY);
 						if( is_START_to_NODE && is_NODE_TO_END ) { 	// 시작 노드-> end -> 도착 노드 사이클이 있는 경우 Gee 셋팅 후 종료 
 							str = "Gee";	
 							break LOOP;
