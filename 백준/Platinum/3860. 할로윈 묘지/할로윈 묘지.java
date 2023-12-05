@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 class Main{
-	static final int INF = Integer.MAX_VALUE;
+	static final int INF = 30_000_000;
 	static int W, H, G, E;
 	static int a,b,c,d,e;
 	static int rip[][];
