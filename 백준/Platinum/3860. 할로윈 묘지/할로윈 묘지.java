@@ -1,12 +1,9 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{
-	static final int INF = 8_980_000;
+	static final int INF = 8_972_000; // 8,971,000은 틀림..
 	static int W, H, G, E;
 	static int a,b,c,d,e;
 	static int rip[][];
@@ -15,7 +12,16 @@ class Main{
 	static ArrayList<Edge> edge; // 벨만 포드알고리즘을 사용할 수 있도록 2차원 좌표 끼리 연결을 node-node 형태로 바꾼다.
 	static StringBuilder sb = new StringBuilder();
 	
-	
+    // 빠른 입력을 위해 만든 함수
+    public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
+
 	public static void bellman_ford() {
 		boolean cycle = false;
 		
@@ -46,7 +52,6 @@ class Main{
 		}
 		
 		
-		
 		if(cycle) {
 			sb.append("Never");
 		}else if(time[W-1][H-1]==INF) {
@@ -59,13 +64,10 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 		
 		while(true) {
-			st = new StringTokenizer(br.readLine());
-			W = Integer.parseInt(st.nextToken());
-			H = Integer.parseInt(st.nextToken());
+			W = read();
+			H = read();
 			
 			if(W==0) break; // 종료 조건 
 			
@@ -73,22 +75,20 @@ class Main{
 			edge = new ArrayList<>(); // 간선 정보를 담을 리스트
 			time = new int[W][H]; // 최종 시간을 담을 배열 
 			
-			G = Integer.parseInt(br.readLine());
+			G = read();
 			for(int i=0; i<G; i++) {
-				st = new StringTokenizer(br.readLine());
-				a = Integer.parseInt(st.nextToken());
-				b = Integer.parseInt(st.nextToken());
+				a = read();
+				b = read();
 				rip[a][b] = 1; // 묘비는 1로 저장
 			}
 			
-			E = Integer.parseInt(br.readLine()); // 구멍의 갯수
+			E = read(); // 구멍의 갯수
 			for(int i=0; i<E; i++) {
-				st = new StringTokenizer(br.readLine());
-				a = Integer.parseInt(st.nextToken());
-				b = Integer.parseInt(st.nextToken());
-				c = Integer.parseInt(st.nextToken());
-				d = Integer.parseInt(st.nextToken());
-				e = Integer.parseInt(st.nextToken());
+				a = read();
+				b = read();
+				c = read();
+				d = read();
+				e = read();
 				edge.add(new Edge(new Node(a,b), new Node(c,d),e)); // 구멍 시작 좌표에서 출구 좌표를 바로 저장한다. 벨만포드 알고리즘은 간선의 순서가 상관 없기 때문. 단, +1을 해주진 않는다.
 				rip[a][b] = 2; // 시작 좌표는 2로 저장
 			}
