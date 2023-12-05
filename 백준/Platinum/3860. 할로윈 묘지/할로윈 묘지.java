@@ -22,7 +22,9 @@ class Main{
 		time[0][0] = 0;
 		
 		int V = W*H-G;
-		for(int i=0; i<V-1; i++) {
+		
+		Loop : 
+		for(int i=0; i<V; i++) {
 
 			for(Edge now : edge) {
 				Node start 	=  now.start;
@@ -34,24 +36,16 @@ class Main{
 				
 				if(time[end.w][end.h]> newTime) {
 					time[end.w][end.h] = newTime;
+					if(i==V-1) {
+						cycle = true;
+						break Loop;
+					}
 				}
 				
 			}
 		}
 		
-		for(Edge now : edge) {
-			Node start 	=  now.start;
-			Node end 	=  now.end;
-			
-			if(time[start.w][start.h] == INF) continue; // 벨만 포드 알고리즘 특징으로 특정 노드에 대해 최단 거리를 구하기 위해 처음 초기화된 값이 아닌 경우 연산하지 않음, 맨 처음 time배열에 inf가 아닌 값은 0,0뿐임 
-			
-			int newTime = time[start.w][start.h] + now.time;
-			
-			if(time[end.w][end.h]> newTime) {
-				cycle = true;
-			}
-			
-		}
+		
 		
 		if(cycle) {
 			sb.append("Never");
