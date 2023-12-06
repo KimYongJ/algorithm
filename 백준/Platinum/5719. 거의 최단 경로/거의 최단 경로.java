@@ -1,24 +1,28 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 
 class Main{
-	static final int INF = 51_500; // 노드 500 * 거리 최댓값 103
+	static final int INF = 51_500; 				// 노드 500 * 거리 최댓값 103
 	static int N, M, START, END;
 	static int a, b, c;
 	static int dist[];
-	static boolean exceptNode[][]; // 첫번째 최단거리 까지 사용된 간선들 사용못하도록 체크하는 배열
+	static boolean exceptNode[][]; 				// 첫번째 최단거리 까지 사용된 간선들 사용못하도록 체크하는 배열
 	
 	
-	static ArrayList<Node>[] list; // 인접 노드와 거리를 담을 리스트
-	static ArrayList<Integer>[] useNodeList; // 다익스타라 알고리즘을 실행하며 사용한 노드들의 연결을 담을 리스트
+	static ArrayList<Node>[] list; 				// 인접 노드와 거리를 담을 리스트
+	static ArrayList<Integer>[] useNodeList; 	// 다익스타라 알고리즘을 실행하며 사용한 노드들의 연결을 담을 리스트
 	static StringBuilder sb = new StringBuilder();
 	
+	// 빠른 입력위해 만든 함수 
+    private static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
+
 	// 최단거리에서 사용된 노드연결들 삭제 처리(exceptNode배열에 true처리)
 	public static void deleteNode(int node) { 
 		if(node == START) return;
@@ -37,8 +41,8 @@ class Main{
 
 		Arrays.fill(dist, INF);
 		
-		dist[START] = 0; 			// 시작노드까지 최종 거리를 0으로 셋팅
-		pq.add(new Node(START,0)); 	// START 노드까지 가는 거리 0 초기 셋팅
+		dist[START] = 0; 						// 시작노드까지 최종 거리를 0으로 셋팅
+		pq.add(new Node(START,0)); 				// START 노드까지 가는 거리 0 초기 셋팅
 		Loop:
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();
@@ -46,8 +50,8 @@ class Main{
 			
 			for(int i=0; i<list[nowNode].size(); i++) {
 				Node next = list[nowNode].get(i);
-				int nextNode = next.adNode; // 인접 노드 번호
-				int nextDist = next.dist; // nowNode에서 nextNode까지 가는 거리
+				int nextNode = next.adNode; 	// 인접 노드 번호
+				int nextDist = next.dist; 		// nowNode에서 nextNode까지 가는 거리
 				int distSum = dist[nowNode] + nextDist; // 시작노드에서 nowNode까지 가는거리와 nowNode에서 nextNode까지 가는 거리를 구해서 시작노드에서 nowNode를 거쳐 nextNode까지 거리를 계산함
 				
 				if(exceptNode[nowNode][nextNode]) continue; // 이미 기존 최단경로에서 사용한 간선일 경우 연산 제외
@@ -57,13 +61,13 @@ class Main{
 				// 특징2. 최단거리가 작아야만 갱신되고, 같을 때는 갱신되지 않는다 : 같을 때도 최단거리에 사용된 노드로 보고 포함되어야 한다.
 				// 결론 : 최단거리가 갱신될 때 nextNode는 이전 노드의 값이 달라졌다는 의미이므로 초기화 하여 nowNode를 담는다.
 				//      만약 최단거리가 같다면 그 때 사용한 nextNode의 바로 전 노드인 nowNode를 넣는다.
-				if(dist[nextNode] > distSum) { // 최단거리 갱신시 
+				if(dist[nextNode] > distSum) { 	// 최단거리 갱신시 
 					dist[nextNode] = distSum;
-					useNodeList[nextNode].clear(); 	// 최단거리 갱신시 nowNode가 지금까지 알고있던 연결노드를 삭제 
-					useNodeList[nextNode].add(nowNode);
+					useNodeList[nextNode].clear(); 		// 최단거리 갱신시 nextNode의 이전 노드가 바뀐것이기 때문에 초기화 
+					useNodeList[nextNode].add(nowNode); // nextNode의 이전 노드인 nowNode 삽입
 					
 					pq.add(new Node(nextNode, distSum));
-				}else if(dist[nextNode] == distSum) { // 최단거리가 연산된 것과 같을시
+				}else if(dist[nextNode] == distSum) { 	// 최단거리가 연산된 것과 같을시
 					useNodeList[nextNode].add(nowNode);
 				}
 			}
@@ -71,10 +75,8 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N 						= Integer.parseInt(st.nextToken());// 노드 갯수와
-		M 						= Integer.parseInt(st.nextToken());// 도로숫자 
+		N 						= read();// 노드 갯수와
+		M 						= read();// 도로숫자 
 		
 		while(N!=0) {
 			list 				= new ArrayList[N]; 	// 인접 노드를 담을 리스트
@@ -86,15 +88,13 @@ class Main{
 				useNodeList[i] 	= new ArrayList<>();	// 리스트 초기화
 			}
 			
-			st 					= new StringTokenizer(br.readLine());
-			START 				= Integer.parseInt(st.nextToken());
-			END 				= Integer.parseInt(st.nextToken());
+			START 				= read();
+			END 				= read();
 			
 			for(int i=0; i<M; i++) {
-				st 				= new StringTokenizer(br.readLine());
-				a 				= Integer.parseInt(st.nextToken());
-				b 				= Integer.parseInt(st.nextToken());
-				c 				= Integer.parseInt(st.nextToken());
+				a 				= read();
+				b 				= read();
+				c 				= read();
 				list[a].add(new Node(b,c)); 	// 단방향 셋팅 
 			}
 			Dijkstra(); 						// 첫번 째 최단거리
@@ -107,9 +107,9 @@ class Main{
 			
 			sb.append(result).append('\n'); 	// 결과 셋팅
 
-			st 					= new StringTokenizer(br.readLine()); //노드 갯수와 도로 숫자를 받는다.
-			N 					= Integer.parseInt(st.nextToken());
-			M 					= Integer.parseInt(st.nextToken());
+			//노드 갯수와 도로 숫자를 받는다.
+			N 					= read();
+			M 					= read();
 		}
 		System.out.println(sb);
 	}
@@ -121,13 +121,3 @@ class Node{
 		this.dist 	= dist;
 	}
 }
-
-// 빠른 입력을 위해 만든 함수
-//public int read() throws Exception {
-//	int c, n = System.in.read() & 15;
-//	boolean isNegative = n == 13;
-//	if (isNegative) n = System.in.read() & 15;
-//	while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
-//	if (c == 13) System.in.read();
-//	return isNegative ? ~n + 1 : n;
-//}
