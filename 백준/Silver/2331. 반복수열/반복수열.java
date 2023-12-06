@@ -5,26 +5,25 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 class Main{
     
-    static ArrayList<Long> list = new ArrayList<>();
-    
     public static void main(String[] args)throws Exception{
+    	ArrayList<Integer> list = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        long n = Long.parseLong(st.nextToken());
-        long r = Long.parseLong(st.nextToken());
-        DFS(n,r);
+        int n = Integer.parseInt(st.nextToken());
+        int r = Integer.parseInt(st.nextToken());
+        DFS(n, r, list);
     }
-    public static void DFS(long n, long r){
+    public static void DFS(int n, int r, ArrayList<Integer> list){
         if(list.contains(n)){
             System.out.print(list.indexOf(n));
             return;
         }
         list.add(n);
-        long result = 0;
+        int result = 0;
         while(n != 0){
-            result += (long)Math.pow(n%10,r);
+            result += (int)Math.pow(n%10,r);
             n/=10;
         }
-        DFS(result,r);
+        DFS(result, r, list);
     }
 }
