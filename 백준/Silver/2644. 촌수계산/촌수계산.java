@@ -1,29 +1,22 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 class Main{
     public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
         int result = -1;
-        int N = Integer.parseInt(br.readLine());
+        int N = read();
         
         ArrayList<Integer>[] adList = new ArrayList[N+1]; // 인접리스트 생성
         for(int i=1; i<=N; i++) // 인접 리스트 초기화
             adList[i] = new ArrayList<>();
         
-        st = new StringTokenizer(br.readLine());
-        int A = Integer.parseInt(st.nextToken());
-        int B = Integer.parseInt(st.nextToken());
-        int P = Integer.parseInt(br.readLine());
+        int A = read();
+        int B = read();
+        int P = read();
         
         for(int i=0; i<P; i++){
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
+            int a = read();
+            int b = read();
             adList[a].add(b);
             adList[b].add(a);
         }
@@ -52,6 +45,15 @@ class Main{
         }
         System.out.println(result);
     }
+    // 빠른 입력을 위해 만든 함수
+    public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
     
 }
 class Node{
