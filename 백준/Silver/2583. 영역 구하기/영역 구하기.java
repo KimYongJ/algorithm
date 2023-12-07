@@ -1,6 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.PriorityQueue;
 
 class Main{
 	
@@ -9,39 +8,34 @@ class Main{
 	static boolean visit[][];
 	static int cnt, area;
 	public static void main(String[] args)throws Exception{
-		StringBuilder sb = new StringBuilder();
-		Y = read();
-		X = read();
-		K = read();
-		visit = new boolean[X][Y];
+		PriorityQueue<Integer> q 	= new PriorityQueue<>(); // 오름차순 정렬
+		StringBuilder sb 			= new StringBuilder();
+		Y 							= read();
+		X 							= read();
+		K 							= read();
+		visit 						= new boolean[X][Y];
 		for(int i=0; i<K; i++) {
-
 			int x1 = read();
 			int y1 = Y-read();
 			int x2 = read();
 			int y2 = Y-read();
-			
 			for(int x=x1; x< x2; x++)
 				for(int y=y2; y<y1; y++)
 					visit[x][y] = true;
 		}
-		ArrayList<Integer> list = new ArrayList<>();
-		int cnt = 0;
+		
 		for(int x=0; x<X; x++)
 			for(int y=0; y<Y; y++)
 				if(!visit[x][y]) {		// 방문하지 않은 곳이라면
 					area = 0;			// 넓이 초기화
 					cnt += 1;			// 방문하지 않은 영역 +1
 					DFS(x, y);			// DFS실행
-					list.add( area );	// 넓이를 리스트에 담는다.
+					q.add( area );	// 넓이를 리스트에 담는다.
 				}
 
-		
-		Collections.sort(list);
-		
 		sb.append(cnt).append('\n');
-		for(int i=0; i<list.size(); i++) 
-			sb.append(list.get(i)).append(' ');
+		while(!q.isEmpty()) 
+			sb.append(q.poll()).append(' ');
 		
 		System.out.println(sb);
 	}
@@ -56,7 +50,6 @@ class Main{
 				DFS(newX, newY); 		// 좌표가 유효하다면 DFS진행 
 		}
 	}
-	
 	// 빠른 입력을 위한 함수
     static int read() throws Exception {
         int c, n = System.in.read() & 15;
