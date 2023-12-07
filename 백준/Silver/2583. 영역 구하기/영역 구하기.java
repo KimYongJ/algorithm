@@ -15,12 +15,12 @@ class Main{
 		K 							= read();
 		visit 						= new boolean[X][Y];
 		for(int i=0; i<K; i++) {
-			int x1 = read();
-			int y1 = Y-read();
-			int x2 = read();
-			int y2 = Y-read();
+			int x1 					= read();
+			int y1 					= read();
+			int x2 					= read();
+			int y2 					= read();
 			for(int x=x1; x< x2; x++)
-				for(int y=y2; y<y1; y++)
+				for(int y=y1; y<y2; y++)
 					visit[x][y] = true;
 		}
 		
