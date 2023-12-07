@@ -1,31 +1,23 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
-	static int T, N, cnt, num, base_arr[];
+	static int T, N, cnt, base_arr[];
 	static boolean visit[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+
 		StringBuilder sb = new StringBuilder();
-		T 			= Integer.parseInt(br.readLine());
+		T 			= read();
 		while(T-->0) {
-			N	 	= Integer.parseInt(br.readLine());
+			N	 	= read();
 			cnt 	= 0;
 			base_arr= new int[N+1];
-
 			visit 	= new boolean[N+1];
 
-			st = new StringTokenizer(br.readLine());
-			for(int i=1; i<=N; i++) {
-				num = Integer.parseInt(st.nextToken());
-				base_arr[i] = num; 			// 인덱스에 값 바인딩
-			}
-			
+			for(int i=1; i<=N; i++)
+				base_arr[i] = read(); 		// 인덱스에 값 바인딩
+
 			for(int i=1; i<=N; i++)
 				if(!visit[i]) {
 					DFS(i); 				// 인덱스 전달
