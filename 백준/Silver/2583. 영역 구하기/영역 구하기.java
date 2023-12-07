@@ -28,11 +28,11 @@ class Main{
 		int cnt = 0;
 		for(int x=0; x<X; x++)
 			for(int y=0; y<Y; y++)
-				if(!visit[x][y]) {
-					area = 0;
-					cnt +=1;
-					DFS(x, y);
-					list.add( area );
+				if(!visit[x][y]) {		// 방문하지 않은 곳이라면
+					area = 0;			// 넓이 초기화
+					cnt +=1;			// 방문하지 않은 영역 +1
+					DFS(x, y);			// DFS실행
+					list.add( area );	// 넓이를 리스트에 담는다.
 				}
 
 		
@@ -46,13 +46,13 @@ class Main{
 	}
 	// DFS 함수 실행
 	public static void DFS(int x, int y) {
-		visit[x][y] = true; // 전달된 노드 방문처리
-		area += 1;
-		for(int xy[] : dxy) {
+		visit[x][y] = true;				// 전달된 노드 방문처리
+		area += 1;						// 넓이 +1 처리
+		for(int xy[] : dxy) { 			// 새로운 좌표 생성
 			int newX = x+xy[0];
 			int newY = y+xy[1];
-			if( newX>=0 && newY>=0 && newX<X && newY<Y && !visit[newX][newY])
-				DFS(newX, newY);
+			if( newX>=0 && newY>=0 && newX<X && newY<Y && !visit[newX][newY])// 좌표 유효성 검사
+				DFS(newX, newY); 		// 좌표가 유효하다면 DFS진행 
 		}
 	}
 	
