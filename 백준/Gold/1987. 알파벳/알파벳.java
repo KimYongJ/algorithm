@@ -30,7 +30,7 @@ class Main{
         for(int xy[] : dxy){
             int newI = i + xy[0]; // 새로운 좌표 I 생성
             int newJ = j + xy[1]; // 새로운 좌표 J 생성
-            if(newI>=0 && newJ >=0 && newI <R && newJ <C && (visit_bit | (1<<arr[newI][newJ])) != visit_bit) { // 좌표 유효성 검사
+            if(newI>=0 && newJ >=0 && newI <R && newJ <C && (visit_bit & (1<<arr[newI][newJ]))==0) { // 좌표 유효성 검사
                 DFS(newI, newJ, (visit_bit | (1<<arr[newI][newJ])), cnt+1);// 새로 만든 좌표 전달
             }
         }
