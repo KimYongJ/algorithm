@@ -38,7 +38,9 @@ class Main{
         System.out.println(result);
     }
     public static void DFS(int i, int j, int visit_bit, int cnt){
-    	if(visit[i][j] == visit_bit) return; 			// 해당 좌표에 visit_bit 값이 똑같이 들어간적이 있다면 스킵
+    	if(visit[i][j] == visit_bit || result == 26)	// 해당 좌표에 visit_bit 값이 똑같이 들어간적이 있다면 스킵, 26이여도 스킵 
+    		return; 		
+    	
     	visit[i][j] = visit_bit;						// 해당 좌표에 visit_bit를 바인딩( 해당좌표에 같은 문자열 방문이 있다면 스킵됨.
         for(int xy[] : dxy){
             int newI = i + xy[0]; 						// 새로운 좌표 I 생성
