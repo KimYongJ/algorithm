@@ -71,6 +71,7 @@ class Solution{
 					arr[pointer2][j] = '.';
 					pointer1--;
 					usePointer = false;
+					MAXI = Math.min(MAXI, pointer2);
 				}
 			}
 		}
