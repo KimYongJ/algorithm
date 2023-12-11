@@ -2,7 +2,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 class Main{
@@ -12,7 +11,6 @@ class Main{
     static int arr[][];
     static int dy[] = {0,0,1,-1};
     static int dx[] = {-1,1,0,0};
-    static int visit[][][];
     public static void main(String[] args)throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -32,12 +30,6 @@ class Main{
         		if(arr[y][x]==1)
         			DFS(y,x,++cityNum);
         
-        visit = new int[cityNum+1][N][N];
-        for(int k=0; k<cityNum+1; k++)  // visit 초기화
-        	for(int y=0; y<N; y++) 
-        		Arrays.fill(visit[k][y], INF);
-        	
-       
         
         for(int y=0; y<N; y++) // 가장 짧은 도시 BFS 탐색
         	for(int x=0; x<N; x++)
@@ -48,14 +40,15 @@ class Main{
     }
     public static void BFS(int startY, int startX, int baseNumber){
         ArrayDeque<Node> q = new ArrayDeque<>();
+        boolean visit[][] = new boolean[N][N];
         q.add(new Node(startY, startX, -1));
         
         while(!q.isEmpty()){
             Node now = q.poll();
             if(result < now.dist) 
             	continue; 
-            if(visit[baseNumber][now.y][now.x] > now.dist) {
-            	visit[baseNumber][now.y][now.x] = now.dist;
+            if(!visit[now.y][now.x]) {
+            	visit[now.y][now.x] = true;
 	            for(int i=0; i<4; i++){
 	                int y = now.y + dy[i];
 	                int x = now.x + dx[i];
@@ -66,7 +59,8 @@ class Main{
 		                        result = dist;
 		                    return;
 		                }
-		                q.add(new Node(y,x, dist));
+		                if(!visit[y][x] && arr[y][x]==0)
+		                	q.add(new Node(y,x, dist));
 	                }
 	            }
             }
