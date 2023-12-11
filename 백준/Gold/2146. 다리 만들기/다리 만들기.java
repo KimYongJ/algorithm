@@ -61,7 +61,6 @@ class Main{
 	                int x = now.x + dx[i];
 	                int dist = now.dist+1;
 	                if(position_validate(y,x)) {
-		                if(result < dist) continue; // 구해진 결과보다 현재 거리가 길다면 연산 스킵
 		                if(arr[y][x] != 0 && arr[y][x] != baseNumber){ // 결과를 찾으면 종료
 		                    if(result > dist)
 		                        result = dist;
