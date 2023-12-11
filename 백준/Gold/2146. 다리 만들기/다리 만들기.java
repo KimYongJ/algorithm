@@ -5,44 +5,42 @@ class Main{
     static final int INF = Integer.MAX_VALUE;
     static int N, cityNum = 1;
     static int result = Integer.MAX_VALUE;
-    static int arr[][];
+    static int arr[][], dist[][];
     static int dy[] = {0,0,1,-1};
     static int dx[] = {-1,1,0,0};
     public static void main(String[] args)throws Exception{
 
         N = read();
         arr = new int[N][N];
-        
+        dist = new int[N][N];
         for(int i=0; i<N; i++)
-            for(int j=0; j<N; j++)
+            for(int j=0; j<N; j++) {
                 arr[i][j] = read();
+                dist[i][j] = INF; // 최단거리 담을 배열  INF로 초기화
+            }
         
         
         
-        for(int y=0; y<N; y++) // 도시 마킹하기 ( 대륙별로 2,3,4 등.. 마킹 )
-        	for(int x=0; x<N; x++)
+        for(int y=0; y<N; y++) 
+        	for(int x=0; x<N; x++) {
         		if(arr[y][x]==1)
-        			DFS(y,x,++cityNum);
-        
-        
-        for(int y=0; y<N; y++) // 가장 짧은 도시 BFS 탐색
-        	for(int x=0; x<N; x++)
-                if(arr[y][x] != 0)
+        			DFS(y,x,++cityNum);  // 도시 마킹하기 ( 대륙별로 2,3,4 등.. 마킹 )
+        		if(arr[y][x] != 0)
                     BFS(y,x, arr[y][x]); // BFS함수 안에서 가장 짧은 다른 대륙까지의 연결을 찾는다.
+        	}
         
         System.out.println(result);
     }
     public static void BFS(int startY, int startX, int baseNumber){
         ArrayDeque<Node> q = new ArrayDeque<>();
-        boolean visit[][] = new boolean[N][N];
         q.add(new Node(startY, startX, -1));
         
         while(!q.isEmpty()){
             Node now = q.poll();
             if(result < now.dist) 
             	continue; 
-            if(!visit[now.y][now.x]) {
-            	visit[now.y][now.x] = true;
+            if(dist[now.y][now.x] > now.dist) {
+            	dist[now.y][now.x] = now.dist;
 	            for(int i=0; i<4; i++){
 	                int y = now.y + dy[i];
 	                int x = now.x + dx[i];
@@ -53,7 +51,7 @@ class Main{
 		                        result = dist;
 		                    return;
 		                }
-		                if(!visit[y][x] && arr[y][x]==0)
+		                if(arr[y][x]==0)
 		                	q.add(new Node(y,x, dist));
 	                }
 	            }
