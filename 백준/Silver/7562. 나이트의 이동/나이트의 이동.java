@@ -1,8 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 
 class Main{
 	public static void main(String[] args)throws Exception{
@@ -16,20 +13,16 @@ class Solution{
 	boolean visit[][];
 	ArrayDeque<Node> q; 	// BFS 진행할 큐 선언
 	void solution() throws Exception{
-		BufferedReader br	= new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb 	= new StringBuilder();
-		StringTokenizer st;
-		T 					= Integer.parseInt(br.readLine());
+		T 					= read();
 		while(T-->0) {
-			N 				= Integer.parseInt(br.readLine());
+			N 				= read();
 			arr 			= new int[N][N];
 			visit			= new boolean[N][N];
-			st 				= new StringTokenizer(br.readLine());
-			startY 			= Integer.parseInt(st.nextToken()); 	// 시작점 입력
-			startX 			= Integer.parseInt(st.nextToken()); 	// 시작점 입력
-			st 				= new StringTokenizer(br.readLine());
-			endY 			= Integer.parseInt(st.nextToken());	// 도착점 입력
-			endX 			= Integer.parseInt(st.nextToken());	// 도착점 입력
+			startY 			= read(); 	// 시작점 입력
+			startX 			= read(); 	// 시작점 입력
+			endY 			= read();	// 도착점 입력
+			endX 			= read();	// 도착점 입력
 			
 			sb.append( BFS() ).append('\n');
 		}
