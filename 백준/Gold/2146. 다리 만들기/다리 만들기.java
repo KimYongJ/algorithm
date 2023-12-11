@@ -1,8 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 
 class Main{
     static final int INF = Integer.MAX_VALUE;
@@ -12,20 +9,17 @@ class Main{
     static int dy[] = {0,0,1,-1};
     static int dx[] = {-1,1,0,0};
     public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        N = Integer.parseInt(br.readLine());
+
+        N = read();
         arr = new int[N][N];
         
         for(int i=0; i<N; i++)
-        {
-            st = new StringTokenizer(br.readLine());
             for(int j=0; j<N; j++)
-                arr[i][j] = Integer.parseInt(st.nextToken());
-        }
+                arr[i][j] = read();
         
         
-        for(int y=0; y<N; y++) // 도시 마킹하기 ( 대륙별로 1,2,3 등.. 마킹 )
+        
+        for(int y=0; y<N; y++) // 도시 마킹하기 ( 대륙별로 2,3,4 등.. 마킹 )
         	for(int x=0; x<N; x++)
         		if(arr[y][x]==1)
         			DFS(y,x,++cityNum);
@@ -81,6 +75,12 @@ class Main{
     }
     public static boolean position_validate(int newY, int newX){
         return newY>=0 && newX>=0 && newY<N && newX<N;
+    }
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        if (c == 13) System.in.read();
+        return n;
     }
 }
 class Node{
