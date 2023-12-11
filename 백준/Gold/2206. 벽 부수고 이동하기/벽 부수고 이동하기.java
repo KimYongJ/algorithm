@@ -11,33 +11,29 @@ class Main{
     static int dx[] = {0,0,1,-1};
     static int dy[] = {-1,1,0,0};
     static char arr[][];
-    static boolean visit[][], visit_break[][];
+    static boolean visit[][][];
     
     public static void main(String[] args)throws Exception{
-        BufferedReader br   = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st	= new StringTokenizer(br.readLine());
+    	BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
+    	StringTokenizer st 	= new StringTokenizer(br.readLine());
         Y                   = Integer.parseInt(st.nextToken());
         X                   = Integer.parseInt(st.nextToken());
         arr                 = new char[Y][X];
-        visit               = new boolean[Y][X];
-        visit_break			= new boolean[Y][X];
-        for(int y=0; y<Y; y++)
-            arr[y] = br.readLine().toCharArray();
+        visit               = new boolean[2][Y][X];
+        
+        for(int y=0; y<Y; y++) 
+        	arr[y] 			= br.readLine().toCharArray();
         
         ArrayDeque<Node> q = new ArrayDeque<>();
-        q.add(new Node(0,0,1,false));
+        q.add(new Node(0,0,1,0));
         
         Loop:
         while(!q.isEmpty()){
             Node now = q.poll();
             
-            if(now.usebreak) { 							// 벽 부수는 것을 사용한 노드들
-            	if(visit_break[now.y][now.x])continue;
-            	visit_break[now.y][now.x] = true;
-            }else {										// 벽부수는 것을 사용하지 않은 노드들
-            	if(visit[now.y][now.x])continue; 
-            	visit[now.y][now.x] = true;
-            }
+            if(visit[now.usebreak][now.y][now.x])continue; 
+            visit[now.usebreak][now.y][now.x] = true;
+
             
             if(now.y == Y-1 && now.x == X-1){			// 종료 지점 도달시 종료
                 result = now.dist;
@@ -48,9 +44,9 @@ class Main{
                 int x = now.x + dx[i];
                 int dist = now.dist + 1;
                 if(position_validate(y,x)){				// 새로 만든 좌표의 유효성 검증
-                    if(arr[y][x] == '1' && !now.usebreak && !visit_break[y][x]){ // 새로 만든 좌표가 벽이고 해당 노드가 벽을 깨부순적이 없고, 벽을 부순 노드가 지나간 적이 없으면
-                        q.add(new Node(y,x,dist,true));
-                    }else if(arr[y][x] == '0' && !visit[y][x]){
+                    if(arr[y][x]=='1' && now.usebreak==0){ // 새로 만든 좌표가 벽이고 해당 노드가 벽을 깨부순적이 없고, 벽을 부순 노드가 지나간 적이 없으면
+                        q.add(new Node(y,x,dist,1));
+                    }else if(arr[y][x]=='0'){			// 새로 만든 좌표가 갈 수 있으면 그대로 진행
                         q.add(new Node(y,x,dist,now.usebreak));
                     }
                 }
@@ -63,9 +59,8 @@ class Main{
     }
 }
 class Node{
-    int y, x, dist;
-    boolean usebreak;
-    Node(int y, int x, int dist, boolean usebreak){
+    int y, x, dist, usebreak; // 벽을 부심 1, 부신적 없으면 0
+    Node(int y, int x, int dist, int usebreak){
         this.y = y;
         this.x = x;
         this.dist = dist;
