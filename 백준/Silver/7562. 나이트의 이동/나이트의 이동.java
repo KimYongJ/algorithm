@@ -30,30 +30,30 @@ class Solution{
 	}
 	int BFS() {
 		int cnt = 0;
-			if( !(startY == endY && startX == endX) ) {
-			q = new ArrayDeque<Node>();
-			q.add(new Node(startY,startX,0));
-			
-			Loop:
-			while(!q.isEmpty()) {
-				Node now = q.poll();
-				if(!visit[now.y][now.x]) {
-					visit[now.y][now.x] = true;
-					for(int xy[] : dxy) {
-						int newY = now.y + xy[0];
-						int newX = now.x + xy[1];
-						int newDist = now.dist + 1;
-						if(newY == endY && newX == endX) {
-							cnt = newDist;
-							break Loop;
-						}
-						if(newY>=0 && newX>=0 && newY<N && newX<N) {
-							q.add(new Node(newY, newX, newDist));
-						}
+
+		q = new ArrayDeque<Node>();
+		q.add(new Node(startY,startX,0));
+
+		while(!q.isEmpty()) {
+			Node now = q.poll();
+			if(now.y == endY && now.x == endX) {
+				cnt = now.dist;
+				break;
+			}
+			if(!visit[now.y][now.x]) {
+				visit[now.y][now.x] = true;
+				for(int xy[] : dxy) {
+					int newY = now.y + xy[0];
+					int newX = now.x + xy[1];
+					int newDist = now.dist + 1;
+
+					if(newY>=0 && newX>=0 && newY<N && newX<N && !visit[newY][newX]) {
+						q.add(new Node(newY, newX, newDist));
 					}
 				}
 			}
 		}
+		
 		return cnt;
 	}
 	
