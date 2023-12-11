@@ -8,7 +8,7 @@ class Main{
 }
 class Solution{
  
-	int T, N, startY, startX, endY, endX;
+	int N, startY, startX, endY, endX;
 	int dxy[][] = {{-1,-2},{-1,2},{-2,-1},{-2,1},{1,-2},{1,2},{2,-1},{2,1}};// 나이트 이동좌표
 	StringBuilder sb = new StringBuilder();
 	
@@ -46,7 +46,7 @@ class Solution{
 		}
 	}
 	void solution() throws Exception{
-		T 					= read();
+		int T 				= read();
 		while(T-->0) {
 			N 				= read();
 			startY 			= read(); 	// 시작점 입력
