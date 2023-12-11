@@ -8,26 +8,21 @@ class Main{
 }
 class Solution{
  
-	int T, N, arr[][], startY, startX, endY, endX;
+	int T, N, startY, startX, endY, endX;
 	int dxy[][] = {{-1,-2},{-1,2},{-2,-1},{-2,1},{1,-2},{1,2},{2,-1},{2,1}};// 나이트 이동좌표
 	boolean visit[][];
 	ArrayDeque<Node> q; 	// BFS 진행할 큐 선언
-	void solution() throws Exception{
-		StringBuilder sb 	= new StringBuilder();
-		T 					= read();
-		while(T-->0) {
-			N 				= read();
-			arr 			= new int[N][N];
-			visit			= new boolean[N][N];
-			startY 			= read(); 	// 시작점 입력
-			startX 			= read(); 	// 시작점 입력
-			endY 			= read();	// 도착점 입력
-			endX 			= read();	// 도착점 입력
-			
-			sb.append( BFS() ).append('\n');
-		}
-		System.out.println(sb);
+	
+	// 빠른 입력을 위한 함수
+	int read() throws Exception{ 					
+		int c, n = System.in.read() & 15;
+		boolean negative = n == 13;
+		if(negative) n = System.in.read() & 15;
+		while((c = System.in.read()) > 32) n = (n<<3) + (n<<1) + (c & 15);
+		if(c == 13) System.in.read();
+		return negative?~n+1:n;
 	}
+	
 	int BFS() {
 		int cnt = 0;
 
@@ -53,19 +48,23 @@ class Solution{
 				}
 			}
 		}
-		
 		return cnt;
 	}
-	
-	// 빠른 입력을 위한 함수
-	int read() throws Exception{ 					
-		int c, n = System.in.read() & 15;
-		boolean negative = n == 13;
-		if(negative) n = System.in.read() & 15;
-		while((c = System.in.read()) > 32) n = (n<<3) + (n<<1) + (c & 15);
-		if(c == 13) System.in.read();
-		return negative?~n+1:n;
-	}
+	void solution() throws Exception{
+		StringBuilder sb 	= new StringBuilder();
+		T 					= read();
+		while(T-->0) {
+			N 				= read();
+			visit			= new boolean[N][N];
+			startY 			= read(); 	// 시작점 입력
+			startX 			= read(); 	// 시작점 입력
+			endY 			= read();	// 도착점 입력
+			endX 			= read();	// 도착점 입력
+			sb.append( BFS() ).append('\n');
+		}
+		System.out.println(sb);
+	}	
+
 }
 class Node{
 	int y, x, dist;
