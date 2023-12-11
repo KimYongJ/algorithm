@@ -12,6 +12,7 @@ class Solution{
 	int dxy[][] = {{-1,-2},{-1,2},{-2,-1},{-2,1},{1,-2},{1,2},{2,-1},{2,1}};// 나이트 이동좌표
 	boolean visit[][];
 	ArrayDeque<Node> q; 	// BFS 진행할 큐 선언
+	StringBuilder sb = new StringBuilder();
 	
 	// 빠른 입력을 위한 함수
 	int read() throws Exception{ 					
@@ -23,17 +24,15 @@ class Solution{
 		return negative?~n+1:n;
 	}
 	
-	int BFS() {
-		int cnt = 0;
-
+	void BFS() {
 		q = new ArrayDeque<Node>();
 		q.add(new Node(startY,startX,0));
 
 		while(!q.isEmpty()) {
 			Node now = q.poll();
 			if(now.y == endY && now.x == endX) {
-				cnt = now.dist;
-				break;
+				sb.append(now.dist).append('\n');
+				return;
 			}
 			if(!visit[now.y][now.x]) {
 				visit[now.y][now.x] = true;
@@ -48,10 +47,8 @@ class Solution{
 				}
 			}
 		}
-		return cnt;
 	}
 	void solution() throws Exception{
-		StringBuilder sb 	= new StringBuilder();
 		T 					= read();
 		while(T-->0) {
 			N 				= read();
@@ -60,7 +57,7 @@ class Solution{
 			startX 			= read(); 	// 시작점 입력
 			endY 			= read();	// 도착점 입력
 			endX 			= read();	// 도착점 입력
-			sb.append( BFS() ).append('\n');
+			BFS();
 		}
 		System.out.println(sb);
 	}	
