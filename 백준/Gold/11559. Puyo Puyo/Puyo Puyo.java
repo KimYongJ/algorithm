@@ -11,17 +11,19 @@ class Main{
 }
 class Solution{
 
+	final int Y 	= 12, X = 6;
+	int MAXI		= 0;
+	int dy[] 		= {0,0,1,-1};
+	int dx[] 		= {1,-1,0,0};
 	char arr[][];
-	int startI = 0, Y = 12, X = 6;
-	int dy[] = {0,0,1,-1};
-	int dx[] = {1,-1,0,0};
 	boolean visit[][];
-	int BFS(int startI, int startJ) {
-		int cnt = 0;
-		char base = arr[startI][startJ];
-		
-		ArrayList<Node> pList = new ArrayList<>();// 터트릴 좌표를 담는 리스트
-		ArrayDeque<Node> q = new ArrayDeque<>(); 
+	ArrayList<Node> pList;
+	ArrayDeque<Node> q;
+	boolean BFS(int startI, int startJ) {
+		int cnt 	= 0;
+		char base 	= arr[startI][startJ];
+		pList 		= new ArrayList<>();// 터트릴 좌표를 담는 리스트
+		q 			= new ArrayDeque<>(); 
 		q.add(new Node(startI, startJ));
 		
 		while(!q.isEmpty()) {
@@ -41,19 +43,16 @@ class Solution{
 		}
 		
 		if(cnt >=4) {
-			for(int i=0; i<pList.size(); i++) {
-				Node now = pList.get(i);
+			for(Node now : pList)
 				arr[now.y][now.x] = '.';
-			}
-		}else cnt = 0;
-	
-		
-		
-		return cnt;
+			return true;
+		}else 
+			return false;
+
 	}
 	
 	void resetPosition() {
-		// 왼쪽 한줄을 전체적으로 확인하여 빈칸 없이 아래로 쭉 내린다.
+		// 세로로 한줄을 전체적으로 확인하여 빈칸 없이 아래로 내린다.
 		for(int j=0; j<X; j++) { // 가로 갯수 반복
 			boolean usePointer = false;
 			int pointer1 = 11; // 빈칸체크 포인터
@@ -85,16 +84,18 @@ class Solution{
 			arr[i] = br.readLine().toCharArray();
 		
 		while(true) {
-			int plus = 0;
+			boolean check= false;
 			visit = new boolean[Y][X];
-			for(int i=startI; i<Y; i++) {
+			for(int i=MAXI; i<Y; i++) {
 				for(int j=0; j<X; j++) {
 					if(arr[i][j] != '.' && !visit[i][j]) {
-						plus += BFS(i,j); // 같은 범위를 터트리는 로직(색깔을 '.'으로 치환함
+						if(BFS(i,j)) { // 같은 범위를 터트리는 로직(색깔을 '.'으로 치환함
+							check = true;
+						}
 					}
 				}
 			}
-			if(plus != 0) {
+			if(check) {
 				result++;
 			}else break;
 			
@@ -112,4 +113,3 @@ class Node{
 		this.x = x;
 	}
 }
-
