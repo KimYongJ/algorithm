@@ -9,7 +9,8 @@ class Main{
 class Solution{
  
 	int N, startY, startX, endY, endX;
-	int dxy[][] = {{-1,-2},{-1,2},{-2,-1},{-2,1},{1,-2},{1,2},{2,-1},{2,1}};// 나이트 이동좌표
+	int dy[] = {-1,-1,-2,-2,1,1,2,2};
+	int dx[] = {-2,2,-1,1,-2,2,-1,1};
 	StringBuilder sb = new StringBuilder();
 	
 	// 빠른 입력을 위한 함수
@@ -35,9 +36,9 @@ class Solution{
 			}
 			if(!visit[now.y][now.x]) {
 				visit[now.y][now.x] = true;
-				for(int xy[] : dxy) {
-					int newY = now.y + xy[0];
-					int newX = now.x + xy[1];
+				for(int i=0; i<8; i++) {
+					int newY = now.y + dy[i];
+					int newX = now.x + dx[i];
 					if(newY>=0 && newX>=0 && newY<N && newX<N && !visit[newY][newX]) {
 						q.add(new Node(newY, newX, now.dist + 1));
 					}
