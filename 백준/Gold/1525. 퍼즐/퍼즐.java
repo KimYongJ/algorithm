@@ -8,29 +8,28 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 class Main{
 	
 	static StringBuilder sb = new StringBuilder();
-	static HashMap<String, Integer> map = new HashMap<>();
+	static HashSet<String> set = new HashSet<>();
 	static int dx[] = {0,0,-1,1};
 	static int dy[] = {1,-1,0,0};
 	public static void BFS(String str) {
 		ArrayDeque<Node> q = new ArrayDeque<>();
 		q.add(new Node(str,str.indexOf('0'),0));
-		map.put(str, 0);
+		set.add(str);
 		
 		while(!q.isEmpty()) {
 			Node now 			= q.poll();
-			int nextDist 		= now.dist+1;
 			
 			if("123456780".equals(now.str)) {
-				System.out.println(map.get(now.str));
+				System.out.println(now.dist);
 				return;
 			}
-			
+			int nextDist 		= now.dist+1;
 			int y 				= now.idx/3; 			// 일차원 배열의 인덱스로 y좌표 값 구하기
 			int x				= now.idx%3; 			// 일차원 배열의 인덱스로 x좌표 값 구하기
 			for(int i=0; i<4; i++) {
@@ -46,9 +45,9 @@ class Main{
 					sb.setCharAt(next_zero_idx, '0');
 					
 					String nextString = sb.toString();
-					if(!map.containsKey(nextString)) {
+					if(!set.contains(nextString)) {
 						q.add(new Node(nextString,next_zero_idx, nextDist));
-						map.put(nextString, nextDist);
+						set.add(nextString);
 					}
 				}
 			}
