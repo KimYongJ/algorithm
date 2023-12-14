@@ -1,9 +1,6 @@
 // https://github.com/KimYongJ/algorithm 
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{
 	int y, x, dist;
 	Node(int y, int x, int dist){
@@ -13,10 +10,20 @@ class Node{
 	}
 }
 class Main{
-	static int INF = 150_000;
-	static int N, idx = 1, arr[][], dist[][];
-	static int dx[] = {0,0,-1,1};
-	static int dy[] = {-1,1,0,0};
+	static int INF 		= 150_000;
+	static int N, idx 	= 1;
+	static int dx[] 	= {0,0,-1,1};
+	static int dy[] 	= {-1,1,0,0};
+	static int arr[][], dist[][];
+	static StringBuilder sb 	= new StringBuilder();
+	
+	// 빠른 입력을 위한 함수
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		return n;
+	}
+	// 다익스트라 함수
 	public static void Dijkstra() {
 		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.dist-b.dist);
 		dist[0][0] = arr[0][0];
@@ -40,34 +47,22 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		StringBuilder sb = new StringBuilder();
-		N = Integer.parseInt(br.readLine());
+		N 					= read();
 		while(N!=0) {
-			arr = new int[N][N]; // 입력되는 값을 담을 배열
-			dist = new int [N][N]; // 최단거리를 담을 배열
-			for(int i=0; i<N; i++) {
-				st = new StringTokenizer(br.readLine());
+			arr 			= new int[N][N]; // 입력되는 값을 담을 배열
+			dist 			= new int [N][N]; // 최단거리를 담을 배열
+			for(int i=0; i<N; i++)
 				for(int j=0; j<N; j++) {
-					arr[i][j] = Integer.parseInt(st.nextToken());
+					arr[i][j] = read();
 					dist[i][j] = INF;
 				}
-			}
 			
 			Dijkstra(); // 최단거리를 구하는 알고리즘 
 
 			sb.append("Problem "+idx+++": ")
 			  .append(dist[N-1][N-1]).append('\n');
-			N = Integer.parseInt(br.readLine());
+			N = read();
 		}
 		System.out.println(sb);
 	}
-	// 빠른 입력을 위한 함수
-//    static int read() throws Exception {
-//        int c, n = System.in.read() & 15;
-//        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
-//        return n;
-//    }
-	
 }
