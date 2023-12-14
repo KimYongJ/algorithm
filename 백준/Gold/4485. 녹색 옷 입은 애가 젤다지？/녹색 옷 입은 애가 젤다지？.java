@@ -59,7 +59,7 @@ class Main{
 			
 			Dijkstra(); // 최단거리를 구하는 알고리즘 
 
-			sb.append("Problem "+idx+++": ")
+			sb.append("Problem ").append(idx++).append(": ")
 			  .append(dist[N-1][N-1]).append('\n');
 			N = read();
 		}
