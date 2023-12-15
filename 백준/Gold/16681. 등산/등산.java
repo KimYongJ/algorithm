@@ -1,10 +1,6 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
-
 
 class Node{
 	int node;
@@ -27,6 +23,13 @@ class Main{
 	static boolean visit[];
 	static ArrayList<Node>[] list; 	// 간선 정보를 담을 Node 배열
 	static PriorityQueue<Node> pq;
+	
+    public static int read() throws Exception { 	// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    } 
+
 	public static void Dijkstra(int start, long dist[]) {
 		visit = new boolean[N+1];
 		pq = new PriorityQueue<Node>((a,b)->{
@@ -45,8 +48,8 @@ class Main{
 			visit[now.node]= true; 
 			
 			for(Node next : list[now.node]) {
-				int nextNode = next.node;
-				long nextDist = next.dist;
+				int nextNode 	= next.node;
+				long nextDist 	= next.dist;
 				
 				if(!(heights[now.node]<heights[nextNode])) 
 					continue;//항상 높이가 증가하는 방향으로 가야 한다.
@@ -62,32 +65,28 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken()); // 노드갯수
-		M = Integer.parseInt(st.nextToken()); // 간선갯수
-		D = Integer.parseInt(st.nextToken()); // 거리당 체력 소모량
-		E = Integer.parseInt(st.nextToken()); // 높이당 성취감
-		heights = new int[N+1];
-		dist_HtoG = new long[N+1];
-		dist_StoG = new long[N+1];
-		list = new ArrayList[N+1];
+		N 					= read(); // 노드갯수
+		M 					= read(); // 간선갯수
+		D 					= read(); // 거리당 체력 소모량
+		E 					= read(); // 높이당 성취감
+		heights 			= new int[N+1];
+		dist_HtoG 			= new long[N+1];
+		dist_StoG 			= new long[N+1];
+		list 				= new ArrayList[N+1];
 		
 		for(int i=0; i<=N; i++) {
-			dist_HtoG[i] = INF;
-			dist_StoG[i] = INF;
-			list[i] = new ArrayList<Node>();
+			dist_HtoG[i] 	= INF;
+			dist_StoG[i] 	= INF;
+			list[i] 		= new ArrayList<Node>();
 		}
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)  // 높이 셋팅 
-			heights[i] = Integer.parseInt(st.nextToken());
+			heights[i] 		= read();
 		
 		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
-			d = Integer.parseInt(st.nextToken());
+			a 				= read();
+			b 				= read();
+			d 				= read();
 			list[a].add(new Node(b,d));
 			list[b].add(new Node(a,d));
 		}
@@ -103,7 +102,6 @@ class Main{
 					result = hg+sg;
 			}
 		}
-		
 		if(result == MIN) {
 			System.out.println("Impossible");
 		}else {
