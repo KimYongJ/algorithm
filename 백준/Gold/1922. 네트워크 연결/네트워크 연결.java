@@ -14,28 +14,26 @@ class Node{
 }
 
 class Main{
-    
-    public static int getParent(int x, int[] parent){// 부모 노드를 찾는 함수
-        if(parent[x] == x) return x; // 자기 자신이 부모노드이면 반환 후 종료
-        return getParent(parent[x], parent); // 자기 자신이 부모노드가 아니면 부모님 찾아 재귀 실행
-    }
-    public static void changeAtoB(int A, int B, int[] parent) {
-    	for(int i=0; i<parent.length; i++) {
-    		if(parent[i] == A) {
-    			parent[i] = B;
-    		}
-    	}
+	static PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.dist-b.dist);
+	static int N, M, cnt=1, result;
+	static int a, b, d;
+	static int parent[];
+	
+	public static void changeParent(int a, int b, int dist) {
+		parent[a] = b;									// 부모 노드를 변경
+		result += dist;									// 결과 추가
+	}
+    public static int getParent(int x, int[] parent){	// 부모 노드를 찾는 함수
+        if(parent[x] == x) return x; 					// 자기 자신이 부모노드이면 반환 후 종료
+        return getParent(parent[x], parent); 			// 자기 자신이 부모노드가 아니면 부모님 찾아 재귀 실행
     }
     public static void main(String[] args)throws Exception{
-    	PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.dist-b.dist);
-    	int N, M, result=0;
-        int a, b, d;
-        int parent[];
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         N = Integer.parseInt(br.readLine());
         M = Integer.parseInt(br.readLine());
         parent = new int[N+1]; // 부모 노드를 담을 배열 
+
         for(int i=1; i<=N; i++)
             parent[i] = i; // 부모 노드를 자기 자신으로 초기화
         
@@ -46,18 +44,19 @@ class Main{
             d = Integer.parseInt(st.nextToken());
             pq.add(new Node(a,b,d));
         }
-        while(!pq.isEmpty()){
+        while(cnt < N){
             Node now = pq.poll();
             int aParent = getParent(now.a, parent);
             int bParent = getParent(now.b, parent);
-            if(aParent > bParent){
-                result += now.dist;
-                changeAtoB(parent[now.a], bParent, parent);
-            }else if(bParent > aParent){
-                result += now.dist;
-                changeAtoB(parent[now.b], aParent, parent);
+            if(aParent != bParent) {
+            	cnt++;
+            	if(bParent>aParent) {
+            		int temp = bParent;
+            		bParent = aParent;
+            		aParent = temp;
+            	}
+            	changeParent(aParent, bParent, now.dist);
             }
-            
         }
         
         System.out.println(result);
