@@ -1,7 +1,4 @@
-//https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+// https://github.com/KimYongJ/algorithm
 import java.util.PriorityQueue;
 
 class Node{
@@ -27,6 +24,17 @@ class Main{
     	return 1;
     });
     
+    // 빠른 입력을 위해 만든 함수
+    public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
+    
+    // 부모의 부모를 바꾸는 함수
     public static void changeParent(int a, int b){
         parent[a] = b;
     }
@@ -37,22 +45,18 @@ class Main{
         return getParent(parent[x]);
     }
     
-    public static void main(String[] args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        V = Integer.parseInt(st.nextToken());
-        E = Integer.parseInt(st.nextToken());
+    public static void main(String[] args)throws Exception{ 
+        V 				= read();
+        E 				= read();
         parent = new int[V+1];
         
         for(int i=1; i<=V; i++)
-        	parent[i] = i;
+        	parent[i] 	= i;
         
         for(int i=0; i<E; i++){
-            st = new StringTokenizer(br.readLine());
-            a = Integer.parseInt(st.nextToken());
-            b = Integer.parseInt(st.nextToken());
-            d = Integer.parseInt(st.nextToken());
+            a 			= read();
+            b 			= read();
+            d 			= read();
             pq.add(new Node(a,b,d));
         }
         
