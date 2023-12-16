@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-
-
 class Edge{
 	int a;
 	float time;
@@ -15,9 +13,8 @@ class Edge{
 		this.time = time;
 	}
 }
-
 class Main{
-	static final float INF = Integer.MAX_VALUE;
+	static final float INF = 160;
 	static int N;
 	static float mintime[], node[][];
 	static boolean visit[];
@@ -31,8 +28,8 @@ class Main{
 	// 시간을 구하는 함수
 	public static float getTime(float x1, float y1, float x2, float y2, boolean type) {
 		float dist1 = (float) Math.sqrt(Math.pow(x1-x2,2) + Math.pow(y1-y2,2));
-		float time1 = dist1/5.0f; 						// 걷는 시간
-		float time2 = Math.abs(dist1 - 50)/5.0f +2; 	// 대포로쏘는 50미터보다 작은 경우 음수가 되는 것을 방지해야 해서 abs함수사용
+		float time1 = dist1/5; 						    // 걷는 시간
+		float time2 = Math.abs(dist1 - 50)/5 +2; 	    // 대포로쏘는 50미터보다 작은 경우 음수가 되는 것을 방지해야 해서 abs함수사용
 		return type ? time1 : Math.min(time1, time2); 	// type이 true이면 무조건 걸어야 하는 경우
 	}
 	
