@@ -37,12 +37,12 @@ public class Main {
 			int d=Integer.parseInt(s[3]);//시간
 			arr[u].add(new Node(v,c,d));//양방향이 아니다
 		}
-		int[][] dis=new int[M+1][N+1];//앞에는 비용, 뒤에는 노드번호, value는 시간
+		int[][] time=new int[M+1][N+1];//앞에는 비용, 뒤에는 노드번호, value는 시간
 		for(int i=0;i<=M;i++)//
 		{
-			Arrays.fill(dis[i], INF);
+			Arrays.fill(time[i], INF);
 		}
-		dis[0][1]=0;//시작점은 초기화
+		time[0][1]=0;//시작점은 초기화
 		for(int i=0;i<=M;i++)
 		{
 			for(int j=1;j<=N;j++)
@@ -51,7 +51,7 @@ public class Main {
 				{
 					if(i+temp.c<=M)
 					{
-						dis[i+temp.c][temp.v]=Math.min(dis[i+temp.c][temp.v], dis[i][j]+temp.d);
+						time[i+temp.c][temp.v]=Math.min(time[i+temp.c][temp.v], time[i][j]+temp.d);
 					}
 				}
 			}
@@ -59,7 +59,7 @@ public class Main {
 		int result=INF;
 		for(int i=0;i<=M;i++)
 		{
-			result=Math.min(result, dis[i][N]);
+			result=Math.min(result, time[i][N]);
 		}
 		System.out.println(result==INF? "Poor KCM":result);
 	}
