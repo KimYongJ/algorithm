@@ -1,8 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 
 class Main{
 	static class Node{
@@ -28,8 +25,7 @@ class Main{
 	}
 	// A버튼 클릭 함수
 	public static int A_click(int num) {
-		num++;
-		return num > 99_999 ? -1 : num; 		// num이 임계치 초과일 경우
+		return ++num > 99_999 ? -1 : num; 		// num이 임계치 초과일 경우
 	}
 	// B버튼 클릭 함수
 	public static int B_click(int num) {
@@ -41,15 +37,13 @@ class Main{
 		return num - type; 						// 해당 자릿수를 1빼준다.
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken()); 	// 시작 숫자
-		T = Integer.parseInt(st.nextToken()); 	// 버튼 누르는 횟수
-		G = Integer.parseInt(st.nextToken()); 	// 종료 숫자
-		visit = new boolean[100_000];
-		q = new ArrayDeque<Node>();
+		N 			= read(); 					// 시작 숫자
+		T 			= read(); 					// 버튼 누르는 횟수
+		G 			= read(); 					// 종료 숫자
+		visit 		= new boolean[100_000];
+		q 			= new ArrayDeque<Node>();
 		q.add(new Node(N,0));
-		
+		/******************이하 BFS********************/
 		while(!q.isEmpty()) {
 			Node now = q.poll();
 			if(!visit[now.num]) { 				// 방문하지 않을 때만 실행 
