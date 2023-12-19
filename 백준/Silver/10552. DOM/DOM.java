@@ -1,16 +1,12 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{
 
 	static int N, M, START, CNT;
 	static int like, dislike;
 	static int manlike[];
-	static ArrayList<Integer>[] dislikeChannel;
-	static boolean visitMan[],visitChannel[];
+	static int dislikeChannel[];
+	static boolean visitChannel[];
 	
 	public static int read() throws Exception{
 		int c, n = System.in.read() & 15;
@@ -22,43 +18,32 @@ class Main{
 	}
 	
 	public static void DFS(int channel) {
-		if(dislikeChannel[channel].size()==0) // end condition
+		if(dislikeChannel[channel]==0) // end condition
 			return;
 		if(visitChannel[channel]) { // cycle
 			CNT = -1;
 			return;
 		}
 		visitChannel[channel] = true;
-		for(int man : dislikeChannel[channel]) {
-			if(!visitMan[man]) {
-				visitMan[man] = true;
-				CNT++;
-				DFS(manlike[man]);
-				break;
-			}
-		}
-		
+		CNT++;
+		DFS(manlike[ dislikeChannel[channel] ]);
 	}
 
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		START = Integer.parseInt(st.nextToken());
-		manlike = new int[N];
-		visitMan = new boolean[N];
-		visitChannel = new boolean[M+1];
+		N 				= read();
+		M 				= read();
+		START 			= read();
+		manlike 		= new int[N+1];
+		visitChannel 	= new boolean[M+1];
+		dislikeChannel 	= new int[M+1];
+
 		
-		dislikeChannel = new ArrayList[M+1];
-		for(int i=0; i<=M; i++)
-			dislikeChannel[i] = new ArrayList<Integer>();
-		for(int i=0; i<N; i++) {
-			st = new StringTokenizer(br.readLine());
-			like = Integer.parseInt(st.nextToken());
-			dislike = Integer.parseInt(st.nextToken());
-			manlike[i] = like;
-			dislikeChannel[dislike].add(i);
+		for(int i=1; i<=N; i++) {
+			like 		= read();
+			dislike 	= read();
+			manlike[i] 	= like;
+			if(dislikeChannel[dislike] == 0)
+				dislikeChannel[dislike] = i; // 가장 어린 사람을 넣음
 		}
 		
 		DFS(START);
