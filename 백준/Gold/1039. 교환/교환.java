@@ -1,10 +1,7 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.HashSet;
-import java.util.StringTokenizer;
 
 class Main{
 	static class Point{
@@ -28,16 +25,23 @@ class Main{
 			digit--;
 		}
 	}
+	// 빠른 입력을 위한 함수
+	public static int read() throws Exception{
+		int c, n = System.in.read() & 15;
+		boolean negative = n == 13;
+		if(negative) n = System.in.read() & 15;
+		while((c = System.in.read()) > 32) n = (n<<3) + (n<<1) + (c & 15);
+		if(c == 13) System.in.read();
+		return negative?~n+1:n;
+	}
 	// num의 i와 j의 자릿수를 바꾸는 함수
-	public static int makeNumber(int i, int j, int num) {
-		// i의 숫자를 알아 내야한다. 
-		int typeI = (int) Math.pow(10,digit - i - 1); // i의 십의 자릿 수
-		int digitI = (num/typeI) % 10; // i자리의 숫자 정보
-		int typeJ = (int) Math.pow(10,digit - j - 1); // j의 십의 자릿 수
-		int digitJ = (num/typeJ) % 10; // j자리의 숫자 정보
-		
-		
-		num -= typeI * digitI;
+	public static int makeNumber(int i, int j, int num) { 
+		int typeI = (int) Math.pow(10,digit - i - 1); 	// i의 십의 자릿 수
+		int digitI = (num/typeI) % 10; 					// i자리의 숫자 정보
+		int typeJ = (int) Math.pow(10,digit - j - 1); 	// j의 십의 자릿 수
+		int digitJ = (num/typeJ) % 10; 					// j자리의 숫자 정보
+		// 이하 구한 자릿수를 빼고 더해 서로 바꾸는 과정.
+		num -= typeI * digitI;							
 		num -= typeJ * digitJ;
 		num += typeI * digitJ;
 		num += typeJ * digitI;
@@ -48,17 +52,16 @@ class Main{
 		return num;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
+		START 				= read();
+		K 					= read();
 		q 					= new ArrayDeque<>();
-		START 				= Integer.parseInt(st.nextToken());
-		K 					= Integer.parseInt(st.nextToken());
 		set 				= new HashSet[K+1];
-		q.add(new Point(START , 0)); // 시작 숫자와 k를 몇번 썼는지 넣음
-		setting(START); // digit과 base를 셋팅
+
 		for(int i=0; i<=K; i++)
-			set[i] = new HashSet<Integer>() {{add(0);}};
+			set[i] 			= new HashSet<Integer>() {{add(0);}};
 			
+		q.add(new Point(START , 0)); 	// 시작 숫자와 k를 몇번 썼는지 넣음
+		setting(START); 				// digit과 base를 셋팅			
 		while(!q.isEmpty()) 
 		{
 			Point now = q.poll();
@@ -73,10 +76,10 @@ class Main{
 			{
 				for(int j=i+1; j< digit; j++) 
 				{
-					START = makeNumber(i, j, now.number);
-					if(!set[now.k+1].contains(START)) 
+					START = makeNumber(i, j, now.number); 	// 새로운 숫자 생성
+					if(!set[now.k+1].contains(START))  		// k+1번째에 해당 숫자가 있는지 체크 
 					{
-						set[now.k+1].add(START);
+						set[now.k+1].add(START); 			// 없다면 set, q에 추가
 						q.add(new Point(START, now.k+1));
 					}
 				}
