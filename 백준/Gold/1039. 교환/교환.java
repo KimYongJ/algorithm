@@ -1,7 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-
 import java.util.ArrayDeque;
-import java.util.HashSet;
 
 class Main{
 	static class Point{
@@ -14,7 +12,7 @@ class Main{
 	static int START, K, result;
 	static int digit, base; // START의 자릿수와 , 10단위 기준 값
 	static ArrayDeque<Point> q;
-	static HashSet<Integer> set[];
+	static boolean visit[][];
 	
 	// 처음 주어지는 START번호의 자릿수와 10단위 기준 값 구하는 함수
 	public static void setting(int start) {
@@ -55,10 +53,7 @@ class Main{
 		START 				= read();
 		K 					= read();
 		q 					= new ArrayDeque<>();
-		set 				= new HashSet[K+1];
-
-		for(int i=0; i<=K; i++)
-			set[i] 			= new HashSet<Integer>() {{add(0);}};
+		visit				= new boolean[K+1][1_000_001];
 			
 		q.add(new Point(START , 0)); 	// 시작 숫자와 k를 몇번 썼는지 넣음
 		setting(START); 				// digit과 base를 셋팅			
@@ -77,9 +72,9 @@ class Main{
 				for(int j=i+1; j< digit; j++) 
 				{
 					START = makeNumber(i, j, now.number); 	// 새로운 숫자 생성
-					if(!set[now.k+1].contains(START))  		// k+1번째에 해당 숫자가 있는지 체크 
+					if(!visit[now.k+1][START])  			// k+1번째에 해당 숫자가 있는지 체크 
 					{
-						set[now.k+1].add(START); 			// 없다면 set, q에 추가
+						visit[now.k+1][START] = true;		// 없다면 set, q에 추가
 						q.add(new Point(START, now.k+1));
 					}
 				}
