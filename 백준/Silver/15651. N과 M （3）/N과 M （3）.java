@@ -3,6 +3,7 @@
 class Main{
 
 	static int N, M;
+	static char select[];
 	static StringBuilder sb;
 
 	// 빠른 입력을 위한 함수
@@ -16,25 +17,23 @@ class Main{
 	}
 	
 	// DFS 함수
-	public static void DFS(int depth, int select[]) {
-		if(depth == M) {
-			for(int s : select) 
-				sb.append(s).append(' ');
-			sb.append('\n');
+	public static void DFS(int depth) {
+		if(depth == M) { 
+			sb.append(select).append('\n');
 			return;
 		}
 		for(int i=1; i<=N; i++) {
-			select[depth] = i;
-			DFS(depth+1, select);
+			select[depth] = (char) (i+'0');
+			select[depth+1] = ' ';
+			DFS(depth+2);
 		}
 	}
 	public static void main(String[] args)throws Exception{
 		N 		= read();
-		M 		= read();
+		M 		= read()*2;
+		select	= new char[M];
 		sb 		= new StringBuilder();
-		
-		DFS(0, new int[M]);
-		
+		DFS(0);
 		System.out.print(sb);
 	}
 }
