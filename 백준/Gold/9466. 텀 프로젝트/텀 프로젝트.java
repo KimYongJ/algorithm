@@ -1,11 +1,11 @@
 // https://github.com/KimYongJ/algorithm
-import java.util.ArrayList;
+import java.util.HashMap;
 
 class Main{
 	
-	static int T, N, result, arr[];
+	static int T, N, cnt, result, arr[];
 	static boolean visit[];
-	static ArrayList<Integer> visit_node_list;
+	static HashMap<Integer,Integer> visit_node_list;
 	static StringBuilder sb;
 	
 	// 빠른 입력을 위한 함수
@@ -21,14 +21,17 @@ class Main{
 	// DFS 함수
 	public static void DFS(int node) {
 		if(visit[node]) { 								// 노드를 방문했다면 종료
-			int idx = visit_node_list.indexOf(node); 	// 노드의 인덱스 출력시 자기 앞에 몇개의 노드가 있는지 체크 가능
-			if(idx==-1) 								// 리스트 인덱스가 -1이라는 것은 이미 사이클인것을 방문했다는 것이므로 list에 담긴 노드의 갯수를 더해준다.
-				idx = visit_node_list.size();
+			int idx = 0;
+			if(visit_node_list.containsKey(node)) { 	// 해당 노드를 방문한적 있다면 몇번째 방문이였는지 가져옴
+				idx = visit_node_list.get(node);
+			}else {
+				idx = visit_node_list.size(); 			// 방문한적 없다면 방문했던 노드들의 총 갯수를 반환
+			}
 			result += idx;
 			return;
 		}
 		visit[node] = true; 							// 방문처리
-		visit_node_list.add(node); 						// 방문 노드 리스트에 추가  
+		visit_node_list.put(node,cnt++);				// 방문 노드 맵에 추가, 이 때 몇번째 방문인지도 체크  
 		DFS(arr[node]); 								// 현재 노드가 선택한 다음 노드 전달. 
 	}
 	// 메인 함수
@@ -48,7 +51,8 @@ class Main{
 			{ // DFS 실행
 				if(!visit[i]) 
 				{ // 방문하지 않은 노드에 대해 DFS실행 
-					visit_node_list = new ArrayList<>();// 방문한 노드를 순서대로 담을 리스트
+					cnt = 0; // 방문한 노드를 카운팅
+					visit_node_list = new HashMap<>();// 방문한 노드를 순서대로 담을 리스트
 					DFS(i); // 해당 노드를 전달.
 				}
 			}
