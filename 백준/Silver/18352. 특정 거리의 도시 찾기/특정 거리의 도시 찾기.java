@@ -15,10 +15,11 @@ class Main{
 	static final int INF = 300_000;
 	static int N, M, K, X, dist[];
 	static int a, b;
+	static boolean visit[];
+	static StringBuilder sb;
+	static ArrayDeque<Node> q;
 	static ArrayList<Integer> result;
 	static ArrayList<Integer>[] list;
-	static ArrayDeque<Node> q;
-	static StringBuilder sb;
 	
 	// 빠른 숫자 입력을 위한 함수
     private static int read() throws Exception 
@@ -38,6 +39,10 @@ class Main{
 		while(!q.isEmpty()) 
 		{
 			Node now = q.poll();
+			
+			if(visit[now.node]) continue;
+			
+			visit[now.node] = true; // 빠른 연산을 위해 방문한 노드는 2번 방문하지 않도록함
 			
 			for(int next : list[now.node]) 
 			{
@@ -63,6 +68,7 @@ class Main{
 		X 			= read(); // 출발 도시 번호
 		
 		dist 		= new int[N+1];
+		visit		= new boolean[N+1];
 		list 		= new ArrayList[N+1];
 		result 		= new ArrayList<>();
 		sb 			= new StringBuilder();
