@@ -14,12 +14,10 @@ class Main{
 	}
 	static final int INF = 300_000;
 	static int N, M, K, X, dist[];
-	static int a, b;
 	static boolean visit[];
 	static StringBuilder sb;
-	static ArrayDeque<Node> q;
-	static ArrayList<Integer> result;
-	static ArrayList<Integer>[] list;
+	static ArrayDeque<Node> q; // 거리자체가 1이기 때문에 우선순위 큐가 필요없음
+	static ArrayList<ArrayList<Integer>> list;
 	
 	// 빠른 숫자 입력을 위한 함수
     private static int read() throws Exception 
@@ -28,6 +26,7 @@ class Main{
         while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
         return n;
     }
+    
     // 다익스트라 함수
 	public static void Dijkstra() 
 	{
@@ -40,25 +39,21 @@ class Main{
 		{
 			Node now = q.poll();
 			
-			if(visit[now.node]) continue;
+			if(visit[now.node])continue;
+			visit[now.node] = true; // 빠른 연산을 위해 이미 방문한 노드는 방문하지 않음 
 			
-			visit[now.node] = true; // 빠른 연산을 위해 방문한 노드는 2번 방문하지 않도록함
-			
-			for(int next : list[now.node]) 
-			{
-				int distSum = now.dist + 1;
-				if(dist[next] > distSum) 
-				{
-					dist[next] = distSum;
-					q.add(new Node(next, distSum));
-					if(distSum == K) 
-					{ // 최단거리가 K와 같다면 결과에 플러스
-						result.add(next);
-					}
-				}
-			}
+            list.get(now.node).stream().forEach(x -> {
+            	int nextDist = now.dist+1;
+                if (dist[x] > nextDist) 
+                {
+                	dist[x] = nextDist;
+                    q.add(new Node(x, nextDist));
+                    if(nextDist == K)
+                    	list.get(0).add(x);
+                 }
+            });
+            
 		}
-		
 	}
 	public static void main(String[] args)throws Exception
 	{
@@ -66,39 +61,33 @@ class Main{
 		M 			= read(); // 도로의 개수
 		K 			= read(); // 결과 거리 정보
 		X 			= read(); // 출발 도시 번호
-		
 		dist 		= new int[N+1];
 		visit		= new boolean[N+1];
-		list 		= new ArrayList[N+1];
-		result 		= new ArrayList<>();
+		list 		= new ArrayList<>();
 		sb 			= new StringBuilder();
 		
-		for(int i=1; i<=N; i++) 
+		for(int i=0; i<=N; i++)
 		{
 			dist[i] = INF; // 최단거리를 담을 배열 초기화 
-			list[i] = new ArrayList<Integer>();// 간선 정보를 담을 리스트 초기화
+			list.add(new ArrayList<Integer>());// 간선 정보를 담을 리스트 초기화
 		}
 		
-		for(int i=0; i<M; i++) 
-		{
-			a 		= read();
-			b 		= read();
-			list[a].add(b); // 단방향 연결
-		}
+		for(int i=0; i<M; i++)
+			list.get(read()).add(read());// 단방향 연결
 		
 		Dijkstra();// 최단 거리 구하는 함수
 		
-		if(result.size()==0) 
+		if(list.get(0).size()==0) 
 		{ // 최단거리가 K인 노드가 없을 경우 -1 출력
 			System.out.println(-1);
 			return;
 		}
 		
-		Collections.sort(result); // 결과 노드 오름차순 정렬
-
-		for(int r : result)
-			sb.append(r)
-			.append('\n');
+		Collections.sort(list.get(0));// 결과 오름차순 정렬
+		
+		list.get(0).stream().forEach(x->{
+			sb.append(x).append('\n');
+		});
 		
 		System.out.println(sb);
 	}
