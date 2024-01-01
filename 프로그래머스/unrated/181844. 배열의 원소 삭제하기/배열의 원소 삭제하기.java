@@ -1,14 +1,10 @@
-import java.util.ArrayList;
+import java.util.Arrays;
+
 class Solution {
-    public ArrayList<Integer> solution(int[] arr, int[] delete_list) {
-        ArrayList<Integer> result = new ArrayList<>();
-        
-        for(int a : arr)
-            result.add(a);
-        
-        for(int d : delete_list)
-            result.remove((Integer)d);
-        
-        return result;
+    public int[] solution(int[] arr, int[] delete_list) {
+        return Arrays.stream(arr)
+            .filter(x ->  Arrays.stream(delete_list)
+                    .noneMatch(y -> y == x))
+            .toArray();
     }
 }
