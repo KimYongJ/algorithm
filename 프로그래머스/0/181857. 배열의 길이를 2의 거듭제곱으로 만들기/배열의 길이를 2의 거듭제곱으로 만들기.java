@@ -1,19 +1,10 @@
-import java.util.ArrayList;
+import java.util.Arrays;
 class Solution {
     public int[] solution(int[] arr) {
         int alen = arr.length;
         int rlen = 1;
-        while(rlen<alen){
+        while(rlen<alen)
             rlen *= 2;
-        }
-        
-        if(alen==rlen)
-            return arr;
-        
-        int[] answer = new int[rlen];
-        for(int i=0; i<arr.length; i++)
-            answer[i] = arr[i];
-        
-        return answer;
+        return Arrays.copyOf(arr, rlen);
     }
 }
