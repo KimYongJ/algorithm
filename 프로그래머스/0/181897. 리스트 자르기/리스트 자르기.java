@@ -10,9 +10,8 @@ class Solution {
             case 3: result = Arrays.copyOfRange(num_list,slicer[0],slicer[1]+1);
                 break;
             default:
-                int idx = 0;
-                for(int i=slicer[0]; i<=slicer[1]; i+=slicer[2])
-                    result[idx++] = num_list[i];
+                for(int i=slicer[0],idx=0; i<=slicer[1];idx++, i+=slicer[2])
+                    result[idx] = num_list[i];
         }
         
         return result;
