@@ -1,14 +1,15 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	static int len, result, arr[][];
-	static BufferedReader br;
-	static StringTokenizer st;
-	
+
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
+    
 	public static void horizontal(int y, int x) { 		// 가로로 놓기
 		if(arr[y][x]!=1) DFS(y,x,0);
 	}
@@ -46,8 +47,7 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		br 		= new BufferedReader(new InputStreamReader(System.in));
-		len 	= Integer.parseInt(br.readLine());
+		len 	= read();
 		arr 	= new int[len+2][len+2];
 		// 외부를 1로 패딩
 		for(int i=0; i<len+2; i++) 
@@ -58,11 +58,9 @@ class Main{
 		
 		// 숫자 입력 받기
 		for(int i=1; i<len+1; i++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int j=1; j<len+1; j++) 
-				arr[i][j] = Integer.parseInt(st.nextToken());
-		}
+				arr[i][j] = read();
+		
 		
 		DFS(1,2,0);
 		
