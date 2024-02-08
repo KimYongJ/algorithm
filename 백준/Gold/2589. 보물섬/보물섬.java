@@ -1,4 +1,5 @@
 // https://github.com/KimYongJ/algorithm
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
@@ -16,7 +17,7 @@ class Main{
 	
 	static char arr[][];
 	static boolean visit[][];
-	static int i, j, N, M,  MAX_LENGTH;
+	static int i, j, N, M, MAX_LENGTH;
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static ArrayDeque<Point> q;
 	public static void BFS(int startN, int startM) {
@@ -60,9 +61,9 @@ class Main{
 			arr[0][i] = arr[N-1][i] = 'W';
 		
 		for(i=1; i<N-1; i++) {
-			char c[] = br.readLine().toCharArray();
+			String str = br.readLine();
 			for(j=1; j<M-1; j++) {
-				arr[i][j] = c[j-1];
+				arr[i][j] = str.charAt(j-1);
 			}
 		}
 		
