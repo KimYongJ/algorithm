@@ -1,6 +1,6 @@
-//https://github.com/KimYongJ/algorithm
+// https://github.com/KimYongJ/algorithm
 import java.util.ArrayDeque;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 class Point{
 	int i, j;
@@ -12,12 +12,12 @@ class Point{
 class Main{
 	
 	static final int BLOCK = 100_000_000;
-	static int N, L, R, cnt, arr[][], flag, flag_arr[][];
+	static int N, L, R, cnt, value, arr[][];
 	static int population, areacnt;
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static boolean change, visit[][];
-	static HashMap<Integer, Integer> flag_map;
 	static ArrayDeque<Point> q;
+	static ArrayList<int[]> position_list;
 	// 빠른 입력을 위한 함수
     static int read() throws Exception 
     {
@@ -25,26 +25,22 @@ class Main{
         while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
         return n;
     }
-    
+    // 합친 지역의 인구수를 변경하는 함수
 	public static void changeArr() 
 	{
-		for(int i=1; i<=N; i++)
-			for(int j=1; j<=N; j++) 
-			{
-				int key = flag_arr[i][j];
-				if(key != 0)
-					arr[i][j] = flag_map.getOrDefault(key,arr[i][j]);
-			}
-		
+		for(int i=0; i<position_list.size(); i++) 
+		{
+			int[] p = position_list.get(i);
+			arr[p[0]][p[1]] = value;
+		}
 	}
-	public static void BFS(int i, int j) 
+    // 합칠 수 있는지 역을 BFS로 찾은 후 합친 지역 좌표를 list에 담아 준다.
+	public static void BFS(int i, int j, ArrayList<int[]> position_list) 
 	{
-		boolean isVisit = false;
 		population 		= 0;
 		areacnt 		= 0;
-		flag 			+= 1;
 		q 				= new ArrayDeque<>();
-		
+		position_list.add(new int[] {i,j});
 		q.add(new Point(i,j));
 		
 		while(!q.isEmpty()) 
@@ -53,7 +49,6 @@ class Main{
 			
 			if(visit[now.i][now.j]) continue; // 방문했던 곳은 연산 스킵
 			visit[now.i][now.j] 	= true;
-			flag_arr[now.i][now.j] 	= flag; 
 			population 				+= arr[now.i][now.j];
 			areacnt++;
 			
@@ -67,21 +62,16 @@ class Main{
 					int diff = Math.abs(arr[now.i][now.j] - arr[nextI][nextJ]);
 					if(L<=diff && diff<=R) 
 					{
-						isVisit = true;
+						position_list.add(new int[] {nextI, nextJ});
 						q.add(new Point(nextI, nextJ));
 					}
 				}
-				
 			}
 			
 		}
 		
-		
-		if(isVisit) { 							// 국경을 합친 지역이 하나라도 있다면
-			change = true; 						// 국경을 합친적이 한번이라도 있다는 뜻
-			int value = population / areacnt;	// 덮어써야할 인원
-			flag_map.put(flag, value);			// 키 값으로 덮어써야할 인원을 저장해 놓는다.
-		}
+		if(position_list.size()>1) 				// 국경을 합친 지역이 하나라도 있다면
+			value = population / areacnt;		// 인구를 합쳐 바꿔야할 값
 	}
 	
 	public static void main(String[] args)throws Exception{
@@ -102,23 +92,23 @@ class Main{
 		
 		while(change) 
 		{
-			flag 		= 0;
 			change 		= false;
-			flag_map 	= new HashMap<>();
-			flag_arr 	= new int[N+2][N+2];
 			visit 		= new boolean[N+2][N+2];
 			
 			for(int i=1; i<=N; i++)
 				for(int j=1; j<=N; j++)
-					if(!visit[i][j])
-						BFS(i,j);
-				
-			
-			if(change) 
-			{
+					if(!visit[i][j]) 
+					{
+						position_list = new ArrayList<>(); // 합친 지역의 위치를 담을 리스트
+						BFS(i,j, position_list);
+						if(position_list.size() > 1) // 합쳐진 지역이 하나이상 있다면 이하 실행
+						{
+							change = true;
+							changeArr();
+						}
+					}
+			if(change)
 				cnt++;
-				changeArr();
-			}
 		}
 		System.out.println(cnt);
 	}
