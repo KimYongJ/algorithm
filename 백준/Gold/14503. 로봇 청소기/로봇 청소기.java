@@ -1,14 +1,17 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N, M, clean_room, map[][];
 	static boolean stop = false;
 
+	private static int read() throws Exception {
+	    int c, n = System.in.read() & 15;
+	    while ((c = System.in.read()) > 32)
+	        n = (n << 3) + (n << 1) + (c & 15);
+	    if (c == 13) System.in.read();
+	    return n;
+	}
 	public static boolean validate(int n, int m) {
 		return n>=0 && m>=0 && n<N && m<M;
 	}
@@ -80,23 +83,16 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		N 					= Integer.parseInt(st.nextToken());
-		M 					= Integer.parseInt(st.nextToken());
+		N 					= read();
+		M 					= read();
+		int n				= read(); // 현재 좌표
+		int m				= read(); // 현재 좌표
+		int d				= read(); // 현재 바라보는 방향
 		map 				= new int[N][M];
-		st 					= new StringTokenizer(br.readLine());
-		int n				= Integer.parseInt(st.nextToken()); // 현재 좌표
-		int m				= Integer.parseInt(st.nextToken()); // 현재 좌표
-		int d				= Integer.parseInt(st.nextToken()); // 현재 바라보는 방향
-		
 		
 		for(int i=0; i<N; i++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int j=0; j<M; j++)
-				map[i][j] = Integer.parseInt(st.nextToken());
-		}
+				map[i][j] = read();
 		
 		DFS(n, m, d);
 
