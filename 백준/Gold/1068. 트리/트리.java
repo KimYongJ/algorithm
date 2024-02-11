@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, root, del, leaf;
+	static int N, del, node, root, leaf;
 	static ArrayList<Integer>[] list;
 	static BufferedReader br;
 	static StringTokenizer st;
@@ -25,7 +25,7 @@ class Main{
 		
 		for(int i=0; i<N; i++) 
 		{
-			int node = Integer.parseInt(st.nextToken());
+			node = Integer.parseInt(st.nextToken());
 			if(node == -1) 					root = i;
 			else if(node !=del && i != del)	list[node].add(i);
 		}
