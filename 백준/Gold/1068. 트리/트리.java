@@ -26,15 +26,11 @@ class Main{
 		for(int i=0; i<N; i++) 
 		{
 			int node = Integer.parseInt(st.nextToken());
-			if(node == -1) root = i;
-			else if(node !=del && i != del) 
-			{
-				if(node != -1 && i != del) list[node].add(i);
-			}
+			if(node == -1) 					root = i;
+			else if(node !=del && i != del)	list[node].add(i);
 		}
 		
-		if(root != del) 
-			DFS(root); // 루트노드가 삭제되지 않은 경우만 DFS로 leaf노드를 센다
+		if(root != del) DFS(root); // 루트노드가 삭제되지 않은 경우만 DFS로 leaf노드를 센다
 		
 		System.out.println(leaf);
 
