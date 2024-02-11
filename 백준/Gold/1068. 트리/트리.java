@@ -8,10 +8,12 @@ class Main{
 	
 	static int N, root, del, leaf;
 	static ArrayList<Integer>[] list;
+	static BufferedReader br;
+	static StringTokenizer st;
 	public static void main(String[] args)throws Exception
 	{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
+		br 					= new BufferedReader(new InputStreamReader(System.in));
+		st 					= new StringTokenizer(br.readLine());
 		N 					= Integer.parseInt(st.nextToken());
 		list 				= new ArrayList[N];
 		st 					= new StringTokenizer(br.readLine());
