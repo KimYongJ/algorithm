@@ -1,22 +1,18 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+// https://github.com/KimYongJ/algorithm
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 
-
-class Point{
-	int x, y, dist;
-	Point(int y, int x, int dist){
-		this.x = x;
-		this.y = y;
-		this.dist = dist;
-	}
-}
 class Main{
 	
 	static int y, x, Y, X, STRIDE, map[][];
 	static int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1},{-1,-1},{-1,1},{1,1},{1,-1},};
 	static ArrayDeque<Point> q;
+	
+    private static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
+    
 	public static void BFS() 
 	{
 		while(!q.isEmpty()) 
@@ -41,30 +37,34 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		
-		Y 		= Integer.parseInt(st.nextToken());
-		X 		= Integer.parseInt(st.nextToken());
+
+		Y 		= read();
+		X 		= read();
 		map 	= new int[Y][X];
 		q		= new ArrayDeque<Point>();
 		
-		for( y=0; y<Y; y++) {
-			st = new StringTokenizer(br.readLine());
+		for( y=0; y<Y; y++)
 			for(x=0; x<X; x++) {
-				map[y][x] = Integer.parseInt(st.nextToken());
-				if(map[y][x] == 1) // 상어 장소를 만나면 큐에 상어 장소를 놓는다.
+				map[y][x] = read();
+				if(map[y][x] == 1) 		// 상어 장소를 만나면 큐에 상어 장소를 놓는다.
 					q.add(new Point(y,x,1));
 			}
-		}
 		
 		BFS();
 		
-		for( y=0; y<Y; y++)
+		for(y=0; y<Y; y++)
 			for(x=0; x<X; x++)
 				if(map[y][x] > STRIDE)
-					STRIDE = map[y][x];
+					STRIDE = map[y][x];	// dp처럼 사용한 map에 저장된 상어로부터 거리 중 가장 긴 값을 찾아 넣는다.
 
-		System.out.println(STRIDE-1);
+		System.out.println(STRIDE-1);	// 상어로 부터 거리를 0부터 시작한게 아니라 1부터 시작하였으므로 1을 빼준다.
+	}
+}
+class Point{
+	int x, y, dist;
+	Point(int y, int x, int dist){
+		this.x = x;
+		this.y = y;
+		this.dist = dist;
 	}
 }
