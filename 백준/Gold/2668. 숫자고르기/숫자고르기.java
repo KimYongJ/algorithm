@@ -1,52 +1,44 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Set;
-import java.util.TreeSet;
 
 class Main{
 	
-	static int N, arr[];
-	static StringBuilder sb;
+	static int N, cnt, arr[];
 	static boolean visit[];
-	static Set<Integer> set, sub_set;
-	public static void DFS(int start, int idx) {
-		if(visit[idx] || set.contains(idx)) {
-			if(idx != start)
-				sub_set.clear();
-			return;
-		}
-		visit[idx] = true;
-		sub_set.add(idx);
+	static StringBuilder sb;
+	
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
 
-		DFS(start, arr[idx]);
-	}
+
+	public static void DFS(int start, int idx) {
+			if(visit[idx]) {
+				if(idx == start) {
+					sb.append(idx).append('\n');
+					cnt++;
+				}
+				return;
+			}
+			visit[idx] = true;
+			DFS(start, arr[idx]);
+		}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		N 			= Integer.parseInt(br.readLine())+1;
+		N 			= read()+1;
 		arr 		= new int[N];
 		sb			= new StringBuilder();
-		set			= new TreeSet<>();
-		sub_set 	= new TreeSet<>();
-		for(int i=1; i<N; i++) {
-			arr[i] = Integer.parseInt(br.readLine());
+		for(int i=1; i<N; i++)
+			arr[i] = read();
+		
+		for(int i=1; i<N; i++) 
+		{
+			visit = new boolean[N];
+			DFS(i,i);
 		}
 
-		for(int i=1; i<N; i++) {
-			visit = new boolean[N];
-			DFS(i,i); // 방문하지 않은 경우만 반복
-			if(sub_set.size() != 0) {
-				set.addAll(sub_set);
-				sub_set.clear();
-			}
-		}
-		
-		sb.append(set.size()).append('\n');
-		for(Integer s : set) {
-			sb.append(s).append('\n');
-		}
-		System.out.println(sb);
+		System.out.println(cnt);
+		System.out.print(sb);
 	}
 }
