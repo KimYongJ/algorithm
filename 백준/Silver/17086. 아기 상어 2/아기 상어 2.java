@@ -15,43 +15,29 @@ class Point{
 class Main{
 	
 	static int y, x, Y, X, STRIDE, map[][];
-	static boolean  visit[][];
 	static int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1},{-1,-1},{-1,1},{1,1},{1,-1},};
 	static ArrayDeque<Point> q;
-	public static void BFS(int y, int x) {
-		q 		= new ArrayDeque<>();
-		visit	= new boolean[Y][X];
-		q.add(new Point(y,x,0));
-		
-		while(!q.isEmpty()) {
-			Point now = q.poll();
-
+	public static void BFS() 
+	{
+		while(!q.isEmpty()) 
+		{
+			Point now = q.poll(); 						// 큐에서 데이터를 뽑아 온다.
 			
-			if(map[now.y][now.x] == 1)// 상어를 만나면 종료 
-			{
-				STRIDE = Math.max(STRIDE, now.dist);
-				break;
-			}
-			
-			if(visit[now.y][now.x]) continue;
-			visit[now.y][now.x] = true;
-			
-			int ny, nx, dist;
+			int ny, nx, dist; 							// 새로만들 좌표
 			for(int xy[] : dxy) 
 			{
-				ny = now.y + xy[0];
-				nx = now.x + xy[1];
-				dist = now.dist + 1;
+				ny = now.y + xy[0]; 					// 새로운 y좌표
+				nx = now.x + xy[1]; 					// 새로운 x좌표
+				dist = now.dist + 1;					// 해당 좌표까지 거리 
 				
-				if(ny>=0 && nx>=0 && ny<Y && nx<X && !visit[ny][nx]) {
-					q.add(new Point(ny,nx,dist));
-				}
-				
+				if(ny>=0 && nx>=0 && ny<Y && nx<X)  	// 유효성 통과한 좌표
+					if( map[ny][nx]==0 || (map[ny][nx] != 0 && map[ny][nx] > dist) ) // map에 이미 저장된 dist가 0이거나, 0이 아닌데 새로 구한 dist가 더작을 때
+					{
+						map[ny][nx] = dist; 			// 0일때는 첫 dist를, 0이 아니였을때는 더 작은 상어로부터 거리를 넣는다.
+						q.add(new Point(ny,nx,dist));
+					}
 			}
-			
-			
 		}
-		
 	}
 	
 	public static void main(String[] args)throws Exception{
@@ -61,19 +47,24 @@ class Main{
 		Y 		= Integer.parseInt(st.nextToken());
 		X 		= Integer.parseInt(st.nextToken());
 		map 	= new int[Y][X];
-		
+		q		= new ArrayDeque<Point>();
 		
 		for( y=0; y<Y; y++) {
 			st = new StringTokenizer(br.readLine());
-			for(x=0; x<X; x++)
+			for(x=0; x<X; x++) {
 				map[y][x] = Integer.parseInt(st.nextToken());
+				if(map[y][x] == 1) // 상어 장소를 만나면 큐에 상어 장소를 놓는다.
+					q.add(new Point(y,x,1));
+			}
 		}
 		
+		BFS();
+		
 		for( y=0; y<Y; y++)
-			for( x=0; x<X; x++)
-				if(map[y][x] == 0) // 상어가 아닌 곳에서 부터 시작
-					BFS(y,x);
+			for(x=0; x<X; x++)
+				if(map[y][x] > STRIDE)
+					STRIDE = map[y][x];
 
-		System.out.println(STRIDE);
+		System.out.println(STRIDE-1);
 	}
 }
