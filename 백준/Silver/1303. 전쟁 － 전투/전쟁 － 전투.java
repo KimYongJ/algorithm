@@ -14,14 +14,16 @@ class Main{
 		return y>=0 && x>=0 && y<Y && x<X;
 	}
 	
-	public static int DFS(boolean type, int y, int x) {
+	public static int DFS(boolean type, int y, int x) 
+	{
 		if(visit[y][x])  								// 방문한 곳인 경우 0 반환 하여 연산하지 않음 
 			return 0;
 		visit[y][x] = true; 							// 방문 처리 
 		int cnt = 1;									// 방문 갯수 체크 
 		
 		int ny, nx;
-		for(int xy[] : dxy) {
+		for(int xy[] : dxy) 
+		{
 			ny = y + xy[0]; 							// 새로운 y좌표
 			nx = x + xy[1]; 							// 새로운 x좌표
 			if(validate(ny,nx) && map[ny][nx] == type) 	// 유효성 검증 + 같은 문자열이면 DFS 재진행
@@ -29,7 +31,8 @@ class Main{
 		}
 		return cnt;
 	}
-	public static void main(String[] args)throws Exception{
+	public static void main(String[] args)throws Exception
+	{
 		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st 	= new StringTokenizer(br.readLine());
 		X 					= Integer.parseInt(st.nextToken());
@@ -37,7 +40,8 @@ class Main{
 		map 				= new boolean[Y][X];
 		visit 				= new boolean[Y][X];
 		
-		for(int i=0; i<Y; i++) {
+		for(int i=0; i<Y; i++) 
+		{
 			String str = br.readLine();
 			for(int j=0; j<X; j++)
 				if(str.charAt(j) == 'W')
@@ -45,16 +49,18 @@ class Main{
 		}
 		
 		for(int i=0; i<Y; i++) 
-			for(int j=0; j<X; j++) {
-				if(!visit[i][j]) { 					// 방문하지 않은 곳만 DFS진행 
+			for(int j=0; j<X; j++) 
+			{
+				if(!visit[i][j])					// 방문하지 않은 곳만 DFS진행
+				{ 					 
 					int cnt = DFS(map[i][j],i,j); 	// DFS진행 결과로 총 몇군데를 방문했는지 반환 받음
 					if(map[i][j]) 	W += cnt*cnt; 	// map정보가 true면 W에, false면 B에 값을 바인딩
 					else 			B += cnt*cnt; 	// map정보가 true면 W에, false면 B에 값을 바인딩
 				}
 			}
 		
-		System.out.print(W);
-		System.out.print(" ");
-		System.out.print(B);
+		StringBuilder sb = new StringBuilder();
+		sb.append(W).append(" ").append(B);
+		System.out.print(sb);
 	}
 }
