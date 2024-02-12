@@ -31,13 +31,13 @@ class Main{
 					{
 						map[ny][nx] = dist; 			// 0일때는 첫 dist를, 0이 아니였을때는 더 작은 상어로부터 거리를 넣는다.
 						q.add(new Point(ny,nx,dist));
+						STRIDE = Math.max(STRIDE, dist);
 					}
 			}
 		}
 	}
 	
 	public static void main(String[] args)throws Exception{
-
 		Y 		= read();
 		X 		= read();
 		map 	= new int[Y][X];
@@ -51,11 +51,6 @@ class Main{
 			}
 		
 		BFS();
-		
-		for(y=0; y<Y; y++)
-			for(x=0; x<X; x++)
-				if(map[y][x] > STRIDE)
-					STRIDE = map[y][x];	// dp처럼 사용한 map에 저장된 상어로부터 거리 중 가장 긴 값을 찾아 넣는다.
 
 		System.out.println(STRIDE-1);	// 상어로 부터 거리를 0부터 시작한게 아니라 1부터 시작하였으므로 1을 빼준다.
 	}
