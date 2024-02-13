@@ -3,7 +3,6 @@
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -11,7 +10,7 @@ import java.util.StringTokenizer;
 class Main{
 	static int N, M, TIME, exist[][];
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-	static boolean map[][], visit[][];
+	static boolean flag, map[][], visit[][];
 	static ArrayList<Point> list;
 	// 빠른 입력을 위한 함수
 	public static int read() throws Exception
@@ -32,12 +31,12 @@ class Main{
 			int nx = x + xy[1];
 			if(ny>=0 && nx>=0 && ny<N && nx<M && !visit[ny][nx]) {
 				if(map[ny][nx]) { // 치즈가 있는 곳인 경우
-					if(exist[ny][nx] == 1)
-						list.add(new Point(nx,ny)); // 맞닿은 횟수가 1번있었다면 list에 삽입
-					exist[ny][nx]++; // 맞 닿은 횟수 +1
-				}else {
-					DFS(ny,nx);
-				}
+					if(exist[ny][nx]++ == 1) {
+						visit[ny][nx] = true; // 방문 처리를해 2번 방문하지 않도록함
+						map[ny][nx] = false;// 치즈를녹임으로 써 연산을 줄임 
+						flag = true;
+					}
+				}else DFS(ny,nx);
 			}
 		}
 	}
@@ -59,15 +58,13 @@ class Main{
 		}
 		
 		while(true) {
+			flag = false; //반복 종료할 flag
 			visit = new boolean[N][M]; 	// 방문 배열 초기화
 			exist = new int[N][M]; 		// 치즈가 공기랑 몇번 맞닿았는지 체크하는 배열
 			list.clear();				// 리스트 초기화
 			DFS(0,0);
-			if(list.size() == 0) 		// 녹일 치즈가 없다면 종료 
+			if(!flag) 					// 녹일 치즈가 없다면 종료 
 				break;
-			else // 녹일 치즈가 있다면
-				for(Point l : list)
-					map[l.y][l.x] = false; // 치즈를 녹인다.
 			TIME++;
 		}
 		
