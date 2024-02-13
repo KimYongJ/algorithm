@@ -3,7 +3,7 @@
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -13,7 +13,6 @@ class Main{
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static boolean map[][], visit[][];
 	static ArrayList<Point> list;
-	static ArrayDeque<Point> q;
 	// 빠른 입력을 위한 함수
 	public static int read() throws Exception
 	{ 			
@@ -24,30 +23,22 @@ class Main{
 		if(c == 13) System.in.read();
 		return negative?~n+1:n;
 	}
-	
-	public static void BFS() {
-		q.add(new Point(0,0)); // 0,0은 항상 공기이기 때문에 넣어줌
+	public static void DFS(int y, int x) {
+		if(visit[y][x]) return; // 기방문은 스킵 
+		visit[y][x] = true; // 방문 처리 
 		
-		while(!q.isEmpty()) {
-			Point now = q.poll();
-			
-			if(visit[now.y][now.x])continue;		// 기방문 장소면 스킵
-			visit[now.y][now.x]= true; 				// 방문처리  
-			for(int xy[] : dxy) {
-				int y = now.y + xy[0];
-				int x = now.x + xy[1];
-				
-				if(y>=0 && x>=0 && y<N && x<M && !visit[y][x]){
-					if(map[y][x]) { 				// 치즈라면 맞닿은 곳이기 때문에 exist에 +1
-						if(exist[y][x] == 1)		// 치즈가 이미 맞닿은 적이 있다면 list에 넣음
-							list.add(new Point(x,y));
-						exist[y][x]++;
-					}else {
-						q.add(new Point(x,y)); 		// 방문하지 않았고, 치즈도 아닌 경우 큐에 넣음
-					}
+		for(int xy[] : dxy) {
+			int ny = y + xy[0];
+			int nx = x + xy[1];
+			if(ny>=0 && nx>=0 && ny<N && nx<M && !visit[ny][nx]) {
+				if(map[ny][nx]) { // 치즈가 있는 곳인 경우
+					if(exist[ny][nx] == 1)
+						list.add(new Point(nx,ny)); // 맞닿은 횟수가 1번있었다면 list에 삽입
+					exist[ny][nx]++; // 맞 닿은 횟수 +1
+				}else {
+					DFS(ny,nx);
 				}
 			}
-			
 		}
 	}
 	public static void main(String[] args)throws Exception
@@ -59,7 +50,7 @@ class Main{
 		M 		= Integer.parseInt(st.nextToken());
 		map 	= new boolean[N][M]; 	// 치즈가 있으면 true 없으면 false
 		list 	= new ArrayList<>(); 	// 녹을 치즈의 좌표를 담을 리스트
-		q 		= new ArrayDeque<>(); 	// BFS실행할 큐
+
 		
 		for(int i=0; i<N; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -70,9 +61,8 @@ class Main{
 		while(true) {
 			visit = new boolean[N][M]; 	// 방문 배열 초기화
 			exist = new int[N][M]; 		// 치즈가 공기랑 몇번 맞닿았는지 체크하는 배열
-			q.clear();					// 큐 초기화
 			list.clear();				// 리스트 초기화
-			BFS();
+			DFS(0,0);
 			if(list.size() == 0) 		// 녹일 치즈가 없다면 종료 
 				break;
 			else // 녹일 치즈가 있다면
