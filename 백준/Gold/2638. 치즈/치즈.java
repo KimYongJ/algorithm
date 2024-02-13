@@ -1,9 +1,7 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 
@@ -11,7 +9,6 @@ class Main{
 	static int N, M, TIME, exist[][];
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static boolean flag, map[][], visit[][];
-	static ArrayList<Point> list;
 	// 빠른 입력을 위한 함수
 	public static int read() throws Exception
 	{ 			
@@ -22,8 +19,7 @@ class Main{
 		if(c == 13) System.in.read();
 		return negative?~n+1:n;
 	}
-	public static void DFS(int y, int x) {
-		if(visit[y][x]) return; // 기방문은 스킵 
+	public static void DFS(int y, int x) { 
 		visit[y][x] = true; // 방문 처리 
 		
 		for(int xy[] : dxy) {
@@ -48,7 +44,6 @@ class Main{
 		N 		= Integer.parseInt(st.nextToken());
 		M 		= Integer.parseInt(st.nextToken());
 		map 	= new boolean[N][M]; 	// 치즈가 있으면 true 없으면 false
-		list 	= new ArrayList<>(); 	// 녹을 치즈의 좌표를 담을 리스트
 
 		
 		for(int i=0; i<N; i++) {
@@ -61,7 +56,6 @@ class Main{
 			flag = false; //반복 종료할 flag
 			visit = new boolean[N][M]; 	// 방문 배열 초기화
 			exist = new int[N][M]; 		// 치즈가 공기랑 몇번 맞닿았는지 체크하는 배열
-			list.clear();				// 리스트 초기화
 			DFS(0,0);
 			if(!flag) 					// 녹일 치즈가 없다면 종료 
 				break;
