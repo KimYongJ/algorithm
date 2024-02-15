@@ -3,7 +3,7 @@
 import java.util.ArrayDeque;
 
 class Main{
-	static int goal;
+	static int goal, nEmt, nTime;
 	static boolean visit[][];
 	
 	// 빠른 입력을 위한 함수
@@ -14,11 +14,10 @@ class Main{
         return n;
     }
     
-	public static void BFS() 
+	public static void BFS(Point p) 
 	{
-		ArrayDeque<Point> q = new ArrayDeque<Point>() {{add(new Point(1,0,0));}};
-		visit[1][0] = true;
-		int nEmt, nTime;
+		ArrayDeque<Point> q = new ArrayDeque<Point>() {{add(p);}};
+		
 		while(!q.isEmpty()) 
 		{
 
@@ -64,8 +63,9 @@ class Main{
 	public static void main(String[] args)throws Exception
 	{
 		goal 		= read();
-		visit 		= new boolean[1001][1001]; // 이모티콘 갯수당 걸린 시간
-		BFS();
+		visit 		= new boolean[1001][1001];
+		visit[1][0] = true;
+		BFS(new Point(1,0,0));
 	}
 	static class Point
 	{
