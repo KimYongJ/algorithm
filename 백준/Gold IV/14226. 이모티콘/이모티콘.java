@@ -3,8 +3,7 @@
 import java.util.ArrayDeque;
 
 class Main{
-	static final int MAX = 100_000_000;
-	static int goal, MIN, time;
+	static int goal;
 	static boolean visit[][];
 	
 	// 빠른 입력을 위한 함수
@@ -26,7 +25,7 @@ class Main{
 			Point now = q.poll(); // 큐에서 하나를 꺼낸다.
 			if(now.emt == goal) 
 			{   // 종료조건
-				MIN = now.time;
+				System.out.println(now.time);
 				return;
 			}
 			
@@ -65,12 +64,8 @@ class Main{
 	public static void main(String[] args)throws Exception
 	{
 		goal 		= read();
-		MIN 		= Integer.MAX_VALUE;
 		visit 		= new boolean[1001][1001]; // 이모티콘 갯수당 걸린 시간
-		
 		BFS();
-		
-		System.out.println(MIN);
 	}
 	static class Point
 	{
