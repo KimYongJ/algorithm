@@ -22,44 +22,43 @@ class Main{
 		int nEmt, nTime;
 		while(!q.isEmpty()) 
 		{
-			int size = q.size();
-			for(int i=0; i<size; i++) {
-				Point now = q.poll(); // 큐에서 하나를 꺼낸다.
-				if(now.emt == goal) 
-				{   // 종료조건
-					MIN = now.time;
-					return;
-				}
-				
-				nTime = now.time + 1;
-	
-				// 클립보드에 복사
-				if(!visit[now.emt][now.emt]) 
-				{
-					visit[now.emt][now.emt] = true;
-					q.add(new Point(now.emt, nTime, now.emt));
-				}
-				
-				// 클립보드있는 것을 화면에 붙여 넣기
-				if(now.clip > 0) 
-				{
-					nEmt = now.emt + now.clip;
-					if(1<nEmt && nEmt <1001 && !visit[nEmt][now.clip]) 
-					{
-						visit[nEmt][now.clip] = true;
-						q.add(new Point(nEmt, nTime, now.clip));
-					}
-				}
-				
-				// 이모티콘 삭제 
-				nEmt = now.emt-1;
+
+			Point now = q.poll(); // 큐에서 하나를 꺼낸다.
+			if(now.emt == goal) 
+			{   // 종료조건
+				MIN = now.time;
+				return;
+			}
+			
+			nTime = now.time + 1;
+
+			// 클립보드에 복사
+			if(!visit[now.emt][now.emt]) 
+			{
+				visit[now.emt][now.emt] = true;
+				q.add(new Point(now.emt, nTime, now.emt));
+			}
+			
+			// 클립보드있는 것을 화면에 붙여 넣기
+			if(now.clip > 0) 
+			{
+				nEmt = now.emt + now.clip;
 				if(1<nEmt && nEmt <1001 && !visit[nEmt][now.clip]) 
 				{
 					visit[nEmt][now.clip] = true;
 					q.add(new Point(nEmt, nTime, now.clip));
 				}
 			}
+			
+			// 이모티콘 삭제 
+			nEmt = now.emt-1;
+			if(1<nEmt && nEmt <1001 && !visit[nEmt][now.clip]) 
+			{
+				visit[nEmt][now.clip] = true;
+				q.add(new Point(nEmt, nTime, now.clip));
+			}
 		}
+		
 			
 		
 	}
