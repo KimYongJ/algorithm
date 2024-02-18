@@ -1,9 +1,6 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{ 
 	static final int MAX = 100_001;
@@ -12,6 +9,12 @@ class Main{
 	static StringBuilder sb;
 	static ArrayList<Integer> list;
 	
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
+    
 	public static void DFS(int node) 
 	{
 		list.add(node);
@@ -55,10 +58,8 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception
 	{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		start 				= Integer.parseInt(st.nextToken());
-		end 				= Integer.parseInt(st.nextToken());
+		start 				= read();
+		end 				= read();
 		route 				= new int[MAX]; 		// 최종적으로 경로를 출력할 것
 		visit 				= new boolean[MAX]; 	// 방문 체크
 		sb 					= new StringBuilder();
