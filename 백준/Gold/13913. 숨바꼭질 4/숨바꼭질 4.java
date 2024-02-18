@@ -3,8 +3,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 class Main{ 
-	static final int MAX = 100_001;
-	static int start, end, time, route[], value[] = {-1,1,2};
+	static int start, end, time, MAX, route[], value[] = {-1,1,2};
 	static boolean visit[];
 	static StringBuilder sb;
 	static ArrayList<Integer> list;
@@ -43,7 +42,7 @@ class Main{
 			
 			for(int v : value) 
 			{
-				nextNode = now.node + (v != 2 ? v : now.node); // 다음 노드 경로
+				nextNode = (v != 2 ? now.node + v : now.node << 1); // 다음 노드 경로
 
 				if(0<= nextNode && nextNode< MAX && !visit[nextNode])
 				{
@@ -60,13 +59,15 @@ class Main{
 	{
 		start 				= read();
 		end 				= read();
+		MAX					= end+2;
 		route 				= new int[MAX]; 		// 최종적으로 경로를 출력할 것
 		visit 				= new boolean[MAX]; 	// 방문 체크
 		sb 					= new StringBuilder();
 		list 				= new ArrayList<>(); 	// 경로를 담을 리스트
 		if(start == end) 
 			sb.append(0).append('\n').append(start);
-		else if(start > end) {
+		else if(start > end) 
+		{
 			sb.append(start - end).append('\n');
 			for(int i=start; i>=end; i--)
 				sb.append(i).append(' ');
