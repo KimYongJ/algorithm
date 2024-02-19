@@ -8,25 +8,34 @@ class Main{
 	static int N, M, diff, map[][];
 	static boolean visit[];
 	
+	// 값 연산을 빠르게 하기 위한 조치
+	public static void init() 
+	{
+		for(int i=0; i<N; i++)
+			for(int j=0; j<N; j++) 
+			{
+				map[i][j] += map[j][i];
+				map[j][i] = map[i][j];
+			}
+	}
 	public static void cal() {
 		int sum1 = 0;
 		int sum2 = 0;
 		
-		for(int i=0; i<N-1; i++) 
-			for(int j=i+1; j<N; j++) 
+		for(int i=0; i<N-1; i++) {
+			for(int j=i+1; j<N; j++) {
 				if( visit[i] && visit[j] )
-					sum1 += (map[i][j] + map[j][i]);
+					sum1 += map[i][j];
 				else if( !visit[i] && !visit[j] )
-					sum2 += (map[i][j] + map[j][i]);
-			
-		
-		int val = (int) Math.abs(sum1-sum2);
-		if(val == 0) 
-		{
-			System.out.println(0);
+					sum2 += map[i][j];
+			}
+		}
+		int value = Math.abs(sum1-sum2)/2;
+		if(value == 0) {
+			System.out.print(0);
 			System.exit(0);
 		}
-		diff = Math.min(diff, val);
+		diff = Math.min(diff, value);
 	}
 	public static void DFS(int depth, int i) {
 		if(depth == M) // 절반을 뽑았을 때 
@@ -36,12 +45,9 @@ class Main{
 		
 		for(int idx = i; idx<N; idx++) 
 		{
-			if(!visit[idx]) 
-			{
-				visit[idx] = true;
-				DFS(depth+1, idx+1);
-				visit[idx] = false;
-			}
+			visit[idx] = true;
+			DFS(depth+1, idx+1);
+			visit[idx] = false;
 		}
 	}
 	public static void main(String[] args)throws Exception
@@ -59,7 +65,11 @@ class Main{
 			for(int j=0; j<N; j++)
 				map[i][j] = Integer.parseInt(st.nextToken());
 		}
+		
+		init(); // map배열 값 수정
 		DFS(0,0);// N개 중 M개를 뽑는 것
+		
+		
 		System.out.println(diff);
 	}
 
