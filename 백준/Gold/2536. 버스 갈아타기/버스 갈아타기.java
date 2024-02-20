@@ -20,7 +20,6 @@ class Main
 	}
 	public static boolean validate(int[] line1, int[] line2)
 	{
-
 	    return !(line1[2] < line2[0] || line1[0] > line2[2] || line1[3] < line2[1] || line1[1] > line2[3]);
 	}
 	public static void BFS() 
@@ -34,7 +33,6 @@ class Main
 				System.out.print(now.cnt);
 				return;
 			}
-			
 			cur = hm.get(now.busNum);
 			cnt = now.cnt + 1;
 			for(int i=1; i<=BUS; i++) 
@@ -101,7 +99,8 @@ class Main
 				System.out.println(1);
 				return;
 			}
-			if(isStart) {
+			if(isStart) 
+            {
 				q.add(new Node(i,1));
 				visit[i] = true;
 			}
