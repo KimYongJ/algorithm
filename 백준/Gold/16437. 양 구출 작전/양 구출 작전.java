@@ -39,7 +39,7 @@ class Main{
 		for(int i=2; i<=N; i++) 
 		{
 			st = new StringTokenizer(br.readLine());
-			isSheep[i] = "S".equals(st.nextToken()); // 양이면 true
+			isSheep[i] = "S".equals(st.nextToken());         // 양이면 true
 			animalCnt[i] = Integer.parseInt(st.nextToken()); // 양과 늑대의 마리수를 입력
 			
 			node = Integer.parseInt(st.nextToken());
