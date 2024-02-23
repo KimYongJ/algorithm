@@ -9,7 +9,7 @@ class Main{
 	
 	static int Y, X, flag, total, visit[][];
 	static char map[][];
-	static HashSet<Integer> success, fail;
+	static HashSet<Integer> success;
 	public static void DFS(int y, int x, int depth)
 	{
 		// 밖으로 벗어 났을 때 + 탈출 가능한 flag를 만났을 때
@@ -19,18 +19,15 @@ class Main{
 			success.add(flag); // flag 값을 success에 더해 다음 탐색시 탈출 가능유무를 알 수 있게 한다.
 		}
 		// 방문한 노드가 0이 아닌경우 사이클이거나, fail에 저장된 값이다. 이유는 위에서 success를 한번 체크했기 때문
-		else if(visit[y][x] != 0)
-		{
-			fail.add(flag);
-		}
-		else
+		else if(visit[y][x] == 0)
 		{
 			visit[y][x] = flag;
-			switch(map[y][x]) {
-			case 'U' : DFS(y-1,x,depth + 1);break;
-			case 'R' : DFS(y,x+1,depth + 1);break;
-			case 'D' : DFS(y+1,x,depth + 1);break;
-			case 'L' :DFS(y,x-1,depth + 1); break;
+			switch(map[y][x]) 
+			{
+				case 'U' : DFS(y-1,x,depth + 1);break;
+				case 'R' : DFS(y,x+1,depth + 1);break;
+				case 'D' : DFS(y+1,x,depth + 1);break;
+				case 'L' :DFS(y,x-1,depth + 1); break;
 			}
 		}
 	}
@@ -43,22 +40,20 @@ class Main{
 		visit 				= new int[Y][X];
 		map 				= new char[Y][X];
 		success 			= new HashSet<>();
-		fail 				= new HashSet<>();
 		// 값을 입력 받는다.
 		for(int y=0; y<Y; y++)
 			map[y] = br.readLine().toCharArray();
 		
 		for(int y=0; y<Y; y++)
 			for(int x=0; x<X; x++) 
-			{
 				// 방문한적 없을 때 만 실행
-				if(visit[y][x] == 0)
+				if(visit[y][x] == 0) 
 				{
 					flag++;
 					DFS(y,x,0);
 				}
-			}
-		
+				
+
 		System.out.println(total);
 	}
 	
