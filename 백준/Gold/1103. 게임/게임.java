@@ -10,7 +10,7 @@ class Main{
 	static int dp [][];
 	static int dxy[][] = {{-1,0},{1,0},{0,1},{0,-1}};
 	
-	// 후위 순회 방식을 통해 dp[y][x]의 가장 큰 값을 반환 
+	// dp[y][x]의 가장 큰 값을 반환 
 	public static int DFS(int y, int x) 
 	{
 		// dp[y][x]에 0이 아닌 값이 가장 큰 것이 보장된다. -1인 경우도 반환되게 하여 사이클 탐지
