@@ -13,13 +13,6 @@ class Main{
 	
 	public static void DFS(int y, int x, int depth, int dir) 
 	{
-		//범위를 벗어나거나 구멍인 경우
-		if( y<0 || x<0 || y >=Y || x >= X || map[y][x] == 0)
-		{
-			if(max < depth) 
-				max = depth;
-			return;
-		}
 		// 기방문은 사이클이므로 -1 종료 
 		if(visit[y][x]) 
 		{
@@ -28,14 +21,22 @@ class Main{
 		}
 		if(dp[y][x] >= depth)
 			return;
-		dp[y][x] = depth;
+		dp[y][x] 	= depth;
 		visit[y][x] = true; // 방문처리
-		int nextY, nextX, i=0;
-		for(int xy[] : dxy) 
+		depth		+= 1;
+		int nextY, nextX;
+		
+		for(int i=0; i<4; i++)
 		{
-			nextY = y + xy[0] * map[y][x];
-			nextX = x + xy[1] * map[y][x];
-			DFS(nextY, nextX, depth + 1, i++);
+			nextY = y + dxy[i][0] * map[y][x];
+			nextX = x + dxy[i][1] * map[y][x];
+			//범위를 벗어나거나 구멍인 경우
+			if( nextY<0 || nextX<0 || nextY >=Y || nextX >= X || map[nextY][nextX] == 0)
+			{
+				if(max < depth) 
+					max = depth;
+			}
+			else DFS(nextY, nextX, depth, i);
 		}
 		visit[y][x] = false;// 백트레킹
 	}
