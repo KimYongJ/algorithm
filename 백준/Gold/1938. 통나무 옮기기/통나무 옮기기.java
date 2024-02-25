@@ -7,34 +7,37 @@ import java.util.ArrayDeque;
 class Main{
 
 
-	static int N, goal[][];
+	static int N, result, map[][], goal[][];
 	static int dxy[][] = {{1,0},{-1,0},{0,1},{0,-1},  {-1,-1},{-1,1},{1,-1},{1,1}};
 	static boolean visit[][][];
-	static char map[][];
+
 	
 	public static boolean rotate_validate(int y, int x) 
 	{
-		if(map[y][x] == '1') return false;
+		if(map[y][x] == 1) 
+			return false;
+		
 		int nextX, nextY;
 		for(int xy[] : dxy) 
 		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if( !(nextY>=0 && nextX>=0 && nextY<N && nextX<N && map[nextY][nextX] !='1') )
+			if( !(nextY>=0 && nextX>=0 && nextY<N && nextX<N && map[nextY][nextX] !=1) )
 				return false;
 		}
 		return true;
 	}
 	public static boolean move_validate(int y, int x, int dir) 
 	{
-		if( y<0 || x<0 || y>=N || x>=N || map[y][x] == '1') return false;
+		if( y<0 || x<0 || y>=N || x>=N || map[y][x] == 1) 
+			return false;
 		if(dir == 0)  	// 가로일 때 
 		{
-			if(x+1 >=N || x-1<0 || map[y][x+1] == '1' || map[y][x-1] =='1')
+			if(x+1 >=N || x-1<0 || map[y][x+1] == 1 || map[y][x-1] ==1)
 				return false;
 		}else			// 세로일 때 
 		{
-			if(y+1 >=N || y-1 <0 || map[y+1][x] == '1' || map[y-1][x] =='1')
+			if(y+1 >=N || y-1 <0 || map[y+1][x] == 1 || map[y-1][x] ==1)
 				return false;
 		}
 		return true;
@@ -53,8 +56,8 @@ class Main{
 			
 			if(goal[now.dir][0] == now.y && goal[now.dir][1] == now.x) 
 			{
-				System.out.println(now.cnt);
-				System.exit(0);
+				result = now.cnt;
+				return;
 			}
 			
 			cnt = now.cnt + 1;
@@ -87,7 +90,7 @@ class Main{
 	{
 		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
 		N 					= Integer.parseInt(br.readLine());
-		map 				= new char[N][N];
+		map 				= new int[N][N];
 		visit 				= new boolean[2][N+1][N+1]; // 가로인지 세로인지 dir과 가운데 좌표 y, x를 기준으로 방문 체크 
 		goal				= new int[2][2];
 		
@@ -113,7 +116,7 @@ class Main{
 					end[eidx++][1] = x;
 					c = '0';
 				}
-				map[y][x] = c;
+				map[y][x] = c-'0';
 				
 			}
 		}
@@ -128,8 +131,7 @@ class Main{
 		dir = start[1][0] -1 == start[0][0] ? 1 : 0;
 		BFS(start[1][0], start[1][1], dir);
 
-		
-		System.out.println(0);
+		System.out.println(result);
 	}
 }
 class Node{
