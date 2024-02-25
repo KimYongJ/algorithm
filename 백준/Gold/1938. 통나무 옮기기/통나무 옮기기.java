@@ -62,7 +62,7 @@ class Main{
 			{
 				if(i==4) // 회전 가능한지 파악 
 				{
-					nextDir = now.dir == 0 ? 1 : 0;
+					nextDir = (now.dir+1)%2;
 	 				if(rotate_validate(now.y,now.x) && !visit[nextDir][now.y][now.x]) // 회전 가능한 경우 방향 회전
 	 				{
 	 					visit[nextDir][now.y][now.x] = true;
