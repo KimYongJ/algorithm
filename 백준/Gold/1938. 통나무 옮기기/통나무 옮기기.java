@@ -14,9 +14,6 @@ class Main{
 	
 	public static boolean rotate_validate(int y, int x) 
 	{
-		if(map[y][x] == 1) 
-			return false;
-		
 		int nextX, nextY;
 		for(int xy[] : dxy) 
 		{
