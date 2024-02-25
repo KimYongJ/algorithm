@@ -58,27 +58,24 @@ class Main{
 			}
 			
 			cnt = now.cnt + 1;
-			for(int i=0; i<5; i++) 
+			// 방향 유지 이동
+			for(int i=0; i<4; i++) 
 			{
-				if(i==4) // 회전 가능한지 파악 
+				nextY = now.y + dxy[i][0];
+				nextX = now.x + dxy[i][1];
+				if(move_validate(nextY,nextX, now.dir) && !visit[now.dir][nextY][nextX]) 
 				{
-					nextDir = (now.dir+1)%2;
-	 				if(rotate_validate(now.y,now.x) && !visit[nextDir][now.y][now.x]) // 회전 가능한 경우 방향 회전
-	 				{
-	 					visit[nextDir][now.y][now.x] = true;
-	 					q.add(new Node(now.y, now.x, nextDir, cnt));
-	 				}
-				}else {
-					nextY = now.y + dxy[i][0];
-					nextX = now.x + dxy[i][1];
-					if(move_validate(nextY,nextX, now.dir) && !visit[now.dir][nextY][nextX]) 
-					{
-						visit[now.dir][nextY][nextX] = true;
-						q.add(new Node(nextY, nextX, now.dir, cnt));
-					}
+					visit[now.dir][nextY][nextX] = true;
+					q.add(new Node(nextY, nextX, now.dir, cnt));
 				}
 			}
-				
+			// 방향만 회전 시키기
+			nextDir = (now.dir+1)%2;
+			if(rotate_validate(now.y,now.x) && !visit[nextDir][now.y][now.x]) // 회전 가능한 경우 방향 회전
+			{
+				visit[nextDir][now.y][now.x] = true;
+				q.add(new Node(now.y, now.x, nextDir, cnt));
+			}
 			
 		}
 		
@@ -91,10 +88,10 @@ class Main{
 		visit 				= new boolean[2][N+1][N+1]; // 가로인지 세로인지 dir과 가운데 좌표 y, x를 기준으로 방문 체크 
 		goal				= new int[2][2];
 		
-		int sidx=0, 
-			eidx=0, 
-			end[][] = new int[3][2],
-			start[][] = new int[3][2];
+		int sidx			= 0, 
+			eidx			= 0, 
+			end[][] 		= new int[3][2],
+			start[][] 		= new int[3][2];
 		
 		for(int y=0; y<N; y++) 
 		{
@@ -104,28 +101,29 @@ class Main{
 				char c = str.charAt(x);
 				if(c=='B')  // 시작 위치 넣기 
 				{
-					start[sidx][0] = y;
-					start[sidx++][1] = x;
-					c = '0';
+					start[sidx][0] 		= y;
+					start[sidx++][1] 	= x;
+					c = 0;
 				}else if(c=='E')  // 종료 위치 넣기
 				{
-					end[eidx][0] = y;
-					end[eidx++][1] = x;
-					c = '0';
+					end[eidx][0] 		= y;
+					end[eidx++][1] 		= x;
+					c = 0;
 				}
-				map[y][x] = c-'0';
+				map[y][x] 				= c-'0';
 				
 			}
 		}
 		
 		int dir;
 		// 도촥 좌표 다시 셋팅 
-		dir = end[1][0] -1 == end[0][0] ? 1 : 0;
-		goal[dir][0] = end[1][0];
-		goal[dir][1] = end[1][1];
+		dir 			= end[1][0] -1 == end[0][0] ? 1 : 0;
+		goal[dir][0] 	= end[1][0];
+		goal[dir][1] 	= end[1][1];
 		
 		// 세로면 1 가로면 0
-		dir = start[1][0] -1 == start[0][0] ? 1 : 0;
+		dir 			= start[1][0] -1 == start[0][0] ? 1 : 0;
+		
 		BFS(start[1][0], start[1][1], dir);
 
 		System.out.println(result);
