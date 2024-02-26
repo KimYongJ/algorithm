@@ -17,12 +17,12 @@ class Main
 {
 	
 	static int N, K, fvalue, endIdx, point[][];
-	static int mid = 14_142;
+	static int mid;
 	static boolean visit[];
 	static ArrayDeque<Node> q;
 	public static int getFuel(int idx1, int idx2) 
 	{
-		return (int)(Math.ceil(Math.sqrt(Math.pow(point[idx1][0]-point[idx2][0], 2) + Math.pow(point[idx1][1]-point[idx2][1], 2))/10.0));
+		return (int)(Math.pow(point[idx1][0]-point[idx2][0], 2) + Math.pow(point[idx1][1]-point[idx2][1], 2));
 	}
 	public static boolean BFS() {
 		visit	= new boolean[N];
@@ -75,7 +75,7 @@ class Main
 				left = mid+1;
 		}
 		
-		System.out.println(left);
+		System.out.println((int)Math.ceil(Math.sqrt(left)/10.0));
 		
 	}
 	
