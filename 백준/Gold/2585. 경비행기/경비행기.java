@@ -5,7 +5,7 @@ import java.util.ArrayDeque;
 class Main
 {
 	
-	static int N, K, mid, endIdx, point[][];
+	static int N, K, mid, left, right, endIdx, point[][];
 	static boolean visit[];
 	static ArrayDeque<Node> q;
 	// 빠른 입력을 위한 함수
@@ -58,10 +58,9 @@ class Main
 			point[i][0] = read();
 			point[i][1] = read();
 		}
+		 
 		
-		int left 	= 0, 
-			right 	= getFuel(0, endIdx);
-		
+		right = getFuel(0, endIdx);
 		while(left < right) {
 			mid = (right+left) / 2;
 			if( BFS() )
