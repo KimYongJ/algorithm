@@ -8,45 +8,47 @@ class Main{
 	
 	static int Y, X, nextY, nextX, pipe_cnt;
 	static int dy[] = {-1,0,1};
-	static char map[][];
-	static boolean endCondition;
+	static boolean map[][];
 	
-	public static void DFS(int y, int x) 
+	public static boolean DFS(int y, int x) 
 	{
 		// 마지막 직전에 도달했을 때 종료 
 		if(x == X) 
 		{
-			endCondition = true;
 			pipe_cnt++;
-			return;
+			return true;
 		}
+		// x는 항상 +1 , y는 위, 중간, 아래로 탐색
 		for(int i=0; i<3; i++) 
 		{
 			nextY = y + dy[i];
 			nextX = x + 1;
-			if(nextY>=0 && nextY<Y && map[nextY][nextX]!='x' && !endCondition)
+			// 한번 간곳은 두번갈 필요 없다.
+			if(map[nextY][nextX])
 			{
-				map[nextY][nextX] = 'x';
-				DFS(nextY, nextX);
+				map[nextY][nextX] = false;// 방문처리
+				if( DFS(nextY, nextX) )
+					return true;
 			}
 		}
+		return false;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st 	= new StringTokenizer(br.readLine());
 		Y 					= Integer.parseInt(st.nextToken());
 		X 					= Integer.parseInt(st.nextToken());
-		map 				= new char[Y][X];
+		map 				= new boolean[Y+2][X+2];// 패딩 입력 받음
 		// 값을 입력 받는다. 
-		for(int i=0; i<Y; i++)
-			map[i] = br.readLine().toCharArray();
-		
-		X--;
-		for(int i=0; i<Y; i++) 
+		for(int i=1; i<=Y; i++) 
 		{
-			endCondition = false;
-			DFS(i,0);
+			for(int j=1; j<=X; j++)
+				map[i][j] = br.read() == '.'; 	// 갈 수 있으면 true
+			br.readLine();						// 줄바꿈 버림처리
 		}
+		// 패딩을 제외한 행부터 DFS시작
+		for(int i=1; i<=Y; i++) 
+			DFS(i,1);
 		
 		System.out.println(pipe_cnt);
 	}
