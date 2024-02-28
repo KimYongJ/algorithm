@@ -1,20 +1,8 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
-class Node
-{
-	int y, x, time, bridge;
-	Node(int y, int x, int time, int bridge)
-	{
-		this.y = y;
-		this.x = x;
-		this.time = time;
-		this.bridge = bridge;
-	}
-}
+
+
 class Main{
 	
 	static int N, M, map[][];
@@ -22,19 +10,13 @@ class Main{
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static boolean visit[][][];
 	static ArrayDeque<Node> q;
-//	public static void print() {
-//		System.out.println("===============================");
-//		for(int i=1; i<=N; i++)
-//		{
-//			for(int j=1; j<=N; j++) 
-//			{
-//				System.out.print(map[i][j] + "   ");
-//			}System.out.println("");
-//		}
-//			
-//		System.out.println("===============================");
-//		System.out.println("");
-//	}
+	// 빠른 입력을 위한 함수
+    static int read() throws Exception 
+    {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void BFS() 
 	{
 		q = new ArrayDeque<Node>();
@@ -44,7 +26,6 @@ class Main{
 		while(!q.isEmpty()) 
 		{
 			Node now = q.poll();
-			//print();
 			// 종료점일 경우 종료
 			if(now.y == N && now.x == N) 
 			{
@@ -72,29 +53,25 @@ class Main{
 				else if(map[nextY][nextX] > 1 && map[now.y][now.x]==1)
 				{
 					// 시간이 맞아 건널 수 있을 때 
-					if(nextTime % map[nextY][nextX] == 0) {
+					if(nextTime % map[nextY][nextX] == 0) 
+					{
 						q.add(new Node(nextY, nextX, nextTime, now.bridge));
 						visit[now.bridge][nextY][nextX] = true;
-					}else {
+					}else 
 						q.add(new Node(now.y,now.x, nextTime, now.bridge));
-					}
 				}
-				// 절벽인데 다리를 한번 놓을 수 있는 경우
-				else if(map[nextY][nextX] == 0 && now.bridge == 0) 
+				// 절벽인데 다리를 한번 놓을 수 있는 경우 + 현재 위치가 땅이여야 다리 놓아 가기 가능
+				else if(map[nextY][nextX] == 0 && now.bridge == 0 && map[now.y][now.x]==1) 
 				{
-					// 현재 위치가 땅이여야 다리 놓아 가기 가능
-					if(map[now.y][now.x]==1) {
-						if(nextTime % M == 0) // 절벽이라 다리를 생성하는데 마침 주기와 시간이 맞아 떨어질 때
-						{
-							q.add(new Node(nextY, nextX, nextTime, 1));
-							visit[1][nextY][nextX] = true;
-						}
-						else // 절벽이지만 주기가맞지 않을 때 기다린다.
-						{
-							q.add(new Node(now.y,now.x, nextTime, now.bridge));
-						}
-						
+					// 절벽이라 다리를 생성하는데 마침 주기와 시간이 맞아 떨어질 때
+					if(nextTime % M == 0)
+					{
+						q.add(new Node(nextY, nextX, nextTime, 1));
+						visit[1][nextY][nextX] = true;
 					}
+					// 절벽이지만 주기가맞지 않을 때 기다린다.
+					else 
+						q.add(new Node(now.y,now.x, nextTime, now.bridge));
 				}
 				
 			}
@@ -102,34 +79,41 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		N 	= Integer.parseInt(st.nextToken());
-		M 	= Integer.parseInt(st.nextToken());
-		map = new int[N+2][N+2];// 입력 받을 지도
-		visit = new boolean[2][N+2][N+2];
+		N 		= read();
+		M 		= read();
+		map 	= new int[N+2][N+2];				// 입력 받을 지도
+		visit 	= new boolean[2][N+2][N+2];			// 다리 생성 유무에 따라서 visit을 다르게 해야 한다. 나중에 다리를 생성한게 더 빠를 수도 있기 때문
+		
 		// 패딩 입력
 		for(int i=0; i<N+2; i++)
 			map[0][i] = map[N+1][i] = map[i][0] = map[i][N+1] = -1;
+		
 		// 값 입력 받음
 		for(int i=1; i<=N; i++) 
-		{
-			st = new StringTokenizer(br.readLine());
-			for(int j=1; j<=N; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-		// 절벽 교차점 -1로 체크
+			for(int j=1; j<=N; j++) 
+				map[i][j] = read();
+		
+		// 절벽 교차점 방문 체크
 		for(int i=1; i<=N; i++)
 			for(int j=1; j<=N; j++)
 				if(map[i][j] == 0)
 				{
 					if((map[i-1][j] == 0 && map[i][j-1] == 0) || (map[i+1][j]==0 && map[i][j-1] == 0) ||
 						(map[i+1][j]==0 && map[i][j+1] == 0) || (map[i][j+1]==0 && map[i-1][j] == 0))
-						visit[0][i][j] = visit[1][i][j] = true;
+						visit[0][i][j] = 
+						visit[1][i][j] = true;
 				}
-
 		BFS();
 	}
-	
+}
+class Node
+{
+	int y, x, time, bridge;
+	Node(int y, int x, int time, int bridge)
+	{
+		this.y = y;
+		this.x = x;
+		this.time = time;
+		this.bridge = bridge;
+	}
 }
