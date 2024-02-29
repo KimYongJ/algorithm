@@ -24,7 +24,7 @@ class Main{
 		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(nextX>=0 && nextY>=0 && nextX<X && nextY<Y && map[nextY][nextX] == 0)
+			if(map[nextY][nextX] == 0)
 				cnt += DFS(nextY, nextX);
 		}
 		
@@ -38,24 +38,29 @@ class Main{
 		flag 				= 1;
 		Y 					= Integer.parseInt(st.nextToken());
 		X 					= Integer.parseInt(st.nextToken());
-		map 				= new int[Y][X];
+		map 				= new int[Y+2][X+2];
 		hm 					= new HashMap<>();
 		
-		for(int y=0; y<Y; y++) 
+		for(int y=0; y<Y+2; y++) // 빠른 연산을 위한 패딩
+			map[y][0] = map[y][X+1] = -1;
+		for(int x=0; x<X+2; x++) // 빠른 연산을 위한 패딩
+			map[0][x] = map[Y+1][x] = -1;
+		
+		for(int y=1; y<=Y; y++) 
 		{
 			String str = br.readLine();
-			for(int x=0; x<X; x++)
-				map[y][x] = str.charAt(x) - '0';
+			for(int x=1; x<=X; x++)
+				map[y][x] = str.charAt(x-1) - '0';
 		}
 		
-		for(int y=0; y<Y; y++)
-			for(int x=0; x<X; x++)
+		for(int y=1; y<=Y; y++)
+			for(int x=1; x<=X; x++)
 				if(map[y][x] == 0)
 					hm.put(++flag , DFS(y,x));
 
-		for(int y=0; y<Y; y++) 
+		for(int y=1; y<=Y; y++) 
 		{
-			for(int x=0; x<X; x++) 
+			for(int x=1; x<=X; x++) 
 			{
 				int sum = 0;
 				if(map[y][x] == 1) 
@@ -66,7 +71,7 @@ class Main{
 					{
 						nextY = y + xy[0];
 						nextX = x + xy[1];
-						if(nextX>=0 && nextY>=0 && nextX<X && nextY<Y && map[nextY][nextX] >= 2)
+						if(map[nextY][nextX] >= 2)
 							set.add(map[nextY][nextX]);
 					}
 					for(int i : set)
