@@ -2,15 +2,15 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
 class Main{
 	
-	static int Y, X, nextY, nextX, flag, map[][];
-	static HashMap<Integer, Integer> hm;
+	static int Y, X,  map[][];
 	static HashSet<Integer> set;
+	static ArrayList<Integer> list;
 	
 	// DFS를 돌면서 0인 구간의 갯수를 세고 반환한다.
 	public static int DFS(int flag, int y, int x) 
@@ -28,11 +28,11 @@ class Main{
 		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st 	= new StringTokenizer(br.readLine());
 		StringBuilder sb 	= new StringBuilder();
-		flag 				= 1;
+		int flag 			= 1;
 		Y 					= Integer.parseInt(st.nextToken());
 		X 					= Integer.parseInt(st.nextToken());
 		map 				= new int[Y+2][X+2];
-		hm 					= new HashMap<>();
+		list				= new ArrayList<>() {{add(0);add(0);}};
 		
 		for(int y=0; y<Y+2; y++) // 빠른 연산을 위한 패딩
 			map[y][0] = map[y][X+1] = -1;
@@ -48,8 +48,9 @@ class Main{
 		
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
-				if(map[y][x] == 0)
-					hm.put(++flag , DFS(flag,y,x));
+				if(map[y][x] == 0) 
+					list.add(DFS(++flag,y,x));
+				
 
 		for(int y=1; y<=Y; y++) 
 		{
@@ -65,7 +66,7 @@ class Main{
 					if(map[y][x+1]>=2) set.add(map[y][x+1]);
 					if(map[y][x-1]>=2) set.add(map[y][x-1]);
 					for(int i : set)
-						sum += hm.get(i);
+						sum += list.get(i);
 				}
 				sb.append(sum%10);
 			}
