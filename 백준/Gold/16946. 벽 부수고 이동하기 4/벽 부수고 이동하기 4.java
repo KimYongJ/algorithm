@@ -9,25 +9,18 @@ import java.util.StringTokenizer;
 class Main{
 	
 	static int Y, X, nextY, nextX, flag, map[][];
-	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static HashMap<Integer, Integer> hm;
 	static HashSet<Integer> set;
 	
 	// DFS를 돌면서 0인 구간의 갯수를 세고 반환한다.
-	public static int DFS(int y, int x) 
+	public static int DFS(int flag, int y, int x) 
 	{
-		if(map[y][x] !=0 ) return 0;
-		map[y][x] = flag;
 		int cnt = 1;
-		
-		for(int xy[] : dxy) 
-		{
-			nextY = y + xy[0];
-			nextX = x + xy[1];
-			if(map[nextY][nextX] == 0)
-				cnt += DFS(nextY, nextX);
-		}
-		
+		map[y][x] = flag;
+		if(map[y+1][x]==0) cnt += DFS(flag,y+1,x);
+		if(map[y-1][x]==0) cnt += DFS(flag,y-1,x);
+		if(map[y][x+1]==0) cnt += DFS(flag,y,x+1);
+		if(map[y][x-1]==0) cnt += DFS(flag,y,x-1);
 		return cnt;
 	}
 	public static void main(String[] args)throws Exception
@@ -56,7 +49,7 @@ class Main{
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
 				if(map[y][x] == 0)
-					hm.put(++flag , DFS(y,x));
+					hm.put(++flag , DFS(flag,y,x));
 
 		for(int y=1; y<=Y; y++) 
 		{
@@ -67,13 +60,10 @@ class Main{
 				{
 					set = new HashSet<Integer>();
 					sum = 1;
-					for(int xy[] : dxy) 
-					{
-						nextY = y + xy[0];
-						nextX = x + xy[1];
-						if(map[nextY][nextX] >= 2)
-							set.add(map[nextY][nextX]);
-					}
+					if(map[y+1][x]>=2) set.add(map[y+1][x]);
+					if(map[y-1][x]>=2) set.add(map[y-1][x]);
+					if(map[y][x+1]>=2) set.add(map[y][x+1]);
+					if(map[y][x-1]>=2) set.add(map[y][x-1]);
 					for(int i : set)
 						sum += hm.get(i);
 				}
