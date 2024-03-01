@@ -1,4 +1,3 @@
-
 //https://github.com/KimYongJ/algorithm
 
 class Main{
