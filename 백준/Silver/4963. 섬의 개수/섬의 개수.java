@@ -1,3 +1,4 @@
+
 //https://github.com/KimYongJ/algorithm
 
 class Main{
@@ -20,15 +21,15 @@ class Main{
 
 	public void DFS(int y, int x) 
 	{
-		if(map[y][x] == 0) return;
-		map[y][x] = 0;
-		
 		for(int xy[] : dxy) 
 		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(map[nextY][nextX] == 1)
+			if(map[nextY][nextX] == 1) 
+			{
+				map[nextY][nextX] = 0;
 				DFS(nextY, nextX);
+			}
 		}
 	}
 	public void solution() throws Exception
@@ -51,8 +52,10 @@ class Main{
 			
 			for(int y=1; y<=Y; y++)
 				for(int x=1; x<=X; x++)
-					if(map[y][x] == 1) {
+					if(map[y][x] == 1) 
+					{
 						land++;
+						map[y][x] = 0;
 						DFS(y,x);
 					}
 
