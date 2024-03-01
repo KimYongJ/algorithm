@@ -2,8 +2,6 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.StringTokenizer;
 
 class Main{
@@ -13,7 +11,6 @@ class Main{
 	char map[][];
 	int area[][];
 	int Y, X, flag, result;
-	ArrayList<HashSet<Integer>> list;
 	public void DFS(int flag, int y, int x) 
 	{
 		if(area[y][x] > 0) 
@@ -40,7 +37,6 @@ class Main{
 		flag 				= 0;
 		area 				= new int[Y][X];
 		map 				= new char[Y][X];
-		list				= new ArrayList<>();
 		for(int y=0; y<Y; y++)
 			map[y] = br.readLine().toCharArray();
 		
