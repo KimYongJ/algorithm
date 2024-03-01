@@ -15,7 +15,7 @@ class Main{
 	{
 		if(area[y][x] > 0) 
 		{
-			if(area[y][x] == flag) 		// 사이클이 발생한 공간이 자기 자신이 아닌 경우
+			if(area[y][x] == flag) 		// 사이클이 발생한 공간이 자기 자신인 경우
 				result++;
 			return;
 		}
