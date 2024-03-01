@@ -60,7 +60,7 @@ class Main{
 		M 		= read(); 				// 하이퍼튜브의 개수
 		map 	= new int[M][K];		// 연결을 담을 좌표
 		list 	= new ArrayList[N+1];	// 역의 번호마다 연결된 하이퍼튜브의 idx
-		q 		= new ArrayDeque<>();	// 현재 역의 정보와 현재 역까지 오는데 걸린 갯수
+		q 		= new ArrayDeque<>();	// 현재 역의 정보와 현재 역까지 오는데 걸린 갯수를 담는 큐
 		visit 	= new boolean[N+1];		// 방문한 노드를 체크할 배열
 		visit_station = new boolean[M]; // 방문한 역은 2번이상 방문할 필요가 없음
 		
