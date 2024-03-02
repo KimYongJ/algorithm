@@ -13,7 +13,8 @@ class Main
 	int N, M, map[][], node[][], parent[];
 	int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	PriorityQueue<Point> pq;
-	
+	ArrayDeque<Point> q;
+	boolean visit[][];
 	void solution()throws Exception
 	{
 		BufferedReader br	= new BufferedReader(new InputStreamReader(System.in));
@@ -78,7 +79,7 @@ class Main
 			
 		}
 		
-		if( M != 2 ) 							// 최소 스패닝 트리 라면 구역이 1개인데, 구역이 2개이상일 경우 -1 출력
+		if( M != 2 ) 									// 최소 스패닝 트리는 간선이 노드 -1 개여야 하는데 아닌 경우 는 -1 출력
 			sum = -1;
 	
 		System.out.println(sum);
@@ -91,8 +92,8 @@ class Main
 	}
 	public void BFS(int baseIndex, int y, int x)
 	{
-		ArrayDeque<Point> q = new ArrayDeque<>();
-		boolean visit[][] = new boolean[N][N];
+		q 		= new ArrayDeque<>();
+		visit	= new boolean[N][N];
 		q.add(new Point(y,x,0));
 		visit[y][x] = true;			// 방문 처리
 		map[y][x] = 0;				// 구한 곳은 0으로 변경하여 다음 탐색에서 탐색되지 않도록 합니다. 
@@ -111,7 +112,8 @@ class Main
 				nextY = now.y + xy[0];
 				nextX = now.x + xy[1];
 				nextCnt = now.cnt + 1;
-				if(map[nextY][nextX] >= 0 && !visit[nextY][nextX]) {
+				if(map[nextY][nextX] >= 0 && !visit[nextY][nextX]) 
+				{
 					visit[nextY][nextX] = true;
 					q.add(new Point(nextY, nextX, nextCnt));
 				}
