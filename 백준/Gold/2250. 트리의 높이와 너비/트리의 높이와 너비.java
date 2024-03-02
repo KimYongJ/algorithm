@@ -6,11 +6,12 @@ class Main{
 	
 	int N, X, p, l, r, parentNode;
 	int rlevel, width, minX[], maxX[];
-	boolean parent[];
+	StringBuilder sb;
+    boolean parent[];
 	Node nlist[];
 	
 	void solution()throws Exception {
-		StringBuilder sb	= new StringBuilder();
+		sb	                = new StringBuilder();
 		X					= 1;
 		N 					= read();
 		minX 				= new int[N+1];				// 레벨 별 가장 작은 X값
