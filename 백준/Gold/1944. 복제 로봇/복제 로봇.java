@@ -74,29 +74,15 @@ class Main
 						parent[bParent] = aParent;		// 부모 노드의 부모를 바꾼다.
 					sum += now.cnt;
 				}
-			}else {
-				System.out.println(-1); System.exit(0);
-			}
+			}else break;
 			
 		}
 		
-		if( countArea() ) 							// 최소 스패닝 트리 라면 구역이 1개인데, 구역이 2개이상일 경우 -1 출력
+		if( M != 2 ) 							// 최소 스패닝 트리 라면 구역이 1개인데, 구역이 2개이상일 경우 -1 출력
 			sum = -1;
 	
 		System.out.println(sum);
 			
-	}
-	public boolean countArea() 
-	{
-		int cnt = 0;
-		for(int i=1; i<M; i++)
-			if(parent[i]==i) {
-				if(++cnt == 2) {
-					return true;
-				}
-			}
-		
-		return false;
 	}
 	public int getParent(int x) 
 	{
