@@ -148,7 +148,7 @@ class Main{
 				}
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
-				if(map[y][x] == 0) 		// 섬의 외곽을 큐에 넣는다.
+				if(map[y][x] == 0 && !visit[y][x]) 		// 섬의 외곽을 큐에 넣는다.
 					boundarySearch_DFS(y,x);
 				
 
