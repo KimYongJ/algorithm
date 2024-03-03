@@ -1,14 +1,13 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.PriorityQueue;
 
 
 class Main{
 
-	static int N, M, R, a, b, cnt, order[];
+	static int N, M, R, a, b, cnt, nextNode, order[];
 	static boolean visit[];
-	static ArrayList<Integer> list[];
+	static PriorityQueue<Integer> list[];
 	
 	// 빠른 입력을 위한 함수
     static int read() throws Exception {
@@ -19,19 +18,22 @@ class Main{
 	public static void DFS(int node) {
 		visit[node] = true;
 		order[node] = ++cnt;
-		for(int nextNode : list[node]) 
+		while(!list[node].isEmpty()) 
+		{
+			nextNode = list[node].poll();
 			if(!visit[nextNode])
 				DFS(nextNode);
+		}
 	}
 	public static void main(String[] args)throws Exception{
 		N 					= read();
 		M 					= read();
 		R 					= read();
 		order 				= new int[N+1];
-		list 				= new ArrayList[N+1];
+		list 				= new PriorityQueue[N+1];
 		visit				= new boolean[N+1];
 		for(int i=1; i<=N; i++) 
-			list[i] = new ArrayList<>();
+			list[i] = new PriorityQueue<>();
 		
 		for(int i=0; i<M; i++) 
 		{
@@ -40,9 +42,7 @@ class Main{
 			list[a].add(b);
 			list[b].add(a);
 		}
-		// 노드 오름차순 정렬
-		for(int i=1; i<=N; i++) 
-			Collections.sort(list[i]);
+
 		
 		DFS(R);
 		
