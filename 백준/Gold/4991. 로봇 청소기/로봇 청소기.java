@@ -36,11 +36,11 @@ class Main{
 		
 		for(Node next : list[index]) 
 		{
-			if((bitmask & (1<<(next.y-1))) == 0) 								// 방문하지 않았을 경우
+			if((bitmask & (1<<(next.y-1))) == 0) 							// 방문하지 않았을 경우
 			{
-			//	nextDistSum = next.dist + distSum;
-			//	if(nextDistSum < value)
-					DFS(next.y, bitmask | (1<<(next.y-1)), next.dist + distSum);	// 다음노드, 비트마스크에 방문 체킹, 다음 거리 합
+				nextDistSum = next.dist + distSum;
+				if(nextDistSum < value)
+					DFS(next.y, bitmask | (1<<(next.y-1)), nextDistSum);	// 다음노드, 비트마스크에 방문 체킹, 다음 거리 합
 			}
 		}
 		
@@ -50,7 +50,7 @@ class Main{
 		q 			= new ArrayDeque<>();
 		visit 		= new boolean[Y][X];
 		visit[y][x] = true;
-		map[y][x] 	= 0;								// 방문한 장소는 0으로 만들어 다시 연결하지 않도록 함
+		map[y][x] 	= 0;								                    // 방문한 장소는 0으로 만들어 다시 연결하지 않도록 함
 		q.add(new Node(y,x,0));
 
 		while(!q.isEmpty()) 
