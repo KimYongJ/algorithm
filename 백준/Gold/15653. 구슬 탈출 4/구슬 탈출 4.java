@@ -54,7 +54,6 @@ class Main{
 			Node now = q.poll();
 			
 			nextCnt = now.cnt + 1;
-			if(nextCnt > 100 ) continue;
 			Loop:
 			for(int i=0; i<4; i++) 
 			{
@@ -113,7 +112,7 @@ class Main{
 					}
 
 				}
-				if(nextCnt <= 100 && !visit[newY1][newX1][newY2][newX2]) 
+				if(!visit[newY1][newX1][newY2][newX2]) 
 				{
 					visit[newY1][newX1][newY2][newX2] = true;
 					q.add(new Node(newY1, newX1, newY2, newX2, nextCnt));
