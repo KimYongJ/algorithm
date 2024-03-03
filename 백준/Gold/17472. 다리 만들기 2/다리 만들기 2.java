@@ -106,7 +106,7 @@ class Main{
 		for(int i=1; i<=nodeIndex; i++)
 			parent[i] = i;
 		
-		while(!pq.isEmpty()) 
+		while(!pq.isEmpty() && nodeCnt != nodeIndex -1) 
 		{
 			Node now = pq.poll();
 			aParent = getParent(now.y);
@@ -141,8 +141,7 @@ class Main{
 			for(int x=1; x<=X; x++) 
 			{
 				num = read();
-				if(num == 1) num = -1;
-				map[y][x] = num;
+				map[y][x] = num == 1 ? -1 : num;
 			}
 		
 		for(int y=1; y<=Y; y++)
