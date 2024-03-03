@@ -59,24 +59,21 @@ class Main
 		
 		
 		int sum = 0, aParent, bParent;
-		while(M>2)
+		while(M>2 && pq.size() != 0)
 		{
-			if(pq.size() != 0) {
-				Point now = pq.poll();
-				aParent = getParent(now.y);				// 부모 노드를 가져온다. 
-				bParent = getParent(now.x);				// 부모 노드를 가져온다.
+			Point now = pq.poll();
+			aParent = getParent(now.y);				// 부모 노드를 가져온다. 
+			bParent = getParent(now.x);				// 부모 노드를 가져온다.
 				
-				if(aParent != bParent) 
-				{
-					M--;								// 연결 카운팅 개념.
-					if(aParent > bParent)
-						parent[aParent] = bParent; 		// 부모 노드의 부모를 바꾼다.
-					else
-						parent[bParent] = aParent;		// 부모 노드의 부모를 바꾼다.
-					sum += now.cnt;
-				}
-			}else break;
-			
+			if(aParent != bParent) 
+			{
+				M--;								// 연결 카운팅 개념.
+				if(aParent > bParent)
+					parent[aParent] = bParent; 		// 부모 노드의 부모를 바꾼다.
+				else
+					parent[bParent] = aParent;		// 부모 노드의 부모를 바꾼다.
+				sum += now.cnt;
+			}
 		}
 		
 		if( M != 2 ) 									// 최소 스패닝 트리는 간선이 노드 -1 개여야 하는데 아닌 경우 는 -1 출력
