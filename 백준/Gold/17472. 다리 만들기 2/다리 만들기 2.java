@@ -29,6 +29,17 @@ class Main{
 	static boolean visit[][];
 	static ArrayDeque<Point> q;
 	static PriorityQueue<Node> pq;
+	
+    // 빠른 입력을 위해 만든 함수
+    public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
+
 	public static void landmark_DFS(int y, int x)
 	{
 		map[y][x] = nodeIndex;
@@ -115,10 +126,8 @@ class Main{
 		System.out.println(distSum);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		Y 					= Integer.parseInt(st.nextToken());
-		X 					= Integer.parseInt(st.nextToken());
+		Y 					= read();
+		X 					= read();
 		map 				= new int[Y+2][X+2];
 		visit 				= new boolean[Y+2][X+2];
 		q 					= new ArrayDeque<>();
@@ -129,15 +138,12 @@ class Main{
 		
 		int num;
 		for(int y=1; y<=Y; y++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=X; x++) 
 			{
-				num = Integer.parseInt(st.nextToken());
+				num = read();
 				if(num == 1) num = -1;
 				map[y][x] = num;
 			}
-		}
 		
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
