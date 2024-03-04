@@ -13,15 +13,16 @@ class Main{
 	public static boolean DFS(int node, int flagValue) 
 	{
 		boolean f = false;
+		int nflagValue = flagValue * -1;
 		flag[node] = flagValue;
 		for(int nextNode : list[node]) 
 		{
 			if(flag[nextNode] == 0) {
-				f =  DFS(nextNode, flag[node] * -1);
+				f =  DFS(nextNode, nflagValue);
 				if(!f)
 					return f;
 			}
-			if(flag[nextNode] == flag[node]) 
+			if(flag[nextNode] == flagValue) 
 				return false;
 		}
 		return true;
