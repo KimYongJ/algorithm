@@ -14,10 +14,10 @@ class Point{
 }
 class Main{
 	
+	static char map[][];
+	static boolean isContinue, visit[][][];
 	static int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
 	static int Y, X, nextY, nextX, nextDist, nextBitmask;
-	static char map[][];
-	static boolean visit[][][];
 	static ArrayDeque<Point> q;
 	
 	public static void BFS() {
@@ -30,42 +30,28 @@ class Main{
 				return;
 			}
 			
-			for(int xy[] : dxy) {
+			for(int xy[] : dxy)
+			{
 				nextY 		= now.y + xy[0];
 				nextX 		= now.x + xy[1];
 				nextDist 	= now.dist + 1;
 				nextBitmask = now.bitmask;
-				if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X) 
+				isContinue	= true;
+				if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X && map[nextY][nextX] != '#') 
 				{
-					if('A' <= map[nextY][nextX] && map[nextY][nextX] <='F' )		// 가려는 곳이 문인 경우
-					{
-						if( (nextBitmask & (1<<(map[nextY][nextX] -'A'))) != 0 ) 	// 열쇠가 있다면 
-						{
-							if(!visit[nextBitmask][nextY][nextX])					// 처음 방문한다면
-							{
-								visit[nextBitmask][nextY][nextX] = true;
-								q.add(new Point(nextY, nextX, nextDist, nextBitmask));
-							}
-						}
-					}
-					else if('a' <= map[nextY][nextX] && map[nextY][nextX] <='f' )	// 가려는 곳이 열쇠인 경우
-					{
+					if('a' <= map[nextY][nextX] && map[nextY][nextX] <='f' )		// 가려는 곳이 열쇠인 경우
 						nextBitmask |= (1 << (map[nextY][nextX]-'a'));				// 열쇠를 넣는다.
-						if(!visit[nextBitmask][nextY][nextX])						// 처음 방문한다면
-						{
-							visit[nextBitmask][nextY][nextX] = true;
-							q.add(new Point(nextY, nextX, nextDist, nextBitmask));
-						}
-					}
-					else if(map[nextY][nextX] != '#' && !visit[nextBitmask][nextY][nextX])
+					
+					else if('A' <= map[nextY][nextX] && map[nextY][nextX] <='F' )	// 가려는 곳이 문인 경우
+						if( (nextBitmask & (1<<(map[nextY][nextX] -'A'))) == 0 ) 	// 열쇠가 없다면 
+							isContinue = false;										// 종결
+					
+					if(isContinue && !visit[nextBitmask][nextY][nextX])
 					{
 						visit[nextBitmask][nextY][nextX] = true;
 						q.add(new Point(nextY, nextX, nextDist, nextBitmask));
 					}
-					
 				}
-				
-				
 			}
 		}
 		System.out.println(-1);
@@ -86,7 +72,8 @@ class Main{
 			{
 				c = str.charAt(x);
 				map[y][x] = c;
-				if(c=='0') {
+				if(c=='0') 
+				{
 					q.add(new Point(y,x,0,0));
 					visit[0][y][x] = true;
 				}
