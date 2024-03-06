@@ -1,10 +1,6 @@
 // https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Block{
 	int size, zeroCnt, baseY, baseX;
@@ -28,18 +24,19 @@ class Main{
 	static boolean visit[][][];
 	static Block block;
 	static ArrayDeque<Point> q;
+    // 빠른 입력을 위해 만든 함수
+    public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static void saveBlock(int size, int zeroCnt, int baseY, int baseX, ArrayList<int[]>list) {
 		block.size 	= size; 	block.zeroCnt 	= zeroCnt; 
 		block.baseX = baseY; 	block.baseX 	= baseX;
 		block.list 	= list;
-	}
-	public static void print() {
-		for(int i=0; i<max; i++) {
-			for(int j=0; j<max; j++) {
-				System.out.print((map[i][j] <0 ? " ":"")+map[i][j]+"   ");
-			}System.out.println("");
-		}
-		System.out.println("");
 	}
 	public static void BFS(int baseNum, int y, int x) {
 		ArrayList<int[]>list 	= new ArrayList<>();
@@ -70,25 +67,17 @@ class Main{
 			}
 		}
 		if(size > 1) 
-		{
 			if(block.size < size)
 				saveBlock(size, zeroCnt, y, x, list);
 			else if(block.size == size) 
-			{
 				if(block.zeroCnt < zeroCnt)
 					saveBlock(size, zeroCnt, y, x, list);
 				else if(block.zeroCnt == zeroCnt) 
-				{
 					if(block.baseY < y)
 						saveBlock(size, zeroCnt, y, x, list);
 					else if(block.baseY == y) 
-					{
 						if(block.baseX < x)
 							saveBlock(size, zeroCnt, y, x, list);
-					}
-				}
-			}
-		}
 	}
 	public static void rotate() {
 		int map2[][] = new int[max][max];
@@ -112,10 +101,8 @@ class Main{
 					DFS(y, x);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());		// 해당 사각형의 크기
-		M = Integer.parseInt(st.nextToken());		// 일반블록의 종류
+		N 	= read();		// 해당 사각형의 크기
+		M 	= read();		// 일반블록의 종류
 		max = N+2;
 		map = new int[max][max];
 		
@@ -124,11 +111,9 @@ class Main{
 			map[0][n] = map[max-1][n] = -1; 			// 패딩 넣기
 		
 		for(int y=1; y<=N; y++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=N; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
+				map[y][x] = read();
+		
 
 		while(true) 
 		{
@@ -138,11 +123,8 @@ class Main{
 				for(int x=1; x<=N; x++)
 					if(map[y][x] > 0 && !visit[map[y][x]][y][x]) 
 						BFS(map[y][x], y, x);		// 기준 블록 숫자 , y좌표, x좌표
-					
-				
 			
-			if(block.list == null)
-				break;
+			if(block.list == null)	break;
 			// 블록 삭제 
 			for(int xy[] : block.list) 
 				map[xy[0]][xy[1]] = -2;				// -2 는 이동가능한 공간
@@ -150,6 +132,7 @@ class Main{
 			gravity();
 			rotate();
 			gravity();
+			
 			result += block.size * block.size;
 		}
 		
