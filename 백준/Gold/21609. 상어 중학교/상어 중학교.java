@@ -57,7 +57,7 @@ class Main{
 				nextNum = map[nextY][nextX];
 				if((nextNum==0 || nextNum==baseNum) && !visit[baseNum][nextY][nextX]) 
 				{
-					visit[baseNum][nextY][nextX] = true;		// 방문 처ㄹ
+					visit[baseNum][nextY][nextX] = true;		// 방문 처리
 					if(nextNum == 0) 							// 무지개의 개수를 센다
 						zeroCnt++;
 					size++;
@@ -66,7 +66,7 @@ class Main{
 				}
 			}
 		}
-		if(size > 1) 
+		if(size > 1)   
 			if(block.size < size)
 				saveBlock(size, zeroCnt, y, x, list);
 			else if(block.size == size) 
@@ -86,7 +86,7 @@ class Main{
 				map2[max-1-x][y] = map[y][x];
 		map = map2;
 	}
-	public static void DFS(int y, int x) 
+	public static void DFS(int y, int x)     // 숫자를 계속 내린다.
 	{
 		if(map[y+1][x] != -2) return;
 		int dummy = map[y+1][x];
@@ -114,7 +114,6 @@ class Main{
 			for(int x=1; x<=N; x++)
 				map[y][x] = read();
 		
-
 		while(true) 
 		{
 			block = new Block(0,0,0,0,null);
