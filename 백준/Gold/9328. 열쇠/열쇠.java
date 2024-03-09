@@ -7,12 +7,17 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int T, Y, X, doc, nextX, nextY;
+	static int c, T, Y, X, doc, nextX, nextY;
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-	static char c, map[][];
+	static char map[][];
 	static boolean key[], visit[][];
 	static ArrayDeque<Point>[] list;
 	static ArrayDeque<Point> q;
+	static int read() throws Exception{
+		int c, n = System.in.read() & 15;
+		while((c = System.in.read()) > 32) n = (n<<3) + (n<<1) + (c & 15);
+		return n;
+	}
 	public static void BFS() {
 		q = new ArrayDeque<>();
 		visit[0][0] = true;
@@ -53,17 +58,13 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb 	= new StringBuilder();
-		StringTokenizer st;
-		T 		= Integer.parseInt(br.readLine());
+		T 		= read();
 		list	= new ArrayDeque[26];
-		String str;
 		while(T-->0) 
 		{
-			st 		= new StringTokenizer(br.readLine());
-			Y 		= Integer.parseInt(st.nextToken());
-			X 		= Integer.parseInt(st.nextToken());
+			Y 		= read();
+			X 		= read();
 			map 	= new char[Y+2][X+2];
 			key 	= new boolean[26];
 			visit 	= new boolean[Y+2][X+2];
@@ -74,14 +75,15 @@ class Main{
 			
 			for(int y=1; y<=Y; y++) 
 			{
-				str = br.readLine();
 				for(int x=1; x<=X; x++)
-					map[y][x] = str.charAt(x-1);
+					map[y][x] = (char)System.in.read();
+				System.in.read();
 			}
-			str = br.readLine();
-			if(str.charAt(0) != '0')
-				for(int i=0; i<str.length(); i++) 
-					key[str.charAt(i)-'a'] = true;
+			
+			while((c = System.in.read())>32) {
+				if(c != '0')
+					key[c-'a'] = true;
+			}
 			BFS();
 			sb.append(doc)
 				.append('\n');
