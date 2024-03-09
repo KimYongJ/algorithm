@@ -1,9 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -11,8 +7,7 @@ class Main{
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static char map[][];
 	static boolean key[], visit[][];
-	static ArrayDeque<Point>[] list;
-	static ArrayDeque<Point> q;
+	static ArrayDeque<Point> q, list[];
 	static int read() throws Exception{
 		int c, n = System.in.read() & 15;
 		while((c = System.in.read()) > 32) n = (n<<3) + (n<<1) + (c & 15);
@@ -59,8 +54,8 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb 	= new StringBuilder();
-		T 		= read();
-		list	= new ArrayDeque[26];
+		T 					= read();
+		list				= new ArrayDeque[26];
 		while(T-->0) 
 		{
 			Y 		= read();
@@ -80,22 +75,22 @@ class Main{
 				System.in.read();
 			}
 			
-			while((c = System.in.read())>32) {
+			while((c = System.in.read())>32) 
+			{
 				if(c != '0')
 					key[c-'a'] = true;
 			}
+			
+			
 			BFS();
+			
 			sb.append(doc)
 				.append('\n');
 		}
 		System.out.println(sb);
 	}
 }
-class Point
-{
-	int y, x;
-	Point(int y, int x)
-	{
-		this.y = y; this.x = x;
-	}
+class Point{
+	int y, x;	
+	Point(int y, int x)	{this.y = y; this.x = x;}
 }
