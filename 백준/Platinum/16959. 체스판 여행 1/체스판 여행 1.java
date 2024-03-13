@@ -1,10 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
-
 class Node{
 	int y, x, type, time, goal;// type0비숍 1룩 2나이트
 	Node(int y, int x, int type, int time, int goal){
@@ -14,24 +9,29 @@ class Node{
 }
 class Main
 {	
-	static int N, NN, map[][], min;
-	
 	static int dxy[][][] = {
 			{{-1,-1},{-1,1},{1,1},{1,-1}},								// 비숍
 			{{1,0},{0,1},{-1,0},{0,-1}}, 								// 룩
 			{{-2,-1},{-2,1},{2,-1},{2,1},  {-1,2},{1,2},{-1,-2},{1,-2} }// 나이트
 	};
-	static boolean visit[][][][]; // 순서 : [goal][type][y][x]까지 오는데 걸린 시간
+	static int N, NN, min, nextType, nextTime, nextY, nextX, nextGoal, map[][];
+	static boolean visit[][][][]; 										// 순서 : [goal][type][y][x]까지 오는데 걸린 시간
 	static ArrayDeque<Node> q;
-	public static void BFS() {
-
-		int nextType, nextTime, nextY, nextX, nextGoal;
+    static int read() throws Exception { 								// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
+	public static void BFS() 
+	{
+		Node now;
 		while(!q.isEmpty()) {
-			Node now = q.poll();
+			now = q.poll();
 			
 			if(now.goal == NN) 
 			{
-				min = Math.min(min, now.time);
+				if(min > now.time)
+					min = now.time;
 				continue;
 			}
 			nextTime = now.time + 1;
@@ -66,7 +66,7 @@ class Main
 				{
 					nextY = now.y + xy[0];
 					nextX = now.x + xy[1];
-					if(nextY >=1 && nextX>=1 && nextY<=N && nextX<=N &&!visit[now.goal][now.type][nextY][nextX]) 	// 유효범위 안에 있고, 다음 좌표가 한번도 방문하지 않았다면
+					if(nextY >=1 && nextX>=1 && nextY<=N && nextX<=N && !visit[now.goal][now.type][nextY][nextX]) 	// 유효범위 안에 있고, 다음 좌표가 한번도 방문하지 않았다면
 					{
 						visit[now.goal][now.type][nextY][nextX] = true;						// 방문 처리
 						if(map[nextY][nextX] == nextGoal)									// 방문한 곳이 목표로한 곳이라면 
@@ -76,14 +76,14 @@ class Main
 					}
 				}
 			}
-			nextType = (now.type + 1)%3;
+			nextType = (now.type + 1)%3;// 같은 자리에서 말만 변경
 			if(!visit[now.goal][nextType][now.y][now.x]) 
 			{
 				visit[now.goal][nextType][now.y][now.x] = true;
 				q.add(new Node(now.y, now.x, nextType, nextTime, now.goal));
 			}
 			
-			nextType = (nextType + 1)%3;
+			nextType = (nextType + 1)%3;// 같은 자리에서 말만 변경
 			if(!visit[now.goal][nextType][now.y][now.x]) 
 			{
 				visit[now.goal][nextType][now.y][now.x] = true;
@@ -93,10 +93,8 @@ class Main
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		N 		= read();
 		min		= 999999;
-		N 		= Integer.parseInt(br.readLine());
 		NN		= N*N;
 		map 	= new int[N+2][N+2];
 		q 		= new ArrayDeque<>();
@@ -105,11 +103,9 @@ class Main
 			map[i][0] = map[0][i] = map[N+1][i] = map[i][N+1] = -1;
 		
 		for(int i=1; i<=N; i++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int j=1; j<=N; j++) 
 			{
-				map[i][j] = Integer.parseInt(st.nextToken());
+				map[i][j] = read();
 				if(map[i][j] == 1) 
 				{
 					q.add(new Node(i,j,0,0,1));
@@ -117,7 +113,6 @@ class Main
 					q.add(new Node(i,j,2,0,1));
 				}
 			}
-		}
 		
 		BFS();
 		
