@@ -12,7 +12,7 @@ class Point{
 
 class Main{
 	
-	static int N, M, start, end, nextDist, pathsize, dp[];
+	static int N, M, start, end, nextDist, pathsize, in[], dp[];
 	static ArrayList<Point> list[], reverse[];
 	static boolean visit[];
 	static ArrayDeque<Point> q;
@@ -28,11 +28,12 @@ class Main{
 			Point now = q.poll();
 			
 			for(Point next : list[now.node]) {
-				nextDist = dp[now.node] + next.dist; 
-				if(dp[next.node] < nextDist ) {
+				in[next.node]--;						// ★인접 노드로 한번 방문했기 때문에 방문한 노드 진입차수에서 -1을 해줍니다. 
+				nextDist = dp[now.node] + next.dist;	// 기존 저장된 nextNode까지 가는것과 nowNode를 거쳐 nextNode로 가는것이 더 큰지 체크하기 위한 변수
+				if(dp[next.node] < nextDist ) 
 					dp[next.node] = nextDist;
+				if(in[next.node]== 0)					// ★ 진입 차수가 0일 때 큐에 넣어주어 불필요한 탐색을 줄여줍니다
 					q.add(new Point(next.node, nextDist));
-				}
 			}
 		}
 	}
@@ -57,7 +58,8 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		N 		= read();
 		M 		= read();
-		dp 		= new int[N+1];							// 각 노드마다 start부터 해당 각 노드까지 걸리는 최대 거리를 담을 배열 
+		dp 		= new int[N+1];							// 각 노드마다 start부터 해당 각 노드까지 걸리는 최대 거리를 담을 배열
+		in		= new int[N+1];							// ★위상 정렬을 위한 변수 선언 
 		list 	= new ArrayList[N+1];
 		reverse = new ArrayList[N+1];
 		visit	= new boolean[N+1];						// 역탐색시 중복 DFS를 막기 위한 방문 배열
@@ -75,6 +77,7 @@ class Main{
 			c = read();
 			list[a].add(new Point(b,c));			// a는 b로갈 수 있으며 c만큼 걸린다.
 			reverse[b].add(new Point(a,c));			// b는 a로갈 수 있으며 c만큼 걸린다.
+			in[b] += 1;								// a에서 b로가기 때문에 b로 가는 진입차수에 +1을 함
 		}
 
 		start 	= read();
