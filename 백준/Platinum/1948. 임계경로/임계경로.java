@@ -9,7 +9,6 @@ class Point{
 		this.node = node; this.dist = dist;
 	}
 }
-
 class Main{
 	
 	static int N, M, start, end, nextDist, pathsize, in[], dp[];
@@ -37,20 +36,24 @@ class Main{
 			}
 		}
 	}
-	public static void reverse_DFS(int node, int dist) {
-		visit[node] = true;
-		if(node == start)
-			return;
-		
-		for(Point next : reverse[node]) 
-		{
-			nextDist = dist - next.dist;
-			if(dp[next.node] == nextDist) 
+	public static void reverse_BFS() {
+		q = new ArrayDeque<>();
+		q.add(new Point(end, dp[end]));
+		visit[end] = true;
+		while(!q.isEmpty()) {
+			Point now = q.poll();
+			
+			for(Point next : reverse[now.node]) 
 			{
-				pathsize++;						// nextNode까지 경로는 카운팅하게 해줌
-				if(!visit[next.node]) 			// 하지만 DFS를 하는건 이미 방문한 노드라면 하지 못하게 해야 한다.
+				nextDist = dp[now.node] - next.dist;
+				if(dp[next.node]==nextDist) 
 				{
-					reverse_DFS(next.node, nextDist);
+					pathsize++;						// nextNode까지 경로는 카운팅하게 해줌
+					if(!visit[next.node]) 			// 큐에 넣는 건건 이미 방문한 노드라면 하지 못하게 해야 한다.
+					{
+						visit[next.node] = true;
+						q.add(new Point(next.node, nextDist));
+					}
 				}
 			}
 		}
@@ -85,7 +88,7 @@ class Main{
 		
 		BFS();										// start부터 end까지 가면서, 각 노드를 들릴 때마다 해당 노드에 도착하는데 까지 걸린 가장 긴 거리를 dp에 담는다.
 		
-		reverse_DFS(end, dp[end]);					// end부터 start까지 가면서 dp에 저장되어있는 값과 같을 때 가게 만든다. 그래야 가장 긴 곳을 방문하는 것이기 때문
+		reverse_BFS();								// end부터 start까지 가면서 dp에 저장되어있는 값과 같을 때 가게 만든다. 그래야 가장 긴 곳을 방문하는 것이기 때문
 		
 		System.out.println(dp[end]);
 		System.out.println(pathsize);
