@@ -1,9 +1,6 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Point{
 	int node, dist;
@@ -15,6 +12,11 @@ class Main
 	static int N, childNode[];
 	static boolean visit[];
 	static ArrayList<Point>[] adlist;
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void childNode_and_sum_setting(int now) {
 		childNode[now] = 1;		// 자기 자식 노드 기본 값 세팅
 		for(Point next : adlist[now]) 
@@ -41,13 +43,11 @@ class Main
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br	= new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb 	= new StringBuilder();
-		StringTokenizer st;
 		int a,b,c;
 		while(true)
 		{
-			N			= Integer.parseInt(br.readLine());
+			N			= read();
 			min 		= Long.MAX_VALUE;
 			sum 		= new long[N];
 			childNode 	= new int[N];
@@ -60,10 +60,9 @@ class Main
 			
 			for(int i=0; i<N-1; i++) 
 			{
-				st	= new StringTokenizer(br.readLine());
-				a 	= Integer.parseInt(st.nextToken());
-				b 	= Integer.parseInt(st.nextToken());
-				c	= Integer.parseInt(st.nextToken());
+				a 	= read();
+				b 	= read();
+				c	= read();
 				adlist[a].add(new Point(b,c));	// a에서 b로 c만큼 소요(양방향)
 				adlist[b].add(new Point(a,c));	// b에서 a로 c만크 소요(양방향)
 			}
