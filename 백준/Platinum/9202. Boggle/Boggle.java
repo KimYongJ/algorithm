@@ -1,131 +1,145 @@
-import java.io.*;
-import java.util.*;
- 
-public class Main {
- 
-    private static char[][] boggleMap;
-    private static boolean[][] visited;
-    private static int[] dx = {0, 0, -1, 1, 1, 1, -1, -1};
-    private static int[] dy = {-1, 1, 0, 0, 1, -1, 1, -1};
-    private static int scoreArr[] 	= {0, 0, 0, 1, 1, 2, 3, 5, 11};
-    private static Trie trie = new Trie();
-    private static StringBuilder sb = new StringBuilder();
- 
-    public static void main(String[] args) {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-            int w = Integer.parseInt(br.readLine());
-            while (w-- > 0) {
-                trie.insert(br.readLine());
-            }
-            br.readLine();
- 
-            int b = Integer.parseInt(br.readLine());
-            while (b-- > 0) {
-                boggleMap = new char[4][4];
-                visited = new boolean[4][4];
- 
-                for (int i = 0; i < 4; i++) {
-                    String line = br.readLine();
-                    for (int j = 0; j < 4; j++) {
-                        boggleMap[i][j] = line.charAt(j);
-                    }
-                }
- 
-                Set<String> stringSet = new HashSet<>();
-                for (int y = 0; y < 4; y++) {
-                    for (int x = 0; x < 4; x++) {
-                        visited[y][x] = true;
-                        dfs(x, y, boggleMap[y][x] + "", stringSet);
-                        visited[y][x] = false;
-                    }
-                }
- 
-                setPrint(stringSet);
- 
-                if (b != 0) br.readLine();
-            }
- 
-            System.out.println(sb.toString());
-        } catch (Exception ex) {
-            ex.getMessage();
-        }
-    }
- 
-    private static void setPrint(Set<String> stringSet) {
-        List<String> list = new ArrayList<>(stringSet);
-        Collections.sort(list);
-        String longestStr = "";
-        int score = 0;
- 
-        for (String s : list) {
-            if (s.length() > longestStr.length()) {
-                longestStr = s;
-            }
-            score += scoreArr[s.length()];
-        }
- 
-        sb.append(score).append(" ").append(longestStr).append(" ").append(list.size()).append("\n");
-    }
- 
- 
-    private static void dfs(int x, int y, String str, Set<String> stringSet) {
-        if (trie.find(str, true)) { // 만약 문자열의 끝으로 설정되어있다면, set에 단어를 추가한다.
-            stringSet.add(str);
-        }
- 
-        for (int i = 0; i < 8; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
- 
-            if (nx < 0 || nx >= 4 || ny < 0 || ny >= 4) continue;
-            if (visited[ny][nx]) continue;
- 
-            String key = str + boggleMap[ny][nx]; // 있는지 확인해야할 문자열
-            if (trie.find(key, false)) { // 해당 좌표까지의 문자열이 있다면, 다음 문자 탐색
-                visited[ny][nx] = true;
-                dfs(nx, ny, key, stringSet);
-                visited[ny][nx] = false;
-            }
-        }
-    }
- 
-    private static class Trie {
- 
-        TrieNode root = new TrieNode();
- 
-        private void insert(String key) {
-            int length = key.length();
-            TrieNode currentNode = root;
- 
-            for (int i = 0; i < length; i++) {
-                int next = key.charAt(i) - 'A';
-                if (currentNode.child[next] == null) {
-                    currentNode.child[next] = new TrieNode();
-                }
-                currentNode = currentNode.child[next];
-            }
-            currentNode.isFinish = true;
-        }
- 
-        // isCompleteString 값에 따른 의미
-        //   true: 완전한 문자열을 검색할 경우
-        //   false: 해당 문자열까지의 노드가 존재하는지만 알고 싶은 경우 (즉, 접두사를 포함)
-        private boolean find(String key, boolean isCompleteString) {
-            int length = key.length();
-            TrieNode currentNode = root;
- 
-            for (int i = 0; i < length; i++) {
-                int next = key.charAt(i) - 'A';
-                if (currentNode.child[next] == null) return false;
-                currentNode = currentNode.child[next];
-            }
- 
-            return isCompleteString ? currentNode.isFinish : true;
-        }
-    }
- 
-    private static class TrieNode {
-        TrieNode[] child = new TrieNode[26]; // 알파벳 대문자로만 이루어져 있다.
-        boolean isFinish = false;
-    }
+// https://github.com/KimYongJ/algorithm
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
+
+class TrieNode{
+	boolean isEnd;
+	TrieNode[] child;
+	TrieNode(){
+		isEnd = false;
+		child = new TrieNode[26];
+	}
 }
+class TrieRoot{
+	TrieNode root = new TrieNode();
+	void insert(String str) {
+		TrieNode current = root;
+		int idx, len = str.length();
+		for(int i=0; i<len; i++) 
+		{
+			idx = str.charAt(i)-'A';
+			if(current.child[idx]== null)
+				current.child[idx] = new TrieNode();
+			current = current.child[idx];
+		}
+		current.isEnd = true;
+	}
+	boolean search(String str) {
+		TrieNode current = root;
+		int idx, len = str.length();
+		for(int i=0; i<len; i++) {
+			idx = str.charAt(i)-'A';
+			if(current.child[idx] == null)
+				return false;
+			current = current.child[idx];
+		}
+		return current.isEnd;
+	}
+}
+class Main
+{	
+	static int dxy[][] 		= {{1,0},{0,1},{-1,0},{0,-1}, {-1,-1},{-1,1},{1,-1},{1,1}};
+	static int scoreArr[] 	= {0, 0, 0, 1, 1, 2, 3, 5, 11};
+	static int repeat, MAX, SCORE, WORD_CNT;
+	static char map[][];
+	static boolean visit[][];
+	static TrieRoot root;
+	static StringBuilder sb;
+	static HashSet<String> result;
+	static ArrayList<String> list;
+
+	public static void DFS(int y, int x, int depth, String str) {
+		if(depth == MAX)
+			return;
+		
+		int nextY, nextX;
+		String nextStr;
+		for(int xy[] : dxy) 
+		{
+			nextY = y + xy[0];
+			nextX = x + xy[1];
+			if(nextY>=0 && nextX>=0 && nextY<4 && nextX<4 && !visit[nextY][nextX]) 
+			{
+				visit[nextY][nextX] = true;
+				nextStr = str + map[nextY][nextX];
+				if(!result.contains(nextStr) && root.search(nextStr)) 
+					result.add(nextStr);
+				DFS(nextY, nextX, depth + 1, nextStr);
+				visit[nextY][nextX] = false;
+			}
+		}
+		
+	}
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		sb 		= new StringBuilder();
+		root 	= new TrieRoot();
+		repeat 	= Integer.parseInt(br.readLine());
+		String str;
+		while(repeat-->0) 
+		{
+			str = br.readLine();
+			root.insert(str);			// 트라이 자료구조에 해당 문자열을 넣음
+			if(str.length() > MAX)
+				MAX = str.length();		// DFS탐색시 깊이를 찾기위한 코드
+		}
+		br.readLine();
+		repeat = Integer.parseInt(br.readLine());
+		while(repeat-->0) 
+		{
+			map 	= new char[4][4];
+			visit 	= new boolean[4][4];
+			result 	= new HashSet<>();
+			list 	= new ArrayList<>();
+			SCORE	= 0;
+			for(int i=0; i<4; i++)
+				map[i] = br.readLine().toCharArray();
+			
+			for(int i=0; i<4; i++)
+				for(int j=0; j<4; j++)
+				{
+					visit[i][j] = true;
+					DFS(i,j,0,map[i][j]+"");
+					visit[i][j] = false;
+				}
+
+//			list.addAll(result);
+//			
+//			Collections.sort(list, (a,b)->{
+//				int len1 = ((String) a).length();
+//				int len2 = ((String) b).length();
+//				if(len1>len2)
+//					return -1;
+//				else if(len1 == len2)
+//					return a.compareTo(b);
+//				return 1;
+//			});
+//			
+//			sb.append(SCORE).append(' ')
+//				.append(list.get(0)).append(' ')
+//				.append(list.size()).append('\n');
+			Iterator<String> it = result.iterator();
+			String longest = "";
+			while(it.hasNext()) {
+				String word = it.next();
+				SCORE += scoreArr[word.length()];
+				if(word.length() >= longest.length()) {
+					if(word.length() > longest.length() || word.compareTo(longest) < 0)
+						longest = word;
+				}
+			}
+			sb.append(SCORE).append(' ')
+				.append(longest).append(' ')
+				.append(result.size()).append('\n');
+			if(repeat != 0)
+				br.readLine();
+		}
+		System.out.println(sb);
+	}
+}
+
