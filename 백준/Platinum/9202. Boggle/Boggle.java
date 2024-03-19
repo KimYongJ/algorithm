@@ -67,7 +67,7 @@ class Main
 			{
 				visit[nextY][nextX] = true;
 				nextStr = str + map[nextY][nextX];
-				if(!result.contains(nextStr) && root.search(nextStr)) 
+				if(root.search(nextStr)) 
 					result.add(nextStr);
 				DFS(nextY, nextX, depth + 1, nextStr);
 				visit[nextY][nextX] = false;
@@ -108,21 +108,6 @@ class Main
 					visit[i][j] = false;
 				}
 
-//			list.addAll(result);
-//			
-//			Collections.sort(list, (a,b)->{
-//				int len1 = ((String) a).length();
-//				int len2 = ((String) b).length();
-//				if(len1>len2)
-//					return -1;
-//				else if(len1 == len2)
-//					return a.compareTo(b);
-//				return 1;
-//			});
-//			
-//			sb.append(SCORE).append(' ')
-//				.append(list.get(0)).append(' ')
-//				.append(list.size()).append('\n');
 			Iterator<String> it = result.iterator();
 			String longest = "";
 			while(it.hasNext()) {
