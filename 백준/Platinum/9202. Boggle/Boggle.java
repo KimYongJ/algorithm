@@ -2,7 +2,6 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -45,13 +44,12 @@ class Main
 {	
 	static int dxy[][] 		= {{1,0},{0,1},{-1,0},{0,-1}, {-1,-1},{-1,1},{1,-1},{1,1}};
 	static int scoreArr[] 	= {0, 0, 0, 1, 1, 2, 3, 5, 11};
-	static int repeat, MAX, SCORE, WORD_CNT;
+	static int repeat, MAX, SCORE;
 	static char map[][];
 	static boolean visit[][];
 	static TrieRoot root;
 	static StringBuilder sb;
 	static HashSet<String> result;
-	static ArrayList<String> list;
 
 	public static void DFS(int y, int x, int depth, String str) {
 		if(depth == MAX)
@@ -95,7 +93,6 @@ class Main
 			map 	= new char[4][4];
 			visit 	= new boolean[4][4];
 			result 	= new HashSet<>();
-			list 	= new ArrayList<>();
 			SCORE	= 0;
 			for(int i=0; i<4; i++)
 				map[i] = br.readLine().toCharArray();
