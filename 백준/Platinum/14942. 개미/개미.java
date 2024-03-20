@@ -1,9 +1,7 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+
 
 class Node{
 	int node, dist;
@@ -14,7 +12,7 @@ class Node{
 }
 class Main{
 	
-	static int N, energy[], parent[][], parentDist[][];
+	static int N, MAX, energy[], parent[][], parentDist[][];
 	static boolean visit[];
 	static ArrayList<Node>[] adlist;
     static int read() throws Exception {
@@ -38,7 +36,7 @@ class Main{
 		}
 	}
 	public static void setting() {
-		for(int i=1; i<19; i++)
+		for(int i=1; i<MAX; i++)
 		{
 			for(int node=1; node<=N; node++)
 			{
@@ -55,9 +53,10 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
 		N 			= read();
+		MAX			= (int)Math.ceil( Math.log(N) / Math.log(2));
 		energy 		= new int[N+1];
-		parent 		= new int[N+1][19];
-		parentDist 	= new int[N+1][19];
+		parent 		= new int[N+1][MAX];
+		parentDist 	= new int[N+1][MAX];
 		visit 		= new boolean[N+1];
 		adlist 		= new ArrayList[N+1];
 		for(int i=0; i<N; i++)	// 에너지를 입력 받는다.
@@ -84,7 +83,7 @@ class Main{
 		for(int n=1; n<=N; n++) // 모든 노드에 대해서 탐색 
 		{
 			now = n;
-			for(int m=18; m>=0; m--) // 최상위 부터 탐색하면서 내려옴 
+			for(int m=MAX-1; m>=0; m--) // 최상위 부터 탐색하면서 내려옴 
 			{
 				if(energy[n] - parentDist[now][m] >= 0) 
 				{
