@@ -1,10 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 class Node{
 	int node, dist;
 	Node(int node, int dist){
@@ -17,6 +12,11 @@ class Main{
 	static int N, energy[], parent[][], parentDist[][];
 	static boolean visit[];
 	static ArrayList<Node>[] adlist;
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void DFS(int now) {
 		for(Node next : adlist[now]) 
 		{
@@ -48,10 +48,8 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
-		N 			= Integer.parseInt(br.readLine());
+		N 			= read();
 		energy 		= new int[N+1];
 		parent 		= new int[N+1][19];
 		parentDist 	= new int[N+1][19];
@@ -59,17 +57,16 @@ class Main{
 		adlist 		= new ArrayList[N+1];
 		for(int i=0; i<N; i++)	// 에너지를 입력 받는다.
 		{
-			energy[i+1]	= Integer.parseInt(br.readLine());
+			energy[i+1]	= read();
 			adlist[i+1] = new ArrayList<>();
 		}
 		
 		int a,b,c;
 		for(int i=1; i<N; i++) 
 		{
-			st	= new StringTokenizer(br.readLine());
-			a 	= Integer.parseInt(st.nextToken());
-			b 	= Integer.parseInt(st.nextToken());
-			c 	= Integer.parseInt(st.nextToken());
+			a 	= read();
+			b 	= read();
+			c 	= read();
 			adlist[a].add(new Node(b,c));
 			adlist[b].add(new Node(a,c));
 		}
@@ -88,7 +85,6 @@ class Main{
 				{
 					energy[n] -= parentDist[now][m];
 					now = parent[now][m];
-					//break;
 				}
 			}
 			sb.append(now == 0 ? 1 : now)
