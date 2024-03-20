@@ -1,5 +1,10 @@
 // https://github.com/KimYongJ/algorithm
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 class Node{
 	int node, dist;
 	Node(int node, int dist){
@@ -85,6 +90,7 @@ class Main{
 				{
 					energy[n] -= parentDist[now][m];
 					now = parent[now][m];
+					if(now<=1) break;
 				}
 			}
 			sb.append(now == 0 ? 1 : now)
