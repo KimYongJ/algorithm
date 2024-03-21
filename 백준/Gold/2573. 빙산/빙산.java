@@ -124,7 +124,7 @@ class Main
 		{
 			year++;									// 1년 추가
 			melt_BFS();								// 얼음을 녹인다.
-			if( q.isEmpty() || !check_BFS() )		// 큐가 비었거나 떨어진 부분이 있다면 break
+			if(!check_BFS() )		                // 떨어진 부분이 있다면 break
 				break;
 		}
 		System.out.println(q.isEmpty() || pos.size()==0 ? 0 : year);
