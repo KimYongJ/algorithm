@@ -127,7 +127,7 @@ class Main
 			if(!check_BFS() )		                // 떨어진 부분이 있다면 break
 				break;
 		}
-		System.out.println(q.isEmpty() || pos.size()==0 ? 0 : year);
+		System.out.println(pos.size()==0 ? 0 : year);
 	}
 	
 }
