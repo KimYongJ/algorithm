@@ -1,0 +1,22 @@
+WITH TEMP AS(
+    SELECT  EMP_NO
+    ,       AVG(SCORE) SCORE
+    FROM HR_GRADE 
+    GROUP BY EMP_NO
+)
+SELECT  T.EMP_NO
+,       H.EMP_NAME
+,       CASE WHEN T.SCORE >= 96 THEN 'S'
+             WHEN T.SCORE >= 90 THEN 'A'
+             WHEN T.SCORE >= 80 THEN 'B'
+             ELSE 'C'
+        END AS GRADE
+,       CASE WHEN T.SCORE >= 96 THEN H.SAL * 0.2
+             WHEN T.SCORE >= 90 THEN H.SAL * 0.15
+             WHEN T.SCORE >= 80 THEN H.SAL * 0.1
+             ELSE 0
+        END AS BONUS
+FROM TEMP T
+INNER JOIN HR_EMPLOYEES H
+    ON H.EMP_NO = T.EMP_NO
+ORDER BY T.EMP_NO
