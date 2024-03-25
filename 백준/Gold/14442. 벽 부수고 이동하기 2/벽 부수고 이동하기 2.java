@@ -1,5 +1,6 @@
 // https://github.com/KimYongJ/algorithm
 import java.util.ArrayDeque;
+
 class Position{
 	int y,x,k,dist;
 	Position(int y, int x, int k, int dist){
@@ -9,9 +10,10 @@ class Position{
 }
 class Main
 {	
+	static int MAX_VALUE = 100_000_000;
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int Y, X, K, nextY, nextX, nextDist, nextK, map[][];
-	static boolean visit[][][];
+	static int visit[][];
 	static ArrayDeque<Position> q;
 	
     static int read() throws Exception {
@@ -20,7 +22,7 @@ class Main
         return n;
     }
 	public static int BFS() {
-		visit[0][1][1] = true;
+		visit[1][1] = 1;
 		q.add(new Position(1,1,0,1));
 		Position now;
 		while(!q.isEmpty()) {
@@ -34,11 +36,11 @@ class Main
 				nextX = xy[1] + now.x;
 				nextDist = now.dist + 1;
 				nextK = now.k + 1;
-				if(!visit[now.k][nextY][nextX] && map[nextY][nextX] == 0) {
-					visit[now.k][nextY][nextX] = true;
+				if(map[nextY][nextX] == 0 && visit[nextY][nextX] > now.k) {
+					visit[nextY][nextX] = now.k;
 					q.add(new Position(nextY, nextX, now.k, nextDist ));
-				}else if(map[nextY][nextX] == 1 && nextK <= K &&!visit[nextK][nextY][nextX]) {
-					visit[nextK][nextY][nextX] = true;
+				}else if(visit[nextY][nextX] > nextK && map[nextY][nextX] == 1 && nextK <= K) {
+					visit[nextY][nextX] = nextK;
 					q.add(new Position(nextY, nextX, nextK, nextDist));
 				}
 			}
@@ -50,19 +52,23 @@ class Main
 		X 		= read();
 		K 		= read();
 		map 	= new int[Y+2][X+2];
-		visit 	= new boolean[K+1][Y+2][X+2];
+		visit 	= new int[Y+2][X+2];
 		q 		= new ArrayDeque<>();
-		
 		for(int y=1; y<=Y; y++) 
 		{
-			for(int x=1; x<=X; x++)
+			for(int x=1; x<=X; x++) {
 				map[y][x] = System.in.read()-'0';
+				visit[y][x] = MAX_VALUE;
+			}
 			System.in.read();
 		}
 		
 		for(int y=0; y<Y+2; y++)
+			visit[y][0] = visit[y][X+1] = 
 			map[y][0] = map[y][X+1] = -1;	// 패딩 삽입
+			
 		for(int x=0; x<X+2; x++)
+			visit[0][x] = visit[Y+1][x] =
 			map[0][x] = map[Y+1][x] = -1;	// 패딩 삽입
 		
 		System.out.print( BFS() );
