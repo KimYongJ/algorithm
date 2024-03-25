@@ -17,6 +17,12 @@ class Main
 	static int Y, X, K, nextY, nextX, nextDist, nextK, map[][];
 	static boolean visit[][][];
 	static ArrayDeque<Position> q;
+	
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static int BFS() {
 		visit[0][1][1] = true;
 		q.add(new Position(1,1,0,1));
@@ -45,21 +51,20 @@ class Main
 		return -1;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y 		= Integer.parseInt(st.nextToken());
-		X 		= Integer.parseInt(st.nextToken());
-		K 		= Integer.parseInt(st.nextToken());
+		Y 		= read();
+		X 		= read();
+		K 		= read();
 		map 	= new int[Y+2][X+2];
 		visit 	= new boolean[K+1][Y+2][X+2];
 		q 		= new ArrayDeque<>();
 		
-		String str;
 		for(int y=1; y<=Y; y++) {
-			str = br.readLine();
-			for(int x=1; x<=X; x++)
-				map[y][x] = str.charAt(x-1)-'0';
+			for(int x=1; x<=X; x++) {
+				map[y][x] = (char)System.in.read()-'0';
+			}
+			System.in.read();
 		}
+		
 		for(int y=0; y<Y+2; y++)
 			map[y][0] = map[y][X+1] = -1;	// 패딩 삽입
 		for(int x=0; x<X+2; x++)
@@ -67,11 +72,5 @@ class Main
 		
 		System.out.print( BFS() );
 	}
-    static int read() throws Exception {
-        int c, n = System.in.read() & 15;
-        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
-        return n;
-    }
-
 }
 
