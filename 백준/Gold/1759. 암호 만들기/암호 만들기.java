@@ -29,7 +29,7 @@ class Main{
 		for(int i=idx; i<C; i++) {
 			if(!visit[i]) {
 				visit[i] = true;
-				if("aeiou".contains(arr[i]+""))
+				if(arr[i]=='a' || arr[i]=='e' || arr[i]=='i' || arr[i]=='o' || arr[i]=='u')
 					BackTracking(str+arr[i],i, depth+1, VowelsCnt + 1, ConsonantsCnt);
 				else
 					BackTracking(str+arr[i],i, depth+1, VowelsCnt, ConsonantsCnt + 1);
