@@ -19,10 +19,14 @@ class Main{
 			for(int i=0; i<depth; i++) {
 				if(string[i]=='a' || string[i]=='e' || string[i]=='i' || string[i]=='o' || string[i]=='u')
 					VowelsCnt++;
-				else ConsonantsCnt++;
+				else 
+					ConsonantsCnt++;
+				if(VowelsCnt>=1 && ConsonantsCnt>=2) 
+				{
+					sb.append(new String(string)).append('\n');
+					break;
+				}
 			}
-			if(VowelsCnt>=1 && ConsonantsCnt>=2)
-				sb.append(new String(string)).append('\n');
 			return;
 		}
 		for(int i=idx; i<C; i++) 
