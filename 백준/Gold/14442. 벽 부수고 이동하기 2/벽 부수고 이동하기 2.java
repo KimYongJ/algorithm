@@ -1,9 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
-
 class Position{
 	int y,x,k,dist;
 	Position(int y, int x, int k, int dist){
@@ -46,7 +42,6 @@ class Main
 					q.add(new Position(nextY, nextX, nextK, nextDist));
 				}
 			}
-			
 		}
 		return -1;
 	}
@@ -58,10 +53,10 @@ class Main
 		visit 	= new boolean[K+1][Y+2][X+2];
 		q 		= new ArrayDeque<>();
 		
-		for(int y=1; y<=Y; y++) {
-			for(int x=1; x<=X; x++) {
-				map[y][x] = (char)System.in.read()-'0';
-			}
+		for(int y=1; y<=Y; y++) 
+		{
+			for(int x=1; x<=X; x++)
+				map[y][x] = System.in.read()-'0';
 			System.in.read();
 		}
 		
