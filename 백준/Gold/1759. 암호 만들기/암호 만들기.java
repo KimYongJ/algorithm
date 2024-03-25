@@ -7,15 +7,21 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int MAX_DEPTH, C;
+	static int MAX_DEPTH, C, VowelsCnt, ConsonantsCnt;
 	static char arr[], string[];
 	static boolean visit[];
 	static StringBuilder sb;
-	public static void BackTracking(int idx, int depth, int VowelsCnt, int ConsonantsCnt) // 순서 : 깊이 , 모음개수, 자음 개수
+	public static void BackTracking(int idx, int depth)
 	{
 		if(depth == MAX_DEPTH) 
 		{
-			if(VowelsCnt >=1 && ConsonantsCnt>=2)
+			VowelsCnt = ConsonantsCnt = 0;
+			for(int i=0; i<depth; i++) {
+				if(string[i]=='a' || string[i]=='e' || string[i]=='i' || string[i]=='o' || string[i]=='u')
+					VowelsCnt++;
+				else ConsonantsCnt++;
+			}
+			if(VowelsCnt>=1 && ConsonantsCnt>=2)
 				sb.append(new String(string)).append('\n');
 			return;
 		}
@@ -25,10 +31,7 @@ class Main{
 			{
 				visit[i] = true;
 				string[depth] = arr[i];
-				if(arr[i]=='a' || arr[i]=='e' || arr[i]=='i' || arr[i]=='o' || arr[i]=='u')
-					BackTracking(i, depth+1, VowelsCnt + 1, ConsonantsCnt);
-				else
-					BackTracking(i, depth+1, VowelsCnt, ConsonantsCnt + 1);
+				BackTracking(i, depth+1);
 				visit[i] = false;
 			}
 		}
@@ -48,7 +51,7 @@ class Main{
 		
 		Arrays.sort(arr);
 		
-		BackTracking(0,0,0,0);
+		BackTracking(0,0);
 		
 		System.out.println(sb);
 	}
