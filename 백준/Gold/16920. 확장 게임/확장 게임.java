@@ -1,9 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
-
 
 class Point{
 	int y,x, dist;
@@ -22,24 +18,28 @@ class Main
         while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
         return n;
     }
-	public static boolean BFS(int idx, ArrayDeque<Point> q) {
+	public static boolean BFS(int idx, ArrayDeque<Point> q, char num) {
 		boolean flag = false;
 		int size;
-		for(int r=0; r<maxDist[idx]; r++) {
+		for(int r=0; r<maxDist[idx]; r++) 
+		{
 			size = q.size();
 			if(size == 0) 
 				break;
-			for(int i=0; i<size; i++) {
+			for(int i=0; i<size; i++) 
+			{
 				Point now = q.poll();
 				nextDist = now.dist + 1;
-				for(int xy[] : dxy) {
+				for(int xy[] : dxy) 
+				{
 					nextY = now.y + xy[0];
 					nextX = now.x + xy[1];
-					if(map[nextY][nextX] == '.') {
+					if(map[nextY][nextX] == '.') 
+					{
 						flag = true;
 						castleCnt++;
-						map[nextY][nextX] =(char)('0' + idx);
-						castle[map[nextY][nextX]-'0']++;
+						map[nextY][nextX] =num;
+						castle[num-'0']++;
 						q.add(new Point(nextY, nextX, nextDist));
 					}
 				}
@@ -48,29 +48,26 @@ class Main
 		return flag;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
 		StringBuilder sb 	= new StringBuilder();
-		Y 		= Integer.parseInt(st.nextToken());
-		X 		= Integer.parseInt(st.nextToken());
-		P 		= Integer.parseInt(st.nextToken());	// 성을 갖는 인원
+		Y 		= read();
+		X 		= read();
+		P 		= read();	// 성을 갖는 인원
 		maxDist = new int[P+1];
 		castle 	= new int[P+1];
 		map		= new char[Y+2][X+2];
 		q		= new ArrayDeque[P+1];
-		st 	= new StringTokenizer(br.readLine());
+
 		for(int i=1; i<=P; i++) 
 		{
 			q[i]		= new ArrayDeque<>();
-			maxDist[i] 	= Integer.parseInt(st.nextToken());
+			maxDist[i] 	= read();
 		}
-		String str;
 		for(int y=1; y<=Y; y++) 
 		{
-			str = br.readLine();
+
 			for(int x=1; x<=X; x++) 
 			{
-				map[y][x] = str.charAt(x-1);
+				map[y][x] = (char)System.in.read();
 				if(map[y][x] != '.')			// 빈 공간이 아닐 때
 				{
 					castleCnt++;				// 반복문 탈출때 사용할 이동 불가능한 공간(나중에 이동 가능한 공간을 구히기위한)
@@ -81,16 +78,15 @@ class Main
 					}
 				}
 			}
+			System.in.read();
 		}
-		boolean flag;
-		while(Y*X != castleCnt)
+		boolean flag = true;
+		while(flag && Y*X != castleCnt)
 		{
 			flag = false;
 			for(int i=1; i<=P; i++)
-				if( BFS(i, q[i]) )
+				if( BFS(i, q[i], (char)('0' + i)) )
 					flag = true;
-			if(!flag)
-				break;
 		}
 		for(int i=1; i<=P; i++)
 			sb.append(castle[i]).append(' ');
