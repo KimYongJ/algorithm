@@ -24,9 +24,9 @@ class Main
 		for(int r=0; r<maxDist[idx]; r++) 
 		{
 			size = q.size();
-			if(size == 0) 
+			if(size == 0) 				// size가 0인 경우 break해줘야 시간 초과가 안남, maxDist[idx] 번까지 계속 for문을 돌면 시간 초과  
 				break;
-			for(int i=0; i<size; i++) 
+			for(int i=0; i<size; i++)  	// bfs를 돌 때 한칸 한칸씩 가야함, 하나의 연결이 maxDist까지 가면 안됨, 중간에 길을 막아버릴 수 있기 때문.
 			{
 				Point now = q.poll();
 				nextDist = now.dist + 1;
