@@ -1,10 +1,8 @@
 // https://github.com/KimYongJ/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.StringTokenizer;
 
 class Point{
 	int y,x;
@@ -21,6 +19,11 @@ class Main
 	static ArrayList<Integer>[] adlist;		// 불 켤 수 있는 공간에 대해 인접리스트로 표현
 	static HashSet<Integer> hold;			// 불이 꺼져있어 갈 수 없는 곳을 담아 놓는다.
 	static ArrayDeque<Point> q;				// BFS시 사용
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static int BFS() {
 		int idx, y, x,cnt = 1;
 		visit[0][0] = true;	// 방문 처리
@@ -39,12 +42,10 @@ class Main
 				{
 					light[y][x] = true;			// 해당 좌표의 불을 켠다.
 					cnt++;						// 불켠 횟수
-					if(hold.contains(nextIdx)) 	// 불이 꺼져있어서 못갔던 곳이 불이 켜졌다면
+					if(hold.remove(nextIdx)) 	// 불이 꺼져있어서 못갔던 곳이 불이 켜졌다면 못갔던 정보를담는(hold)곳에서 해당 장소 제거
 					{
 						q.add(new Point(y,x));	// 해당 장소를 큐에 넣는다.
-						visit[y][x] = true;
-						hold.remove(nextIdx);	// 불이 꺼져있어서 못갔던 정보에서 불이켜졌기에 해당 장소를 제거 
-						
+						visit[y][x] = true; 
 					}
 				}
 			}
@@ -67,10 +68,8 @@ class Main
 		return cnt;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N 		= Integer.parseInt(st.nextToken());
-		M 		= Integer.parseInt(st.nextToken());
+		N 		= read();
+		M 		= read();
 		MAX 	= N*N;					// 나올 수 있는 최대 번호
 		visit 	= new boolean[N][N];	// BFS 방문 체크 
 		light 	= new boolean[N][N];	// 불켜짐 유무를 담을 배열
@@ -84,21 +83,15 @@ class Main
 		
 		int a,b,c,d, e, f;
 		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken())-1;
-			b = Integer.parseInt(st.nextToken())-1;
-			c = Integer.parseInt(st.nextToken())-1;
-			d = Integer.parseInt(st.nextToken())-1;
+			a = read()-1;
+			b = read()-1;
+			c = read()-1;
+			d = read()-1;
 			e = a*N+b;
 			f = c*N+d;
 			adlist[e].add(f);		// e에서 f를 갈 수 있다.(불을 켤 수 있다)
 		}
 		System.out.println( BFS() );
 	}
-    static int read() throws Exception {
-        int c, n = System.in.read() & 15;
-        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
-        return n;
-    }
 }
 
