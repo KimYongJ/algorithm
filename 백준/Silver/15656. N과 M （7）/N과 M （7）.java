@@ -1,19 +1,24 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 class Main{
 	static int N, M, arr[], result[];
 	static StringBuilder sb;
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
+    public static void print(){
+        for(int i=0; i<M; i++)
+			sb.append(result[i]).append(' ');
+		sb.append('\n');
+    }
 	public static void Back(int depth) {
 		if(depth == M) 
 		{
-			for(int i=0; i<M; i++)
-				sb.append(result[i]).append(' ');
-			sb.append('\n');
+			print();
 			return;
 		}
 		for(int i=0; i<N; i++) 
@@ -23,16 +28,13 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
 		sb 		= new StringBuilder();
-		N 		= Integer.parseInt(st.nextToken());
-		M 		= Integer.parseInt(st.nextToken());
+		N 		= read();
+		M 		= read();
 		arr 	= new int[N];
 		result 	= new int[M];
-		st 		= new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		Arrays.sort(arr);
 		
