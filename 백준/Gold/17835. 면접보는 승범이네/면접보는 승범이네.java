@@ -29,6 +29,13 @@ public class Main {
 			
 			if(visit[now.node])continue;
 			visit[now.node]= true;
+			if(farthestDistance < now.dist) {
+				farthestDistance = now.dist;
+				farthestNode = now.node;
+			}else if(farthestDistance == now.dist) {
+				if(farthestNode > now.node)
+					farthestNode = now.node;
+			}
 			
 			for(Node next : adlist[now.node]) {
 				if(!visit[next.node]) {
@@ -41,12 +48,6 @@ public class Main {
 			}
 		}
 		
-		for(int i=1; i<=N; i++) {
-			if(dist[i] > farthestDistance) {
-				farthestDistance = dist[i];
-				farthestNode = i;
-			}
-		}
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
