@@ -1,9 +1,7 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 
 class Node{
 	int node;
@@ -14,14 +12,18 @@ class Node{
 }
 public class Main {
 	
-	static final long MAX_DIST = 200_000_000_000L;
-	static long dist[];
+	static final long MAX_DIST = 20_000_000_000L;
 	static int N, M, K;
 	static int farthestNode;
-	static long farthestDistance = -1;
+	static long dist[], farthestDistance = -1;
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> pq;
 	static boolean visit[];
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void Dijkstra() {
 		long nextDist;
 		while(!pq.isEmpty()){
@@ -50,34 +52,32 @@ public class Main {
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		K = Integer.parseInt(st.nextToken());
-		dist = new long[N+1];
-		adlist = new ArrayList[N+1];
-		visit = new boolean[N+1];
-		pq = new PriorityQueue<Node>((a,b)->Long.compare(a.dist,b.dist));
+		N 		= read();
+		M		= read();
+		K 		= read();
+		dist 	= new long[N+1];
+		visit 	= new boolean[N+1];
+		adlist 	= new ArrayList[N+1];
+		pq 		= new PriorityQueue<Node>((a,b)->Long.compare(a.dist,b.dist));
 		for(int i=0; i<=N; i++) {
-			dist[i] = MAX_DIST;
-			adlist[i] = new ArrayList<>();
+			dist[i] 	= MAX_DIST;
+			adlist[i] 	= new ArrayList<>();
 		}
 		int a,b,c;
-		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
-			c = Integer.parseInt(st.nextToken());
+		for(int i=0; i<M; i++) { 
+			a = read();
+			b = read();
+			c = read();
 			adlist[b].add(new Node(a,c));	// 역방향으로 간선을 연결하여 다익스트라알고리즘을 실행
-		}
-		st = new StringTokenizer(br.readLine());
+		} 
 		for(int i=0; i<K; i++) {
-			a = Integer.parseInt(st.nextToken());
+			a		= read();
 			dist[a] = 0;				// 면접장까지 가는 거리 0 세팅 
 			pq.add(new Node(a,0));		// 면접장까지 가는 거리 0 세팅
 		}
+		
 		Dijkstra();
+		
 		System.out.print(
 							new StringBuilder().append(farthestNode)
 								.append('\n')
