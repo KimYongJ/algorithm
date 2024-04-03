@@ -1,10 +1,6 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
- 
 class Node{
 	int node, dist;
 	Node(int node, int dist){
@@ -17,6 +13,11 @@ public class Main {
 	static ArrayList<Integer> path;
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> pq;
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void DFS(int start) 
 	{
 		path.add(start);				// 경로에 전달된 노드 삽입
@@ -45,11 +46,9 @@ public class Main {
 		}
 	}
 	public static void main(String[] args) throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb	= new StringBuilder();
-		StringTokenizer st;
-		N 			= Integer.parseInt(br.readLine());
-		B 			= Integer.parseInt(br.readLine());
+		N 			= read();
+		B 			= read();
 		dist 		= new int[N+1];									// 최단거리를 담을 배열
 		prevPath 	= new int[N+1];									// 이전 방문 노드를 담을 배열( 추후 경로 탐색에 사용 )
 		adlist 		= new ArrayList[N+1];							// 인접리스트를 담을 배열
@@ -64,16 +63,14 @@ public class Main {
 		int a,b,c;
 		for(int i=0; i<B; i++) 
 		{
-			st	= new StringTokenizer(br.readLine());
-			a 	= Integer.parseInt(st.nextToken());
-			b 	= Integer.parseInt(st.nextToken());
-			c 	= Integer.parseInt(st.nextToken());
+			a = read();
+			b = read();
+			c = read();
 			adlist[a].add(new Node(b,c));								// a->b로 c만큼 단방향 연결
 		}
 		
-		st 		= new StringTokenizer(br.readLine());
-		start 	= Integer.parseInt(st.nextToken());
-		end 	= Integer.parseInt(st.nextToken());
+		start 	= read();
+		end 	= read();
 		
 		Dijkstra();
 		
