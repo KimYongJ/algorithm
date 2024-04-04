@@ -39,26 +39,21 @@ class Main{
 	public static long Dijkstra() {
 		dist[1] = 0;
 		pq.add(new Node(1,0));
-		
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();
 
 			for(Node next : adlist[now.node]) {
-				if(now.dist <= next.dist) {
-					nextDist = next.dist+1;
-				}else {
-					nextDist = (long)Math.ceil((double)(now.dist-next.dist)/M)*M + next.dist + 1;
-				}
+				nextDist = next.dist+1;
+                
+				if(now.dist > next.dist) 
+					nextDist += (long)Math.ceil((double)(now.dist-next.dist)/M)*M;
 				
 				if(dist[next.node] > nextDist) {
 					dist[next.node]= nextDist;
 					pq.add(new Node(next.node, nextDist));
 				}
-				
 			}
-			
-		}
-		
+		}		
 		return dist[N];
 	}
 	public static void main(String[] args)throws Exception{
@@ -78,7 +73,6 @@ class Main{
 			adlist[a].add(new Node(b,i));
 			adlist[b].add(new Node(a,i));
 		}
-		
 		System.out.println( Dijkstra() );
 	}
 }
