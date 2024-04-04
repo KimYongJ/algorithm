@@ -14,12 +14,8 @@
 1 2 10분 22분
 6 7 11분 23분
  * */
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
-
 class Node{
 	int node;
 	long dist;
@@ -35,6 +31,11 @@ class Main{
 	static int N, M;
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> pq;
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static long Dijkstra() {
 		dist[1] = 0;
 		pq.add(new Node(1,0));
@@ -61,10 +62,8 @@ class Main{
 		return dist[N];
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		N 		= Integer.parseInt(st.nextToken());
-		M 		= Integer.parseInt(st.nextToken());
+		N 		= read();
+		M 		= read();
 		dist 	= new long[N+1];
 		adlist 	= new ArrayList[N+1];
 		pq		= new PriorityQueue<>((a,b)->Long.compare(a.dist, b.dist));
@@ -74,9 +73,8 @@ class Main{
 		}
 		int a,b;
 		for(int i=0; i<M; i++) {
-			st	= new StringTokenizer(br.readLine());
-			a 	= Integer.parseInt(st.nextToken());
-			b 	= Integer.parseInt(st.nextToken());
+			a 	= read();
+			b 	= read();
 			adlist[a].add(new Node(b,i));
 			adlist[b].add(new Node(a,i));
 		}
