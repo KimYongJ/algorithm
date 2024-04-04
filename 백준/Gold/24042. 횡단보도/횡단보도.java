@@ -1,5 +1,19 @@
 // https://github.com/kimyongj/algorithm
 
+/** 문제 해설.. 
+3 4  0분 12분   24분
+5 6  1분 13분   25분....
+7 8  2분 14분
+2 3  3분 15분
+1 5  4분 16분
+4 8  5분 17분
+1 2  6분 18분
+6 7  7분 19분
+2 3  8분 20분
+7 8  9분 21분
+1 2 10분 22분
+6 7 11분 23분
+ * */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -32,7 +46,7 @@ class Main{
 				if(now.dist <= next.dist) {
 					nextDist = next.dist+1;
 				}else {
-					nextDist = ((long) Math.ceil(((double)now.dist-next.dist)/M)) * M + next.dist + 1;
+					nextDist = (long)Math.ceil((double)(now.dist-next.dist)/M)*M + next.dist + 1;
 				}
 				
 				if(dist[next.node] > nextDist) {
