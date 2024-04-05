@@ -62,7 +62,7 @@ public class Main {
 		maxCost	= new long[N+1];							// 해당 노드 까지 가는데 든 가장 적은 지불비용
 		visit	= new boolean[N+1];							// 다익스트라 실행시 방문한 노드 체킹
 		adlist	= new ArrayList[N+1];
-		pq		= new PriorityQueue<Node>((a,b)->Long.compare(a.money, b.money));
+		pq		= new PriorityQueue<Node>((a,b)->Long.compare(a.maxMoney, b.maxMoney));
 		for(int i=0; i<=N; i++) {
 			maxCost[i] 	= MAX;
 			adlist[i]	= new ArrayList<>();
