@@ -30,8 +30,6 @@ public class Main {
 			
 			for(Node next : adlist[now.node]) 
 			{
-				if(visit[next.node])continue;
-
 				long nextMaxMoney = Math.max(now.maxMoney,next.money); // 해당 노드까지 방문하는데 든 가장 큰 지불비용 삽입
 				long nextCost = now.money - next.money;
 				if(nextCost >= 0) 										// 돈을 지불해야 하기에 현재 갖고있는 돈이 지불할 비용(next.money)보다 커야함
