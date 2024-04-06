@@ -5,26 +5,23 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 class Main{
-	static int N, cnt, arr[][];
+	static int N, cnt, arr[][], base[][];
 	static boolean visit[];
 	public static boolean check(int num) {
 		int num1 = num%10;
 		int num2 = num/10%10;
 		int num3 = num/100;
-		int base1, base2, base3, strike, ball;
+		int strike, ball;
 		for(int i=0; i<N; i++) {
 			strike = ball = 0;
-			base1 = arr[i][0]%10;
-			base2 = arr[i][0]/10%10;
-			base3 = arr[i][0]/100;
-			if(num1 == base1) strike++;
-			if(num2 == base2) strike++;
-			if(num3 == base3) strike++;
-			if(num1 == base2 || num1 == base3) ball++;
-			if(num2 == base1 || num2 == base3) ball++;
-			if(num3 == base1 || num3 == base2) ball++;
+			if(num1 == base[i][0]) strike++;
+			if(num2 == base[i][1]) strike++;
+			if(num3 == base[i][2]) strike++;
+			if(num1 == base[i][1] || num1 == base[i][2]) ball++;
+			if(num2 == base[i][0] || num2 == base[i][2]) ball++;
+			if(num3 == base[i][0] || num3 == base[i][1]) ball++;
 			
-			if(arr[i][1] != strike || arr[i][2] != ball)
+			if(arr[i][0] != strike || arr[i][1] != ball)
 				return false;
 		}
 		return true;
@@ -44,22 +41,25 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		
 		N		= Integer.parseInt(br.readLine());
-		arr 	= new int[N][3];
+		arr 	= new int[N][2];
 		visit 	= new boolean[10];
+		base	= new int[N][3];
 		for(int i=0; i<N; i++) 
 		{
-			st = new StringTokenizer(br.readLine());
-			arr[i][0] = Integer.parseInt(st.nextToken());
-			arr[i][1] = Integer.parseInt(st.nextToken());
-			arr[i][2] = Integer.parseInt(st.nextToken());
+			st 			= new StringTokenizer(br.readLine());
+			int main 	= Integer.parseInt(st.nextToken());
+			base[i][0] 	= main%10;
+			base[i][1] 	= main/10%10;
+			base[i][2] 	= main/100;
+			arr[i][0] 	= Integer.parseInt(st.nextToken());
+			arr[i][1]	= Integer.parseInt(st.nextToken());
 		}
 		
 		DFS(0, 0);
-		
 		
 		System.out.println(cnt);
 	}
