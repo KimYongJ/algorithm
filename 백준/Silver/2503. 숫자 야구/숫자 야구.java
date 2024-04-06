@@ -1,12 +1,14 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	static int N, cnt, arr[][], base[][];
 	static boolean visit[];
+    static int read() throws Exception {			// 빠른 숫자 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        if (c == 13) System.in.read();
+        return n;
+    }
 	public static boolean check(int num) {
 		int num1 = num%10;
 		int num2 = num/10%10;
@@ -41,22 +43,18 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		arr 	= new int[N][2];
 		visit 	= new boolean[10];
 		base	= new int[N][3];
 		for(int i=0; i<N; i++) 
 		{
-			st 			= new StringTokenizer(br.readLine());
-			int main 	= Integer.parseInt(st.nextToken());
+			int main 	= read();
+			arr[i][0] 	= read();
+			arr[i][1]	= read();
 			base[i][0] 	= main%10;
 			base[i][1] 	= main/10%10;
 			base[i][2] 	= main/100;
-			arr[i][0] 	= Integer.parseInt(st.nextToken());
-			arr[i][1]	= Integer.parseInt(st.nextToken());
 		}
 		
 		DFS(0, 0);
