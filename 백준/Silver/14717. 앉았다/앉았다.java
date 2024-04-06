@@ -45,6 +45,7 @@ class Main{
 			}
 		}
 		String str = String.valueOf(Math.round((double)win/153*1000)/1000.0);
-		System.out.println(str + "0".repeat(5-str.length()));
+		System.out.print(str);
+		System.out.print("0".repeat(5-str.length()));
 	}
 }
