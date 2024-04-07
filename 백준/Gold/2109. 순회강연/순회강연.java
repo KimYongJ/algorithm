@@ -38,7 +38,7 @@ class Main{
 	}
 	public static int getParent(int idx) {
 		if(parent[idx] == idx) return idx;
-		return getParent(parent[idx]);
+		return parent[idx] = getParent(parent[idx]);
 	}
 	public static void setParent(int beforeNode, int nowNode) {
 		int aParent = getParent(beforeNode);
