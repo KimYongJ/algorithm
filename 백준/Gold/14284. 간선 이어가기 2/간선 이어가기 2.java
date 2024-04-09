@@ -23,8 +23,11 @@ class Main{
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();
 			
-		//	if(visit[now.node])continue;
-		//	visit[now.node] = true;
+			if(visit[now.node])continue;
+			visit[now.node] = true;
+			if(now.node == e) {
+				break;
+			}
 			
 			for(Node next : adlist[now.node]) {
 				if(!visit[next.node]) {
@@ -32,10 +35,6 @@ class Main{
 					if(dist[next.node] > nextDist) {
 						dist[next.node] = nextDist;
 						pq.add(new Node(next.node, nextDist));
-//						if(next.node == e) {
-//							System.out.println(nextDist);
-//							return;
-//						}
 					}
 				}
 			}
