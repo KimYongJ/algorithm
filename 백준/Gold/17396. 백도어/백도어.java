@@ -1,9 +1,13 @@
 // https://github.com/kimyongj/algorithm
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-class Node{
+class Node implements Comparable<Node>{
 	int node; long dist;
 	Node(int node, long dist){this.node=node; this.dist=dist;}
+	@Override
+	public int compareTo(Node o) {
+		return Long.compare(this.dist, o.dist);
+	}
 }
 class Main{
 	static long MAX = 200_000_000_000L;
@@ -31,7 +35,7 @@ class Main{
 				result = now.dist;
 				break;
 			}
-			if(visit[now.node])continue;				// 큐에서 나온 노드는 최단거리임이 보증된다.
+			if(visit[now.node])continue;				// 큐에서 나온 노드는 최단거리임이 보장된다.
 			visit[now.node] = true; 					// 방문 처리 
 			
 			for(Node next : adlist[now.node]) 
@@ -55,7 +59,7 @@ class Main{
 		dist 	= new long[N];
 		visit 	= new boolean[N];
 		adlist 	= new ArrayList[N];
-		pq 		= new PriorityQueue<Node>((a,b)->Long.compare(a.dist,b.dist));
+		pq 		= new PriorityQueue<Node>();
 		for(int i=0; i<N; i++) 
 		{
 			dist[i] 	= MAX;
