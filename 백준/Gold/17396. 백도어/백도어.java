@@ -1,9 +1,6 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{
 	int node; long dist;
 	Node(int node, long dist){this.node=node; this.dist=dist;}
@@ -15,59 +12,66 @@ class Main{
 	static boolean visit[];
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> pq;
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void Dijkstra() {
-		long result = -1, nextDist;
+		long result = -1, 								// 도달불가시 -1출력을 해야함
+			 nextDist;
 		dist[0] = 0;
 		pq.add(new Node(0,0));
 		
 		while(!pq.isEmpty()) 
 		{
 			Node now = pq.poll();
-			if(now.node == N) 
+			if(now.node == N) 							// 목적지 도착시 break
 			{
 				result = now.dist;
 				break;
 			}
-			if(visit[now.node])continue;
-			visit[now.node] = true; 
+			if(visit[now.node])continue;				// 큐에서 나온 노드는 최단거리임이 보증된다.
+			visit[now.node] = true; 					// 방문 처리 
 			
 			for(Node next : adlist[now.node]) 
 			{
-				nextDist = next.dist + now.dist;
-				if(dist[next.node]> nextDist) 
+				if(next.node ==N || !visit[next.node]) 	// 다음 노드가 최종 노드가 아니며, 방문하지 않았을 때 연산 실행
 				{
-					dist[next.node] = nextDist;
-					pq.add(new Node(next.node, nextDist));
+					nextDist = next.dist + now.dist;	// 거처서 가는게 더 빠른지 탐색
+					if(dist[next.node]> nextDist) 
+					{
+						dist[next.node] = nextDist;
+						pq.add(new Node(next.node, nextDist));
+					}
 				}
 			}
 		}
 		System.out.println(result);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N 		= Integer.parseInt(st.nextToken());
-		M 		= Integer.parseInt(st.nextToken());
-		visit 	= new boolean[N];
+		N 		= read();
+		M 		= read();
 		dist 	= new long[N];
+		visit 	= new boolean[N];
 		adlist 	= new ArrayList[N];
 		pq 		= new PriorityQueue<Node>((a,b)->Long.compare(a.dist,b.dist));
-		st 		= new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<N; i++) 
+		{
 			dist[i] 	= MAX;
-			visit[i]	= Integer.parseInt(st.nextToken()) == 1;
+			visit[i]	= read() == 1;			// 방문할 수 없으면 true처리
 			adlist[i] 	= new ArrayList<>();
 		}
 		int a,b,c;
-		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
-			c = Integer.parseInt(st.nextToken());
-			adlist[a].add(new Node(b,c));
+		for(int i=0; i<M; i++)
+		{
+			a = read();
+			b = read();
+			c = read();
+			adlist[a].add(new Node(b,c));		// 양방향 연결
 			adlist[b].add(new Node(a,c));
 		}
-		N--;
+		N--;									// 빠른 연산을 위해 N에 -1처리 
 		Dijkstra();
 	}
 }
