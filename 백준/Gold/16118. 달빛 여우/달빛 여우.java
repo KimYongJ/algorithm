@@ -4,20 +4,18 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 class Node{
-	int node; long dist;
+	int node, flag; long dist;
 	Node(int node, long dist){
 		this.node = node;
 		this.dist = dist;
 	}
-}
-class wNode{
-	int node, flag; long dist;
-	wNode(int node, long dist, int flag){
+	Node(int node, long dist, int flag){
 		this.node = node;
 		this.dist = dist;
 		this.flag = flag;
 	}
 }
+
 class Main{
 	static final long MAX = 4_000_000_000L;
 	static int N, M, a, b, c, result;
@@ -25,7 +23,7 @@ class Main{
 	static boolean fvisit[], wvisit[][];
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> fpq;
-	static PriorityQueue<wNode> wpq;
+	static PriorityQueue<Node> wpq;
     static int read() throws Exception {
         int c, n = System.in.read() & 15;
         while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
@@ -59,13 +57,13 @@ class Main{
 	}
 	public static void Dijkstra_wolf() {
 		long nextDist; int nflag;
-		wpq		= new PriorityQueue<wNode>((a,b)-> Long.compare(a.dist,b.dist));
+		wpq		= new PriorityQueue<Node>((a,b)-> Long.compare(a.dist,b.dist));
 		wvisit	= new boolean[N+1][2];
-		wolfD[1][1] = 0;
-		wpq.add(new wNode(1,0,1));
+		wolfD[1][0] = 0;
+		wpq.add(new Node(1,0,0));
 		
 		while(!wpq.isEmpty()) {
-			wNode now = wpq.poll();
+			Node now = wpq.poll();
 			
 			if(!wvisit[now.node][now.flag]) 
 			{
@@ -74,10 +72,10 @@ class Main{
 				for(Node next : adlist[now.node]) 
 				{ 
 					if(!wvisit[next.node][nflag]) {
-						nextDist = now.dist + next.dist*(nflag==0 ? 1 : 4);
+						nextDist = now.dist + next.dist*(nflag==0 ? 4 : 1);
 						if(wolfD[next.node][nflag] > nextDist) {
 							wolfD[next.node][nflag] = nextDist;
-							wpq.add(new wNode(next.node, nextDist, nflag));
+							wpq.add(new Node(next.node, nextDist, nflag));
 						}
 					}
 				}
