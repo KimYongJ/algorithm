@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+// https://github.com/KimYongJ/algorithm
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{
 	static final int max 	= 9;
@@ -12,6 +10,11 @@ class Main{
 			   zeroCnt;
 	static ArrayList<int[]> zerolist = new ArrayList<>();
 	
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void print() {
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<max; i++) 
@@ -54,15 +57,12 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 		int bit;
 		for(int i=0; i<max; i++) 
 		{
-			st = new StringTokenizer(br.readLine());
 			for(int j=0; j<max; j++) 
 			{
-				map[i][j] 	= Integer.parseInt(st.nextToken());
+				map[i][j] 	= read();
 				bit 		= 1<<map[i][j];
 				Y[i] 		|= bit;					// 행에 비트로 마킹
 				X[j] 		|= bit;					// 열에 비트로 마킹
