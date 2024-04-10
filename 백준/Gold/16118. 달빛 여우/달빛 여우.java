@@ -1,10 +1,7 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 
 class Node{
 	int node; long dist;
@@ -29,11 +26,14 @@ class Main{
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> fpq;
 	static PriorityQueue<wNode> wpq;
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N 	= Integer.parseInt(st.nextToken());
-		M 	= Integer.parseInt(st.nextToken());
+		N 	= read();
+		M 	= read();
 		wolfD = new long[N+1][2];
 		foxD = new long[N+1];
 		adlist = new ArrayList[N+1];
@@ -45,10 +45,9 @@ class Main{
 		
 		for(int i=0; i<M; i++) 
 		{
-			st = new StringTokenizer(br.readLine());
-			a = Integer.parseInt(st.nextToken());
-			b = Integer.parseInt(st.nextToken());
-			c = Integer.parseInt(st.nextToken());
+			a = read();
+			b = read();
+			c = read();
 			adlist[a].add(new Node(b,c));
 			adlist[b].add(new Node(a,c));
 		}
