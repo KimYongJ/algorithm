@@ -30,15 +30,18 @@ class Main{
         return n;
     }
 	public static void main(String[] args)throws Exception{
-		N 	= read();
-		M 	= read();
-		wolfD = new long[N+1][2];
-		foxD = new long[N+1];
-		adlist = new ArrayList[N+1];
+		N 		= read();
+		M 		= read();
+		wolfD 	= new long[N+1][2];
+		foxD 	= new long[N+1];
+		adlist 	= new ArrayList[N+1];
+		
 		for(int i=0; i<=N; i++) 
 		{
-			wolfD[i][0] = wolfD[i][1] = foxD[i] = MAX;
-			adlist[i] = new ArrayList<>();
+			wolfD[i][0] = 
+			wolfD[i][1] = 
+			foxD[i] 	= MAX;
+			adlist[i] 	= new ArrayList<>();
 		}
 		
 		for(int i=0; i<M; i++) 
@@ -57,8 +60,8 @@ class Main{
 	}
 	public static void Dijkstra_wolf() {
 		long nextDist; int nflag;
-		wpq		= new PriorityQueue<Node>((a,b)-> Long.compare(a.dist,b.dist));
-		wvisit	= new boolean[N+1][2];
+		wpq			= new PriorityQueue<Node>((a,b)-> Long.compare(a.dist,b.dist));
+		wvisit		= new boolean[N+1][2];
 		wolfD[1][0] = 0;
 		wpq.add(new Node(1,0,0));
 		
