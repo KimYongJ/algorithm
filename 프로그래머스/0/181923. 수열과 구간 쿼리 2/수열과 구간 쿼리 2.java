@@ -9,9 +9,8 @@ class Solution {
             for(int i=q[0]; i<=q[1]; i++)
                 if(arr[i] > q[2])
                     num = Math.min(num,arr[i]);
-            if(num == MAX_VALUE)
-                num = -1;
-            list.add(num);
+
+            list.add(num == MAX_VALUE ? -1 : num);
         }
         return list;
     }
