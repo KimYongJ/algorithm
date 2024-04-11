@@ -29,6 +29,7 @@ class Main{
 			Node now = pq.poll();
 			
 			if(visit[now.node])continue;
+			if(now.node == END) break;
 			visit[now.node] = true; 
 			
 			for(Node next : adlist[now.node]) {
