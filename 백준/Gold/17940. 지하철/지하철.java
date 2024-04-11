@@ -1,11 +1,6 @@
 // https://github.com/kimyongj/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
-
 class Node{
 	int node, trans, dist;
 	Node(int node, int dist){ this.node=node;	this.dist=dist;	}
@@ -21,6 +16,11 @@ class Main{
 	static boolean visit[], company[];
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> pq;
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void Dijkstra() {
 		trans[0] = dist[0] = 0;
 		pq.add(new Node(0,0,0));
@@ -50,20 +50,18 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N 		= Integer.parseInt(st.nextToken());
-		END 	= Integer.parseInt(st.nextToken());
+		N 		= read();
+		END 	= read();
 		trans 	= new int[N];
 		dist 	= new int[N];
 		visit	= new boolean[N];
 		company = new boolean[N]; 		// false면 0번회사, true면 1번회사
 		adlist	= new ArrayList[N];
 		pq		= new PriorityQueue<Node>((a,b)->{
-						if(a.trans==b.trans)
-							return a.dist-b.dist;
-						return a.trans-b.trans;
-					});
+								if(a.trans==b.trans)
+									return a.dist-b.dist;
+								return a.trans-b.trans;
+							});
 		
 		for(int i=0; i<N; i++) 
 		{
@@ -71,22 +69,22 @@ class Main{
 			adlist[i] = new ArrayList<>();
 		}
 		for(int i=0; i<N; i++)
-			company[i] = Integer.parseInt(br.readLine()) == 1;
+			company[i] = read() == 1;
 		
 		int num;
 		for(int i=0; i<N; i++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int j=0; j<N; j++) 
 			{
-				num = Integer.parseInt(st.nextToken());
-				if(num > 0) {
+				num = read();
+				if(num > 0) 
+				{
 					adlist[i].add(new Node(j,num));
 					adlist[j].add(new Node(i,num));
 				}
 			}
-		}
+		
 		Dijkstra();
+		
 		System.out.print(
 							new StringBuilder()
 							.append(trans[END])
