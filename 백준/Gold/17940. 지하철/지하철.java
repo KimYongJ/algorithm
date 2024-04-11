@@ -18,7 +18,7 @@ class Main{
 	static final int MAX = 100_000_000;
 	static int N, END;
 	static int trans[], dist[];
-	static boolean[] company;
+	static boolean visit[], company[];
 	static ArrayList<Node>[] adlist;
 	static PriorityQueue<Node> pq;
 	public static void Dijkstra() {
@@ -27,6 +27,9 @@ class Main{
 		int nextTrans, nextDist;
 		while(!pq.isEmpty()) {
 			Node now = pq.poll();
+			
+			if(visit[now.node])continue;
+			visit[now.node] = true; 
 			
 			for(Node next : adlist[now.node]) {
 				nextTrans = now.trans + (company[now.node] == company[next.node] ? 0 : 1);
@@ -38,7 +41,7 @@ class Main{
 					}
 				}
 				if(trans[next.node]> nextTrans) {
-					trans[next.node]= nextTrans; 
+					trans[next.node] = nextTrans; 
 					pq.add(new Node(next.node, nextTrans, nextDist));
 				}
 			}
@@ -52,6 +55,7 @@ class Main{
 		END 	= Integer.parseInt(st.nextToken());
 		trans 	= new int[N];
 		dist 	= new int[N];
+		visit	= new boolean[N];
 		company = new boolean[N]; 		// false면 0번회사, true면 1번회사
 		adlist	= new ArrayList[N];
 		pq		= new PriorityQueue<Node>((a,b)->{
