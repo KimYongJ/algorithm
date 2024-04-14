@@ -45,6 +45,9 @@ class Main{
 		while(!pq.isEmpty()) {
 			now = pq.poll();
 			
+			if(now.y == ey && now.x == ex)
+				break;
+			
 			for(int xy[] : dxy) 
 			{
 				nextY = now.y + xy[0];
