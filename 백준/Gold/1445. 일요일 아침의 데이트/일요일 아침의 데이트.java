@@ -19,7 +19,7 @@ class Main{
 	static int[][] g, g1;
 	static boolean map[][];
 	static PriorityQueue<Node> pq;
-	public static boolean check(int y, int x) {
+	public static boolean check(int y, int x) {	// 주변쓰레기 체킹
 		if(y==ey && x==ex)
 			return false;
 		
@@ -32,6 +32,11 @@ class Main{
 		}
 		return false;
 	}
+	public static void add(int y, int x, int nextG, int nextG1) {
+		g[y][x] = nextG;
+		g1[y][x] = nextG1;
+		pq.add(new Node(y, x, nextG, nextG1));
+	}
 	public static void Dijkstra() {
 		g[sy][sx] = g1[sy][sx] = 0;
 		pq.add(new Node(sy,sx,0,0));
@@ -40,30 +45,23 @@ class Main{
 		while(!pq.isEmpty()) {
 			now = pq.poll();
 			
-			for(int xy[] : dxy) {
+			for(int xy[] : dxy) 
+			{
 				nextY = now.y + xy[0];
 				nextX = now.x + xy[1];
 				
 				if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X) {
-					if(map[nextY][nextX]) {
-						if(g[nextY][nextX] > now.g + 1) {
-							g[nextY][nextX] = now.g + 1;
-							g1[nextY][nextX] = now.g1;
-							pq.add(new Node(nextY, nextX, now.g+1, now.g1));
-						}
+					if(map[nextY][nextX]) { 						// 다음이 쓰레기일 때 
+						if(g[nextY][nextX] > now.g + 1)
+							add(nextY, nextX, now.g+1, now.g1);
 					}else {
-						if(check(nextY,nextX)) {
-							if(g1[nextY][nextX] > now.g1 + 1) {
-								g[nextY][nextX] = now.g;
-								g1[nextY][nextX] = now.g1 + 1;
-								pq.add(new Node(nextY, nextX, now.g, now.g1 + 1));
-							}
-						}else {
-							if(g[nextY][nextX] > now.g && g1[nextY][nextX] > now.g1) {
-								g[nextY][nextX] = now.g;
-								g1[nextY][nextX] = now.g1;
-								pq.add(new Node(nextY, nextX, now.g, now.g1));
-							}
+						if(check(nextY,nextX)) {					// 다음 주변에 쓰레기가 있을 때 
+							if(g1[nextY][nextX] > now.g1 + 1)
+								add(nextY, nextX, now.g, now.g1 + 1);
+						}
+						else { 									// 다음 주변에 쓰레기가 없을 때
+							if(g[nextY][nextX] > now.g && g1[nextY][nextX] > now.g1)
+								add(nextY, nextX, now.g, now.g1);
 						}
 					}
 				}
@@ -113,6 +111,9 @@ class Main{
 		if(r1 == MAX) r1 = 0;
 		if(r2 == MAX) r2 = 0;
 		
-		System.out.print(r1 + " " + r2);
+		System.out.print(
+				new StringBuilder().append(r1)
+						.append(' ').append(r2)
+				);
 	}
 }
