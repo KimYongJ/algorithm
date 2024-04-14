@@ -86,10 +86,9 @@ class Main{
 		
 		for(int y=0; y<Y; y++) 
 		{
-			String str = br.readLine();
-			for(int x=0; x<X; x++) 
+			int x = 0;
+			for(char c : br.readLine().toCharArray())
 			{
-				char c = str.charAt(x);
 				if(c=='S') 
 				{
 					sy = y; 
@@ -103,6 +102,7 @@ class Main{
 				map[y][x] 	= c=='g';
 				g[y][x]		= 
 				g1[y][x] 	= MAX;
+				x++;
 			}
 		}
 		
