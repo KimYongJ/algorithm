@@ -13,25 +13,25 @@ class Main{
 		for(int m : money) {
 			if(m > nowMoney) 
 			{
-				cnt++;
 				nowMoney = mid - m;
-				if(nowMoney < 0) 	// 돈을 새로 출금해도 부족할 때 false리턴
+				// 돈을 새로 출금해도 부족하거나, 출력 횟수 초과시 false 리턴
+				if(++cnt > withCnt || nowMoney < 0)
 					return false;
 			}else
 				nowMoney -= m;
 		}
-		return cnt <= withCnt;
+		return true;
 	}
 	public static void main(String[] args)throws Exception{
 		day 		= read();
 		withCnt 	= read();
 		money 		= new int[day];
-		for(int i=0; i<day; i++) {
+		
+		for(int i=0; i<day; i++)
 			money[i] = read();
-			right 	 += money[i];
-		}
 		
 		left = 1;
+		right = 1_000_000_000;
 		while(left <= right) {
 			mid = (left + right) / 2;
 			if(check(mid)) {
