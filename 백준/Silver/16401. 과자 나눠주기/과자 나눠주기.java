@@ -27,11 +27,10 @@ class Main{
 		Arrays.sort(snack);
 
 		for(int i=0; i<N; i++) 
-		{
 			snack[i] = read();
-			right = Math.max(right, snack[i]);
-		}
+		
 		left = 1;
+		right = 1_000_000_000;
 		while(left <= right) {
 			mid = (left + right) / 2;
 			if(check(mid)) {
