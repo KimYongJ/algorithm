@@ -1,11 +1,14 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
+
 class Main{
 	
 	static int N, M, snack[], left, right, mid, ans;
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+	        int c, n = System.in.read() & 15;
+	        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+	        return n;
+	}
 	public static boolean check(int mid) {
 		int people = 0;
 		for(int i=N-1; i>=0; i--) 
@@ -17,16 +20,15 @@ class Main{
 		return false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		M 		= Integer.parseInt(st.nextToken()); // 조카의 수 
-		N 		= Integer.parseInt(st.nextToken()); // 과자의 수 
+		M 		= read(); // 조카의 수 
+		N 		= read(); // 과자의 수 
 		snack 	= new int[N];
+		
 		Arrays.sort(snack);
-		st = new StringTokenizer(br.readLine());
+
 		for(int i=0; i<N; i++) 
 		{
-			snack[i] = Integer.parseInt(st.nextToken());
+			snack[i] = read();
 			right = Math.max(right, snack[i]);
 		}
 		left = 1;
