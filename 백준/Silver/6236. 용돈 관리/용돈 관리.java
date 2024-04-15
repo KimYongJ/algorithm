@@ -1,35 +1,33 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	static int day, withCnt, money[], ans, left, right, mid;
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static boolean check(int mid) {
 		int cnt = 0, nowMoney = 0;
 		for(int m : money) {
-			if(m > nowMoney) {
+			if(m > nowMoney) 
+			{
 				cnt++;
 				nowMoney = mid - m;
 				if(nowMoney < 0) 	// 돈을 새로 출금해도 부족할 때 false리턴
 					return false;
-			}else {
+			}else
 				nowMoney -= m;
-			}
-			if(cnt > withCnt)
-				return false;
 		}
-		return true;
+		return cnt <= withCnt;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		day 		= Integer.parseInt(st.nextToken());
-		withCnt 	= Integer.parseInt(st.nextToken());
+		day 		= read();
+		withCnt 	= read();
 		money 		= new int[day];
 		for(int i=0; i<day; i++) {
-			money[i] = Integer.parseInt(br.readLine());
+			money[i] = read();
 			right 	 += money[i];
 		}
 		
