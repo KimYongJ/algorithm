@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 class Main{
 	
-	static int N, M, snack[], left, right, mid, ans;
+	static int N, M, snack[], left, right, mid;
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 	        int c, n = System.in.read() & 15;
 	        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
@@ -35,12 +35,11 @@ class Main{
 		while(left <= right) {
 			mid = (left + right) / 2;
 			if(check(mid)) {
-				ans = mid;
 				left = mid+1;
 			}else {
 				right = mid-1;
 			}
 		}
-		System.out.println(ans);
+		System.out.println(left-1);
 	}
 }
