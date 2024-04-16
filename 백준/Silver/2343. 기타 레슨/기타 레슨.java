@@ -14,7 +14,6 @@ class Main{
 		for(int i=0; i<N; i++) {
 			lec[i] = read();
 			right += lec[i];
-			left   = Math.max(left, lec[i]);
 		}
 		while(left <= right) {
 			mid = (left + right) / 2; // 블루레이에 들어갈 강의 시간
