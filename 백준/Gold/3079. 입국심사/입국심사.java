@@ -8,24 +8,24 @@ class Main{
 	static long left, mid, right, ans;
 	public static boolean check(long mid) {
 		long men = 0;
-		for(long t : time) {
+		for(long t : time)
 			men += mid / t;
-			if(men>=M) 
-				return true;
-		}
-		return false;
+		return men >= M;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Long.parseLong(st.nextToken()); // 심사대
 		M = Long.parseLong(st.nextToken()); // 사람
-		time = new long[(int)N];
+		time = new long[(int) N];
 		for(int i=0; i<N; i++) {
 			time[i] = Long.parseLong(br.readLine());
+			right = Math.max(right, time[i]);
+			left = Math.min(left, time[i]);
 		}
-		left = 1;
-		right = Long.MAX_VALUE-100000000;
+		if(M > N) {
+			right = (long)(Math.ceil((double)M/N)) * right;
+		}
 		while(left <= right) {
 			mid = (left + right) / 2;
 			if(check(mid)) {
