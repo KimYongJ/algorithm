@@ -5,12 +5,16 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	static long N, M, time[];
-	static long left, mid, right, ans;
+	static long left, mid, right;
 	public static boolean check(long mid) {
 		long men = 0;
-		for(long t : time)
+		for(long t : time) 
+		{
 			men += mid / t;
-		return men >= M;
+			if(men >=M) 
+				return true;
+		}
+		return false;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,23 +22,17 @@ class Main{
 		N = Long.parseLong(st.nextToken()); // 심사대
 		M = Long.parseLong(st.nextToken()); // 사람
 		time = new long[(int) N];
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<N; i++)
 			time[i] = Long.parseLong(br.readLine());
-			right = Math.max(right, time[i]);
-			left = Math.min(left, time[i]);
-		}
-		if(M > N) {
-			right = (long)(Math.ceil((double)M/N)) * right;
-		}
+		
+		right = 1_000_000_000_000_000_000L;
 		while(left <= right) {
 			mid = (left + right) / 2;
-			if(check(mid)) {
-				ans = mid;
+			if(check(mid))
 				right = mid - 1;
-			}else {
+			else
 				left = mid + 1;
-			}
 		}
-		System.out.println(ans);
+		System.out.println(left);
 	}
 }
