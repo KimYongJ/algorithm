@@ -1,11 +1,12 @@
 // https://github.com/kimyongj/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	static long N, M, time[];
 	static long left, mid, right;
+    static long read() throws Exception {
+        long c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static boolean check(long mid) {
 		long men = 0;
 		for(long t : time) 
@@ -17,13 +18,11 @@ class Main{
 		return false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Long.parseLong(st.nextToken()); // 심사대
-		M = Long.parseLong(st.nextToken()); // 사람
+		N = read(); // 심사대
+		M = read(); // 사람
 		time = new long[(int) N];
 		for(int i=0; i<N; i++)
-			time[i] = Long.parseLong(br.readLine());
+			time[i] = read();
 		
 		right = 1_000_000_000_000_000_000L;
 		while(left <= right) {
