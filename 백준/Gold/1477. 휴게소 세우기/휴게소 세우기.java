@@ -1,12 +1,13 @@
 // https://github.com/kimyongj/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
-	static int N, M, L, left, right, mid, ans;
+	static int N, M, L, left, right, mid;
 	static boolean map[];
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static boolean check(int mid,int m) {
 		int cnt = 1;
 		for(int i=1; i<=L; i++) {
@@ -26,29 +27,24 @@ class Main{
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N 	= Integer.parseInt(st.nextToken());
-		M 	= Integer.parseInt(st.nextToken());
-		L 	= Integer.parseInt(st.nextToken());
+		N 	= read();
+		M 	= read();
+		L 	= read();
 		map = new boolean[L+1];
-		st 	= new StringTokenizer(br.readLine());
 		
 		for(int i=0; i<N; i++)
-			map[Integer.parseInt(st.nextToken())] = true;
+			map[read()] = true;
 		
 		left  = 1;
 		right = 1000;
 		
 		while(left <= right) {
 			mid = (left + right) / 2;
-			if(check(mid,M)) {
-				ans = mid;
+			if(check(mid,M))
 				right = mid-1;
-			}else{
+			else
 				left = mid+1;
-			}
 		}
-		System.out.println(ans);
+		System.out.println(left);
 	}
 }
