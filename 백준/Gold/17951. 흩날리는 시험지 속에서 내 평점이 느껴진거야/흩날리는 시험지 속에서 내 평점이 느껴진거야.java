@@ -1,15 +1,14 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
-	
 	static int N, K, total, cnt, score[];
 	static int left, mid, right, ans;
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static boolean check(int mid) {
-		total = 0;
-		cnt = 0;
+		total = cnt = 0;
 		for(int s : score) {
 			total += s;
 			if(total >= mid) {
@@ -20,14 +19,11 @@ class Main{
 		return cnt >= K;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N 		= Integer.parseInt(st.nextToken()); // 시험지 개수 
-		K 		= Integer.parseInt(st.nextToken()); // 그룹의 수 
+		N 		= read(); // 시험지 개수 
+		K 		= read(); // 그룹의 수 
 		score 	= new int[N];
-		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			score[i] = Integer.parseInt(st.nextToken());
+			score[i] = read();
 		
 		right = 3_000_000;
 		while(left <= right){
