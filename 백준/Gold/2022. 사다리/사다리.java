@@ -26,6 +26,6 @@ class Main{
 			else
 				left = mid;
 		}
-		System.out.printf("%.3f",right);
+		System.out.printf("%.3f",left);
 	}
 }
