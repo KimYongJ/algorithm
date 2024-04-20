@@ -1,12 +1,13 @@
 // https://github.com/kimyongj/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
-	static final int MAX_VALUE = 100_000_000;
-	static int N, M, num[], left , mid, right, ans, min, max, cnt;
+	static final int MAX_VALUE = 10_001;
+	static int N, M, num[], left , mid, right, min, max, cnt;
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static boolean check(int mid) {
 		max = -MAX_VALUE;
 		min = MAX_VALUE;
@@ -24,27 +25,21 @@ class Main{
 		return cnt <= M;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+		N 	= read();
+		M 	= read();
 		num = new int[N];
+
+		for(int i=0; i<N; i++)
+			num[i] = read();
 		
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++) {
-			num[i] = Integer.parseInt(st.nextToken());
-			right = Math.max(right, num[i]);
-		}
+		right = MAX_VALUE;
 		
-		while(left <= right) {
+		while(left < right) 
+		{
 			mid = (left + right)/2;
-			if(check(mid)) {
-				ans = mid;
-				right = mid-1;
-			}else {
-				left = mid + 1;
-			}
+			if(check(mid))	right	= mid;
+			else			left	= mid + 1;
 		}
-		System.out.print(ans);
+		System.out.print(right);
 	}
 }
