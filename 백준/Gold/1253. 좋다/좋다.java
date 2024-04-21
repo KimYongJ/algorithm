@@ -2,9 +2,7 @@
 import java.util.Arrays;
 class Main{
 	
-	static int N, arr[], left, right, cnt;
-	public static void getLeft (int idx) {while(idx == left)  {left++;}}
-	public static void getRight(int idx) {while(idx == right) {right--;}}
+	static int N, arr[], left, right, cnt, num;
 	public static int read() throws Exception {
 		int c, n = System.in.read() & 15;
 		boolean isNegative = n == 13;
@@ -13,26 +11,6 @@ class Main{
 		if (c == 13) System.in.read();
 		return isNegative ? ~n + 1 : n;
 	}
-	public static boolean search(int baseNum, int baseIdx) {
-		int num;
-		while(left < right) {
-			getLeft(baseIdx);
-			getRight(baseIdx);
-			if(right < 0 || left >= N)
-				break;
-			if(left == right)
-				continue;
-			
-			num = arr[left] + arr[right];
-			if(num == baseNum) 
-				return true;
-			else if(num > baseNum) 
-				right--;
-			else 
-				left++;
-		}
-		return false;
-	}
 	public static void main(String[] args)throws Exception{
 		N	= read();
 		arr = new int[N];
@@ -40,13 +18,29 @@ class Main{
 			arr[i] = read();
 		
 		Arrays.sort(arr);
-		
-		for(int i=0; i<N; i++)  // 가장 큰 수부터 차례대로 탐색
+		N--;
+		for(int i=0; i<=N; i++)
 		{
 			left  = 0;
-			right = N-1;
-			if ( search(arr[i],i) )
-				cnt++;
+			right = N;
+			if(i == left)  left++;
+			if(i == right) right--;
+			while(left < right) 
+			{
+				num = arr[left] + arr[right];
+				if(num == arr[i]) {
+					cnt++;
+					break;
+				}
+				else if(num > arr[i]) {
+					right--;
+					if(i == right) right--;
+				}
+				else {
+					left++;
+					if(i == left)  left++;
+				}
+			}
 		}
 		System.out.print(cnt);
 	}
