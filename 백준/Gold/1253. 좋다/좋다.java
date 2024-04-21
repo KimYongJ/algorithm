@@ -1,15 +1,18 @@
 // https://github.com/kimyongj/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N, arr[], left, right, cnt;
 	public static void getLeft (int idx) {while(idx == left)  {left++;}}
 	public static void getRight(int idx) {while(idx == right) {right--;}}
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static boolean search(int baseNum, int baseIdx) {
 		int num;
 		while(left < right) {
@@ -31,14 +34,10 @@ class Main{
 		return false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N = Integer.parseInt(br.readLine());
+		N	= read();
 		arr = new int[N];
-		
-		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		Arrays.sort(arr);
 		
