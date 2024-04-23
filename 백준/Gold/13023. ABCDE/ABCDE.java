@@ -1,9 +1,16 @@
 // https://github.com/kimyongj/algorithm
-import java.util.ArrayList;
+class Node{
+	int node;
+	Node adNode;
+	Node(int node, Node adNode){
+		this.node	= node;
+		this.adNode = adNode;
+	}
+}
 class Main{
 	
 	static int N, M;
-	static ArrayList<Integer>[] adlist;
+	static Node node[];
 	static boolean visit[];
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -15,30 +22,26 @@ class Main{
 			System.out.println(1);
 			System.exit(0);
 		}
-		for(int x : adlist[idx]) {
-			if(!visit[x]) {
-				visit[x] = true;
-				DFS(x,cnt+1);
-				visit[x] = false;
+		for(Node now = node[idx]; now != null; now = now.adNode) {
+			if(!visit[now.node]) {
+				visit[now.node] = true;
+				DFS(now.node,cnt+1);
+				visit[now.node] = false;
 			}
 		}
 	}
 	public static void main(String[] args)throws Exception{
 		N 		= read();	// 사람수
 		M 		= read();	// 친구 관계 수
+		node	= new Node[N];
 		visit	= new boolean[N];
-		adlist 	= new ArrayList[N];
-		
-		for(int i=0; i<N; i++) {
-			adlist[i] = new ArrayList<>();
-		}
-		
+
 		int a,b;
 		for(int i=0; i<M; i++) {
-			a = read();
-			b = read();
-			adlist[a].add(b);
-			adlist[b].add(a);
+			a 		= read();
+			b 		= read();
+			node[a] = new Node(b, node[a]);
+			node[b] = new Node(a, node[b]);
 		}
 		
 		for(int i=0; i<N; i++) {
