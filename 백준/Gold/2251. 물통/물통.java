@@ -11,55 +11,35 @@ class Main{
 	static boolean visit[][][];
 	static HashSet<Integer> set;
 	public static void DFS(int a, int b, int c) {
-		if(!visit[a][b][c]) {
-			visit[a][b][c] = true;
-			if(a == 0)
-				set.add(c);
-			
-			int a1,b1,c1;
-			
-			a1 = a + c; // c -> a
-			if(a1 > MAX_WATER[0]) {
-				c1 = a1 - MAX_WATER[0];
-				a1 = MAX_WATER[0];
-			}else c1 = 0;
-			DFS(a1,b,c1);
-			
-			b1 = b + c; // c -> b
-			if(b1 > MAX_WATER[1]) {
-				c1 = b1 - MAX_WATER[1];
-				b1 = MAX_WATER[1];
-			}else c1 = 0;
-			DFS(a, b1, c1);
-			
-			a1 = a + b; // b -> a
-			if(a1 > MAX_WATER[0]) {
-				b1 = a1 - MAX_WATER[0];
-				a1 = MAX_WATER[0];
-			}else b1 = 0;
-			DFS(a1,b1,c);
-			
-			c1 = b + c; // b -> c
-			if(c1 > MAX_WATER[2]) {
-				b1 = c1 - MAX_WATER[2];
-				c1 = MAX_WATER[2];
-			}else b1 = 0;
-			DFS(a,b1,c1);
-			
-			b1 = a + b; // a -> b
-			if(b1 > MAX_WATER[1]) {
-				a1 = b1 - MAX_WATER[1];
-				b1 = MAX_WATER[1];
-			}else a1 = 0;
-			DFS(a1,b1,c);
-			
-			c1 = a + c; // a -> c
-			if(c1 > MAX_WATER[2]) {
-				a1 = c1 - MAX_WATER[2];
-				c1 = MAX_WATER[2];
-			}else a1 = 0;
-			DFS(a1,b,c1);
-		}
+		if(visit[a][b][c]) return;
+		visit[a][b][c] = true;
+		if(a == 0)
+			set.add(c);
+		
+		if(a+c > MAX_WATER[0])// c -> a
+			 DFS(MAX_WATER[0], b, c - (MAX_WATER[0]-a));
+		else DFS(a+c, b, 0);
+		
+		if(b+c > MAX_WATER[1])// c -> b
+			 DFS(a, MAX_WATER[1], c - (MAX_WATER[1] - b));
+		else DFS(a, b+c, 0);
+
+		if(a+b > MAX_WATER[0])// b -> a
+			 DFS(MAX_WATER[0], b - (MAX_WATER[0]-a),c);
+		else DFS(a+b, 0, c);
+
+		if(b+c > MAX_WATER[2])// b -> c
+			 DFS(a, b-(MAX_WATER[2]-c), MAX_WATER[2]);
+		else DFS(a, 0, b+c);
+
+		if(a+b > MAX_WATER[1])// a -> b
+			 DFS(a -(MAX_WATER[1]-b), MAX_WATER[1], c);
+		else DFS(0, a+b, c);
+
+		if(a+c > MAX_WATER[2])// a- > c
+			 DFS(a - (MAX_WATER[2]-c), b, MAX_WATER[2]);
+		else DFS(0, b, a+c);
+
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
