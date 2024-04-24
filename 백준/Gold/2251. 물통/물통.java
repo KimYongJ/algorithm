@@ -1,8 +1,9 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 class Main{
@@ -48,13 +49,11 @@ class Main{
 		DFS();
 		
 		// 이하 출력
-		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		ArrayList<Integer> list = new ArrayList<>(set);
+		Collections.sort(list);
 		StringBuilder sb = new StringBuilder();
-		for(int i : set)
-			pq.add(i);
-		
-		while(!pq.isEmpty())
-			sb.append(pq.poll()).append(' ');
+		for(int i : list)
+			sb.append(i).append(' ');
 		
 		System.out.print(sb);
 	}
