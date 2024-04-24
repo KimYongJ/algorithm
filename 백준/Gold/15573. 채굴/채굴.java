@@ -31,14 +31,16 @@ class Main{
 		{
 			pq.add(new Node(y,	0,	map[y][0]));
 			pq.add(new Node(y,	X-1,map[y][X-1]));
+			visit[y][0] = visit[y][X-1] = true;
+			
 		}
-		for(int x=1; x<X-1; x++)
+		for(int x=1; x<X-1; x++) {
 			pq.add(new Node(0,	x, 	map[0][x]));
+			visit[0][x] = true;
+		}
 		
 		while(true){
 			Node now = pq.poll(); 
-			if(visit[now.y][now.x]) continue;;
-			visit[now.y][now.x]= true; 
 			ans = Math.max(ans, now.z);
 			if(++cnt >= K) 
 				break;
@@ -48,6 +50,7 @@ class Main{
 				nextX = now.x + xy[1];
 				if(nextY >=0 && nextX>=0 && nextY<Y && nextX<X 
 					&& !visit[nextY][nextX]) {
+					visit[nextY][nextX]= true; 
 					pq.add(new Node(nextY,nextX, map[nextY][nextX]));
 				}
 			}
