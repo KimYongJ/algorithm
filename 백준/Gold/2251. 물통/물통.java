@@ -59,8 +59,6 @@ class Main{
 				c1 = MAX_WATER[2];
 			}else a1 = 0;
 			DFS(a1,b,c1);
-			
-			visit[a][b][c] = false;
 		}
 	}
 	public static void main(String[] args)throws Exception{
