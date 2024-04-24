@@ -8,31 +8,59 @@ import java.util.StringTokenizer;
 
 class Main{
 	static int MAX_WATER[];
-	static int arr[], INDEX[][] = {{1,2},{0,2},{0,1}};
 	static boolean visit[][][];
 	static HashSet<Integer> set;
-	public static void DFS() {
-		if(!visit[arr[0]][arr[1]][arr[2]]) {
-			visit[arr[0]][arr[1]][arr[2]] = true;
-			if(arr[0] == 0)
-				set.add(arr[2]);
-			for(int nowIdx=0; nowIdx<3; nowIdx++) {
-				for(int nextIdx : INDEX[nowIdx]) {
-					int nextNum = arr[nextIdx];
-					int nowNum = arr[nowIdx];
-					arr[nextIdx] += arr[nowIdx];
-					if(arr[nextIdx] > MAX_WATER[nextIdx]) {
-						arr[nowIdx] = arr[nextIdx] - MAX_WATER[nextIdx];
-						arr[nextIdx] = MAX_WATER[nextIdx];
-					}else{
-						arr[nowIdx] = 0;
-					}
-					DFS();
-					arr[nextIdx] = nextNum;
-					arr[nowIdx]  = nowNum;
-				}
-			}
-			visit[arr[0]][arr[1]][arr[2]] = false;
+	public static void DFS(int a, int b, int c) {
+		if(!visit[a][b][c]) {
+			visit[a][b][c] = true;
+			if(a == 0)
+				set.add(c);
+			
+			int a1,b1,c1;
+			
+			a1 = a + c; // c -> a
+			if(a1 > MAX_WATER[0]) {
+				c1 = a1 - MAX_WATER[0];
+				a1 = MAX_WATER[0];
+			}else c1 = 0;
+			DFS(a1,b,c1);
+			
+			b1 = b + c; // c -> b
+			if(b1 > MAX_WATER[1]) {
+				c1 = b1 - MAX_WATER[1];
+				b1 = MAX_WATER[1];
+			}else c1 = 0;
+			DFS(a, b1, c1);
+			
+			a1 = a + b; // b -> a
+			if(a1 > MAX_WATER[0]) {
+				b1 = a1 - MAX_WATER[0];
+				a1 = MAX_WATER[0];
+			}else b1 = 0;
+			DFS(a1,b1,c);
+			
+			c1 = b + c; // b -> c
+			if(c1 > MAX_WATER[2]) {
+				b1 = c1 - MAX_WATER[2];
+				c1 = MAX_WATER[2];
+			}else b1 = 0;
+			DFS(a,b1,c1);
+			
+			b1 = a + b; // a -> b
+			if(b1 > MAX_WATER[1]) {
+				a1 = b1 - MAX_WATER[1];
+				b1 = MAX_WATER[1];
+			}else a1 = 0;
+			DFS(a1,b1,c);
+			
+			c1 = a + c; // a -> c
+			if(c1 > MAX_WATER[2]) {
+				a1 = c1 - MAX_WATER[2];
+				c1 = MAX_WATER[2];
+			}else a1 = 0;
+			DFS(a1,b,c1);
+			
+			visit[a][b][c] = false;
 		}
 	}
 	public static void main(String[] args)throws Exception{
@@ -41,12 +69,10 @@ class Main{
 		int a = Integer.parseInt(st.nextToken());
 		int b = Integer.parseInt(st.nextToken());
 		int c = Integer.parseInt(st.nextToken());
-		set   		= new HashSet<>();
-		visit 		= new boolean[a+1][b+1][c+1];
-		arr			= new int[] {0,0,c};
-		MAX_WATER 	= new int[] {a,b,c};
-		
-		DFS();
+		set   = new HashSet<>();
+		visit = new boolean[a+1][b+1][c+1];
+		MAX_WATER = new int[] {a,b,c};
+		DFS(0,0,c);
 		
 		// 이하 출력
 		ArrayList<Integer> list = new ArrayList<>(set);
