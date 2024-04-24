@@ -1,20 +1,19 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
-
 class Node{
 	int y, x;
-	Node(int y, int x){
-		this.y=y; this.x=x;
-	}
+	Node(int y, int x){this.y=y; this.x=x;}
 }
 class Main{
 	static final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int Y, X, K, map[][], nextY, nextX;
 	static boolean visit[][];
 	static ArrayDeque<Node> q;
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static boolean BFS(int mid) { // mid 힘으로 몇개를 캘 수 있는지
 		int cnt = 0;
 		visit 	= new boolean[Y][X];
@@ -55,30 +54,26 @@ class Main{
 		return cnt >= K;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y = Integer.parseInt(st.nextToken());
-		X = Integer.parseInt(st.nextToken());
-		K = Integer.parseInt(st.nextToken());
+		Y = read();
+		X = read();
+		K = read();
 		map = new int[Y][X];
-		
-		for(int y=0; y<Y; y++) {
-			st = new StringTokenizer(br.readLine());
-			for(int x=0; x<X; x++) {
-				map[y][x] = Integer.parseInt(st.nextToken());
+		int left = 0, right = 0, mid;
+		for(int y=0; y<Y; y++)
+			for(int x=0; x<X; x++) 
+			{
+				map[y][x] = read();
+				right = Math.max(right, map[y][x]);
 			}
-		}
-		
-		int ans=0, left = 0, right = 1_000_001, mid;
-		while(left <= right) {
+
+		while(left < right) 
+		{
 			mid = (left + right) / 2; // 채굴기의 힘
-			if(BFS(mid)) {
-				ans = mid;
-				right = mid - 1;
-			}else {
+			if(BFS(mid))
+				right = mid;
+			else
 				left = mid + 1;
-			}
 		}
-		System.out.println(ans);
+		System.out.println(right);
 	}
 }
