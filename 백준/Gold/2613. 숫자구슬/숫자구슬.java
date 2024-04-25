@@ -33,11 +33,9 @@ class Main{
 
 		for(int n=0; n<N; n++) 
 		{
-			marble[n] = read();
+			right += marble[n] = read();
 			left = Math.max(marble[n], left);
 		}
-		
-		right = 30_001;
 		while( left <= right ) 
 		{
 			mid = (left + right) / 2; // mid는 각 그룹당 나올 수 있는 합의 상한이다.
