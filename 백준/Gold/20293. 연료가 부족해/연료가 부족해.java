@@ -1,7 +1,5 @@
 // https://github.com/kimyongj/algorithm
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.function.BiFunction;
 
 class Node{
@@ -13,7 +11,7 @@ class Node{
 class Main{
 	
 	static int Y, X, N, left, right, mid, ans, dp[], listSize, distance;
-	static ArrayList<Node> list;
+	static Node list[];
 	static BiFunction<Node, Node, Boolean> isMovePossible;
 	static BiFunction<Node, Node, Integer> getDistance;
 	static int read() throws Exception {// 빠른 입력을 위한 함수
@@ -28,12 +26,12 @@ class Main{
 		for(int i=1; i<listSize; i++) 
 			for(int j=0; j<i; j++) 
 			{
-				distance = getDistance.apply(list.get(j),list.get(i));
-				if(!isMovePossible.apply(list.get(j),list.get(i))) 
+				distance = getDistance.apply(list[j],list[i]);
+				if(!isMovePossible.apply(list[j],list[i])) 
 					continue;
 				if(dp[j] < distance) continue;
 				
-				dp[i] = Math.max(dp[i], dp[j] - distance + list.get(i).fuel);
+				dp[i] = Math.max(dp[i], dp[j] - distance + list[i].fuel);
 			}
 		return dp[listSize-1] != -1;
 	}
@@ -43,20 +41,19 @@ class Main{
 		Y 		= read();
 		X 		= read();
 		N 		= read();
-		list 	= new ArrayList<Node>() {{
-			add(new Node(0,0,0));
-			add(new Node(Y-1,X-1,0));
-			}};
+		list	= new Node[N+2];
 		int a1,a2,a3;
 		for(int i=0; i<N; i++) {
-			a1 = read()-1;
-			a2 = read()-1;
-			a3 = read();
-			list.add(new Node(a1,a2,a3));
+			a1 		= read()-1;
+			a2 		= read()-1;
+			a3 		= read();
+			list[i] = new Node(a1,a2,a3);
 		}
+		list[N] 	= new Node(0,0,0);
+		list[N+1] 	= new Node(Y-1,X-1,0);
+		listSize 	= N+2;
 		
-		listSize = list.size();
-		Collections.sort(list,(a,b)->Integer.compare(a.x+a.y, b.x+b.y));
+		Arrays.sort(list,(a,b)->(a.x+a.y)-(b.x+b.y));
 		
 		right = 6000;
 		while(left <= right) {
@@ -66,7 +63,6 @@ class Main{
 				right 	= mid - 1;
 			}else left 	= mid + 1;
 		}
-		
 		System.out.println(ans);
 	}
 }
