@@ -12,8 +12,6 @@ class Main{
 	
 	static int Y, X, N, left, right, mid, ans, dp[], listSize, distance;
 	static Node list[];
-	static BiFunction<Node, Node, Boolean> isMovePossible;
-	static BiFunction<Node, Node, Integer> getDistance;
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
@@ -26,8 +24,8 @@ class Main{
 		for(int i=1; i<listSize; i++) 
 			for(int j=0; j<i; j++) 
 			{
-				distance = getDistance.apply(list[j],list[i]);
-				if(!isMovePossible.apply(list[j],list[i])) 
+				distance = Math.abs(list[j].x-list[i].x)+Math.abs(list[j].y-list[i].y);
+				if(!(list[j].y<=list[i].y && list[j].x<=list[i].x)) 
 					continue;
 				if(dp[j] < distance) continue;
 				
@@ -36,8 +34,6 @@ class Main{
 		return dp[listSize-1] != -1;
 	}
 	public static void main(String[] args)throws Exception{
-		isMovePossible 	= (a,b) -> a.y<=b.y && a.x<=b.x;
-		getDistance 	= (a,b) -> Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
 		Y 		= read();
 		X 		= read();
 		N 		= read();
