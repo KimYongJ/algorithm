@@ -1,10 +1,7 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.StringTokenizer;
 import java.util.function.BiFunction;
 
 class Node{
@@ -19,7 +16,11 @@ class Main{
 	static ArrayList<Node> list;
 	static BiFunction<Node, Node, Boolean> isMovePossible;
 	static BiFunction<Node, Node, Integer> getDistance;
-	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static boolean check(int mid) {
 		dp = new int[listSize];
 		Arrays.fill(dp, -1);
@@ -39,23 +40,21 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		isMovePossible 	= (a,b) -> a.y<=b.y && a.x<=b.x;
 		getDistance 	= (a,b) -> Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
-		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		Y 		= Integer.parseInt(st.nextToken());
-		X 		= Integer.parseInt(st.nextToken());
-		N 		= Integer.parseInt(br.readLine());
+		Y 		= read();
+		X 		= read();
+		N 		= read();
 		list 	= new ArrayList<Node>() {{
 			add(new Node(0,0,0));
 			add(new Node(Y-1,X-1,0));
 			}};
 		int a1,a2,a3;
 		for(int i=0; i<N; i++) {
-			st = new StringTokenizer(br.readLine());
-			a1 = Integer.parseInt(st.nextToken())-1;
-			a2 = Integer.parseInt(st.nextToken())-1;
-			a3 = Integer.parseInt(st.nextToken());
+			a1 = read()-1;
+			a2 = read()-1;
+			a3 = read();
 			list.add(new Node(a1,a2,a3));
 		}
+		
 		listSize = list.size();
 		Collections.sort(list,(a,b)->Integer.compare(a.x+a.y, b.x+b.y));
 		
