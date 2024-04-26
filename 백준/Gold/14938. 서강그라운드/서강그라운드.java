@@ -7,7 +7,7 @@ class Main{
         return N;
     }
 	public static void main(String[] args)throws Exception{
-        final int INF = 3_001;
+        final int INF = 16;
 		int N 		= read();         // 지역 개수
 		int M 		= read();         // 예으니 수색범위
 		int R 		= read();         // 길의 개수
