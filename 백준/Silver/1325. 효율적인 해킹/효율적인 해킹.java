@@ -1,5 +1,7 @@
 // https://github.com/KimYongJ/algorithm
 
+import java.util.ArrayList;
+
 class Node{
 	int node;
 	Node child;
@@ -8,8 +10,8 @@ class Node{
 
 class Main{
 	static int N, M, max, arr[];
-	static Node adlist[];
 	static boolean visit[];
+	static ArrayList<Integer> adlist[];
 	static int read() throws Exception {
 		int c, n = System.in.read() & 15;
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
@@ -17,25 +19,26 @@ class Main{
 	}
 	public static void DFS(int node) {
 		visit[node] = true;
-		for(Node now=adlist[node]; now!=null; now=now.child) {
-			if(!visit[now.node]) 
+		for(int next : adlist[node])
+			if(!visit[next]) 
 			{
-				arr[now.node]++;
-				DFS(now.node);				
+				arr[next]++;
+				DFS(next);				
 			}
-		}
 	}
 	public static void main(String[] args)throws Exception{
-		N = read();
-		M = read();
-		arr = new int[N+1];
-		adlist = new Node[N+1];
+		N 		= read();
+		M 		= read();
+		arr 	= new int[N+1];
+		adlist 	= new ArrayList[N+1];
+		
+		for(int i=0; i<=N; i++) adlist[i] = new ArrayList<>();
 		int a,b;
 		for(int i=0; i<M; i++) 
 		{
 			a = read();
 			b = read();
-			adlist[a] = new Node(b, adlist[a]);
+			adlist[a].add(b);
 		}
 		
 		
