@@ -12,13 +12,18 @@ class Stack{
 		if(child != null)
 			this.size=child.size + 1;
 	}
-	public char get(int idx) {
-		if(idx==0)return c;
-		int idx1 = 0;
-		for(Stack now=child; now!=null; now= now.child)
-			if(++idx1 == idx)
-				return now.c;
-		return ' ';
+	public boolean contains(char[] key) {
+		if(key.length == 1)
+			return key[0] == c;
+		if(key[0] != c) return false;
+		
+		int i=1;
+		for(Stack now=child; now!=null && i<key.length; now=now.child, i++) {
+			if(key[i] != now.c)
+				return false;
+		}
+		
+		return true;
 	}
 	public boolean isEmpty() {return size == 0;}
 	public Stack delete() {return child;}
@@ -30,27 +35,15 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		Stack stack = new Stack();
 		String base = br.readLine();
-		char[] key = br.readLine().toCharArray();
+		char[] key = new StringBuilder(br.readLine()).reverse().toString().toCharArray();
 		int keySize = key.length;
 		for(char c : base.toCharArray()) 
 		{
 			stack = new Stack(c, stack);
 			if(stack.size >= keySize) 
-			{
-				boolean flag = true;
-				
-				for(int i=0; i<keySize; i++) 
-					if(key[i] != stack.get(keySize-i-1)) 
-					{
-						flag = false;
-						break;
-					}
-				
-				
-				if(flag)
+				if(stack.contains(key))
 					for(int i=0; i<keySize; i++)
 						stack = stack.delete();
-			}
 		}
 		
 		StringBuilder sb = new StringBuilder();
