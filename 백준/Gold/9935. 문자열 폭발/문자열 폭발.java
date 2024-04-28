@@ -18,11 +18,9 @@ class Stack{
 		if(key[0] != c) return false;
 		
 		int i=1;
-		for(Stack now=child; now!=null && i<key.length; now=now.child, i++) {
+		for(Stack now=child; now!=null && i<key.length; now=now.child, i++)
 			if(key[i] != now.c)
 				return false;
-		}
-		
 		return true;
 	}
 	public boolean isEmpty() {return size == 0;}
