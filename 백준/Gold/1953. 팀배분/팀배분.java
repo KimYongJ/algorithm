@@ -44,6 +44,21 @@ class Main{
 		}
 		return false;
 	}
+	public static void TeamSelect(boolean team[], int node) {
+		boolean flag = true;
+		for(int hate : map[node]) {
+			if(team[hate])
+			{
+				flag = false;
+				break;
+			}
+		}
+		if(flag) {
+			team[node] = true;
+			DFS(node+1);
+			team[node] = false;
+		}
+	}
 	public static void DFS(int node) {
 		if(node == N) 
 		{
@@ -51,32 +66,8 @@ class Main{
 				print();
 			return;
 		}
-		boolean flag = true;
-		for(int hate : map[node]) {
-			if(blue[hate]) // blue에 싫어 하는 사람이 있다면
-			{
-				flag = false;
-				break;
-			}
-		}
-		if(flag) {
-			blue[node] = true;
-			DFS(node+1);
-			blue[node] = false;
-		}
-		flag = true;
-		for(int hate : map[node]) {
-			if(white[hate]) // white에 싫어 하는 사람이 있다면
-			{
-				flag = false;
-				break;
-			}
-		}
-		if(flag) {
-			white[node] = true;
-			DFS(node+1);
-			white[node] = false;
-		}
+		TeamSelect(blue, node);
+		TeamSelect(white, node);
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
@@ -95,10 +86,7 @@ class Main{
 			st = new StringTokenizer(br.readLine());
 			int J = Integer.parseInt(st.nextToken());
 			for(int j=0; j<J; j++) 
-			{
-				int X = Integer.parseInt(st.nextToken());
-				map[i].add(X);
-			}
+				map[i].add(Integer.parseInt(st.nextToken()));
 		}
 		DFS(1); // 학생번호
 	}
