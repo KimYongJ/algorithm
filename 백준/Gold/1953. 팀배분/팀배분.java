@@ -97,10 +97,7 @@ class Main{
 			for(int j=0; j<J; j++) 
 			{
 				int X = Integer.parseInt(st.nextToken());
-				if(!map[i].contains(X))
-					map[i].add(X);
-				if(!map[X].contains(i))
-					map[X].add(i);
+				map[i].add(X);
 			}
 		}
 		DFS(1); // 학생번호
