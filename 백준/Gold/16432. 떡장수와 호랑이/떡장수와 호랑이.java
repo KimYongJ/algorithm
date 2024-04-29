@@ -36,9 +36,9 @@ class Main{
 		result 	= new int[N];			// 날수(깊이) 에 따라 줄 떡
 		adlist 	= new int[N][9];		// 해당 날에 가져갈 떡 종류
 		visit  	= new boolean[N][10];	// 방문 체크
-		for(int i=1; i<N; i++) 
+		for(int i=1,J; i<N; i++) 
 		{
-			int J = read();
+			J = read();
 			for(int j=0; j<J; j++) 
 				adlist[i][j] = read();
 		}
