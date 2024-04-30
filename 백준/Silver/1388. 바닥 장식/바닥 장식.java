@@ -4,27 +4,19 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 class Main{
-	static int 		xy[] = {1,-1};
+	static int 		xy[][] = {{0,1},{1,0},{0,-1},{-1,0}};
 	static int 		Y, X, cnt, nextY, nextX;
 	static boolean 	map[][],	// - 는 true, |는 false
 					visit[][];
 	public static void DFS(int y, int x, boolean type) {
-		if(type) // true는 '-'모양, 가로로 탐색 
+		for(int i=type?0:1;  i<4;  i+=2) 
 		{
-			for(int p : xy) {
-				nextX = p + x;
-				if(nextX>=0 && nextX<X && !visit[y][nextX] && map[y][nextX] == type) {
-					visit[y][nextX] = true;
-					DFS(y, nextX, type);
-				}
-			}
-		}else {
-			for(int p : xy) {
-				nextY = p + y;
-				if(nextY>=0 && nextY<Y && !visit[nextY][x] && map[nextY][x] == type) {
-					visit[nextY][x] = true;
-					DFS(nextY, x, type);
-				}
+			nextY = y + xy[i][0];
+			nextX = x + xy[i][1];
+			if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X && !visit[nextY][nextX] && map[nextY][nextX] == type) 
+			{
+				visit[nextY][nextX] = true;
+				DFS(nextY, nextX, type);
 			}
 		}
 	}
