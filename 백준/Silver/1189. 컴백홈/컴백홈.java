@@ -9,8 +9,9 @@ class Main{
 	static boolean	map[][],	// false는 T로 가지못한다. 
 					visit[][];
 	public static void DFS(int y, int x, int depth) {
-		if(y==gY && x==gX && depth==K) {
-			cnt++; 
+		if(y==gY && x==gX) {
+			if(depth==K)
+				cnt++; 
 			return;
 		}
 		if(depth >= K) return;
