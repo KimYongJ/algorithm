@@ -10,9 +10,10 @@ class Main{
 					visit[][];
 	public static void DFS(int y, int x, int depth) {
 		if(y==gY && x==gX && depth==K) {
-			cnt++; return;
+			cnt++; 
+			return;
 		}
-		if(depth > K) return;
+		if(depth >= K) return;
 		int nY, nX;
 		for(int xy[] : dxy) {
 			nY = y + xy[0];
