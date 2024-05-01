@@ -1,9 +1,5 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Node{
 	int node;
 	Node before;
@@ -11,38 +7,37 @@ class Node{
 }
 class Main{
 	
-	static int a, b, T, N;
 	static boolean visit[];
 	static Node adNode[];
-	public static int DFS(int node) {
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        if (c == 13) System.in.read();
+        return n;
+    }
+	public static int DFS(int node){
 		if(visit[node]) 
 			return node;
 		visit[node] = true;
-		if(adNode[node]!=null) {
+		if(adNode[node]!=null)
 			return DFS(adNode[node].node);
-		}else
+		else
 			return -1;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder 	sb = new StringBuilder();
-		StringTokenizer st;
-		
-		T = Integer.parseInt(br.readLine());
+		StringBuilder sb	= new StringBuilder();
+		int a,b,N, T 		= read();
 		while(T-->0) {
-			N 		= Integer.parseInt(br.readLine());
+			N 		= read();
 			adNode 	= new Node[N+1];
 			visit 	= new boolean[N+1];
-			int a,b;
 			for(int i=1; i<N; i++) {
-				st = new StringTokenizer(br.readLine());
-				a = Integer.parseInt(st.nextToken());
-				b = Integer.parseInt(st.nextToken());
-				adNode[b] = new Node(a, adNode[b]);
+				a = read();
+				b = read();
+				adNode[b] = new Node(a, adNode[b]);	// 자식 -> 부모로 갈 수 있게 만듦
 			}
-			st = new StringTokenizer(br.readLine());
-			DFS(Integer.parseInt(st.nextToken()));
-			sb.append( DFS(Integer.parseInt(st.nextToken())) ).append('\n');
+			DFS( read() );								// DFS를 돌며 도는것들 visit체크 
+			sb.append( DFS( read() ) ).append('\n');	// 처음으로 만나는 visit = true인 것이 공통 조상
 		}
 		System.out.println(sb);
 	}
