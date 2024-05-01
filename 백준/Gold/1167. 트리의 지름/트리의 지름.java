@@ -38,18 +38,12 @@ class Main{
 		for(int i=0; i<=N; i++)
 			adlist[i] = new ArrayList<>();
 		
-		int base, node, dist;
+		int now, next;
 		for(int i=1; i<=N; i++) 
 		{
-			base = read();
-			while(true) 
-			{
-				node = read();
-				if(node == -1) 
-					break;
-				dist = read();
-				adlist[base].add(new Node(node, dist));
-			}
+			now = read();
+			while((next = read()) != -1) 
+				adlist[now].add(new Node(next, read()));
 		}
 		
 		visit		= new boolean[N+1];
