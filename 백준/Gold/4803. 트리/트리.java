@@ -13,16 +13,16 @@ class Main{
 		return n;
 	}
 	public static boolean DFS(int node, int beforeNode) 
-	{// 양방향 간선이라서 바로 인접한 노드 재방문을 막기위해 beforeNode 추가 
+	{// 양방향 연결에서 사이클 판별 : 자기 바로 이전 노드를 제외하고 방문한 곳을 재방문했다면 사이클임
 		if(visit[node]) return false;
 		visit[node] = true;
 		for(Node now=adNode[node]; now!=null; now=now.before) {
 			if(now.node == beforeNode)// 이전에 인접한 노드였다면 연산 스킵
 				continue;
-			if(!DFS(now.node, node))
+			if(!DFS(now.node, node)) // dfs의 결과가 false(방문한적있다면) false 리턴
 				return false;
 		}
-		return true;
+		return true; // 여기까지 오면 사이클이 없는 것
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
