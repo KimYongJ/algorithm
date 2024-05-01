@@ -1,10 +1,5 @@
 // https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 class Node{
 	int node, dist;
 	Node(int node, int dist){this.node=node; this.dist=dist;}
@@ -14,6 +9,14 @@ class Main{
 	static int N, maxDist, maxNode;
 	static boolean visit[];
 	static ArrayList<Node>[] adlist;
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static void DFS(int now, int sum) {
 		if(maxDist < sum) 
 		{
@@ -30,9 +33,7 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N 		= Integer.parseInt(br.readLine());
+		N 		= read();
 		adlist	= new ArrayList[N+1];
 		for(int i=0; i<=N; i++)
 			adlist[i] = new ArrayList<>();
@@ -40,13 +41,13 @@ class Main{
 		int base, node, dist;
 		for(int i=1; i<=N; i++) 
 		{
-			st = new StringTokenizer(br.readLine());
-			base = Integer.parseInt(st.nextToken());
+			base = read();
 			while(true) 
 			{
-				node = Integer.parseInt(st.nextToken());
-				if(node == -1) break;
-				dist = Integer.parseInt(st.nextToken());
+				node = read();
+				if(node == -1) 
+					break;
+				dist = read();
 				adlist[base].add(new Node(node, dist));
 			}
 		}
