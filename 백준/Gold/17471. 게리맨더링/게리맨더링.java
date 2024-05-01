@@ -1,15 +1,17 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, sum, diff, pop[], area[];
+	static int a, b, N, sum, diff, pop[], area[];
 	static boolean visit[];
 	static ArrayList<Integer>[] adlist;
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static int getSum() {
 		int sum = pop[1];
 		for(int i=2; i<=N; i++)
@@ -43,8 +45,8 @@ class Main{
 		if(depth > N) 
 		{
 			if(areaValidate()) {
-				int a = getSum();
-				int b = sum - a;
+				a = getSum();
+				b = sum - a;
 				diff = Math.min(diff, Math.abs(a-b));
 			}
 			return;
@@ -57,24 +59,22 @@ class Main{
 		DFS(depth + 1);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		pop 	= new int[N+1];
 		area	= new int[N+1];
 		diff 	= Integer.MAX_VALUE;
 		adlist 	= new ArrayList[N+1];
-		st = new StringTokenizer(br.readLine());
-		for(int i=1; i<=N; i++) {
+		
+		for(int i=1; i<=N; i++) 
+		{
 			adlist[i] = new ArrayList<>();
-			sum += pop[i] = Integer.parseInt(st.nextToken());
+			sum += pop[i] = read();
 		}
-		for(int i=1; i<=N; i++) {
-			st = new StringTokenizer(br.readLine());
-			for(int j = Integer.parseInt(st.nextToken());j>0; j--) {
-				adlist[i].add(Integer.parseInt(st.nextToken()));
-			}
-		}
+		
+		for(int i=1; i<=N; i++)
+			for(int j = read();j>0; j--)
+				adlist[i].add(read());
+			
 
 		DFS(1);
 		
