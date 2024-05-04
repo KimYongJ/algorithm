@@ -2,56 +2,24 @@ import java.util.*;
 
 class Solution {
     public int solution(int ... arr) {
-        Set<Integer> set = new HashSet<>();
-        int answer = 0, size = 0,
-            cnt[] = new int[7];
-        
-        for(int a : arr){
-            set.add(a);
-            cnt[a]++;
-        }
-      
-        size = set.size();
-        if(size == 2){
-            boolean flag = false;
-            int pq[]=new int[2];
-            int idx = 0;
-            for(int i=1; i<7; i++){
-                if(cnt[i] > 1){
-                    pq[idx++] =i;
-                    if(cnt[i] == 2)
-                        flag = true;
-                }else if(cnt[i] == 1){
-                    pq[1] = i;
-                }
-            }
-            if(flag) // 2개 2개가 같을 때 
-            {
-                answer = (pq[0]+pq[1]) * Math.abs(pq[0]-pq[1]);
-            }else
-            {
-                answer = ((10*pq[0])+pq[1] )* ((10*pq[0])+pq[1]);
-            }
-        }
-        else if(size == 3){
-            answer = 1;
-            for(int i=1; i<7; i++){
-                if(cnt[i] == 1){
-                    answer *= i;
-                }
-            }
-        }
-        else if(size == 1 || size == 4){
-            for(int i=1; i<7; i++){
-                if(cnt[i] != 0){
-                    answer = i;
-                    break;
-                }
-            }
-            if(size == 1)
-                answer *= 1111;
+        Arrays.sort(arr);
+        int ans = 0;
+        if (arr[0] == arr[3]) {
+            ans = 1111 * arr[3];
+        } else if (arr[0] == arr[2] || arr[1] == arr[3]) {
+            ans = (int) Math.pow(arr[1] * 10 + (arr[0] + arr[3] - arr[1]), 2);
+        } else if (arr[0] == arr[1] && arr[2] == arr[3]) {
+            ans = (arr[0] + arr[3]) * (arr[3] - arr[0]);
+        } else if (arr[0] == arr[1]) {
+            ans = arr[2] * arr[3];
+        } else if (arr[1] == arr[2]) {
+            ans = arr[0] * arr[3];
+        } else if (arr[2] == arr[3]) {
+            ans = arr[0] * arr[1];
+        } else {
+            ans = arr[0];
         }
 
-        return answer;
+        return ans;
     }
 }
