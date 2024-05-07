@@ -1,46 +1,40 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+// https://github.com/kimyongj/algorithm
 
 public class Main {
-    static final int MAX = 29; // 배열 크기 증가
-    static int N;
-    static double[] prob = new double[4]; // 확률을 저장할 배열
-    static int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}; // 동, 서, 남, 북
-    static boolean[][] visited = new boolean[MAX][MAX];
-    static double result = 0.0;
+    static final int MAX = 29, LEN = 14; // 배열 크기 증가
+    static int End;
+    static double E, W, S, N, result;
+    static boolean[][] visit;
 
-    static void dfs(int x, int y, int depth, double p) {
-        if (depth == N) {
+    static int read() throws Exception {// 빠른 입력을 위한 함수
+    	int c, n = System.in.read() & 15;
+    	while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+    	return n;
+    }
+    static void DFS(int y, int x, int depth, double p) {
+    	if(visit[y][x]) return;
+        if (depth == End) 
+        {
             result += p; // 현재까지의 확률을 결과에 더함
             return;
         }
-
-        for (int i = 0; i < 4; i++) {
-            int nx = x + directions[i][0];
-            int ny = y + directions[i][1];
-
-            if (!visited[nx][ny]) {
-                visited[nx][ny] = true;
-                dfs(nx, ny, depth + 1, p * prob[i]); // 이동 확률을 곱함
-                visited[nx][ny] = false;
-            }
-        }
+        visit[y][x] = true;
+    	DFS(y, x+1, depth + 1, p * E);
+    	DFS(y, x-1, depth + 1, p * W);
+    	DFS(y+1, x, depth + 1, p * S);
+    	DFS(y-1, x, depth + 1, p * N);
+    	visit[y][x] = false;
     }
 
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        N = Integer.parseInt(st.nextToken());
-        for (int i = 0; i < 4; i++) {
-            prob[i] = Integer.parseInt(st.nextToken()) / 100.0; // 확률 입력 및 변환
-        }
-
-        int mid = MAX / 2; // 시작 위치
-        visited[mid][mid] = true;
-        dfs(mid, mid, 0, 1.0); // 시작 확률은 1.0
-
+        End 	= read();
+        E 		= read() / 100.0;
+        W 		= read() / 100.0;
+        S 		= read() / 100.0;
+        N 		= read() / 100.0;
+        result 	= 0.0;
+        visit 	= new boolean[MAX][MAX];
+        DFS(LEN, LEN, 0, 1.0); // 시작 확률은 1.0
         System.out.println(result);
     }
 }
