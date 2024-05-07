@@ -7,21 +7,25 @@ class Main{
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int Y, X, nextY, nextX, end;
 	static boolean map[][];
+	public static boolean check() {
+		if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X && !map[nextY][nextX]) {
+			map[nextY][nextX] = true;
+			if(nextY == end) 
+			{
+				System.out.println("YES");
+				System.exit(0);
+			}
+			return true;
+		}
+		return false;
+	}
 	public static void DFS(int y, int x) {
 		for(int xy[] : dxy) 
 		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X && !map[nextY][nextX]) 
-			{
-				map[nextY][nextX] = true;
-				if(nextY == end) 
-				{
-					System.out.println("YES");
-					System.exit(0);
-				}
+			if(check()) 
 				DFS(nextY, nextX);
-			}
 		}
 	}
 	public static void main(String[] args)throws Exception{
@@ -36,9 +40,7 @@ class Main{
 		{
 			str = br.readLine();
 			for(int x=0; x<X; x++) 
-			{
 				map[y][x] = str.charAt(x) == '1';
-			}
 		}
 		
 		for(int x=0; x<X; x++)
