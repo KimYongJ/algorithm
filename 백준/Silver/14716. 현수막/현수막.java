@@ -1,11 +1,13 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	static final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}, {-1,-1},{-1,1},{1,-1},{1,1}};
 	static int Y, X, cnt, nextY, nextX;
 	static boolean visit[][];
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void DFS(int y, int x) {
 		for(int xy[] : dxy) 
 		{
@@ -19,18 +21,14 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y 		= Integer.parseInt(st.nextToken());
-		X 		= Integer.parseInt(st.nextToken());
+		Y 		= read();
+		X 		= read();
 		visit 	= new boolean[Y+2][X+2];
-		
-		for(int y=1; y<=Y; y++) {
-			st = new StringTokenizer(br.readLine());
-			for(int x=1; x<=X; x++) {
-				visit[y][x] = Integer.parseInt(st.nextToken()) == 1;
-			}
-		}
+
+		for(int y=1; y<=Y; y++)
+			for(int x=1; x<=X; x++)
+				visit[y][x] = read() == 1;
+
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
 				if(visit[y][x]) 
