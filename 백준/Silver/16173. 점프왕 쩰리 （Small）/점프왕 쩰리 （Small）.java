@@ -11,18 +11,13 @@ class Main{
 		if (c == 13) System.in.read();
 		return isNegative ? ~n + 1 : n;
 	}
-	public static void endCondition(int y, int x) {
-		if(map[y][x]==-1) {
-			System.out.println("HaruHaru");
-			System.exit(0);
-		}
-	}
-	public static void DFS(int y, int x) {
-		if(y >= N || x >= N || visit[y][x]) return;
+
+	public static boolean DFS(int y, int x) {
+		if(y >= N || x >= N || visit[y][x]) return false;
 		visit[y][x] = true;
-		endCondition(y,x);
-		DFS(y + map[y][x], x);
-		DFS(y, x + map[y][x]);
+		if(map[y][x] == -1)
+			return true;
+		return DFS(y + map[y][x], x) || DFS(y, x + map[y][x]);
 	}
 	public static void main(String[] args)throws Exception{
 		N 		= read();
@@ -31,8 +26,6 @@ class Main{
 		for(int y=0; y<N; y++)
 			for(int x=0; x<N; x++)
 				map[y][x] = read();
-
-		DFS(0,0);
-		System.out.println("Hing");
+		System.out.println(DFS(0,0) ? "HaruHaru" : "Hing");
 	}
 }
