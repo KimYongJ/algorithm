@@ -7,19 +7,19 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		int s,	e,	t,
+		int s,	e,	t, i, j, m,
 			N 		= read(),
 			M 		= read(),
 			arr[] 	= new int[N+1];
 		
-		for(int i=1; i<=N; i++)
+		for(i=1; i<=N; i++)
 			arr[i] = i;
 		
-		for(int m=0; m<M; m++) 
+		for(m=0; m<M; m++) 
 		{
 			s = read();
 			e = read();
-			for(int i=s, j=e; i<j; i++,j--)
+			for(i=s, j=e; i<j; i++,j--)
 			{
 				t = arr[i];
 				arr[i] = arr[j];
@@ -28,7 +28,7 @@ class Main{
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		for(int i=1; i<=N; i++)
+		for(i=1; i<=N; i++)
 			sb.append(arr[i]).append(' ');
 		System.out.println(sb);
 	}
