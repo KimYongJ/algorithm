@@ -1,25 +1,24 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N 		= Integer.parseInt(st.nextToken());
-		int M 		= Integer.parseInt(st.nextToken());
-		int arr[] 	= new int[N+1];
-		int s,e, t;
+		int s,	e,	t,
+			N 		= read(),
+			M 		= read(),
+			arr[] 	= new int[N+1];
+		
 		for(int i=1; i<=N; i++)
 			arr[i] = i;
 		
 		for(int m=0; m<M; m++) 
 		{
-			st = new StringTokenizer(br.readLine());
-			s = Integer.parseInt(st.nextToken());
-			e = Integer.parseInt(st.nextToken());
+			s = read();
+			e = read();
 			for(int i=s, j=e; i<j; i++,j--)
 			{
 				t = arr[i];
