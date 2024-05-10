@@ -1,10 +1,7 @@
 // https://github.com/kimyongj/algorithm
 class Node{
-	int node;
-	Node next;
-	Node(int node, Node next){
-		this.node = node; this.next = next;
-	}
+	int node;Node next;
+	Node(int node, Node next){this.node = node; this.next = next;}
 }
 class Main{
 	
