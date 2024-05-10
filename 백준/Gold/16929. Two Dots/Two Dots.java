@@ -4,13 +4,13 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-	static int Y, X;
+	static int Y, X, nextY, nextX;
 	static char base, map[][];
 	static boolean flag, visit[][];
 	public static void DFS(int beforeY, int beforeX, int y, int x) { 
 		for(int xy[] : dxy) {
-			int nextY = y + xy[0];
-			int nextX = x + xy[1];
+			nextY = y + xy[0];
+			nextX = x + xy[1];
 			if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X 
 					&& map[nextY][nextX] == base && !flag) 
 			{
