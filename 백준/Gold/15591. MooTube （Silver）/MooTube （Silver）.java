@@ -12,21 +12,19 @@ class Node{
 }
 class Main{
 	static final int MAX = 1_000_000_000;
-	static int K;
+	static int K, cnt;
 	static Node[] adNode;
 	static boolean visit[];
-	public static int DFS(int node, int beforeDist) {
-		int cnt = 0;
+	public static void DFS(int node, int beforeDist) {
 		for(Node now=adNode[node]; now!=null; now=now.next) {
 			if(!visit[now.node]) {
 				visit[now.node] = true;
 				if(K <= Math.min(beforeDist, now.dist)) {
-					cnt ++ ;
-					cnt += DFS(now.node, now.dist);
+					cnt ++;
+					DFS(now.node, now.dist);
 				}
 			}
 		}
-		return cnt;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
@@ -53,7 +51,9 @@ class Main{
 			a = Integer.parseInt(st.nextToken());
 			visit = new boolean[N+1];
 			visit[a] = true;
-			sb.append(DFS(a, MAX))
+			cnt = 0;
+			DFS(a, MAX);
+			sb.append(cnt)
 				.append('\n');
 		}
 		System.out.print(sb);
