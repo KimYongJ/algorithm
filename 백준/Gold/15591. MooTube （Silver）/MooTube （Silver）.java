@@ -7,7 +7,7 @@ class Node{
 class Main{
 	
 	static final int	MAX = 1_000_000_000;
-	static int 			K, cnt;
+	static int 			a, b, c, N, Q, K, cnt;
 	static Node[] 		adNode;
 	static boolean 		visit[];
 	
@@ -30,11 +30,9 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
-		int a,b,c;
-		int N 			= read();
-		int Q 			= read();
+		N 				= read();
+		Q 				= read();
 		adNode 			= new Node[N+1];
-		
 		for(int i=1; i<N; i++) 
 		{
 			a 			= read();
