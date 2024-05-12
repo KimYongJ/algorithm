@@ -1,12 +1,7 @@
 // https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
-
 class Node{
 	int y,x;
 	Node(int y, int x){this.y=y;this.x=x;}
@@ -16,35 +11,42 @@ class Main{
 	static int orderCnt, order[];
 	static List<Integer>[] adList;
 	static List<Node> result;
-
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static int DFS(int nowNode, int parentNode) {
 		int value = order[nowNode] = ++orderCnt;
-		int low;
-		for(int next : adList[nowNode]) {
-			if(next != parentNode) {
+		int low; // 현재 노드와 자기 자식노드들을 통해 도달할 수 있는 가장 작은 orderCnt 값이다.
+		for(int next : adList[nowNode]) 
+		{
+			if(next != parentNode) 									// 자식 노드가 자기의 부모노드와 같지 않을 때만 연산 진행
+			{
 				
-				if(order[next] == 0) {
+				if(order[next] == 0) 								// 자식 노드가 첫방문이면 DFS진행
+				{
 					low = DFS(next, nowNode);
 					
-					if(low > order[nowNode]) {
-						if(next > nowNode) {
-							result.add(new Node(nowNode, next));
-						}else
-							result.add(new Node(next, nowNode));
+					if(low > order[nowNode]) 						// 자식 노드의 가장 낮게 도달할 수 있는 orderCnt값이 현재 노드의 orderCnt값 보다 크다면 현재 노드를 통해서만 위로 갈 수 있기 때문에 둘의 관계는 단절선이 된다. 
+					{
+						if(next > nowNode) 
+							result.add(new Node(nowNode, next));	// 출력 조건이 왼쪽이 작은 값이여야 하기 때문에 분기 처리 
+						else
+							result.add(new Node(next, nowNode));	// 출력 조건이 왼쪽이 작은 값이여야 하기 때문에 분기 처리 
 					}
 					value = Math.min(value, low);
-				}else {
+				}else 												// 자식 노드가 첫방문이 아니라면 자식노드의 order배열 안에있는값(자식노드가 닿을 수 있는 가장 작은 orderCnt값) 과 value중 작은것을 value에 넣는다. 
+				{
 					value = Math.min(value, order[next]);
 				}
 			}
 		}
-		return value;
+		return value; // value는 해당 DFS를 통해 가장 낮게 도달할 수 있는 orderCnt 값이다.
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br 	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st 	= new StringTokenizer(br.readLine());
-		int N 	= Integer.parseInt(st.nextToken());
-		int M 	= Integer.parseInt(st.nextToken());
+		int N 	= read();
+		int M 	= read();
 		order 	= new int[N+1];
 		adList 	= new ArrayList[N+1];
 		result	= new ArrayList<>();
@@ -55,9 +57,8 @@ class Main{
 		int a,b;
 		for(int i=0; i<M; i++) 
 		{
-			st 	= new StringTokenizer(br.readLine());
-			a	= Integer.parseInt(st.nextToken());
-			b 	= Integer.parseInt(st.nextToken());
+			a	= read();
+			b 	= read();
 			adList[a].add(b);
 			adList[b].add(a);
 		}
@@ -76,7 +77,8 @@ class Main{
 		sb.append(result.size()).append('\n');
 		for(int i=0; i<result.size(); i++) {
 			Node node = result.get(i);
-			sb.append(node.y).append(' ').append(node.x).append('\n');
+			sb.append(node.y).append(' ')
+				.append(node.x).append('\n');
 		}
 		System.out.print(sb);
 	}
