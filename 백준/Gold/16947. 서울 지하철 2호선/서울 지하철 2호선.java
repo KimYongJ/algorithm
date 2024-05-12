@@ -6,17 +6,12 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 class Node{
-	int node;
-	Node next;
-	Node(int node, Node next){
-		this.node=node; this.next=next;
-	}
+	int node; Node next;
+	Node(int node, Node next){this.node=node; this.next=next;}
 }
 class Point{
 	int node, dist;
-	Point(int node, int dist){
-		this.node=node; this.dist=dist;
-	}
+	Point(int node, int dist){this.node=node; this.dist=dist;}
 }
 class Main{
 	
@@ -24,20 +19,18 @@ class Main{
 	static Node[] adNode;
 	static boolean cycleBase[], cycleCheck[];
 	public static boolean check(int base, int nowNode, int beforeNode) {
-		boolean isCycle = false;
-		for(Node now=adNode[nowNode]; now!=null && !isCycle; now=now.next) {
-			if(cycleCheck[now.node] && now.node == base && beforeNode !=now.node) {
-				isCycle = true;
-			}else if(!cycleCheck[now.node]) {
+		for(Node now=adNode[nowNode]; now!=null; now=now.next) {
+			if(cycleCheck[now.node] && now.node == base && beforeNode !=now.node)
+				return true;
+			else if(!cycleCheck[now.node]) 
+			{
 				cycleCheck[now.node] = true;
-				if(check(base,now.node,nowNode)) {
-					isCycle = true;
-					break;
-				}
+				if(check(base,now.node,nowNode))
+					return true;
 				cycleCheck[now.node] = false;
 			}
 		}
-		return isCycle;
+		return false;
 	}
 	public static int BFS(int startNode) {
 		ArrayDeque<Point> q = new ArrayDeque<>();
@@ -89,7 +82,7 @@ class Main{
 					for(int j=1; j<=N; j++) 
 						if(cycleCheck[j])
 							cycleBase[j] = cycleCheck[j];
-					break; // 이 문제에 사이클은 하나만 주어지기 때문에 넣어도됨, 사이클이 여러개면 break를 하면 안됨
+					break;
 				}
 			}
 		
