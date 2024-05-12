@@ -11,6 +11,11 @@ class Main{
 	static int N, sum;
 	static Node adNode[];
 	static boolean visit[];
+    private static int read() throws Exception {
+        int c, N = System.in.read() - 48;
+        while ((c = System.in.read()) > 32) N = 10 * N + c - 48;
+        return N;
+    }
 	public static void DFS(int node, int depth) {
 		boolean flag = false;
 		for(Node now=adNode[node]; now!=null; now=now.next)
@@ -24,18 +29,15 @@ class Main{
 			sum += depth;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N 		= Integer.parseInt(br.readLine());
+		N 		= read();
 		adNode 	= new Node[N+1];
 		visit 	= new boolean[N+1];
 		int a,b;
 		
 		for(int i=1; i<N; i++) 
 		{
-			st 			= new StringTokenizer(br.readLine());
-			a 			= Integer.parseInt(st.nextToken());
-			b 			= Integer.parseInt(st.nextToken());
+			a 			= read();
+			b 			= read();
 			adNode[a] 	= new Node(b, adNode[a]);
 			adNode[b] 	= new Node(a, adNode[b]);
 		}
