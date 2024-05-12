@@ -89,6 +89,7 @@ class Main{
 					for(int j=1; j<=N; j++) 
 						if(cycleCheck[j])
 							cycleBase[j] = cycleCheck[j];
+					break; // 이 문제에 사이클은 하나만 주어지기 때문에 넣어도됨, 사이클이 여러개면 break를 하면 안됨
 				}
 			}
 		
