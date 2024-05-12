@@ -6,10 +6,17 @@ class Node{
 	int y,x;
 	Node(int y, int x){this.y=y;this.x=x;}
 }
+class AD{
+	int node;
+	AD next;
+	AD(int node, AD next){
+		this.node=node;this.next=next;
+	}
+}
 class Main{
 	
 	static int orderCnt, order[];
-	static List<Integer>[] adList;
+	static AD[] adList;
 	static List<Node> result;
 	static int read() throws Exception {
 		int c, n = System.in.read() & 15;
@@ -18,9 +25,12 @@ class Main{
 	}
 	public static int DFS(int nowNode, int parentNode) {
 		int value = order[nowNode] = ++orderCnt;
-		int low; // 현재 노드와 자기 자식노드들을 통해 도달할 수 있는 가장 작은 orderCnt 값이다.
-		for(int next : adList[nowNode]) 
+		int next, 
+			low;// 현재 노드와 자기 자식노드들을 통해 도달할 수 있는 가장 작은 orderCnt 값이다.
+
+		for(AD now=adList[nowNode]; now!=null; now=now.next)
 		{
+			next = now.node;
 			if(next != parentNode) 									// 자식 노드가 자기의 부모노드와 같지 않을 때만 연산 진행
 			{
 				
@@ -48,19 +58,16 @@ class Main{
 		int N 	= read();
 		int M 	= read();
 		order 	= new int[N+1];
-		adList 	= new ArrayList[N+1];
+		adList 	= new AD[N+1];
 		result	= new ArrayList<>();
-		
-		for(int i=0; i<=N; i++)
-			adList[i] = new ArrayList<>();
 		
 		int a,b;
 		for(int i=0; i<M; i++) 
 		{
 			a	= read();
 			b 	= read();
-			adList[a].add(b);
-			adList[b].add(a);
+			adList[a] = new AD(b, adList[a]);
+			adList[b] = new AD(a, adList[b]);
 		}
 		
 		for(int i=1; i<=N; i++)
