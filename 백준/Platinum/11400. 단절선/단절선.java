@@ -38,7 +38,7 @@ class Main{
 					value = Math.min(value, low);
 				}else 												// 자식 노드가 첫방문이 아니라면 자식노드의 order배열 안에있는값(자식노드가 닿을 수 있는 가장 작은 orderCnt값) 과 value중 작은것을 value에 넣는다. 
 				{
-					value = Math.min(value, order[next]);
+					value = Math.min(value, order[next]);           // 자식노드가 방문했다면, 자식노드의 orderCnt와 value중 작은 값을 고른다. 
 				}
 			}
 		}
