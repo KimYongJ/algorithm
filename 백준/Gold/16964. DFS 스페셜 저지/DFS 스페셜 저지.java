@@ -18,7 +18,7 @@ class Main{
 				System.exit(0);
 			}
 		}
-		while(list[node].contains(now) && !visit[now]) // 무한 반복으로 값을 순차 탐색 한다 
+		while(!visit[now] && list[node].contains(now)) // 무한 반복으로 값을 순차 탐색 한다 
 		{
 			visit[now] 	= true;
 			cnt ++;
@@ -27,7 +27,7 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 			N 	= read();
-		visit 	= new boolean[N+1];
+		visit 	= new boolean[100_001];
 		list 	= new HashSet[N+1];
 		for(int i=0; i<=N; i++)
 			list[i] = new HashSet<>();
