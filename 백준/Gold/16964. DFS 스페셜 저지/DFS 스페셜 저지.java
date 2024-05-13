@@ -27,7 +27,7 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 			N 	= read();
-		visit 	= new boolean[100_001];
+		visit 	= new boolean[N+20];
 		list 	= new HashSet[N+1];
 		for(int i=0; i<=N; i++)
 			list[i] = new HashSet<>();
