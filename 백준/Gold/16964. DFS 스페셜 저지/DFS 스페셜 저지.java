@@ -2,7 +2,7 @@
 import java.util.HashSet;
 class Main{
 	
-	static int 		now, next, cnt;
+	static int 		now, cnt;
 	static boolean 	visit[];
 	static HashSet<Integer>[] list;
 	static int read() throws Exception {// 빠른 입력을 위한 함수
@@ -11,17 +11,15 @@ class Main{
 		return n;
 	}
 	public static void DFS(int node) {
-		if(now == -1) {
+		if(visit[node]) {
 			try {now = read();}
 			catch(Exception e) {return;}
 		}
-		while(list[node].contains(now) && !visit[now]) // 무한 반복으로 기존 값을 순차 탐색 한다 
+		while(list[node].contains(now) && !visit[now]) // 무한 반복으로 값을 순차 탐색 한다 
 		{
 			visit[now] 	= true;
-			next 		= now;
-			now 		= -1;
 			cnt ++;
-			DFS(next);
+			DFS(now);
 		}
 	}
 	public static void main(String[] args)throws Exception{
@@ -41,7 +39,6 @@ class Main{
 		}
 		if(1 == read()) {
 			visit[1] = true;
-			now = -1;
 			cnt = 1;
 			DFS(1);
 		}
