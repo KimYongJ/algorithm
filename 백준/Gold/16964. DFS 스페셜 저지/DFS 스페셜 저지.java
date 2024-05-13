@@ -40,11 +40,10 @@ class Main{
 			list[a].add(b);
 			list[b].add(a);
 		}
-		if(1 == read()) {
-			visit[1] = true;
-			cnt = 1;
-			DFS(1);
-		}
+		read();
+		visit[1] = true;
+		DFS(cnt = 1);
+		
 		System.out.print(cnt == N ? 1 : 0);
 	}
 }
