@@ -1,13 +1,13 @@
 // https://github.com/KimYongJ/algorithm
-
 class Node{
 	int node;
 	Node next;
 	Node(int node, Node next){this.node=node; this.next=next;}
 }
+
 class Main{
 
-	static int 		a, b, N, M;
+	static int 		a, b, N, M, result;
 	static Node 	adNode[];
 	static boolean	visit[];
 	
@@ -17,17 +17,14 @@ class Main{
 		return n;
 	}
 	
-	public static int DFS(int node) {
-		if(visit[node]) 
-			return 0;
-		visit[node] = true;
-		
-		int result = 1;
-		
-		for(Node now=adNode[node]; now!=null; now=now.next)
-			result += DFS(now.node);
-		
-		return result;
+	public static void DFS(int node) {
+		if(!visit[node]) 
+		{
+			visit[node] = true;
+			result++;
+			for(Node now=adNode[node]; now!=null; now=now.next)
+				DFS(now.node);
+		}
 	}
 	public static void main(String[] args)throws Exception{
 		N 		= read();
@@ -41,6 +38,9 @@ class Main{
 			b 			= read();
 			adNode[b] 	= new Node(a, adNode[b]);
 		}
-		System.out.print(  DFS(  read()  ) -1  );
+		
+		DFS( read() );
+		
+		System.out.print(  result-1  );
 	}
 }
