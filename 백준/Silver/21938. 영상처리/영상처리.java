@@ -1,42 +1,43 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	static final int 	dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int 			T, nextY, nextX, map[][];
+	static int			r, g, b, cnt, Y, X;
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void DFS(int y, int x) {
-		for(int xy[] : dxy) {
+		for(int xy[] : dxy) 
+		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(map[nextY][nextX] >= T) {
+			if(map[nextY][nextX] >= T) 
+			{
 				map[nextY][nextX] = 0;
 				DFS(nextY, nextX);
 			}
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int r,g,b,cnt=0;
-		int Y 	= Integer.parseInt(st.nextToken());
-		int X 	= Integer.parseInt(st.nextToken());
-		map 	= new int[Y+2][X+2];
+		Y 	= read();
+		X 	= read();
+		map = new int[Y+2][X+2];
 		
-		
-		for(int y=1; y<=Y; y++) {
-			st = new StringTokenizer(br.readLine());
-			for(int x=1; x<=X; x++) {
-				r = Integer.parseInt(st.nextToken());
-				g = Integer.parseInt(st.nextToken());
-				b = Integer.parseInt(st.nextToken());
+		for(int y=1; y<=Y; y++)
+			for(int x=1; x<=X; x++) 
+			{
+				r = read();
+				g = read();
+				b = read();
 				map[y][x] = (r+g+b) / 3;
 			}
-		}
-		T = Integer.parseInt(br.readLine());
+
+		T = read();
 		
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
