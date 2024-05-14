@@ -33,7 +33,7 @@ class Main{
 		adList 	= new PriorityQueue[N+1];
 		
 		for(int i=0; i<=N; i++) 
-			adList[i] 	= new PriorityQueue<Integer>();
+			adList[i] = new PriorityQueue<Integer>();
 		
 		
 		for(int i=0; i<M; i++) 
