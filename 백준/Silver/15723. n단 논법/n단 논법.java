@@ -22,7 +22,7 @@ class Main{
 			result = 'T';
 			return;
 		}
-		for(Node now=adNode[node]; now!=null && result=='F'; now=now.next) {
+		for(Node now=adNode[node]; result=='F' && now!=null; now=now.next) {
 			if(!visit[now.node]) {
 				visit[now.node] = true;
 				DFS(now.node);
