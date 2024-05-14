@@ -6,15 +6,18 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int cnt, N, map[];
+	static int     cnt, N, map[];
 	static boolean visit[];
 	public static void DFS(int now) {
 		if(now<1 || now>N || visit[now]) 
 			return;
 		visit[now] = true;
 		cnt++;
+        
 		DFS(now + map[now]);
+        
 		DFS(now - map[now]);
+        
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
