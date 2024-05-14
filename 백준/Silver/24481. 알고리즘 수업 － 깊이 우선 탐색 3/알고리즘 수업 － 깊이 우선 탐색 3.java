@@ -10,11 +10,12 @@ class Main{
 	static PriorityQueue<Integer>[] adList;
 	public static void DFS(int node, int depth) {
 		if(visit[node]) return;
+		
 		visit[node] = true;
 		order[node] = depth;
-		while(!adList[node].isEmpty()) {
+		
+		while(!adList[node].isEmpty())
 			DFS(adList[node].poll(), depth+1);
-		}
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,13 +24,15 @@ class Main{
 		int M = Integer.parseInt(st.nextToken());
 		int R = Integer.parseInt(st.nextToken());
 		int a,b;
+		
 		order	= new int[N+1];
 		visit	= new boolean[N+1];
 		adList 	= new PriorityQueue[N+1];
 		
-		for(int i=0; i<=N; i++) {
-			order[i] = -1;
-			adList[i] = new PriorityQueue<>();
+		for(int i=0; i<=N; i++) 
+		{
+			order[i] 	= -1;
+			adList[i] 	= new PriorityQueue<>();
 		}
 		
 		for(int i=0; i<M; i++) 
