@@ -58,11 +58,12 @@ class Main{
 		set 	= new HashSet<>();
 		compare = new HashSet<>();
 		
+		int num, sy = 0,sx = 0;
+		
 		for(int y=1; y<=Y; y++) 
 			for(int x=1; x<=X; x++)
 				map[y][x] = read();
 		
-		int num;
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++) 
 			{
@@ -71,6 +72,8 @@ class Main{
 				{
 					set.add(new Node(y,x));
 					compare.add(num);
+					sy = y;
+					sx = x;
 				}
 			}
 		
@@ -81,10 +84,8 @@ class Main{
 		}
 		
 		if(set.size() > 0) 
-		{
-			Node start = set.iterator().next();
-			DFS(map[start.y][start.x],start.y, start.x);
-		}
+			DFS(map[sy][sx],sy, sx);
+		
 		
 		
 		String str = "YES";
