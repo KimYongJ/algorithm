@@ -1,54 +1,59 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.StringTokenizer;
 
+class Node{
+	int y,x;
+	Node(int y, int x)
+	{this.y=y;this.x=x;}
+}
 class Main{
 	static int 				dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int 				Y, X, nextY, nextX, max, size, groupIdx;
 	static int 				map[][], group[][];
 	static HashSet<Integer> same;
-	static ArrayList<int[]> list;
+	static ArrayList<Node> list;
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void BFS(int y, int x) {
-		ArrayDeque<int[]> q = new ArrayDeque<>();
-		q.add(new int[] {y,x});
+		ArrayDeque<Node> q = new ArrayDeque<>();
+		q.add(new Node(y,x));
 		while(!q.isEmpty()) 
 		{
-			int[] n = q.poll();
+			Node n = q.poll();
 			
-			if(map[n[0]][n[1]] == 0)
+			if(map[n.y][n.x] == 0)
 				continue;
 			
-			map[n[0]][n[1]] = 0;
-			list.add(new int[] {n[0], n[1]});
+			map[n.y][n.x] = 0;
+			list.add(new Node(n.y, n.x));
 			
 			for(int xy[] : dxy) 
 			{
-				nextY = n[0] + xy[0];
-				nextX = n[1] + xy[1];
+				nextY = n.y + xy[0];
+				nextX = n.x + xy[1];
 				if(map[nextY][nextX] == 1)
-					q.add(new int[] {nextY, nextX});
+					q.add(new Node(nextY, nextX));
 			}
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y 			= Integer.parseInt(st.nextToken());
-		X 			= Integer.parseInt(st.nextToken());
+		Y 			= read();
+		X 			= read();
 		map 		= new int[Y+2][X+2];
 		group		= new int[Y+2][X+2];
 		same		= new HashSet<>();
 		
 		
-		for(int y=1; y<=Y; y++) {
-			st = new StringTokenizer(br.readLine());
+		for(int y=1; y<=Y; y++) 
 			for(int x=1; x<=X; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
+				map[y][x] = read();
 		
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
@@ -60,9 +65,9 @@ class Main{
 					size = list.size();
 					for(int i=0; i<size; i++) 
 					{
-						int[] p = list.get(i);
-						map[p[0]][p[1]]		= size;		// 하나의 연결에 1이 총 몇개가있는지 넣음
-						group[p[0]][p[1]] 	= groupIdx; // 하나의 연결을 그룹으로 체크
+						Node p = list.get(i);
+						map[p.y][p.x]	= size;		// 하나의 연결에 1이 총 몇개가있는지 넣음
+						group[p.y][p.x] = groupIdx; // 하나의 연결을 그룹으로 체크
 					}
 				}
 
