@@ -1,6 +1,7 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.StringTokenizer;
@@ -11,15 +12,26 @@ class Main{
 	static int 				map[][], group[][];
 	static HashSet<Integer> same;
 	static ArrayList<int[]> list;
-	public static void DFS(int y, int x) {
-		if(map[y][x] == 0) return;
-		map[y][x] = 0;
-		list.add(new int[] {y,x});	// 1의 좌표를 넣음
-		for(int xy[] : dxy) {
-			nextY = y + xy[0];
-			nextX = x + xy[1];
-			if(map[nextY][nextX] == 1)
-				DFS(nextY, nextX);
+	public static void BFS(int y, int x) {
+		ArrayDeque<int[]> q = new ArrayDeque<>();
+		q.add(new int[] {y,x});
+		while(!q.isEmpty()) 
+		{
+			int[] n = q.poll();
+			
+			if(map[n[0]][n[1]] == 0)
+				continue;
+			
+			map[n[0]][n[1]] = 0;
+			list.add(new int[] {n[0], n[1]});
+			
+			for(int xy[] : dxy) 
+			{
+				nextY = n[0] + xy[0];
+				nextX = n[1] + xy[1];
+				if(map[nextY][nextX] == 1)
+					q.add(new int[] {nextY, nextX});
+			}
 		}
 	}
 	public static void main(String[] args)throws Exception{
@@ -44,7 +56,7 @@ class Main{
 				{
 					groupIdx++;
 					list = new ArrayList<>();
-					DFS(y,x);
+					BFS(y,x);
 					size = list.size();
 					for(int i=0; i<size; i++) 
 					{
@@ -57,7 +69,7 @@ class Main{
 		int sum;
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
-				if(map[y][x] == 0) 
+				if(map[y][x] == 0) // 0인 곳을 돌면서 상하 좌우 size를 더한다. 이 때 같은 그룹인지 체크하여 같은 그룹이면 더하지 않음
 				{
 					same.clear();
 					sum = 1;
@@ -65,7 +77,7 @@ class Main{
 					{
 						nextY = y + xy[0];
 						nextX = x + xy[1];
-						if(!same.contains(group[nextY][nextX])) 
+						if(!same.contains(group[nextY][nextX]))
 						{
 							same.add(group[nextY][nextX]);
 							sum += map[nextY][nextX];
