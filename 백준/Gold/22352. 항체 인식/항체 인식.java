@@ -1,11 +1,8 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
-import java.util.StringTokenizer;
+
 class Node{
 	int y, x;
 	Node(int y, int x){this.y=y; this.x=x;}
@@ -25,6 +22,12 @@ class Main{
 	static boolean 		flag;
 	static Set<Node> 	set;
 	static Set<Integer> compare;
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void DFS(int base, int y, int x) {
 		if(map[y][x] == 0) 
@@ -48,45 +51,43 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y 		= Integer.parseInt(st.nextToken());
-		X 		= Integer.parseInt(st.nextToken());
+		Y 		= read();
+		X 		= read();
 		flag 	= true;
 		map 	= new int[Y+2][X+2];
 		set 	= new HashSet<>();
 		compare = new HashSet<>();
+		
 		for(int y=1; y<=Y; y++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=X; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
-		for(int y=1; y<=Y; y++) {
-			st = new StringTokenizer(br.readLine());
-			for(int x=1; x<=X; x++) {
-				int num = Integer.parseInt(st.nextToken());
-				if(map[y][x] != num) {
+				map[y][x] = read();
+		
+		int num;
+		for(int y=1; y<=Y; y++)
+			for(int x=1; x<=X; x++) 
+			{
+				num = read();
+				if(map[y][x] != num) 
+				{
 					set.add(new Node(y,x));
 					compare.add(num);
 				}
 			}
-		}
-		if(compare.size() > 1) {
+		
+		if(compare.size() > 1) 
+		{
 			System.out.print("NO");
 			return;
 		}
 		
-		Iterator<Node> ite = set.iterator();
-		
-		if(ite.hasNext()) 
+		if(set.size() > 0) 
 		{
-			Node start = ite.next();
+			Node start = set.iterator().next();
 			DFS(map[start.y][start.x],start.y, start.x);
 		}
 		
-		String str = "YES";
 		
+		String str = "YES";
 		if(!flag || set.size() > 0)
 			str = "NO";
 		
