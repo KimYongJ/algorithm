@@ -1,7 +1,4 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Node{
 	int node;
@@ -13,6 +10,14 @@ class Main{
 	static int 	node, edge, a, b, T, type[];
 	static Node adNode[];
 	static boolean result;
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
+	
 	public static boolean DFS(int now,int flag) {
 		if(type[now]!=0) return true;
 		type[now] = flag;
@@ -25,23 +30,19 @@ class Main{
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder	sb = new StringBuilder();
-		StringTokenizer st;
-		T = Integer.parseInt(br.readLine());
+		T = read();
 		while(T-->0) {
-			st = new StringTokenizer(br.readLine());
-			node = Integer.parseInt(st.nextToken());
-			edge = Integer.parseInt(st.nextToken());
+			node = read();
+			edge = read();
 			
 			type	= new int[node+1];
 			adNode	= new Node[node+1];
 			
 			for(int e=0; e<edge; e++) 
 			{
-				st= new StringTokenizer(br.readLine());
-				a = Integer.parseInt(st.nextToken());
-				b = Integer.parseInt(st.nextToken());
+				a = read();
+				b = read();
 				adNode[a] = new Node(b, adNode[a]);
 				adNode[b] = new Node(a, adNode[b]);
 			}
