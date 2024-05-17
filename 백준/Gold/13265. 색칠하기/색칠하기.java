@@ -13,14 +13,16 @@ class Main{
 	static int 	node, edge, a, b, T, type[];
 	static Node adNode[];
 	static boolean result;
-	public static void DFS(int now,int flag) {
-		if(type[now] != 0) return;
-		type[now]	= flag;
-		for(Node n=adNode[now]; n!=null && result; n=n.next) {
-			if(type[n.node]== flag)	result = false;
-			else DFS(n.node, -flag);
+	public static boolean DFS(int now,int flag) {
+		if(type[now]!=0) return true;
+		type[now] = flag;
+		for(Node n=adNode[now]; n!=null; n=n.next) {
+			if(type[n.node]== flag)
+				return result=false;
+			if(!DFS(n.node, -flag))
+				return false;
 		}
-			
+		return true;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
@@ -45,9 +47,9 @@ class Main{
 			}
 			result = true;
 			
-			for(int n=1; n<=node && result; n++)
-				if(type[n] == 0)
-					DFS(n,1);
+			for(int n=1; n<=node; n++)
+				if(type[n] == 0 && !DFS(n,1))
+					break;
 			
 			if(result)	sb.append("possible");
 			else 		sb.append("impossible");
