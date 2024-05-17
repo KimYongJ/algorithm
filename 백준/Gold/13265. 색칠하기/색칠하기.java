@@ -19,14 +19,19 @@ class Main{
 	
 	
 	public static boolean DFS(int now,int flag) {
-		if(type[now]!=0) return true;
+		if(type[now]!=0) 
+            return true;
+        
 		type[now] = flag;
-		for(Node n=adNode[now]; n!=null; n=n.next) {
+        
+		for(Node n=adNode[now]; n!=null; n=n.next) 
+        {
 			if(type[n.node]== flag)
 				return result=false;
 			if(!DFS(n.node, -flag))
 				return false;
 		}
+        
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
@@ -46,6 +51,7 @@ class Main{
 				adNode[a] = new Node(b, adNode[a]);
 				adNode[b] = new Node(a, adNode[b]);
 			}
+            
 			result = true;
 			
 			for(int n=1; n<=node; n++)
@@ -54,6 +60,7 @@ class Main{
 			
 			if(result)	sb.append("possible");
 			else 		sb.append("impossible");
+            
 			sb.append('\n');			
 		}
 		System.out.print(sb);
