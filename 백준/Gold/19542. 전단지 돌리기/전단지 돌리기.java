@@ -40,7 +40,7 @@ class Main{
 		S 		= read();
 		D 		= read();
 		adNode 	= new Node[N+1];
-		
+		visit   = new boolean[N+1];
 		
 		for(int i=1; i<N; i++) 
 		{
@@ -49,11 +49,9 @@ class Main{
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
 		}
-		
-		visit = new boolean[N+1];
-		DFS(S);
 
-		
+		DFS(S);
+        
 		System.out.println(dist);
 	}
 }
