@@ -23,12 +23,15 @@ class Main{
 		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(nextY>=0 && nextX>=0 && nextY<Y+2 && nextX<X+2 &&
-				map[nextY][nextX] == 0 && !visit[nextY][nextX])
+			if(nextY>=0 && nextX>=0 && nextY<Y+2 && nextX<X+2) {
+				if(map[nextY][nextX] == 1) 
+					sum ++;
+				else if(map[nextY][nextX] == 0 && !visit[nextY][nextX])
 					DFS(nextY, nextX);
+			}
+
 		}
 	}
-	
 	public static void main(String[] args)throws Exception{
 		X 		= read();
 		Y 		= read();
@@ -40,30 +43,7 @@ class Main{
 				map[y][x] = read();
 		
 		DFS(0,0); // 외부 0과 연결된 안쪽 0에 visit체크 
-		
-		for(int y=1; y<=Y; y++)
-			for(int x=1; x<=X; x++)
-				if(map[y][x] == 0 && !visit[y][x])
-					map[y][x] = 1;		// 외부와 연결되지 않은 0들은 모두 1로 치환
-				
-		int type;
-		for(int y=1; y<=Y; y++) 
-		{
-			type = y%2;
-			for(int x=1; x<=X; x++)
-				if(map[y][x] == 1)
-					for(int xy[] : dxy[type]) 
-					{
-						nextY = y + xy[0];
-						nextX = x + xy[1];
-						if(nextY>=1 && nextX>=1 && nextY<=Y && nextX<=X) 
-						{
-							if(map[nextY][nextX] == 0)
-								sum++;
-						}else sum++;
-					}
-		}
-		
+	
 		System.out.println(sum);
 	}
 }
