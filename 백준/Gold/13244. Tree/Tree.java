@@ -18,8 +18,6 @@ class Main{
 	}
 	
 	public static boolean DFS(int now, int before) {
-		if(visit[now]) 
-			return true;
 		visit[now] = true;
 		
 		cnt++;
