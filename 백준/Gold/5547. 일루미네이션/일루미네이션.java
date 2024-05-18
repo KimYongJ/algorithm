@@ -16,20 +16,19 @@ class Main{
 	}
 	
 	public static void DFS(int y, int x) {
-		if(visit[y][x]) return;
 		visit[y][x] = true;
 		
 		for(int xy[] : dxy[y%2]) 
 		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(nextY>=0 && nextX>=0 && nextY<Y+2 && nextX<X+2) {
+			if(nextY>=0 && nextX>=0 && nextY<Y+2 && nextX<X+2) 
+			{
 				if(map[nextY][nextX] == 1) 
 					sum ++;
 				else if(map[nextY][nextX] == 0 && !visit[nextY][nextX])
 					DFS(nextY, nextX);
 			}
-
 		}
 	}
 	public static void main(String[] args)throws Exception{
@@ -42,7 +41,7 @@ class Main{
 			for(int x=1; x<=X; x++)
 				map[y][x] = read();
 		
-		DFS(0,0); // 외부 0과 연결된 안쪽 0에 visit체크 
+		DFS(0,0); // 패딩읗 넣고 0만 탐색하는데, 1을 만나면 넓이에서 + 1 
 	
 		System.out.println(sum);
 	}
