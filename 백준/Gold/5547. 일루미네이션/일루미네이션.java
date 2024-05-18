@@ -14,6 +14,19 @@ class Main{
 	static int 		Y, X, sum, nextY, nextX, map[][];
 	static boolean 	visit[][];
 
+	public static void DFS(int y, int x) {
+		if(visit[y][x]) return;
+		visit[y][x] = true;
+		
+		for(int xy[] : dxy[y%2]) 
+		{
+			nextY = y + xy[0];
+			nextX = x + xy[1];
+			if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X &&
+				map[nextY][nextX] == 0 && !visit[nextY][nextX])
+					DFS(nextY, nextX);
+		}
+	}
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,12 +46,12 @@ class Main{
 		for(int y=0; y<Y; y++)
 			for(int x=0; x<X; x++)
 				if((y==0 || x==0 || y==Y-1 || x==X-1) && map[y][x] == 0 && !visit[y][x]) 
-					DFS(y,x);// 외부 0과 연결된 숫자들에 visit체크 
+					DFS(y,x);			// 외부 0과 연결된 안쪽 0에 visit체크 
 		
 		for(int y=0; y<Y; y++)
 			for(int x=0; x<X; x++)
 				if(map[y][x] == 0 && !visit[y][x])
-					map[y][x] = 1;
+					map[y][x] = 1;		// 외부와 연결되지 않은 0들은 모두 1로 치환
 				
 		int type;
 		for(int y=0; y<Y; y++) 
@@ -60,19 +73,4 @@ class Main{
 		
 		System.out.println(sum);
 	}
-	
-	public static void DFS(int y, int x) {
-		if(visit[y][x]) return;
-		visit[y][x] = true;
-		
-		for(int xy[] : dxy[y%2]) 
-		{
-			nextY = y + xy[0];
-			nextX = x + xy[1];
-			if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X &&
-				map[nextY][nextX] == 0 && !visit[nextY][nextX])
-					DFS(nextY, nextX);
-		}
-	}
-	
 }
