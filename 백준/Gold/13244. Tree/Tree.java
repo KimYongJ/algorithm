@@ -1,57 +1,54 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Node{
 	int node;	Node next;
 	Node(int node, Node next){this.node=node; this.next=next;}
 }
 class Main{
 	
-	static int a, b, T, N, M, cnt;
-	static String str;
-	static Node adNode[];
-	static boolean visit[];
+	static int 		a, b, T, N, M, cnt;
+	static String 	str;
+	static Node 	adNode[];
+	static boolean 	visit[];
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static boolean DFS(int now, int before) {
-		if(visit[now]) return true;
+		if(visit[now]) 
+			return true;
 		visit[now] = true;
 		
 		cnt++;
 		
-		for(Node n=adNode[now]; n!=null; n=n.next) {
-			if( visit[n.node] && n.node != before ) {
+		for(Node n=adNode[now]; n!=null; n=n.next)
+			if(  (visit[n.node] && n.node != before)  ||
+				 (!visit[n.node] && !DFS(n.node, now))
+			   ) 
 				return false;
-			}
-			if(!visit[n.node]) {
-				if(!DFS(n.node, now))
-					return false;
-			}
-		}
 
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder 	sb = new StringBuilder();
-		StringTokenizer st;
-		T = Integer.parseInt(br.readLine());
+		StringBuilder sb = new StringBuilder();
+		T = read();
 		while(T-->0) 
 		{
 			cnt		= 0;
-			N 		= Integer.parseInt(br.readLine());
-			M 		= Integer.parseInt(br.readLine());
+			N 		= read();
+			M 		= read();
 			str		= "graph";
 			adNode 	= new Node[N+1];
 			visit	= new boolean[N+1];
 			for(int i=0; i<M; i++) 
 			{
-				st = new StringTokenizer(br.readLine());
-				a = Integer.parseInt(st.nextToken());
-				b = Integer.parseInt(st.nextToken());
-				adNode[a] = new Node(b, adNode[a]);
-				adNode[b] = new Node(a, adNode[b]);
+				a 			= read();
+				b 			= read();
+				adNode[a] 	= new Node(b, adNode[a]);
+				adNode[b] 	= new Node(a, adNode[b]);
 			}
 			
 			if( DFS(1,1) && cnt == N )
