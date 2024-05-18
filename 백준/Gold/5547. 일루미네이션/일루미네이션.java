@@ -1,19 +1,20 @@
 // https://github.com/KimYongJ/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int 		dxy[][][] = {
-									{{-1, 0}, {0, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}},
-									{{-1, -1}, {0, -1}, {1, -1}, {1, 0}, {0, 1}, {-1 ,0}}
-									 			
+									{{-1, -1}, {0, -1}, {1, -1}, {1, 0}, {0, 1}, {-1 ,0}},
+									{{-1, 0}, {0, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}}
 								};	
 	static int 		Y, X, sum, nextY, nextX, map[][];
 	static boolean 	visit[][];
 
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void DFS(int y, int x) {
 		if(visit[y][x]) return;
 		visit[y][x] = true;
@@ -22,48 +23,40 @@ class Main{
 		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X &&
+			if(nextY>=0 && nextX>=0 && nextY<Y+2 && nextX<X+2 &&
 				map[nextY][nextX] == 0 && !visit[nextY][nextX])
 					DFS(nextY, nextX);
 		}
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		X 		= Integer.parseInt(st.nextToken());
-		Y 		= Integer.parseInt(st.nextToken());
-		map 	= new int[Y][X];
-		visit 	= new boolean[Y][X];
+		X 		= read();
+		Y 		= read();
+		map 	= new int[Y+2][X+2];
+		visit 	= new boolean[Y+2][X+2];
 
-		for(int y=0; y<Y; y++) 
-		{
-			st = new StringTokenizer(br.readLine());
-			for(int x=0; x<X; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
+		for(int y=1; y<=Y; y++) 
+			for(int x=1; x<=X; x++)
+				map[y][x] = read();
 		
-		for(int y=0; y<Y; y++)
-			for(int x=0; x<X; x++)
-				if((y==0 || x==0 || y==Y-1 || x==X-1) && map[y][x] == 0 && !visit[y][x]) 
-					DFS(y,x);			// 외부 0과 연결된 안쪽 0에 visit체크 
+		DFS(0,0); // 외부 0과 연결된 안쪽 0에 visit체크 
 		
-		for(int y=0; y<Y; y++)
-			for(int x=0; x<X; x++)
+		for(int y=1; y<=Y; y++)
+			for(int x=1; x<=X; x++)
 				if(map[y][x] == 0 && !visit[y][x])
 					map[y][x] = 1;		// 외부와 연결되지 않은 0들은 모두 1로 치환
 				
 		int type;
-		for(int y=0; y<Y; y++) 
+		for(int y=1; y<=Y; y++) 
 		{
 			type = y%2;
-			for(int x=0; x<X; x++)
+			for(int x=1; x<=X; x++)
 				if(map[y][x] == 1)
 					for(int xy[] : dxy[type]) 
 					{
 						nextY = y + xy[0];
 						nextX = x + xy[1];
-						if(nextY>=0 && nextX>=0 && nextY<Y && nextX<X) 
+						if(nextY>=1 && nextX>=1 && nextY<=Y && nextX<=X) 
 						{
 							if(map[nextY][nextX] == 0)
 								sum++;
