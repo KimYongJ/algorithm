@@ -1,65 +1,39 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+class Node{
+	int y,x;
+	Node(int y, int x){this.y=y; this.x=x;}
+}
 class Main{
-	static final int			dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-	static int 					N, M, len, num, result, nextY, nextX, map[][];
-	static boolean 				visit[][];
-	static ArrayDeque<int[]> 	q;
-	static ArrayList<int[]> 	houseList, chickenList;
-	
-	public static int getDistSum() {
-		int sum = 0, p[];
-		for(int i=0; i<houseList.size(); i++) {
-			p = houseList.get(i);
-			sum += getDist(p[0],p[1]);
-		}
-		return sum;
-	}
-	
-	public static int getDist(int y, int x) {
-		q 			= new ArrayDeque<>();
-		visit 		= new boolean[N][N];
-		visit[y][x] = true;	
+	static final int 	dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
+	static int			N, M, n, hIdx, cIdx, result, select[], dist[][];
+	static Node	house[], chicken[];
+	public static void distSum() {
+		int sum = 0;
 		
-		q.add(new int[] {y,x});
-		
-		while(!q.isEmpty()) 
+		for(int i=0; i<hIdx; i++)  // 모든 1을 순회 
 		{
-			int[] n = q.poll();
-			for(int xy[] : dxy) 
+			int min = 101;
+			for(int m=0; m<M; m++) // 구한 치킨 집을 모두 순회한다.
 			{
-				nextY = n[0] + xy[0];
-				nextX = n[1] + xy[1];
-				if(nextY>=0 && nextX>=0 && nextY<N && nextX<N && !visit[nextY][nextX]) 
-				{
-					visit[nextY][nextX] = true;
-					if(map[nextY][nextX]==2) 
-					{
-						return Math.abs(y-nextY) + Math.abs(x-nextX);
-					}
-					q.add(new int[] {nextY, nextX});
-				}
+				min = Math.min(min, dist[i][select[m]]); // 1에서 가장 가까운 치킨 집을 찾아 min에 대입
 			}
-			
+			sum += min;
 		}
-		return 0;
+		
+		result = Math.min(result, sum);
 	}
 	public static void Back(int idx, int depth) {
 		if(depth == M) {
-			result = Math.min(result, getDistSum());
+			distSum(); // 구해진 치킨 집으로 부터 일반 집까지의 거리의 합을 구한다.
 			return;
 		}
-		int p[];
-		for(int i=idx; i<len; i++) {
-			p = chickenList.get(i);
-			map[p[0]][p[1]] = 2;
+		for(int i=idx; i<cIdx; i++) {
+			select[depth] = i; // 치킨집을 넣는다.
 			Back(i+1, depth+1);
-			map[p[0]][p[1]] = 0;
 		}
 	}
 	public static void main(String[] args)throws Exception{
@@ -67,25 +41,30 @@ class Main{
 		StringTokenizer	st = new StringTokenizer(br.readLine());
 		N 			= Integer.parseInt(st.nextToken());
 		M 			= Integer.parseInt(st.nextToken());
-		map			= new int[N][N];
+		dist		= new int[100][13]; // 집 : 치킨집
 		result 		= Integer.MAX_VALUE;
-		houseList	= new ArrayList<>();
-		chickenList = new ArrayList<>();
+		house		= new Node[100];
+		chicken 	= new Node[13];
+		select		= new int[M];
 		
 		for(int y=0; y<N; y++) 
 		{
 			st = new StringTokenizer(br.readLine());
-			for(int x=0; x<N; x++) {
-				num = Integer.parseInt(st.nextToken());
-				if(num == 1)
-					houseList.add(new int[] {y,x});
-				else if(num == 2)
-					chickenList.add(new int[] {y,x});
+			for(int x=0; x<N; x++) 
+			{
+				n = Integer.parseInt(st.nextToken());
+				if(n == 1)
+					house[hIdx++] = new Node(y,x);
+				else if(n == 2)
+					chicken[cIdx++] = new Node(y,x);
 			}
 		}
 		
-		len = chickenList.size(); //len개 중 M개를 고르는 것
-		
+		// 각 노드까지의 거리를 미리 구해 놓는다.
+		for(int i=0; i<hIdx; i++)
+			for(int j=0; j<cIdx; j++)
+				dist[i][j] = Math.abs(house[i].y - chicken[j].y) + Math.abs(house[i].x - chicken[j].x);
+
 		Back(0,0);
 		
 		System.out.print(result);
