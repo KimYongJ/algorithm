@@ -18,14 +18,12 @@ class Main{
 	
 	public static int DFS_OUT(int node) {
 		visit[node] = true;
-		if(flag[node]) return 0;
 
 		int cnt = 0;
 		for(Node n=adNode[node]; n!=null; n=n.next)
 			if(flag[n.node]) 
 				cnt++;
 			else if(!visit[n.node]) 
-			
 				cnt += DFS_OUT(n.node);
 
 		return cnt;
@@ -62,19 +60,12 @@ class Main{
 			}
 		
 		// 실내 탐색
-		visit = new boolean[N+1];
 		for(int i=1; i<=N; i++)
-			if(flag[i] && !visit[i]) 
-			{
-				visit[i] = true;
+			if(flag[i])
 				for(Node n=adNode[i]; n!=null; n=n.next)
 					if(flag[n.node]) 
-					{
-						visit[n.node] = true;
-						result += 2;
-					}
-				
-			}
+						result += 1;
+			
 		
 		System.out.print(result);
 	}
