@@ -1,15 +1,21 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int 		N, max, base[];
 	static boolean 	visit[];
 
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
+	
 	public static void BACK(int depth,int beforeIdx, int sum) {
-		if(depth == N) {
+		if(depth == N) 
+		{
 			if(max < sum)
 				max = sum;
 			return;
@@ -23,16 +29,13 @@ class Main{
 			}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N 		= Integer.parseInt(br.readLine());
+		N 		= read();
 		max 	= Integer.MIN_VALUE;
 		base 	= new int[N];
 		visit	= new boolean[N];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
 		for(int i=0; i<N; i++)
-			base[i] = Integer.parseInt(st.nextToken());
+			base[i] = read();
 		
 		for(int i=0; i<N; i++) 
 		{
