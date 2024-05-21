@@ -1,13 +1,16 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	static int 		N, S[], B[];
 	static int		result;
 	static boolean 	visit[];
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void Back(int depth,int mul, int sum, int idx) {
 		if(depth > 0)				// 모든 재료의 경우에 대해서 결과 탐색
@@ -26,18 +29,15 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N = Integer.parseInt(br.readLine());
+		N = read();
 		S = new int[N];		// 곱
 		B = new int[N];		// 합
 		visit = new boolean[N];
 		result = Integer.MAX_VALUE;
 		for(int i=0; i<N; i++) 
 		{
-			st	= new StringTokenizer(br.readLine());
-			S[i] = Integer.parseInt(st.nextToken());
-			B[i] = Integer.parseInt(st.nextToken());
+			S[i] = read();
+			B[i] = read();
 		}
 
 		Back(0, 1, 0, 0);
