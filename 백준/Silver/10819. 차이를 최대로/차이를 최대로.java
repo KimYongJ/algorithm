@@ -5,41 +5,42 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, max, base[], arr[];
-	static boolean visit[];
-	public static void cal() {
-		int sum = 0;
-		for(int i=1; i<N; i++)
-			sum += Math.abs(arr[i-1] - arr[i]);
-		if(max < sum)
-			max = sum;
-	}
-	public static void BACK(int depth) {
+	static int 		N, max, base[];
+	static boolean 	visit[];
+
+	public static void BACK(int depth,int beforeIdx, int sum) {
 		if(depth == N) {
-			cal();
+			if(max < sum)
+				max = sum;
 			return;
 		}
 		for(int i=0; i<N; i++)
 			if(!visit[i]) 
 			{
 				visit[i] = true;
-				arr[depth] = base[i];
-				BACK(depth+1);
+				BACK(depth+1, i, sum + Math.abs(base[beforeIdx] - base[i]));
 				visit[i] = false;
 			}
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N = Integer.parseInt(br.readLine());
-		max = Integer.MIN_VALUE;
-		base = new int[N];
-		arr = new int[N];
-		visit = new boolean[N];
+		N 		= Integer.parseInt(br.readLine());
+		max 	= Integer.MIN_VALUE;
+		base 	= new int[N];
+		visit	= new boolean[N];
+		
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		
 		for(int i=0; i<N; i++)
 			base[i] = Integer.parseInt(st.nextToken());
 		
-		BACK(0);
+		for(int i=0; i<N; i++) 
+		{
+			visit[i] = true;
+			BACK(1, i, 0);
+			visit[i] = false;
+		}
+		
 		
 		System.out.print(max);
 	}	
