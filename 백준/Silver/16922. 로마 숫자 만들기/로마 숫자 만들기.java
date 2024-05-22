@@ -3,9 +3,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 class Main{
-	static final int 	arr[] = {1,5,10,50};
+	
+	static final int 	arr[]	= {1,5,10,50};
+	static boolean 		visit[]	= new boolean[1001];
 	static int 			N, CNT;
-	static boolean 		visit[];
+	
 	public static void DFS(int depth, int idx, int sum) {
 		if(depth ==  N) 
 		{ 
@@ -21,8 +23,7 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N 		= Integer.parseInt(br.readLine());
-		visit 	= new boolean[1001];
+		N = Integer.parseInt(br.readLine());
 		
 		DFS(0,0,0);
 		
