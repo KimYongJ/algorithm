@@ -1,49 +1,46 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
 class Main{
 	
-	static int N, K;
-	static boolean visit[];
-	static String base[], make[];
-	static Set<String> set;
-	public static void add() {
-		StringBuilder sb = new StringBuilder();
-		for(String s : make)sb.append(s);
-		set.add(sb.toString());
+	static int 		N, K, base[];
+	static boolean 	visit[];
+	static Set<Long> set;
+
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
-	public static void Backtracking(int depth) {
+	
+	public static void Backtracking(int depth, long total) {
 		if(depth == K) 
 		{
-			add();
+			set.add(total);
 			return;
 		}
 		for(int i=0; i<N; i++)
 			if(!visit[i]) 
 			{
 				visit[i] = true;
-				make[depth] = base[i];
-				Backtracking(depth+1);
+				if(base[i] < 10)Backtracking(depth+1, total*10 + base[i]);
+				else Backtracking(depth+1, total*100 + base[i]);
 				visit[i] = false;
 			}
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N 		= Integer.parseInt(br.readLine());
-		K 		= Integer.parseInt(br.readLine());
-		base 	= new String[N];
-		make 	= new String[K];
+		N 		= read();
+		K 		= read();
+		base 	= new int[N];
 		visit 	= new boolean[N];
 		set 	= new HashSet<>();
 		
 		for(int i=0; i<N; i++)
-			base[i] = br.readLine();
+			base[i] = read();
 		
-		Backtracking(0);
+		Backtracking(0,0);
 		
 		System.out.print(set.size());
 	}
