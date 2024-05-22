@@ -5,28 +5,30 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, NN, MAX, nums[];
-	static boolean visit[];
-	public static int getMul(int idx) {
-		int left=0, right=0;
-		for(int l=idx-1,r=idx+1; left==0 || right==0; l--,r++) 
+	static int 		N, MAX, nums[];
+	static boolean 	visit[];
+	
+	public static int getMul(int l, int r) {
+		while(visit[l] || visit[r]) 
 		{
-			if(left==0  && !visit[l]) 	left  = nums[l];
-			if(right==0 && !visit[r]) 	right = nums[r];
+			if(visit[l])l--;
+			if(visit[r])r++;
 		}
-		return left*right;
+		return nums[l] * nums[r];
 	}
 
 	public static void DFS(int depth, int sum) {
-		if(depth == NN) {
-			if(MAX < sum) MAX = sum;
+		if(depth == N) 
+		{
+			if(MAX < sum) 
+				MAX = sum;
 			return;
 		}
-		for(int i=1; i<=NN; i++)
+		for(int i=1; i<=N; i++)
 			if(!visit[i]) 
 			{
 				visit[i] = true;
-				DFS(depth + 1, sum + getMul(i));
+				DFS(depth + 1, sum + getMul(i-1, i+1));
 				visit[i] = false;
 			}
 	}
@@ -34,13 +36,14 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		N 		= Integer.parseInt(br.readLine());
-		NN		= N-2;
 		nums	= new int[N];
 		visit	= new boolean[N];
 		
 		st 		= new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++) 
 			nums[i] = Integer.parseInt(st.nextToken());
+		
+		N		-= 2; // 빠른 연산을 위한 전처리 
 		
 		DFS(0,0);
 		
