@@ -5,31 +5,30 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, K, num[];
-	static int cnt;
+	static int 		N, K, num[];
+	static String 	str;
 	
-	public static void exit() {
+	public static boolean exit() {
 		StringBuilder sb = new StringBuilder();
 		for(int n : num) {
 			if(n == 0)break;
 			sb.append(n).append('+');
 		}
-		System.out.print(sb.deleteCharAt(sb.length()-1));
-		System.exit(0);
+		str = sb.deleteCharAt(sb.length()-1).toString();
+		return true;
 	}
-	public static void DFS(int depth, int sum) {
-		if(sum == N){
-			if(++cnt == K)
-				exit();
-		}
-		if(sum > N || depth == N) return;	
+	public static boolean DFS(int depth, int sum) {
+		if(sum == 0 && 0 == --K)	return exit();
+		if(sum <= 0 || depth == N) 	return false;	
 		
 		for(int i=1; i<=3; i++) 
 		{
 			num[depth] = i;
-			DFS(depth + 1, sum + i);
+			if(DFS(depth + 1, sum - i)) 
+				return true;
 			num[depth] = 0;
 		}
+		return false;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
@@ -37,9 +36,10 @@ class Main{
 		N 	= Integer.parseInt(st.nextToken());
 		K 	= Integer.parseInt(st.nextToken());
 		num = new int[N];
+		str	= "-1";
 		
-		DFS(0,0);
+		DFS(0,N);
 		
-		System.out.print(-1);
+		System.out.print(str);
 	}
 }
