@@ -4,19 +4,20 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-
-
 class Main{
 	
 	static int 		len, num, result, arr[];
-	static String 	str;
-	static boolean 	flag, visit[];
+	static boolean 	visit[];
+    
 	public static boolean backtracking(int depth, int sum) {
 		if(depth == len) 
 		{
-			if(flag = (num < sum))
+			if(num < sum)
+			{
 				result = sum;
-			return flag;
+				return true;
+			}
+			return false;
 		}
 		for(int i=0; i<len; i++)
 			if(!visit[i]) 
@@ -29,13 +30,13 @@ class Main{
 	}
 	public static void main(String args[])throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		str 	= br.readLine();
+		String str = br.readLine();
 		len 	= str.length();
 		arr		= new int[len];
 		visit	= new boolean[len];
 		num 	= Integer.parseInt(str);
 		
-		for(int i=0; i<str.length(); i++)
+		for(int i=0; i<len; i++)
 			arr[i] = str.charAt(i)-'0';
 
 		Arrays.sort(arr);
