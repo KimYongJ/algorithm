@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 class Main{
 	
@@ -38,19 +39,27 @@ class Main{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		String str1	= st.nextToken();
-		BASE 		= Integer.parseInt(st.nextToken());
+		String str2 = st.nextToken();
+		result 		= -1;
+		len	   		= str1.length();
+		BASE 		= Integer.parseInt(str2);
 		len			= str1.length();
-		result		= -1;
 		arr			= new Integer[len];
 		visit		= new boolean[len];
 		
 		for(int i=0; i<len; i++)
 			arr[i] = str1.charAt(i)-'0';
 		
-		Arrays.sort(arr,Collections.reverseOrder());	// 숫자를 내림차순으로 정렬 후 백트레킹해서 첫번째 나오는 BASE보다 작은 값이 정답이 된다.
-		
-		// 빠른 연산을 위해 답을 찾으면 true리턴으로 재귀 종료
-		backtracking(0,0);
+		if(len <= str2.length()) {
+			Arrays.sort(arr,Collections.reverseOrder());	// 숫자를 내림차순으로 정렬 후 백트레킹해서 첫번째 나오는 BASE보다 작은 값이 정답이 된다.
+			if(len < str2.length()) {
+				result = Integer.parseInt(Arrays.stream(arr)
+												.map(String::valueOf)
+												.collect(Collectors.joining()));
+			}else {
+				backtracking(0,0);				// 빠른 연산을 위해 답을 찾으면 true리턴으로 재귀 종료
+			}
+		}
 		
 		System.out.print(result);
 	}
