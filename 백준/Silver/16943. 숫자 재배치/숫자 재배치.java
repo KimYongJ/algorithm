@@ -53,9 +53,11 @@ class Main{
 		if(len <= str2.length()) {
 			Arrays.sort(arr,Collections.reverseOrder());	// 숫자를 내림차순으로 정렬 후 백트레킹해서 첫번째 나오는 BASE보다 작은 값이 정답이 된다.
 			if(len < str2.length()) {
-				result = Integer.parseInt(Arrays.stream(arr)
-												.map(String::valueOf)
-												.collect(Collectors.joining()));
+				StringBuilder sb = new StringBuilder();
+				
+				for(int a : arr)sb.append(a);
+				
+				result = Integer.parseInt(sb.toString());
 			}else {
 				backtracking(0,0);				// 빠른 연산을 위해 답을 찾으면 true리턴으로 재귀 종료
 			}
