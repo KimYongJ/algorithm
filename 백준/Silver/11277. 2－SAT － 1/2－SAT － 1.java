@@ -16,7 +16,7 @@ class Main{
 	public static boolean check() {
 		boolean flag = get(data[0][0]) || get(data[0][1]);
 		
-		for(int i=1; i<M; i++) 
+		for(int i=1; i<M && flag; i++) 
 			flag = flag && (get(data[i][0]) || get(data[i][1]));
 		
 		return flag;
