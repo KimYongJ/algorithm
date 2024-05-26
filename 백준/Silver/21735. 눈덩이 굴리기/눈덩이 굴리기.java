@@ -19,14 +19,12 @@ class Main{
 		}
 		
 		DFS(time+1, idx+1, sum + map[idx]);
-		
-		if(idx+1 < LEN)
-			DFS(time+1, idx+2, sum/2 + map[idx+1]);
+		DFS(time+1, idx+2, sum/2 + map[idx+1]);
 	}
 	public static void main(String[] args)throws Exception{
 		LEN		= read();
 		TIME 	= read();
-		map 	= new int[LEN];
+		map 	= new int[LEN+1];
 		
 		for(int i=0; i<LEN; i++)
 			map[i] = read();
