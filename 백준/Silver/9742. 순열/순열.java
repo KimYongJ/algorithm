@@ -19,17 +19,13 @@ class Main{
 		}
 		
 		for(int i=0; i<len; i++) 
-		{
-			if(visit[i]) continue;
-			visit[i] 	= true;
-			
-			make[depth] = base[i];
-			
-			if(DFS(depth + 1)) 
-				return true;
-			
-			visit[i] 	= false;
-		}
+			if(!visit[i]) 
+			{
+				visit[i] 	= true;
+				make[depth] = base[i];
+				if(DFS(depth + 1)) return true;
+				visit[i] 	= false;
+			}
 		
 		return false;
 	}
@@ -44,11 +40,11 @@ class Main{
 		{
 			st 		= new StringTokenizer(str);
 			base 	= st.nextToken().toCharArray();
+			CNT 	= Integer.parseInt(st.nextToken());
 			len	 	= base.length;
 			make 	= new char[len];
 			visit 	= new boolean[len];
-			CNT 	= Integer.parseInt(st.nextToken());
-			
+
 			sb.append(str).append(" = ");
 			
 			if(DFS(0))	sb.append(String.valueOf(make));
