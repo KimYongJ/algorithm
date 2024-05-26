@@ -42,12 +42,10 @@ class Main{
 		visit = new boolean[sum+1];
 		visit[0] = visit[1] = true;
 		
-		Loop:
+		//에라토스테네스의 체
 		for(int i=2; i<=sum; i++) 
 		{
-			for(int j=2; j*j<=i; j++)
-				if(i%j == 0)
-					continue Loop;
+			if(visit[i]) continue;
 			
 			int num = i+i;
 			while(num <= sum) {
