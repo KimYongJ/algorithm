@@ -7,48 +7,39 @@ import java.util.StringTokenizer;
 class Node{
 	int node;
 	Node next;
-	Node(int node, Node next){
-		this.node=node; this.next = next;
-	}
+	Node(int node, Node next){this.node=node; this.next = next;}
 }
 class Main{
 	
+	static int N;			// 노드수
 	static int dp[]; 		// 1번 노드부터 각 노드로까지의 깊이 저장
-	static int parent[]; 	// 자기의 부모 노드를 저장
-	static int result;		// 결과
-	static int a, b, N;
-	static Node[] adNode;
-	static boolean visit[];
-	
-	public static void DFS(int parentNode, int node,int depth) {
-		parent[node]	= parentNode;	// 부모노드 저장
-		dp[node] 		= depth;		// 깊이 저장
-		visit[node] 	= true;			// 방문처리
+	static Node[] adNode;	// 인접노드 저장
+	static boolean visit[];	// 방문체크
+	// DFS를 통해 자기를 포함한 자기 하위 노드가 몇개있는지 dp배열에 담는다.
+	public static int DFS(int node) 
+	{
+		visit[node] = true;
 		
 		for(Node n=adNode[node]; n!=null; n=n.next)
 			if(!visit[n.node])
-				DFS(node,n.node, depth + 1);
+				dp[node] += DFS(n.node);
+		
+		return dp[node] += 1;
 	}
-	public static int get(int a, int b) {
-		// a노드와 b노드의 첫 번째 공통 부모를 찾는다.
-		while(a != b) {
-			if(dp[a] >= dp[b]) {
-				a = parent[a];
-			}else if(dp[a] < dp[b]) {
-				b = parent[b];
-			}
-		}
-		return a;
+	// 주어진 노드개수로 사용되는 총 간선을 구하는 식
+	public static long nC2(long n) {
+		return n*(n-1) / 2;
 	}
+	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		N 		= Integer.parseInt(br.readLine());
 		dp 		= new int[N+1];
-		parent 	= new int[N+1];
-		visit 	= new boolean[N+1];
 		adNode 	= new Node[N+1];
+		visit 	= new boolean[N+1];
 		
+		int a,b;
 		for(int i=1; i<N; i++) 
 		{
 			st = new StringTokenizer(br.readLine());
@@ -58,12 +49,14 @@ class Main{
 			adNode[b] 	= new Node(a, adNode[b]);
 		}
 		
-		DFS(0,1,0); // dp에 1번노드부터의 거리를 담음
+		DFS(1); // 1번 노드부터 시작하여 자기 하위에 노드가 몇개있는지 넣는다.
 		
-		for(int i=N; i>1; i--)
-			for(int j=i-1; j>0; j--)
-				result += dp[i] + dp[j] - dp[get(i,j)];
-
+		long result = 0;
+		long totalUsedEdges = nC2(N); // 전체 간선의 사용 개수
+		
+		for(int i=2; i<=N; i++)
+			// 전체 사용간선  -  i노드와 그 하위 노드를 포함한 노드들을 제외한 노드들끼리의 간선 개수 = 해당 간선이 사용된 횟수
+			result += totalUsedEdges - nC2(N - dp[i]);  
 		
 		System.out.print(result);
 	}
