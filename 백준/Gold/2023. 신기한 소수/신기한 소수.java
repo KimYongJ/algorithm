@@ -3,21 +3,23 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 class Main{
-	
-	static int N, next;
-	static int map[][];
+
 	static StringBuilder sb = new StringBuilder();
+	
 	public static boolean check(int num) {
 		if(num < 2) 
 			return false;
-		if(num > 2) 
-			for(int i=2; i*i<=num; i++)
-				if(num%i == 0) 
+		else if(num > 2) {
+			for(int i=2; i*i<=num; i++) {
+				if(num%i == 0) {
 					return false;
+				}
+			}
+		}
 		return true;
 	}
-	public static void backtracking(int depth, int sum) {
-		if(depth == N) 
+	public static void backtracking(int depth, int sum, int[] map) {
+		if(depth == 0) 
 		{
 			sb.append(sum).append('\n');
 			return;
@@ -25,20 +27,17 @@ class Main{
 		
 		for(int i=0; i<6; i++) 
 		{
-			next = sum * 10 + map[depth][i];
+			int next = sum * 10 + map[i];
 			if(check(next))
-				backtracking(depth + 1, next);
+				backtracking(depth - 1, next, map);
 		}
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N 	= Integer.parseInt(br.readLine());
-		map	= new int[N][6];
+		int N 		= Integer.parseInt(br.readLine());
+		int map[]	= new int[] {1,2,3,5,7,9};
 		
-		for(int i=0; i<N; i++)
-			map[i] = new int[] {1,2,3,5,7,9};
-		
-		backtracking(0,0);
+		backtracking(N,0, map);
 		
 		System.out.print(sb);
 	}
