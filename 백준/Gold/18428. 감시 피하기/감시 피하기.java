@@ -17,20 +17,14 @@ class Main{
 		{
 			for(int xy[] : dxy) 
 			{
-				int y = position[0];
-				int x = position[1];
-				while(true) 
+				int y = position[0] + xy[0];
+				int x = position[1] + xy[1];
+				while(y>=0 && x>=0 && y<N && x<N) 
 				{
+					if(map[y][x] == 'S') return false;
+					else if(map[y][x] != 'X') break;
 					y += xy[0];
 					x += xy[1];
-					if(y>=0 && x>=0 && y<N && x<N) 
-					{
-						if(map[y][x] == 'S')
-							return false;
-						else if(map[y][x] != 'X')
-							break;
-					}
-					else break;
 				}
 			}
 		}
