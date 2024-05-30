@@ -62,20 +62,15 @@ class Main{
 		{
 			st = new StringTokenizer(br.readLine());
 			for(int j=0; j<N; j++) 
-			{
-				map[i][j] = st.nextToken().charAt(0);
-				if(map[i][j] == 'T') 
-				{
+				if((map[i][j] = st.nextToken().charAt(0))== 'T')
 					list.add(new int[] {i,j});
-				}
-			}
 		}
 		
 		String result = "NO";
+		
 		if(comb(0,0)) 
-		{
 			result = "YES";
-		}
+		
 		System.out.print(result);
 	}
 }
