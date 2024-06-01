@@ -12,16 +12,20 @@ class Main{
 	public static boolean check() {
 		int sum 	= 1;
 		int before 	= 1;
-		for(int i=1, num = 2; i<N; i++, num++) {
-			if(op[i] == '+') {
+		for(int i=1, num = 2; i<N; i++, num++) 
+        {
+			if(op[i] == '+') 
+            {
 				sum 	+= num;
 				before 	= num;
-			}else if(op[i] == '-') {
+			}else if(op[i] == '-') 
+            {
 				sum 	-= num;
 				before 	= -num;
 			}else {
 				int flag = num;
-				if(before < 0) {
+				if(before < 0) 
+                {
 					flag = -num;
 				}
 				sum 	+= before * 9 + flag;
@@ -33,7 +37,8 @@ class Main{
 	public static void backtracking(int depth) {
 		if(N == depth) 
 		{
-			if(check()) {
+			if(check())     // 합이 0 인지 구함
+            {
 				for(int i=1; i<N; i++)
 					sb.append(i).append(op[i]);
 				sb.append(N).append('\n');
@@ -43,7 +48,7 @@ class Main{
 		for(char o : operator) 
 		{
 			op[depth] = o;
-			backtracking(depth + 1);
+			backtracking(depth + 1);    // 모든 경우의 수를 대입
 		}
 	}
 	public static void main(String[] args)throws Exception{
