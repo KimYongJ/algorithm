@@ -2,7 +2,6 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 class Main{
 	
@@ -11,22 +10,26 @@ class Main{
 	static char[] op;
 	static StringBuilder sb = new StringBuilder();
 	public static boolean check() {
-		int nums[] = new int[N];
-		int idx = 0;
-		nums[idx++] = 1;
+		int sum = 1;
+		int before = 1;
 		for(int i=1, num = 2; i<N; i++, num++) {
 			if(op[i] == '+') {
-				nums[idx++] = num;
+				sum += num;
+				before = num;
 			}else if(op[i] == '-') {
-				nums[idx++] = -(num);
+				sum -= num;
+				before = -num;
 			}else {
-				if(nums[idx-1] < 0)
-					nums[idx-1] = nums[idx-1] * 10 - num;
-				else
-					nums[idx-1] = nums[idx-1] * 10 + num;
+				if(before < 0) {
+					sum += before * 9 - num;
+					before = before * 10 - num;
+				}else {
+					sum += before * 9 + num;
+					before = before * 10 + num;
+				}
 			}
 		}
-		return Arrays.stream(nums).sum() == 0;
+		return sum == 0;
 	}
 	public static void backtracking(int depth) {
 		if(N == depth) 
