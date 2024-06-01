@@ -10,23 +10,22 @@ class Main{
 	static char[] op;
 	static StringBuilder sb = new StringBuilder();
 	public static boolean check() {
-		int sum = 1;
-		int before = 1;
+		int sum 	= 1;
+		int before 	= 1;
 		for(int i=1, num = 2; i<N; i++, num++) {
 			if(op[i] == '+') {
-				sum += num;
-				before = num;
+				sum 	+= num;
+				before 	= num;
 			}else if(op[i] == '-') {
-				sum -= num;
-				before = -num;
+				sum 	-= num;
+				before 	= -num;
 			}else {
+				int flag = num;
 				if(before < 0) {
-					sum += before * 9 - num;
-					before = before * 10 - num;
-				}else {
-					sum += before * 9 + num;
-					before = before * 10 + num;
+					flag = -num;
 				}
+				sum 	+= before * 9 + flag;
+				before 	= before * 10 + flag;
 			}
 		}
 		return sum == 0;
