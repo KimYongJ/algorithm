@@ -20,8 +20,8 @@ class Main{
 			return false;
 		}
 		
-		for(int i=0; i<=9; i++) 
-			if(before > i && DFS(depth+1, i, num*10 + (long)i))
+		for(int i=0; i<=9 && before > i; i++) 
+			if(DFS(depth+1, i, num*10 + (long)i))
 				return true;
 
 		return false;
