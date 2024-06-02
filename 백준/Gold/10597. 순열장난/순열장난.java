@@ -1,27 +1,21 @@
 // https://github.com/kimyongj/algorithm
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 class Main{
 	
 	static String	str;
 	static int 		len;
+	static int		arr[];
 	static boolean 	visit[];
-	static ArrayList<Integer> list = new ArrayList<>();
+	
 	public static boolean check() {
 		int cnt = 0;
-		int flag = 1;
-		for(int i=1; i<51; i++) {
-			if(i >= 10) flag = 2;
-			if(visit[i])
-				cnt += flag;
-			else break;
-		}
+		for(int i=1; i<51 && visit[i]; i++) 
+			cnt += i < 10 ? 1 : 2;
 		return cnt == len;
 	}
-	public static boolean backtracking(int idx) {
+	public static boolean backtracking(int depth, int idx) {
 		if(idx == len) 
 			return check();
 		
@@ -31,10 +25,9 @@ class Main{
 			if(num <= 50 && !visit[num]) 
 			{
 				visit[num] = true;
-				list.add(num);
-				if(backtracking(idx+t))
+				arr[depth] = num;
+				if(backtracking(depth + 1, idx+t))
 					return true;
-				list.remove((Integer)num);
 				visit[num] = false;
 			}
 		}
@@ -44,14 +37,15 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		str 	= br.readLine();
 		len 	= str.length();
+		arr		= new int[51];
 		visit 	= new boolean[51];
 		
-		backtracking(0);
+		backtracking(0,0);
 		
 		StringBuilder sb = new StringBuilder();
 		
-		for(int i=0; i<list.size(); i++)
-			sb.append(list.get(i)).append(' ');
+		for(int i=0; i<51 && arr[i] != 0; i++)
+			sb.append(arr[i]).append(' ');
 		
 		System.out.print(sb);
 	}
