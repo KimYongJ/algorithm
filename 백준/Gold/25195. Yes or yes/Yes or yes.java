@@ -14,15 +14,13 @@ class Main{
 	static boolean 	visit[];
 	static Node 	adNode[];
 	
-	public static boolean DFS(int node, int before) {
-		visit[node] = true;
-		
+	public static boolean DFS(int node) {
 		boolean flag = false;
 		
 		for(Node n=adNode[node]; n!=null; n=n.next) {
-			if(!visit[n.node] && DFS(n.node, node)) 
+			if(!visit[n.node] && DFS(n.node)) 
 				return true;
-			else if(n.node != before)
+			else
 				flag = true;
 		}
 		
@@ -54,7 +52,7 @@ class Main{
 		String str = "Yes";
 		
 		if(!visit[1]) 
-			str = DFS(1,1) ? "yes" : "Yes";
+			str = DFS(1) ? "yes" : "Yes";
 		
 		System.out.print(str);
 	}
