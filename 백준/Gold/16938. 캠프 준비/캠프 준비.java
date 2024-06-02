@@ -1,51 +1,39 @@
 // https://github.com/kimyongj/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int cnt;
 	static int N, L, R, limit;
 	static int arr[];
 
-	public static void comb(int depth, int idx, int sum, int bit) {
-		if(depth == 0) 
-		{
-			if(L<=sum && sum<=R && 
-					arr[31-Integer.numberOfLeadingZeros(bit)] - arr[Integer.numberOfTrailingZeros(bit)] >= limit)
-			{
-				cnt++;
-			}
-			return;
-		}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
+	public static void comb(int depth, int idx, int sum, int min, int max) {
+		if(N < depth) return ;
+		
+		if(L<=sum && sum<=R && max-min >= limit)
+			cnt++;
 		
 		for(int i=idx; i<N; i++)
-			comb(depth - 1, i+1, sum + arr[i], bit | 1<<i);
+			comb(depth - 1, i+1, sum + arr[i], Math.min(min, arr[i]), Math.max(max, arr[i]));
 			
 	}
 
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		N 		= Integer.parseInt(st.nextToken());
-		L 		= Integer.parseInt(st.nextToken());
-		R 		= Integer.parseInt(st.nextToken());
-		limit 	= Integer.parseInt(st.nextToken());
+		N 		= read();
+		L 		= read();
+		R 		= read();
+		limit 	= read();
 		arr		= new int[N];
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
-		Arrays.sort(arr);
-		
-		// 조합을 구한다. 2개부터 N개 까지 고르는 것
-		for(int i=2; i<=N; i++)
-			comb(i,0,0,0);
+		comb(0,0,0,Integer.MAX_VALUE, Integer.MIN_VALUE);
 		
 		System.out.print(cnt);
 	}
