@@ -15,16 +15,16 @@ class Main{
 	static Node 	adNode[];
 	
 	public static boolean DFS(int node) {
-		boolean flag = false;
+		boolean flag = true;
 		
 		for(Node n=adNode[node]; n!=null; n=n.next) {
 			if(!visit[n.node] && DFS(n.node)) 
 				return true;
 			else
-				flag = true;
+				flag = false;
 		}
 		
-		return !flag;
+		return flag;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
