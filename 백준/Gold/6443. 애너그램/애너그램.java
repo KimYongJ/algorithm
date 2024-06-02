@@ -1,30 +1,32 @@
 // https://github.com/kimyongj/algorithm
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
 class Main{
 	
 	static int 			len;
-	static char[] 		a, b, c;
+	static char[] 		a, b;
 	static boolean[]	visit;
-	static StringBuilder sb = new StringBuilder();
-	
-	public static void backtracking(int depth) {
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	public static void backtracking(int depth) throws Exception {
 		if(depth == len) 
 		{
-			sb.append(String.valueOf(b)).append('\n');
+			bw.write(b);
+			bw.newLine();
 			return;
 		}
 		
-		c[depth] = 0;
+		b[depth] = 0;
 		
 		for(int i=0; i<len; i++) 
 		{
-			if(!visit[i] && c[depth] < a[i]) 
+			if(!visit[i] && b[depth] < a[i]) 
 			{
-				c[depth] = a[i];
 				visit[i] = true;
 				b[depth] = a[i];
 				backtracking(depth + 1);
@@ -34,21 +36,21 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0) 
 		{
 			a 		= br.readLine().toCharArray();
 			len 	= a.length;
 			b 		= new char[len];
-			c		= new char[len];
 			visit 	= new boolean[len];
 			
 			Arrays.sort(a);
 			
 			backtracking(0);
 		}
-		System.out.print(sb);
+		bw.flush();
+		bw.close();
+		br.close();
 	}
 }
 
