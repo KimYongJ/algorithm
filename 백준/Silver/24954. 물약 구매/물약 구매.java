@@ -1,8 +1,5 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -11,6 +8,12 @@ class Main{
 	static int 		price[];
 	static boolean 	visit[];
 	static ArrayList<int[]>[] saleList;
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void backtracking(int depth,int sum) {
 		if(sum > result) return;
@@ -39,34 +42,31 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N			= Integer.parseInt(br.readLine());
+		N			= read();
 		price 		= new int[N];
 		visit		= new boolean[N];
 		saleList 	= new ArrayList[N];
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++) 
 		{
-			price[i]	= Integer.parseInt(st.nextToken());
+			price[i]	= read();
 			saleList[i] = new ArrayList<>();
 		}
 		
 		int a,b,n;
 		for(int i=0; i<N; i++) 
 		{
-			n = Integer.parseInt(br.readLine());
+			n = read();
 			for(int j=0; j<n; j++) 
 			{
-				st	= new StringTokenizer(br.readLine());
-				a	= Integer.parseInt(st.nextToken())-1;
-				b 	= Integer.parseInt(st.nextToken());
+				a	= read()-1;
+				b 	= read();
 				saleList[i].add(new int[] {a,b});	// 특정 노드의 할인 정보를 담는다.
 			}
 		}
 		
 		backtracking(0,0);
+		
 		System.out.print(result);
 	}
 }
