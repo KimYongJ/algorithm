@@ -12,18 +12,6 @@ class Main{
 	static boolean 	visit[];
 	static ArrayList<int[]>[] saleList;
 	
-	public static void changePrice(boolean falg,int idx) {
-		if(falg)
-		{// flag = true 면 price에 값을 뺀다.
-			for(int[] p : saleList[idx])
-				price[p[0]] -= p[1];
-		}
-		else
-		{// flag = false 면 price에 값을 더한다.
-			for(int[] p : saleList[idx])
-				price[p[0]] += p[1];
-		}
-	}
 	public static void backtracking(int depth,int sum) {
 		if(sum > result) return;
 		if(depth == N) 
@@ -37,9 +25,15 @@ class Main{
 			if(!visit[i]) 
 			{
 				visit[i] = true;
-				changePrice(true,i);
+				// price에서 값을 뺀다.
+				for(int[] p : saleList[i])
+					price[p[0]] -= p[1];
+				
 				backtracking(depth + 1,sum + (price[i] < 1 ? 1 : price[i]));
-				changePrice(false,i);
+				// price에서 값을 더한다 ( 백트레킹 )
+				for(int[] p : saleList[i])
+					price[p[0]] += p[1];
+				
 				visit[i] = false;
 			}
 		}
