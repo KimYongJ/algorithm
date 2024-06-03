@@ -23,7 +23,7 @@ class Main{
 			return;
 		}
 		
-		for(int i=0; i<N; i++) 
+		for(int i=1; i<=N; i++) 
 		{
 			if(!visit[i]) 
 			{
@@ -43,23 +43,23 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		N			= read();
-		price 		= new int[N];
-		visit		= new boolean[N];
-		saleList 	= new ArrayList[N];
+		price 		= new int[N+1];
+		visit		= new boolean[N+1];
+		saleList 	= new ArrayList[N+1];
 		
-		for(int i=0; i<N; i++) 
+		for(int i=1; i<=N; i++) 
 		{
 			price[i]	= read();
 			saleList[i] = new ArrayList<>();
 		}
 		
 		int a,b,n;
-		for(int i=0; i<N; i++) 
+		for(int i=1; i<=N; i++) 
 		{
 			n = read();
 			for(int j=0; j<n; j++) 
 			{
-				a	= read()-1;
+				a	= read();
 				b 	= read();
 				saleList[i].add(new int[] {a,b});	// 특정 노드의 할인 정보를 담는다.
 			}
