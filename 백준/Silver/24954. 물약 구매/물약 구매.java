@@ -26,14 +26,11 @@ class Main{
 					price[p[0]] += p[1];
 		}
 	}
-	public static void backtracking(int depth) {
+	public static void backtracking(int depth,int sum) {
 		if(depth == N) 
 		{
-			int sum = 0;
-			for(int p : price)
-				if(p < 1) sum += 1;
-				else sum += p;
-			result = Math.min(result, sum);
+			if(result > sum)
+				result = sum;
 			return;
 		}
 		for(int i=0; i<N; i++) 
@@ -42,7 +39,7 @@ class Main{
 			{
 				visit[i] = true;
 				changePrice(true,i);
-				backtracking(depth + 1);
+				backtracking(depth + 1,sum + (price[i] < 1 ? 1 : price[i]));
 				changePrice(false,i);
 				visit[i] = false;
 			}
@@ -76,7 +73,7 @@ class Main{
 			}
 		}
 		
-		backtracking(0);
+		backtracking(0,0);
 		System.out.print(result);
 	}
 }
