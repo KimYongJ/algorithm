@@ -27,12 +27,13 @@ class Main{
 		}
 	}
 	public static void backtracking(int depth,int sum) {
+		if(sum > result) return;
 		if(depth == N) 
 		{
-			if(result > sum)
-				result = sum;
+			result = sum;
 			return;
 		}
+		
 		for(int i=0; i<N; i++) 
 		{
 			if(!visit[i]) 
