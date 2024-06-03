@@ -6,24 +6,22 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int result = Integer.MAX_VALUE;
-	static int N;
-	static int price[];
-	static boolean visit[];
+	static int 		result = Integer.MAX_VALUE;
+	static int 		N;
+	static int 		price[];
+	static boolean 	visit[];
 	static ArrayList<int[]>[] saleList;
 	
 	public static void changePrice(boolean falg,int idx) {
 		if(falg)
 		{// flag = true 면 price에 값을 뺀다.
 			for(int[] p : saleList[idx])
-				if(!visit[p[0]])			// 방문하지 않았을 때 뺀다.
-					price[p[0]] -= p[1];
+				price[p[0]] -= p[1];
 		}
 		else
 		{// flag = false 면 price에 값을 더한다.
 			for(int[] p : saleList[idx])
-				if(!visit[p[0]])			// 방문하지 않았을 때 더한다.
-					price[p[0]] += p[1];
+				price[p[0]] += p[1];
 		}
 	}
 	public static void backtracking(int depth,int sum) {
