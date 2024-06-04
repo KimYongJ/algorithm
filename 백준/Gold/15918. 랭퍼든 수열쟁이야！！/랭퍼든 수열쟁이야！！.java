@@ -19,17 +19,14 @@ class Main{
 			ans++;
 			return;
 		}
-		int plus = num+1;
-		for(int i=0; plus+i<l; i++) {
-			plus += i;
-			if(!M[i] && !M[plus]) {
-				M[i] = M[plus] = true;
+
+		for(int i=0; num+1+i<l; i++)
+			if(!M[i] && !M[num+1+i]) 
+			{
+				M[i] = M[num+1+i] = true;
 				backtracking(num-1);
-				M[i] = M[plus] = false;
+				M[i] = M[num+1+i] = false;
 			}
-			plus -= i;
-		}
-		
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
