@@ -17,6 +17,8 @@ class Main{
 	public static void backtracking(int beforeIdx, int cnt, int energy) {
 		if(MAX < cnt && dist[0][beforeIdx] <= energy)	
 			MAX = cnt;
+		
+		if(MAX == len-1) return;
 
 		for(int i=1; i<len; i++)
 			if(!visit[i]) 
