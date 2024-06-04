@@ -6,11 +6,11 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, len, idx1, idx2;
+	static int N, len, x, y;
 	static int result;
 	static boolean map[];
 	public static void backtracking(int num) {
-		if(num == idx2){
+		if(num == x){
 			backtracking(num-1);
             return;
         }
@@ -36,11 +36,11 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N 		= Integer.parseInt(st.nextToken());
 		len		= N*2;
-		idx1 	= Integer.parseInt(st.nextToken())-1;
-		idx2 	= Integer.parseInt(st.nextToken())-1;
+		x 		= Integer.parseInt(st.nextToken())-1;
+		y 		= Integer.parseInt(st.nextToken())-1;
 		map		= new boolean[len];
-		map[idx1] = map[idx2] = true;
-		idx2	-= idx1 + 1;
+		map[x]	= map[y] = true;
+		x		= y-x-1;
 		
 		backtracking(N);
 		
