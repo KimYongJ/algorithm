@@ -10,21 +10,24 @@ class Main{
 	static int result;
 	static boolean map[];
 	public static void backtracking(int num) {
-		if(num == idx2)
+		if(num == idx2){
 			backtracking(num-1);
+            return;
+        }
 		if(num == 0) 
 		{
 			result++;
 			return;
 		}
-		for(int i=0; num+1+i<len; i++)
-		{
-			if(!map[i] && !map[num+1+i]) 
-			{
-				map[i] = map[num+1+i] = true;
+		int plus = num+1;
+		for(int i=0; plus+i<len; i++) {
+			plus += i;
+			if(!map[i] && !map[plus]) {
+				map[i] = map[plus] = true;
 				backtracking(num-1);
-				map[i] = map[num+1+i] = false;
+				map[i] = map[plus] = false;
 			}
+			plus -= i;
 		}
 		
 	}
