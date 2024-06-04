@@ -17,15 +17,14 @@ class Main{
 			result++;
 			return;
 		}
-		int plus = num+1;
-		for(int i=0; plus+i<len; i++) {
-			plus += i;
-			if(!map[i] && !map[plus]) {
-				map[i] = map[plus] = true;
+		for(int i=0; num+1+i<len; i++)
+		{
+			if(!map[i] && !map[num+1+i]) 
+			{
+				map[i] = map[num+1+i] = true;
 				backtracking(num-1);
-				map[i] = map[plus] = false;
+				map[i] = map[num+1+i] = false;
 			}
-			plus -= i;
 		}
 		
 	}
