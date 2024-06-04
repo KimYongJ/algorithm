@@ -6,9 +6,9 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, len, x, y;
-	static int result;
-	static boolean map[];
+	static int N, l, x, y;
+	static int ans;
+	static boolean M[];
 	public static void backtracking(int num) {
 		if(num == x){
 			backtracking(num-1);
@@ -16,16 +16,16 @@ class Main{
         }
 		if(num == 0) 
 		{
-			result++;
+			ans++;
 			return;
 		}
 		int plus = num+1;
-		for(int i=0; plus+i<len; i++) {
+		for(int i=0; plus+i<l; i++) {
 			plus += i;
-			if(!map[i] && !map[plus]) {
-				map[i] = map[plus] = true;
+			if(!M[i] && !M[plus]) {
+				M[i] = M[plus] = true;
 				backtracking(num-1);
-				map[i] = map[plus] = false;
+				M[i] = M[plus] = false;
 			}
 			plus -= i;
 		}
@@ -35,15 +35,15 @@ class Main{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N 		= Integer.parseInt(st.nextToken());
-		len		= N*2;
+		l		= N*2;
 		x 		= Integer.parseInt(st.nextToken())-1;
 		y 		= Integer.parseInt(st.nextToken())-1;
-		map		= new boolean[len];
-		map[x]	= map[y] = true;
+		M		= new boolean[l];
+		M[x]	= M[y] = true;
 		x		= y-x-1;
 		
 		backtracking(N);
 		
-		System.out.print(result);
+		System.out.print(ans);
 	}
 }
