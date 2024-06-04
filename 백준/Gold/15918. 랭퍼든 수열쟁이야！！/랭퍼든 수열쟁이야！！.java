@@ -10,6 +10,8 @@ class Main{
 	static int map[];
 	static int result;
 	public static void backtracking(int num) {
+		if(num == map[idx1])
+			backtracking(num+1);
 		if(N < num) 
 		{
 			result++;
@@ -18,7 +20,7 @@ class Main{
 		int plus = num+1;
 		for(int i=0; i<len; i++) {
 			plus += i;
-			if(plus < len && map[i] == 0 && map[plus] == 0 && map[idx1] == map[idx2]) {
+			if(plus < len && map[i] == 0 && map[plus] == 0) {
 				map[i] = map[plus] = num;
 				backtracking(num+1);
 				map[i] = map[plus] = 0;
@@ -35,6 +37,7 @@ class Main{
 		idx1 	= Integer.parseInt(st.nextToken())-1;
 		idx2 	= Integer.parseInt(st.nextToken())-1;
 		map		= new int[len];
+		map[idx1] = map[idx2] = idx2 - idx1 - 1;
 		
 		backtracking(1);
 		
