@@ -8,9 +8,12 @@ class Main{
 									{0,2,5,7},{0,3,6,10},
 									{1,5,8,11},{4,6,9,11},
 									{1,2,3,4},{7,8,9,10}
-									};
+								};
+	static final int rline[][] = {
+									{0,4},{1,1},{1,3},{1,5},{1,7},{2,2},
+									{2,6},{3,1},{3,3},{3,5},{3,7},{4,4}
+								};
 	static int 		arr[];
-	static char 	result[][];
 	static boolean 	visit[], useNumber[];
 	
 	public static boolean validate() {
@@ -25,7 +28,7 @@ class Main{
 					sum += arr[p];
 					cnt++;
 				}
-			
+			// 숫자가 4개다 더했을 때 26이 아니거나, 26초과시 false 리턴
 			if((cnt == 4 && sum != 26) || sum > 26) 
 				return false;
 		}
@@ -56,10 +59,10 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		result		= new char[5][9];
-		arr			= new int[12];
-		visit		= new boolean[12];
-		useNumber	= new boolean[13];
+		char [][]result	= new char[5][9];
+		arr				= new int[12];
+		visit			= new boolean[12];
+		useNumber		= new boolean[13];
 		int idx = 0;
 		for(int y=0; y<5; y++) 
 		{
@@ -84,19 +87,10 @@ class Main{
 		
 		backtracking(0);
 		
-		// 결과 출력
-		result[0][4] = (char) (arr[0]+64);
-		result[1][1] = (char) (arr[1]+64);
-		result[1][3] = (char) (arr[2]+64);
-		result[1][5] = (char) (arr[3]+64);
-		result[1][7] = (char) (arr[4]+64);
-		result[2][2] = (char) (arr[5]+64);
-		result[2][6] = (char) (arr[6]+64);
-		result[3][1] = (char) (arr[7]+64);
-		result[3][3] = (char) (arr[8]+64);
-		result[3][5] = (char) (arr[9]+64);
-		result[3][7] = (char) (arr[10]+64);
-		result[4][4] = (char) (arr[11]+64);
+		// 결과 세팅
+		for(int i=0; i<12; i++) 
+			result[rline[i][0]][rline[i][1]] = (char)(arr[i]+64);
+
 		StringBuilder sb = new StringBuilder();
 		for(int y=0; y<5;  y++) 
 		{
