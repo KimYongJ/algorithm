@@ -1,9 +1,6 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 class Main{
-	
 	static final int line[][] = {
 									{0,2,5,7},{0,3,6,10},
 									{1,5,8,11},{4,6,9,11},
@@ -58,7 +55,7 @@ class Main{
 		return false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Reader in 		= new Reader();
 		char [][]result	= new char[5][9];
 		arr				= new int[12];
 		visit			= new boolean[12];
@@ -66,11 +63,10 @@ class Main{
 		int idx = 0;
 		for(int y=0; y<5; y++) 
 		{
-			String str = br.readLine();
 			for(int x=0; x<9; x++) 
 			{
 				result[y][x] = '.';
-				char c = str.charAt(x);
+				char c = in.nextChar();
 				if(c=='x') 
 				{
 					idx++;
@@ -78,7 +74,7 @@ class Main{
 				else if(c != '.') 
 				{
 					visit[idx] 	= true;					// 해당 인덱스 방문처리
-					arr[idx] 	= (str.charAt(x)-64);	// 숫자를 담는다.
+					arr[idx] 	= (c-64);				// 숫자를 담는다.
 					useNumber[arr[idx]] = true;			// 해당 숫자는 이미 사용했다는 표식
 					idx++;
 				}
@@ -104,3 +100,23 @@ class Main{
 		System.out.print(sb);
 	}
 }
+
+// 리더
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+    char nextChar() throws Exception {
+        byte c;
+        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+        return (char)c;
+    }
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
+}
+
