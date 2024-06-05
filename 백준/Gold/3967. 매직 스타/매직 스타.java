@@ -4,22 +4,37 @@ import java.io.InputStreamReader;
 
 class Main{
 	
-	
+	static final int line[][] = {
+									{0,2,5,7},{0,3,6,10},
+									{1,5,8,11},{4,6,9,11},
+									{1,2,3,4},{7,8,9,10}
+									};
 	static int 		arr[];
 	static char 	result[][];
 	static boolean 	visit[], useNumber[];
 	
 	public static boolean validate() {
-		return arr[0]+arr[2]+arr[5]+arr[7] 	== 26 &&
-		       arr[0]+arr[3]+arr[6]+arr[10] == 26 &&
-		       arr[1]+arr[5]+arr[8]+arr[11] == 26 &&
-		       arr[4]+arr[6]+arr[9]+arr[11] == 26 &&
-		       arr[1]+arr[2]+arr[3]+arr[4] 	== 26 &&
-		       arr[7]+arr[8]+arr[9]+arr[10] == 26;
+		int sum, cnt;
+		for(int[] l : line) 
+		{
+			sum = 0;
+			cnt = 0;
+			for(int p : l)
+				if(arr[p] > 0) 
+				{
+					sum += arr[p];
+					cnt++;
+				}
+			
+			if((cnt == 4 && sum != 26) || sum > 26) 
+				return false;
+		}
+		return true;
+
 	}
 	public static boolean backtracking(int depth) {
-		if(depth > 11) 						// 끝에 도달시 유효한지 체크
-			return validate();
+		if(depth > 11)	// 끝 도달시 종료
+			return true;
 		
 		if(visit[depth]) 					// 초기에 방문한 곳이면
 			return backtracking(depth + 1);
@@ -30,7 +45,7 @@ class Main{
 			{
 				useNumber[i] = true;
 				arr[depth] = i;
-				if(backtracking(depth + 1))	// true리턴시 바로 종료 
+				if(validate() && backtracking(depth + 1))// 가능성있을 때만 간다. 
 					return true;
 				arr[depth] = 0;
 				useNumber[i] = false;
@@ -83,8 +98,15 @@ class Main{
 		result[3][7] = (char) (arr[10]+64);
 		result[4][4] = (char) (arr[11]+64);
 		StringBuilder sb = new StringBuilder();
-		for(int y=0; y<5;  y++)
-			sb.append(String.valueOf(result[y])).append('\n');
+		for(int y=0; y<5;  y++) 
+		{
+			for(int x=0; x<9; x++) 
+			{
+				sb.append(result[y][x]);
+			}
+			sb.append('\n');
+		}
+
 		System.out.print(sb);
 	}
 }
