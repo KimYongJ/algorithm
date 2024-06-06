@@ -24,8 +24,9 @@ class Main{
 			return;
 		}
 		for(int i=idx; i<len; i++)
-			combination(depth -1, i+1, bit | (1<<arr[i]));
-		
+			if((bit & 1<<arr[i]) == 0)
+				combination(depth -1, i+1, bit | (1<<arr[i]));
+
 	}
 	public static void main(String[] args)throws Exception{
 		HashSet<Integer> chList 	= new HashSet<>();		// 조합의 기준이 되는 문자열들 ( 비트마스킹 표시할 거라 int로 변환 )
