@@ -11,23 +11,16 @@ class Main{
 	static int 		N, K;
 	static int 		len, arr[];
 	static int		bitArray[];	// 최종 비교할 문자열( 비트마스킹으로 숫자로 표현 )
-	
-	public static void check(int bit) {
-		int cnt = 0;
-		for(int num : bitArray) 
-		{
-			if(num == 0) 
-				cnt++;
-			else if((bit & num) == num)
-				cnt++;
-		}
-		if(result < cnt)
-			result = cnt;
-	}
+
 	public static void combination(int depth, int idx, int bit) {
 		if(depth == 0) 
 		{
-			check(bit);
+			int cnt = 0;
+			for(int num : bitArray) 
+				if((bit & num) == num)
+					cnt++;
+			if(result < cnt)
+				result = cnt;
 			return;
 		}
 		for(int i=idx; i<len; i++)
