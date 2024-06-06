@@ -31,7 +31,6 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader 	br 			= new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer	st 			= new StringTokenizer(br.readLine());
-		
 		int N 		= Integer.parseInt(st.nextToken());
 		int K 		= Integer.parseInt(st.nextToken());
 		bitArray	= new int[N]; // 중복이 제거된, 입력되는 문자열을 bit로 바꾼거
@@ -43,7 +42,7 @@ class Main{
 		{
 			for(int i=0; i<N; i++) 
 				for(char c : br.readLine().toCharArray())
-					bitArray[i] |= 1 << (c-'a');
+					bitArray[i] |= 1 << (c-97);
 
 			combination(K-5, 0, 532741); // 몇개를 고를건지, 인덱스, 현재 구해진 숫자
 		}
