@@ -9,21 +9,17 @@ class Main{
 	static int result;
 	static int	Y, X, T;
 	static char map[][];
-	static boolean visit[][][];
 	
 	public static void backtracking(int depth, int cnt, int y, int x) {
 		if(depth == 0) {
-			if(result < cnt) 
-                result = cnt;
+			if(result < cnt) result = cnt;
 			return;
 		}
 		int ny, nx;
 		for(int xy[] : dxy) {
 			ny = y + xy[0];
 			nx = x + xy[1];
-			if(ny>=0 && nx>=0 && ny<Y && nx<X && !visit[cnt][ny][nx] && map[ny][nx] !='#') {
-				visit[cnt][ny][nx] = true;
-				
+			if(ny>=0 && nx>=0 && ny<Y && nx<X && map[ny][nx] !='#') {
 				if(map[ny][nx] == 'S') {
 					map[ny][nx] = '.';
 					backtracking(depth-1, cnt + 1, ny, nx);
@@ -31,7 +27,6 @@ class Main{
 				}
 				else
 					backtracking(depth-1, cnt, ny,nx);
-				visit[cnt][ny][nx] = false;
 			}
 		}
 		
@@ -43,7 +38,6 @@ class Main{
 		X 		= Integer.parseInt(st.nextToken());
 		T 		= Integer.parseInt(st.nextToken());
 		map		= new char[Y][X];
-		visit	= new boolean[T+1][Y][X];
 		
 		int sy=0, sx=0;
 		for(int y=0; y<Y; y++) {
