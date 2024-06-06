@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 class Main{
 	
+	static int 		K, N;
 	static int 		result;
 	static int		bitArray[];	// 최종 비교할 문자열( 비트마스킹으로 숫자로 표현 )
 
@@ -13,8 +14,8 @@ class Main{
 		if(depth == 0) 
 		{
 			int cnt = 0;
-			for(int num : bitArray) 
-				if((bit & num) == num)
+			for(int i=0; i<N; i++)
+				if((bit & bitArray[i]) == bitArray[i])
 					cnt++;
 			if(result < cnt)
 				result = cnt;
@@ -29,23 +30,25 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br 			= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer	st 			= new StringTokenizer(br.readLine());
-		int N 		= Integer.parseInt(st.nextToken());
-		int K 		= Integer.parseInt(st.nextToken());
-		bitArray	= new int[N]; // 중복이 제거된, 입력되는 문자열을 bit로 바꾼거
+		BufferedReader 	br	= new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer	st	= new StringTokenizer(br.readLine());
+		N 					= Integer.parseInt(st.nextToken());
+		K 					= Integer.parseInt(st.nextToken());
+		bitArray			= new int[N]; // 중복이 제거된, 입력되는 문자열을 bit로 바꾼거
 		
 		if(K >= 26) {
-			result = N;
+			System.out.print(N);
+		}else if( K < 5) {
+			System.out.print(0);
 		}
-		else if(K>=5) 
+		else
 		{
 			for(int i=0; i<N; i++) 
 				for(char c : br.readLine().toCharArray())
 					bitArray[i] |= 1 << (c-97);
 
 			combination(K-5, 0, 532741); // 몇개를 고를건지, 인덱스, 현재 구해진 숫자
+			System.out.print(result);
 		}
-		System.out.print(result);
 	}
 }
