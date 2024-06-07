@@ -8,17 +8,21 @@ class Main{
 	static int[][]	map;
 	static int[] 	rows, cols, square;
 
-	public static boolean backtracking(int idx) {
-		if(idx > 80)
+	public static boolean backtracking(int y, int x) {
+		if(y == 8 && x == 9)
 			return true;
 		
-		int ny = idx / 9;
-		int nx = idx % 9;
-		int ni = ny/3 * 3 + nx /3;
-		int flag = rows[ny] | cols[nx] | square[ni];
-		if(map[ny][nx] != 0)
-			return backtracking(idx + 1);
+		if(x == 9) 
+		{
+			x = 0;
+			y += 1;
+		}
 		
+		if(map[y][x] != 0)
+			return backtracking(y, x + 1);
+		
+		int ni = y/3 * 3 + x /3;
+		int flag = rows[y] | cols[x] | square[ni];
 		
 		int bit;
 		for(int i=1; i<=9; i++) 
@@ -26,15 +30,15 @@ class Main{
 			bit	= 1<<i;
 			if((flag & bit) == 0) 
 			{
-				rows[ny]	|= bit;
-				cols[nx]	|= bit;
+				rows[y]	|= bit;
+				cols[x]	|= bit;
 				square[ni]	|= bit;
-				map[ny][nx] = i;
-				if(backtracking(idx + 1)) 
+				map[y][x] = i;
+				if(backtracking(y, x+1)) 
 					return true;
-				map[ny][nx] = 0;
-				rows[ny] 	^= bit;
-				cols[nx]  	^= bit;
+				map[y][x] = 0;
+				rows[y] 	^= bit;
+				cols[x]  	^= bit;
 				square[ni] 	^= bit;
 			}
 		}
@@ -62,7 +66,7 @@ class Main{
 			}
 		}
 		
-		backtracking(0);		
+		backtracking(0,0);		
 		
 		StringBuilder sb = new StringBuilder();
 		for(int y=0; y<9; y++) 
