@@ -90,18 +90,21 @@ class Main{
 			x2--;
 		}
 	}
+	public static void sum() {
+		int sum;
+		for(int y=1; y<=Y; y++) 
+		{
+			sum = 0;
+			for(int x=1; x<=X; x++)
+				sum += map[y][x];
+			if(result > sum)
+				result = sum;
+		}
+	}
 	public static void backtracking(int depth) {
 		if(depth == 0) 
 		{
-			int sum;
-			for(int y=1; y<=Y; y++) 
-			{
-				sum = 0;
-				for(int x=1; x<=X; x++)
-					sum += map[y][x];
-				if(result > sum)
-					result = sum;
-			}
+			sum();
 			return;
 		}
 		for(int i=0; i<K; i++)
