@@ -19,63 +19,71 @@ class Main{
 	static int		map[][];
 	static Node 	pos[];
 	static boolean 	visit[];
-	public static void turn2(int y1, int x1, int y2, int x2) {
-		int before = map[y1][x1];
-		int dummy = 0;
-		for(int y=y1+1; y<=y2; y++) {
-			dummy = map[y][x1];
-			map[y][x1] = before;
-			before = dummy;
-		}
-		for(int x=x1+1; x<=x2; x++) {
-			dummy = map[y2][x]; 
-			map[y2][x] = before;
-			before = dummy;
-		}
-		for(int y=y2-1; y>=y1; y--) {
-			dummy = map[y][x2];
-			map[y][x2] = before;
-			before = dummy;
-		}
-		for(int x=x2-1; x>=x1; x--) {
-			dummy = map[y1][x];
-			map[y1][x] = before;
-			before = dummy;
-		}
-	}
-	public static void turn1(int y1, int x1, int y2, int x2) {
-		int before = map[y1][x1];
-		int dummy = 0;
-		for(int x=x1+1; x<=x2; x++) {
-			dummy = map[y1][x];
-			map[y1][x] = before;
-			before = dummy;
-		}
-		for(int y=y1+1; y<=y2; y++) {
-			dummy = map[y][x2];
-			map[y][x2] = before;
-			before = dummy;
-		}
-		for(int x=x2-1; x>=x1; x--) {
-			dummy = map[y2][x];
-			map[y2][x] = before;
-			before = dummy;
-		}
-		for(int y=y2-1; y>=y1; y--) {
-			dummy = map[y][x1];
-			map[y][x1] = before;
-			before = dummy;
-		}
-	}
-	public static void check(int i, boolean flag) {
+
+	public static void left(int i) {
 		int y1	= pos[i].y1;
 		int x1	= pos[i].x1;
 		int y2	= pos[i].y2;
 		int x2	= pos[i].x2;
 		while(y1<y2) 
 		{
-			if(flag) turn1(y1,x1,y2,x2);
-			else turn2(y1,x1,y2,x2);
+			int before = map[y1][x1];
+			int dummy = 0;
+			for(int y=y1+1; y<=y2; y++) {
+				dummy = map[y][x1];
+				map[y][x1] = before;
+				before = dummy;
+			}
+			for(int x=x1+1; x<=x2; x++) {
+				dummy = map[y2][x]; 
+				map[y2][x] = before;
+				before = dummy;
+			}
+			for(int y=y2-1; y>=y1; y--) {
+				dummy = map[y][x2];
+				map[y][x2] = before;
+				before = dummy;
+			}
+			for(int x=x2-1; x>=x1; x--) {
+				dummy = map[y1][x];
+				map[y1][x] = before;
+				before = dummy;
+			}
+			y1++;
+			x1++;
+			y2--;
+			x2--;
+		}
+	}
+	public static void right(int i) {
+		int y1	= pos[i].y1;
+		int x1	= pos[i].x1;
+		int y2	= pos[i].y2;
+		int x2	= pos[i].x2;
+		while(y1<y2) 
+		{
+			int before = map[y1][x1];
+			int dummy = 0;
+			for(int x=x1+1; x<=x2; x++) {
+				dummy = map[y1][x];
+				map[y1][x] = before;
+				before = dummy;
+			}
+			for(int y=y1+1; y<=y2; y++) {
+				dummy = map[y][x2];
+				map[y][x2] = before;
+				before = dummy;
+			}
+			for(int x=x2-1; x>=x1; x--) {
+				dummy = map[y2][x];
+				map[y2][x] = before;
+				before = dummy;
+			}
+			for(int y=y2-1; y>=y1; y--) {
+				dummy = map[y][x1];
+				map[y][x1] = before;
+				before = dummy;
+			}
 			y1++;
 			x1++;
 			y2--;
@@ -100,9 +108,9 @@ class Main{
 			if(!visit[i]) 
 			{
 				visit[i] = true;
-				check(i, true);
+				right(i);
 				backtracking(depth - 1);
-				check(i, false);
+				left(i);
 				visit[i] = false;
 			}
 		
