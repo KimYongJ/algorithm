@@ -4,20 +4,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 class Main{
-	
-	static int[][]	rangeX = {{0,3,6},{1,4,7},{2,5,8}};
-	static int[][]	rangeY = {{0,1,2},{3,4,5},{6,7,8}};
+
 	static int[][]	map;
 	static int[] 	rows, cols, square;
-	
-	public static int getIndex(int y, int x) {
-		for(int rx : rangeX[x/3]) {
-			for(int ry : rangeY[y/3]) {
-				if(rx==ry)return rx;
-			}
-		}
-		return 0;
-	}
+
 	public static boolean backtracking(int idx) {
 		if(idx > 80)
 			return true;
@@ -32,7 +22,7 @@ class Main{
 		int bit, ni;
 		for(int i=1; i<=9; i++) {
 			bit	= 1<<i;
-			ni 	= getIndex(ny,nx);
+			ni 	= ny/3 * 3 + nx /3;
 			if(	(rows[ny] & bit) == 0 && (cols[nx] & bit) == 0 && (square[ni] & bit) == 0) 
 			{
 				rows[ny]	|= bit;
@@ -66,7 +56,7 @@ class Main{
 				int bit = 1<<map[y][x];
 				rows[y] |= bit;
 				cols[x] |= bit; 
-				square[getIndex(y,x)] |= bit;
+				square[y/3 *3 + x / 3] |= bit;
 			}
 		}
 		
