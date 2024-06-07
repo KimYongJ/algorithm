@@ -15,7 +15,7 @@ class Main{
 		int ny = idx / 9;
 		int nx = idx % 9;
 		int ni = ny/3 * 3 + nx /3;
-		
+		int flag = rows[ny] | cols[nx] | square[ni];
 		if(map[ny][nx] != 0)
 			return backtracking(idx + 1);
 		
@@ -24,7 +24,7 @@ class Main{
 		for(int i=1; i<=9; i++) 
 		{
 			bit	= 1<<i;
-			if(	(rows[ny] & bit) == 0 && (cols[nx] & bit) == 0 && (square[ni] & bit) == 0) 
+			if((flag & bit) == 0) 
 			{
 				rows[ny]	|= bit;
 				cols[nx]	|= bit;
