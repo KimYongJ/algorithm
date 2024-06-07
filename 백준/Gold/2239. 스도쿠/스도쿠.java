@@ -14,22 +14,24 @@ class Main{
 		
 		int ny = idx / 9;
 		int nx = idx % 9;
+		int ni = ny/3 * 3 + nx /3;
 		
 		if(map[ny][nx] != 0)
 			return backtracking(idx + 1);
 		
 		
-		int bit, ni;
-		for(int i=1; i<=9; i++) {
+		int bit;
+		for(int i=1; i<=9; i++) 
+		{
 			bit	= 1<<i;
-			ni 	= ny/3 * 3 + nx /3;
 			if(	(rows[ny] & bit) == 0 && (cols[nx] & bit) == 0 && (square[ni] & bit) == 0) 
 			{
 				rows[ny]	|= bit;
 				cols[nx]	|= bit;
 				square[ni]	|= bit;
 				map[ny][nx] = i;
-				if(backtracking(idx + 1)) return true;
+				if(backtracking(idx + 1)) 
+					return true;
 				map[ny][nx] = 0;
 				rows[ny] 	^= bit;
 				cols[nx]  	^= bit;
