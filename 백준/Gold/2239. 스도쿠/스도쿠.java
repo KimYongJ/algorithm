@@ -21,10 +21,9 @@ class Main{
 		if(map[y][x] != 0)
 			return backtracking(y, x + 1);
 		
-		int ni = y/3 * 3 + x /3;
-		int flag = rows[y] | cols[x] | square[ni];
-		
-		int bit;
+		int bit,
+			ni		= y/3 * 3 + x /3,
+			flag	= rows[y] | cols[x] | square[ni];
 		for(int i=1; i<=9; i++) 
 		{
 			bit	= 1<<i;
