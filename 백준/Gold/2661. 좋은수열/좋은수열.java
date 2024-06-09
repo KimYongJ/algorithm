@@ -9,23 +9,22 @@ class Main{
 	static int arr[];
 	
 	public static boolean check(int len) {
-        for (int i = 1; i <= len / 2; i++) 
-        {
-            for (int j = 0; j <= len - 2 * i; j++) 
-            {
-                boolean same = true;
-                for (int k = 0; k < i; k++)
-                {
-                    if (arr[j + k] != arr[j + i + k]) 
-                    {
-                        same = false;
-                        break;
-                    }
-                }
-                if (same) return false;
-            }
-        }
-        return true;
+		int temp = (len+1)/2;
+		for(int i = 2; i <= temp; i++) 
+		{
+			boolean isSame=true;
+			int a = len-i*2+1;
+			int b = len-i+1;
+			for(int j = 0 ; j < i; j++) {
+				if(arr[a+j]!=arr[b+j]) {
+					isSame=false;
+					break;
+				}
+			}
+			if(isSame)
+				return false;
+		}
+		return true;
 	}
 	public static boolean backtracking(int depth, int before) {
 		if(depth == N) 
@@ -35,7 +34,7 @@ class Main{
 			if(i != before) 
 			{
 				arr[depth] = i;
-				if(check(depth + 1) && backtracking(depth + 1, i))
+				if(check(depth) && backtracking(depth + 1, i))
 					return true;
 			}
 		
