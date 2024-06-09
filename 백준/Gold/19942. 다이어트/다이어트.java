@@ -1,8 +1,6 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
 
 class Node{
@@ -17,35 +15,47 @@ class Node{
 class Main{
 	
 	static int 	result = Integer.MAX_VALUE;
+	static int 	resultArr[];
 	static int 	arr[];
 	static int	N, A, B, C, D;
+	static int	MAX;
 	static Node	node[];
-	static ArrayList<int[]> list;
-
-	public static void backtracking(int depth, int idx, int a, int b, int c, int d, int e) {
-		if(A<=a && B<=b && C<=c && D<=d) 
+	
+	public static boolean validate() {
+		if(result == Integer.MAX_VALUE)
+			return true;
+		
+		for(int i=0; i<N; i++) 
 		{
-			if(result == e) 
-			{
-				list.add(arr.clone());
-			}
-			else if(result > e)
-			{
-				list.clear();
-				list.add(arr.clone());
-				result = e;
+			if(resultArr[i] == 0 && arr[i] != 0 || resultArr[i] < arr[i]) {
+				return false;
+			}else if(resultArr[i] != 0 && arr[i] == 0 || resultArr[i] > arr[i]) {
+				return true;
 			}
 		}
-		
+		return true;
+	}
+	public static void dfs(int depth, int idx, int a, int b, int c, int d, int e) {
+		if(A<=a && B<=b && C<=c && D<=d) 
+		{
+			if(result == e) {
+				if(validate()) {
+					result = e;
+					resultArr = arr.clone();
+				}
+			}else if(result >  e){
+				result = e;
+				resultArr = arr.clone();
+			}
+		}
 		if(depth == N) 
 			return;
 		
-		Node n;
 		for(int i=idx; i<=N; i++) 
 		{
-			n = node[i];
+			Node n = node[i];
 			arr[depth] = i;
-			backtracking(depth + 1, i+1, a+n.a, b+n.b, c+n.c, d+n.d, e+n.e);
+			dfs(depth + 1, i+1, a+n.a, b+n.b, c+n.c, d+n.d, e+n.e);
 			arr[depth] = 0;
 		}
 	}
@@ -54,8 +64,8 @@ class Main{
 		StringTokenizer st;
 		N			= Integer.parseInt(br.readLine());
 		arr 		= new int[N];
+		resultArr	= new int[N];
 		node		= new Node[N+1];
-		list		= new ArrayList<>();
 		
 		st	= new StringTokenizer(br.readLine());
 		A	= Integer.parseInt(st.nextToken());
@@ -73,34 +83,23 @@ class Main{
 								);
 		}
 		
-		backtracking(0,1,0,0,0,0,0);
+		dfs(0,1,0,0,0,0,0);
 		
-		Collections.sort(list,(a,b)->{
-			for(int i=0; i<N; i++) {
-				if(a[i] == 0 && b[i] != 0 || a[i] < b[i]) {
-					return -1;
-				}else if(a[i] != 0 && b[i] == 0 || a[i] > b[i]) {
-					return 1;
-				}
-			}
-			return 0;
-		});
-		
-		if(list.size() == 0) 
+		if(result == Integer.MAX_VALUE) 
 		{
 			System.out.print(-1);
 		}
-		else 
-		{
+		else {
 			StringBuilder sb = new StringBuilder();
+			
 			sb.append(result).append('\n');
-			for(int r : list.get(0))
-			{
+			
+			for(int r : resultArr)
 				if(r == 0)	
 					break;
 				else 		
 					sb.append(r).append(' ');
-			}
+			
 			System.out.print(sb);
 		}
 	}
