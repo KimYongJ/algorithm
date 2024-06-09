@@ -19,33 +19,33 @@ class Main{
 	static int 	result = Integer.MAX_VALUE;
 	static int 	arr[];
 	static int	N, A, B, C, D;
-	static int	MAX;
 	static Node	node[];
 	static ArrayList<int[]> list;
 
-	public static void dfs(int depth, int idx, int a, int b, int c, int d, int e) {
-		if(depth == MAX) 
+	public static void backtracking(int depth, int idx, int a, int b, int c, int d, int e) {
+		if(A<=a && B<=b && C<=c && D<=d) 
 		{
-			if(A<=a && B<=b && C<=c && D<=d) 
+			if(result == e) 
 			{
-				if(result == e) 
-				{
-					list.add(arr.clone());
-				}else if(result > e)
-				{
-					list.clear();
-					list.add(arr.clone());
-					result = e;
-				}
+				list.add(arr.clone());
 			}
-			return ;
+			else if(result > e)
+			{
+				list.clear();
+				list.add(arr.clone());
+				result = e;
+			}
 		}
+		
+		if(depth == N) 
+			return;
+		
 		Node n;
 		for(int i=idx; i<=N; i++) 
 		{
 			n = node[i];
 			arr[depth] = i;
-			dfs(depth + 1, i+1, a+n.a, b+n.b, c+n.c, d+n.d, e+n.e);
+			backtracking(depth + 1, i+1, a+n.a, b+n.b, c+n.c, d+n.d, e+n.e);
 			arr[depth] = 0;
 		}
 	}
@@ -73,8 +73,7 @@ class Main{
 								);
 		}
 		
-		for(MAX=0; MAX<=N; MAX++)
-			dfs(0,1,0,0,0,0,0);
+		backtracking(0,1,0,0,0,0,0);
 		
 		Collections.sort(list,(a,b)->{
 			for(int i=0; i<N; i++) {
@@ -94,11 +93,14 @@ class Main{
 		else 
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append(result)
-				.append('\n');
+			sb.append(result).append('\n');
 			for(int r : list.get(0))
-				if(r == 0)	break;
-				else 		sb.append(r).append(' ');
+			{
+				if(r == 0)	
+					break;
+				else 		
+					sb.append(r).append(' ');
+			}
 			System.out.print(sb);
 		}
 	}
