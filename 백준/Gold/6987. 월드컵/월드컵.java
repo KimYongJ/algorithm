@@ -1,20 +1,18 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	static int[] team1,team2,tieArr,winArr,loseArr;
 
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static boolean backtracking(int round) {
 		if(round == 15) 
-		{
-			for(int i=0; i<6; i++)
-				if(tieArr[i] != 0 || winArr[i] != 0 || loseArr[i]!= 0) 
-					return false;
 			return true;
-		}
 		
 		int a = team1[round];
 		int b = team2[round];
@@ -49,10 +47,7 @@ class Main{
 		return false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder 	sb = new StringBuilder();
-		StringTokenizer st;
-		
+		StringBuilder sb = new StringBuilder();
 		team1	= new int[15];
 		team2	= new int[15];
 		tieArr	= new int[6];
@@ -70,14 +65,13 @@ class Main{
 		
 		for(int r=0; r<4; r++) 
 		{
-			st		= new StringTokenizer(br.readLine());
 			result	= 1;
 			total	= 0;
 			for(int t=0; t<6; t++) 
 			{
-				winArr[t]	=	Integer.parseInt(st.nextToken());
-				tieArr[t]	=	Integer.parseInt(st.nextToken());
-				loseArr[t]	=	Integer.parseInt(st.nextToken());
+				winArr[t]	= read();
+				tieArr[t]	= read();
+				loseArr[t]	= read();
 				if(tieArr[t] + winArr[t] + loseArr[t] > 5)  	// 각 한라인의 승+패+무는 5이하여야 함
 					result = 0;
 				total += tieArr[t] + winArr[t] + loseArr[t];
