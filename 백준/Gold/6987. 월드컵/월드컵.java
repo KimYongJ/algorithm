@@ -107,6 +107,9 @@ class Main{
 			}
 			if(
 				(result != 0) &&
+				(ttie % 2 == 1) ||						// 무승부의 총합이 홀수인 경우 불가
+				(twin != tlose) ||  					// 승과 패는 같아야 한다.
+				((30 - ttie) != (twin + tlose)) || 		// 총합 유효성 검증
 				!backtracking(0)						// 전부 탐색
 			  ) 		 
 			{
