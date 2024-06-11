@@ -16,8 +16,6 @@ class Main{
 				minPin = 1;
 				minMove = move;
 			}
-			else if(1 == minPin && minMove > move) 
-				minMove = move;
 			return;
 		}
 
@@ -50,8 +48,6 @@ class Main{
 			minPin  = pin;
 			minMove = move;
 		}
-		else if(minPin == pin && minMove > move)
-			minMove = move;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
