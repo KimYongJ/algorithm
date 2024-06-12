@@ -40,16 +40,12 @@ class Main{
 
 		root = new Node(Integer.parseInt(br.readLine()));
 		
-		while(true) 
-		{
-			try {
-				root.insert(Integer.parseInt(br.readLine()));
-			
-			}catch(Exception e) {
-				break;
-			}
-		}
+		String in;
+		while((in = br.readLine())!= null) 
+				root.insert(Integer.parseInt(in));
+
 		postOrder(root);
+		
 		System.out.print(sb);
 	}
 }
