@@ -12,14 +12,20 @@ public class Main {
     
     public static void main(String[] args)throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        arr = br.readLine().toCharArray();
-        index = new int[10];
-        boolean hasL = false;
+        String str		= br.readLine();
+        boolean hasL	= false;
+        arr 			= new char[str.length()];
+        index 			= new int[10];
+        
         for(int i=0; i<arr.length; i++) 
-        	if(arr[i] == '_')
+        {
+        	char c = str.charAt(i);
+        	arr[i] = c;
+        	if(c == '_')
         		index[LEN++] = i;
-        	else if(arr[i] == 'L')
+        	else if(c == 'L')
         		hasL = true;
+        }
         	
         findBlank(0, 1L, hasL);
         
