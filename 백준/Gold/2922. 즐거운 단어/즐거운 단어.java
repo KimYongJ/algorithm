@@ -4,35 +4,35 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-	static int len;
+	static char arr[];
 	
     public static void main(String[] args)throws Exception 
     {
     	String vowel	= "AEIOU";
-    	char arr[]		= new char[100];
-    	
+    	int len = 0;
+    	arr	= new char[100];
     	for(char c : new BufferedReader(new InputStreamReader(System.in)).readLine().toCharArray())
     		arr[len++] = vowel.indexOf(c) >= 0 ? 'a' : c;
     	
-        System.out.print( DFS(arr, 0, 0, 0, 0) );
+        System.out.print( DFS(len-1, 0, 0, 0) );
     }
 
-    private static long DFS(char arr[], int idx, int v, int c, int hasL) {
+    private static long DFS(int idx, int v, int c, int hasL) {
     	if(v>=3 || c>=3)	return 0;
-        if(idx == len) 		return hasL;
+        if(idx == -1) 		return hasL;
         
         long cnt = 0;
         
         if(arr[idx] == '_') 
         {
-        	cnt += DFS(arr, idx + 1, v+1, 0, hasL) * 5; // 모음
-        	cnt += DFS(arr, idx + 1, 0, c+1, hasL) * 20; // 자음
-        	cnt += DFS(arr, idx + 1, 0, c+1, 1); // L을 강제로 추가
+        	cnt += DFS( idx - 1, v+1, 0, hasL) * 5; // 모음
+        	cnt += DFS( idx - 1, 0, c+1, hasL) * 20; // 자음
+        	cnt += DFS( idx - 1, 0, c+1, 1); // L을 강제로 추가
         }
         else if(arr[idx] == 'a')
-        	cnt += DFS(arr, idx + 1, v+1, 0, hasL);
+        	cnt += DFS( idx - 1, v+1, 0, hasL);
         else
-        	cnt += DFS(arr, idx + 1, 0, c+1, arr[idx] == 'L' ? 1 : hasL);
+        	cnt += DFS( idx - 1, 0, c+1, arr[idx] == 'L' ? 1 : hasL);
         
         return cnt;
     }
