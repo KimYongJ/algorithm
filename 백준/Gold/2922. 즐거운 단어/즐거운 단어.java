@@ -24,24 +24,23 @@ public class Main {
         System.out.println(ans);
     }
 
-    private static void findBlank(int idx, int depth, long sum) {
+    private static void findBlank(int i, int depth, long sum) {
         if(depth == LEN) 
         {
         	check(sum);
             return;
         }
 
-        for(int i=idx; i<LEN; i++)
-            if(arr[index[i]] == '_') 
-            {
-            	arr[index[i]] = '1';// 자음
-                findBlank(i+1, depth + 1, sum * 20L);
-                arr[index[i]] = '2';// 모음
-                findBlank(i+1, depth + 1, sum * 5L);
-                arr[index[i]] = 'L';
-                findBlank(i+1, depth + 1, sum);
-                arr[index[i]] = '_';
-            }
+        if(arr[index[i]] == '_') 
+        {
+        	arr[index[i]] = '1';// 자음
+            findBlank(i+1, depth + 1, sum * 20L);
+            arr[index[i]] = '2';// 모음
+            findBlank(i+1, depth + 1, sum * 5L);
+            arr[index[i]] = 'L';
+            findBlank(i+1, depth + 1, sum);
+            arr[index[i]] = '_';
+        }
         
     }
 
@@ -62,7 +61,6 @@ public class Main {
                  else 
                 	 c++;
             }
-
 
             if(v >=3 || c>=3)
             	return;
