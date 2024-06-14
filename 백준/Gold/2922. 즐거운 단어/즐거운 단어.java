@@ -21,12 +21,12 @@ public class Main {
         	else if(arr[i] == 'L')
         		hasL = true;
         	
-        findBlank(0,0, 1L, hasL);
+        findBlank(0, 1L, hasL);
         
         System.out.println(ans);
     }
 
-    private static void findBlank(int i, int depth, long sum, boolean hasL) {
+    private static void findBlank(int depth, long sum, boolean hasL) {
         if(depth == LEN) 
         {
         	if(hasL)
@@ -34,15 +34,16 @@ public class Main {
             return;
         }
 
-        if(arr[index[i]] == '_') 
+        int idx = index[depth];
+        if(arr[idx] == '_') 
         {
-        	arr[index[i]] = '1';// 자음
-            findBlank(i+1, depth + 1, sum * 20L, hasL);
-            arr[index[i]] = '2';// 모음
-            findBlank(i+1, depth + 1, sum * 5L, hasL);
-            arr[index[i]] = 'L';
-            findBlank(i+1, depth + 1, sum, true);
-            arr[index[i]] = '_';
+        	arr[idx] = '1';// 자음
+            findBlank(depth + 1, sum * 20L, hasL);
+            arr[idx] = '2';// 모음
+            findBlank(depth + 1, sum * 5L, hasL);
+            arr[idx] = 'L';
+            findBlank(depth + 1, sum, true);
+            arr[idx] = '_';
         }
         
     }
