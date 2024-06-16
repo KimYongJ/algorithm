@@ -35,11 +35,11 @@ class Main{
 		}
 		int sum = 0;
 		
-		for(int n : number)
+		for(int n : number) 
 			sum += n;
 		
-		max = Math.max(max, sum);
-		min = Math.min(min, sum);
+		if(max < sum) max = sum;
+		if(min > sum) min = sum;
 	}
 	public static void backtracking(int depth, int plus, int minus, int mul, int div) {
 		if(depth < 0) 
