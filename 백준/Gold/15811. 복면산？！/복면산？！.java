@@ -9,7 +9,7 @@ class Main{
 	static boolean	visit[];
 	static int		arr[];
 	static int		alphabet[];
-	static int		len;
+	
 	public static long getNumber(String s) {
 		long num = 0;
 		for(int i=0; i<s.length(); i++)
@@ -17,7 +17,7 @@ class Main{
 		return num;
 	}
 	public static boolean backtracking(int depth) {
-		if(depth == len) {
+		if(depth < 0) {
 			long n1 = getNumber(str[0]);
 			long n2 = getNumber(str[1]);
 			long n3 = getNumber(str[2]);
@@ -30,7 +30,7 @@ class Main{
 			{
 				visit[i] = true;
 				alphabet[arr[depth]] = i;
-				if(backtracking(depth + 1))
+				if(backtracking(depth - 1))
 					return true;
 				visit[i] = false;
 			}
@@ -49,9 +49,10 @@ class Main{
 		
 		arr	= new int[set.size()];
 		
+		int len = 0;
 		for(int num : set)
 			arr[len++] = num;							// arr에 차례로 사용된 문자열을 담음 arr을 통해 index로 접근할 경우 어떤 알파벳인지 담겨있음
 		
-		System.out.print(backtracking(0) ? "YES" : "NO");
+		System.out.print(backtracking(len-1) ? "YES" : "NO");
 	}
 }
