@@ -13,16 +13,12 @@ class Main{
 	public static long getNumber(String s) {
 		long num = 0;
 		for(int i=0; i<s.length(); i++)
-			num = num*10 + (long)(alphabet[s.charAt(i) - 'A']);
+			num = num*10 + alphabet[s.charAt(i) - 'A'];
 		return num;
 	}
 	public static boolean backtracking(int depth) {
-		if(depth < 0) {
-			long n1 = getNumber(str[0]);
-			long n2 = getNumber(str[1]);
-			long n3 = getNumber(str[2]);
-			return (n1+n2) == n3;
-		}
+		if(depth < 0)
+			return getNumber(str[0]) + getNumber(str[1]) == getNumber(str[2]);
 		
 		for(int i=0;i<=9; i++) 
 		{
