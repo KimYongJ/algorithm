@@ -14,14 +14,13 @@ class Node{
 class Main{
 	
 	public static void main(String[] args)throws Exception{
+		Reader in = new Reader();
 		int result = Integer.MAX_VALUE;
 		int	dxy[][]			= {{1,0},{0,1},{-1,0},{0,-1}};
-		BufferedReader	br	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st	= new StringTokenizer(br.readLine());
 		ArrayDeque<Node> q	= new ArrayDeque<>();
-		int N 				= Integer.parseInt(st.nextToken());	// 맵 크기
-		int H 				= Integer.parseInt(st.nextToken());	// 현재 체력 H
-		int durab			= Integer.parseInt(st.nextToken());	// 우산의 내구도 
+		int N 				= in.nextInt();	// 맵 크기
+		int H 				= in.nextInt();	// 현재 체력 H
+		int durab			= in.nextInt();	// 우산의 내구도 
 		char map[][]		= new char[N+2][N+2];				// 맵
 		int totalEnergy[][]	= new int[N+2][N+2];				// 위치당 도달하기 까지 남은 총체력(현재체력 + 우산내구도)
 		
@@ -31,10 +30,9 @@ class Main{
 		int	sy=0, sx=0, ey=0, ex=0;
 		for(int y=1; y<=N; y++) 
 		{
-			String str = br.readLine();
 			for(int x=1; x<=N; x++) 
 			{ 
-				map[y][x]	= str.charAt(x-1);
+				map[y][x]	= in.nextChar();
 				if(map[y][x] == 'S') 
 				{
 					sy = y;
@@ -97,3 +95,48 @@ class Main{
 		System.out.print(result);
 	}
 }
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    String nextString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        byte c;
+        while ((c = read()) < 32) { if (size < 0) return "endLine"; }
+        do sb.appendCodePoint(c);
+        while ((c = read()) >= 32); // SPACE 분리라면 >로, 줄당 분리라면 >=로
+        return sb.toString();
+    }
+
+    char nextChar() throws Exception {
+        byte c;
+        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+        return (char)c;
+    }
+    
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
+}
+
