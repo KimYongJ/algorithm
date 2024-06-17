@@ -13,9 +13,9 @@ class Node{
 }
 class Main{
 	
-	static int	dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-
 	public static void main(String[] args)throws Exception{
+		int result = Integer.MAX_VALUE;
+		int	dxy[][]			= {{1,0},{0,1},{-1,0},{0,-1}};
 		BufferedReader	br	= new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st	= new StringTokenizer(br.readLine());
 		ArrayDeque<Node> q	= new ArrayDeque<>();
@@ -65,15 +65,8 @@ class Main{
 				if(map[nextY][nextX] == 'x')		// 유효하지 않은 범위인 경우 
 					continue;
 				
-				if(nextY == ey && nextX == ex) 
-				{
-					System.out.print(nextTime);
-					return;
-				}
-				
 				if(map[nextY][nextX] == 'U')		// 우산일 경우 우산 내구도 변경
 					nextDurab = durab;
-				
 				
 				if(nextDurab > 0)					// 우산이 있으면 우산 내구도를 깍는다.
 					nextDurab--;
@@ -82,6 +75,14 @@ class Main{
 				
 				if(nextEnergy == 0)					// 체력이 동나면 종료 
 					continue;
+				
+				// 맨허튼 거리를 구해서 종료까지 다이렉트로 갈 수 있다면 미리 종료시간을 구해 불필요한 탐색을 줄인다.
+				int Manhattan_Distance = Math.abs(nextY - ey) + Math.abs(nextX - ex);
+				if(Manhattan_Distance <= nextEnergy + nextDurab) 
+				{
+					result = Math.min(Manhattan_Distance + nextTime, result);
+					continue;
+				}
 
 				if(totalEnergy[nextY][nextX] < nextEnergy + nextDurab) 
 				{
@@ -91,6 +92,8 @@ class Main{
 			}
 			
 		}
-		System.out.print(-1);
+		if(result == Integer.MAX_VALUE)
+			result = -1;
+		System.out.print(result);
 	}
 }
