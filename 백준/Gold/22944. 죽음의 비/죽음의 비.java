@@ -1,142 +1,89 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-class Node{
-	int y,x, time, energy, durab;
-	Node(int y, int x, int time, int energy, int durab){
-		this.y=y; this.x=x;		this.time=time;
-		this.energy=energy;		this.durab=durab;
-	}
-}
 class Main{
 	
-	public static void main(String[] args)throws Exception{
-		Reader in = new Reader();
-		int result = Integer.MAX_VALUE;
-		int	dxy[][]			= {{1,0},{0,1},{-1,0},{0,-1}};
-		ArrayDeque<Node> q	= new ArrayDeque<>();
-		int N 				= in.nextInt();	// 맵 크기
-		int H 				= in.nextInt();	// 현재 체력 H
-		int durab			= in.nextInt();	// 우산의 내구도 
-		char map[][]		= new char[N+2][N+2];				// 맵
-		int totalEnergy[][]	= new int[N+2][N+2];				// 위치당 도달하기 까지 남은 총체력(현재체력 + 우산내구도)
-		
-		for(int i=0; i<N+2; i++)
-			map[i][0] = map[0][i] = map[N+1][i] = map[i][N+1] = 'x';
-		
-		int	sy=0, sx=0, ey=0, ex=0;
-		for(int y=1; y<=N; y++) 
+	static int		result = Integer.MAX_VALUE;
+	static int		N;				// 맵 크기
+	static int		H;				// 현재 체력 H
+	static int		durab;			// 우산의 내구도 
+	static int		len; 			// 우산의 개수 
+	static int		sy, sx, ey, ex;	// 시작 , 종료 위치
+	static boolean	visit[];		// 우산의 방문 유무를 담을 배열
+	static ArrayList<int[]> umbrella = new ArrayList<>();
+	
+	public static void backtracking(int y, int x, int hp, int dur, int time) {
+		int manhattan = Math.abs(ey-y) + Math.abs(ex-x);
+		if(manhattan <= hp + dur) 
 		{
-			for(int x=1; x<=N; x++) 
+			result = Math.min(result, time + manhattan);
+			return;
+		}
+		
+		for(int i=0; i<len; i++) 
+		{
+			if(visit[i]) 
+				continue;
+			
+			int xy[]	= umbrella.get(i);
+			int dist	= Math.abs(y-xy[0]) + Math.abs(x-xy[1]);
+			int nextHp	= hp;
+			int nextDur = dur;
+			if(dist <= nextHp + nextDur) 	// 다음 우산까지 갈 수 있을 때
+			{
+				nextDur -= dist;			// 우산 내구도를 거리만큼 깍는다.
+				
+				if(nextDur < 0)				// 우산 내구도가 0이하로 떨어진 경우 HP를 깎는다.
+					nextHp += nextDur+1;	// nextDur는 마이너스일 것이기 때문에 nextHp에 더해준다. 이 때 +1을 해줌으로 써 새로 쓴 우산에서 데미지를 입게한다.
+				
+				if(nextHp <= 0) 			// 체력이 0 이하면 종료
+					continue;
+				
+				visit[i] = true;
+				backtracking(xy[0], xy[1], nextHp, durab - 1,time + dist);
+				visit[i] = false;
+			}
+			
+		}
+	}
+	public static void main(String[] args)throws Exception{
+		BufferedReader	br	= new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st	= new StringTokenizer(br.readLine());
+		N 		= Integer.parseInt(st.nextToken());	// 맵 크기
+		H 		= Integer.parseInt(st.nextToken());	// 현재 체력 H
+		durab	= Integer.parseInt(st.nextToken());	// 우산의 내구도 
+
+		for(int y=0; y<N; y++) 
+		{
+			String str = br.readLine();
+			for(int x=0; x<N; x++) 
 			{ 
-				map[y][x]	= in.nextChar();
-				if(map[y][x] == 'S') 
+				char c = str.charAt(x);
+				if(c == 'U') 
 				{
-					sy = y;
+					umbrella.add(new int[] {y,x});
+				}
+				else if(c == 'S') 
+				{
+					sy = y; 
 					sx = x;
 				}
-				if(map[y][x] == 'E') 
+				else if(c == 'E') 
 				{ 
-					ey = y;
+					ey = y; 
 					ex = x;
 				}
 			}
 		}
 		
-		totalEnergy[sy][sx] = H;
-		q.add(new Node(sy, sx, 0, H, 0));
+		len		= umbrella.size();
+		visit	= new boolean[len];
 		
-		while(!q.isEmpty()) {
-			Node now = q.poll();
-			
-			for(int xy[] : dxy) 
-			{
-				int nextY		= xy[0] + now.y;	// 다음 좌표
-				int nextX		= xy[1] + now.x;	// 다음 좌표
-				int nextDurab	= now.durab;		// 우산 내구도
-				int nextEnergy	= now.energy;		// 체력
-				int nextTime	= now.time + 1;		// 도달 시간
-				
-				if(map[nextY][nextX] == 'x')		// 유효하지 않은 범위인 경우 
-					continue;
-				
-				if(map[nextY][nextX] == 'U')		// 우산일 경우 우산 내구도 변경
-					nextDurab = durab;
-				
-				if(nextDurab > 0)					// 우산이 있으면 우산 내구도를 깍는다.
-					nextDurab--;
-				else if(nextEnergy > 0)				// 우산이 없으면 체력을 깍는다.
-					nextEnergy--;
-				
-				if(nextEnergy == 0)					// 체력이 동나면 종료 
-					continue;
-				
-				// 맨허튼 거리를 구해서 종료까지 다이렉트로 갈 수 있다면 미리 종료시간을 구해 불필요한 탐색을 줄인다.
-				int Manhattan_Distance = Math.abs(nextY - ey) + Math.abs(nextX - ex);
-				if(Manhattan_Distance <= nextEnergy + nextDurab) 
-				{
-					result = Math.min(Manhattan_Distance + nextTime, result);
-					continue;
-				}
-
-				if(totalEnergy[nextY][nextX] < nextEnergy + nextDurab) 
-				{
-					totalEnergy[nextY][nextX] = nextEnergy + nextDurab;
-					q.add(new Node(nextY, nextX, nextTime, nextEnergy, nextDurab));
-				}
-			}
-			
-		}
-		if(result == Integer.MAX_VALUE)
-			result = -1;
-		System.out.print(result);
+		backtracking(sy, sx, H, 0, 0); // 현재 좌표 y, x, 현재 체력, 우산의 내구도, 걸린시간
+		
+		System.out.print(result == Integer.MAX_VALUE  ? -1 : result);
 	}
 }
-
-class Reader {
-    final int SIZE = 1 << 13;
-    byte[] buffer = new byte[SIZE];
-    int index, size;
-
-    String nextString() throws Exception {
-        StringBuilder sb = new StringBuilder();
-        byte c;
-        while ((c = read()) < 32) { if (size < 0) return "endLine"; }
-        do sb.appendCodePoint(c);
-        while ((c = read()) >= 32); // SPACE 분리라면 >로, 줄당 분리라면 >=로
-        return sb.toString();
-    }
-
-    char nextChar() throws Exception {
-        byte c;
-        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
-        return (char)c;
-    }
-    
-    int nextInt() throws Exception {
-        int n = 0;
-        byte c;
-        boolean isMinus = false;
-        while ((c = read()) <= 32) { if (size < 0) return -1; }
-        if (c == 45) { c = read(); isMinus = true; }
-        do n = (n << 3) + (n << 1) + (c & 15);
-        while (isNumber(c = read()));
-        return isMinus ? ~n + 1 : n;
-    }
-
-    boolean isNumber(byte c) {
-        return 47 < c && c < 58;
-    }
-
-    byte read() throws Exception {
-        if (index == size) {
-            size = System.in.read(buffer, index = 0, SIZE);
-            if (size < 0) buffer[0] = -1;
-        }
-        return buffer[index++];
-    }
-}
-
