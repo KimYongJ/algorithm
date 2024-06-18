@@ -1,7 +1,6 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 class Main{
 	
@@ -34,10 +33,11 @@ class Main{
 		visit[y][x] = false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N = Integer.parseInt(br.readLine());
-		visit = new boolean[51][51];
-		backtracking(N+1, 0, 25, 25, -1);
-		System.out.print(cnt / 3);
+		BufferedReader br	= new BufferedReader(new InputStreamReader(System.in));
+		N					= Integer.parseInt(br.readLine());
+		visit				= new boolean[51][51];
+		visit[26][25]		= true;				// 북쪽으로 미리 보내야하기 때문에 세팅
+		backtracking(N, 1, 25, 25, 0);
+		System.out.print(cnt);
 	}
 }
