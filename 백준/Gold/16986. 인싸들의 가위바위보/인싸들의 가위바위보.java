@@ -10,43 +10,28 @@ class Main{
 	static int rtable[][];	// 상성 표 
 	static int action[][];	// 낼 순서
 	static boolean visit[];	// 방문 체크 배열
+	
 	public static boolean cal() {
-		
 		int win[] = new int[3];
 		int idx[] = new int[3];
-		int p1 = 0, p2 = 1, p3 = 2, dummy = 0;
+		int p1 = 0, p2 = 1, winner;
 		int max = 0; // 최대 승수
-		while(max != MAX && idx[0] != N) {
+		while(max != MAX && idx[0] != N)
+		{
 			int a1 = action[p1][idx[p1]++];
 			int a2 = action[p2][idx[p2]++];
 			
-			if(rtable[a1][a2] == 2) {
-				max = ++win[p1];
-				dummy = p2;
-				p2 = p3;
-				p3 = dummy;
-			}
-			else if(rtable[a1][a2] == 0) {
-				max = ++win[p2];
-				dummy = p1;
-				p1 = p3;
-				p3 = dummy;
-			}
-			else {
-				if(p1 < p2) {
-					max = ++win[p2];
-					dummy = p1;
-					p1 = p3;
-					p3 = dummy;
-				}else {
-					max = ++win[p1];
-					dummy = p2;
-					p2 = p3;
-					p3 = dummy;
-				}
-			}
+			if(rtable[a1][a2] == 2)
+				winner = p1;
+			else if(rtable[a1][a2] == 0)
+				winner = p2;
+			else 
+				winner = p1 < p2 ? p2 : p1;
+
+			max = ++win[winner];
+			p2	= 3 - p1 - p2;
+			p1	= winner;
 		}
-		
 		return win[0] == MAX;
 	}
 	public static boolean backtracking(int idx) {
