@@ -1,8 +1,5 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -50,18 +47,16 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st	= new StringTokenizer(br.readLine());
-		N 		= Integer.parseInt(st.nextToken());	// 맵 크기
-		H 		= Integer.parseInt(st.nextToken());	// 현재 체력 H
-		durab	= Integer.parseInt(st.nextToken());	// 우산의 내구도 
+		IN in	= new IN();
+		N 		= in.nextInt();	// 맵 크기
+		H 		= in.nextInt();	// 현재 체력 H
+		durab	= in.nextInt();	// 우산의 내구도 
 
 		for(int y=0; y<N; y++) 
 		{
-			String str = br.readLine();
 			for(int x=0; x<N; x++) 
 			{ 
-				char c = str.charAt(x);
+				char c = in.nextChar();
 				if(c == 'U') 
 				{
 					umbrella.add(new int[] {y,x});
@@ -86,4 +81,40 @@ class Main{
 		
 		System.out.print(result == Integer.MAX_VALUE  ? -1 : result);
 	}
+}
+
+
+class IN {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    char nextChar() throws Exception {
+        byte c;
+        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+        return (char)c;
+    }
+    
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
