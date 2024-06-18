@@ -32,7 +32,7 @@
 
 <p>밑의 표는 침, 펄, 풍 세 사람이 인싸 가위바위보를 진행하는 예시이다. 우승을 위해 필요한 승수는 3승이고 침, 펄, 풍 순서로 경기를 진행한다.</p>
 
-<p style="text-align: center;"><img alt="" src=""></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/cc3ab4c0-b203-44ee-b78a-9c29861a24a1/-/preview/"></p>
 
 <p>인싸 가위바위보 결과 풍이 제일 먼저 3승에 도달했으므로 우승자는 풍이다. 1라운드, 3라운드에서 두 사람이 같은 손동작을 냈을 때 경기 진행 순서상 뒤인 사람이 승리하는 것을 확인할 수 있다.</p>
 
