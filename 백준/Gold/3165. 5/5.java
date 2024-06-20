@@ -8,8 +8,6 @@ class Main{
 	static final char FIVE = '5';
 	static final char ZERO = '0';
 	static StringBuilder sb;
-	static int K;
-	static long N;
 	
 	public static int count() {
 		int cnt = 0;
@@ -22,27 +20,17 @@ class Main{
 		}
 		return cnt;
 	}
-	public static void roundUp(int idx) {
-		long num = 1;
-		for(int i=0; i<idx; i++) 
-		{
-			num *= 10;
-		}
-		sb = new StringBuilder().append(Long.parseLong(sb.reverse().toString()) + num).reverse();
-	}
-	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Long.parseLong(st.nextToken()) + 1; 
-		K = Integer.parseInt(st.nextToken());
+		long	N 		= Long.parseLong(st.nextToken()) + 1; 
+		int		K 		= Integer.parseInt(st.nextToken());
+		int 	idx 	= 0;
+		boolean rounds 	= false;
 		
 		sb = new StringBuilder().append(N).reverse();
 		
-		int idx = 0;
-		boolean rounds = false;
-		
-		while(!(idx >= sb.length() || count() >= K)) 
+		while(idx < sb.length() && count() < K) 
 		{
 			if(rounds)							// 반올림을 해야할 때 
 			{
@@ -65,12 +53,14 @@ class Main{
 			else	// 5보다 c가 클경우
 			{
 				sb.setCharAt(idx,ZERO);
-				roundUp(idx+1);
-				rounds = true;
+                rounds = true;
+                // 올림처리
+                sb = new StringBuilder()
+				.append(Long.parseLong(sb.reverse().toString()) + (long)Math.pow(10,idx+1))
+				.reverse();
 			}
 			idx++;
 		}
-		
 		
 		// 5를 K만큼 못 채웠는지 확인
 		int cnt = count();
