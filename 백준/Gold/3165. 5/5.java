@@ -30,38 +30,6 @@ class Main{
 		}
 		sb = new StringBuilder().append(Long.parseLong(sb.reverse().toString()) + num).reverse();
 	}
-	public static void DFS(int idx, boolean rounds) {
-		if(idx >= sb.length() || count() >= K) 					// 목적 달성시
-		{
-			return;
-		}
-		
-		if(rounds)							// 반올림을 해야할 때 
-		{
-			sb.setCharAt(idx - 1, FIVE);
-		}
-		if(count() >= K) 					// 목적 달성시
-		{
-			return;
-		}
-		
-
-		char c = sb.charAt(idx);
-		if(c == FIVE) 
-		{
-			DFS(idx + 1, false);
-		}
-		else if(c < FIVE){
-			sb.setCharAt(idx,FIVE);
-			DFS(idx + 1, false);
-		}
-		else	// 5보다 c가 클경우
-		{
-			sb.setCharAt(idx,ZERO);
-			roundUp(idx+1);
-			DFS(idx + 1, true);
-		}
-	}
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
@@ -71,11 +39,43 @@ class Main{
 		
 		sb = new StringBuilder().append(N).reverse();
 		
-		DFS(0,false);
+		int idx = 0;
+		boolean rounds = false;
+		
+		while(!(idx >= sb.length() || count() >= K)) 
+		{
+			if(rounds)							// 반올림을 해야할 때 
+			{
+				sb.setCharAt(idx - 1, FIVE);
+			}
+			if(count() >= K) 					// 목적 달성시
+			{
+				break;
+			}
+			
+			char c = sb.charAt(idx);
+			if(c == FIVE) 
+			{
+				rounds = false;
+			}
+			else if(c < FIVE){
+				sb.setCharAt(idx,FIVE);
+				rounds = false;
+			}
+			else	// 5보다 c가 클경우
+			{
+				sb.setCharAt(idx,ZERO);
+				roundUp(idx+1);
+				rounds = true;
+			}
+			idx++;
+		}
+		
 		
 		// 5를 K만큼 못 채웠는지 확인
 		int cnt = count();
-		for(int i=cnt; i<K; i++) {
+		for(int i=cnt; i<K; i++)
+		{
 			sb.append(FIVE);
 		}
 		
