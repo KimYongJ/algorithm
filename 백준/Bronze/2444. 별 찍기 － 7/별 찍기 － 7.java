@@ -15,7 +15,7 @@ class Main{
 			for(int j=N-i; j>0; j--) {
 				bw.write(' ');
 			}
-			for(int j=0; j<i*2-1; j++) {
+			for(int j=i*2-1; j>0; j--) {
 				bw.write('*');
 			}
 			bw.write('\n');
@@ -25,7 +25,7 @@ class Main{
 			for(int j=0; j<i; j++) {
 				bw.write(' ');
 			}
-			for(int j=0; j<(N-i)*2-1; j++) {
+			for(int j=(N-i)*2-1; j>0; j--) {
 				bw.write('*');
 			}
 			bw.write('\n');
