@@ -1,9 +1,6 @@
 // https://github.com/kimyongj/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 class Node{	int y, x;	Node(int y, int x){this.y=y;this.x=x;} }
 class Main{
 	
@@ -40,25 +37,31 @@ class Main{
 				{{0,1},{1,0},{-1,0},{0,-1}}
 			}
 	};
-
+	// 빠른 입력을 위한 함수
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void changeTo(Node now, int[][] m, int from, int to) {
 		boolean flag = from == 0;	// 0에서 숫자로 바꾸는건지 체크
 		for(int xy[] : m) 
 		{
-			int nextY = now.y , nextX = now.x;
-			while(true) {
-				nextY += xy[0];
-				nextX += xy[1];
-				if(nextX>=0 && nextY>=0 && nextY < Y && nextX<X) // 유효범위 안이라면,  
+			int nextY = now.y + xy[0];
+            int nextX = now.x + xy[1];
+			while(nextX>=0 && nextY>=0 && nextY < Y && nextX<X) // 유효범위 안이라면,  
+            {
+				if(map[nextY][nextX] == 6) 
+                    break; // 벽을 만나면  while문 탈출
+				if(map[nextY][nextX] == from) 
 				{
-					if(map[nextY][nextX] == 6) break; // 벽을 만나면  while문 탈출
-					if(map[nextY][nextX] == from) {
-						map[nextY][nextX] = to;
-						if(flag) zeroCnt --;	// 0에서 숫자로 바꾸는것이면 0의 개수를 마이너스 시킨다.
-						else zeroCnt++;			// 숫자에서 0으로 바꾸는 것이면 0의 개수를 플러스 시킨다.
-					}
+					map[nextY][nextX] = to;
+					if(flag) zeroCnt --;	// 0에서 숫자로 바꾸는것이면 0의 개수를 마이너스 시킨다.
+					else zeroCnt++;			// 숫자에서 0으로 바꾸는 것이면 0의 개수를 플러스 시킨다.
 				}
-				else break; // 유효범위 벗어날 경우 while문 탈출
+                nextY += xy[0];// 다음 좌표 세팅
+				nextX += xy[1];// 다음 좌표 세팅
 			}
 		}
 	}
@@ -84,18 +87,15 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y	= Integer.parseInt(st.nextToken());
-		X	= Integer.parseInt(st.nextToken());
+		Y	= read();
+		X	= read();
 		map = new int[Y][X];
 		
 		for(int y=0; y<Y; y++) 
 		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=0; x<X; x++) 
 			{
-				map[y][x] = Integer.parseInt(st.nextToken());
+				map[y][x] = read();
 				if(map[y][x] == 0) {
 					zeroCnt++;
 				}
