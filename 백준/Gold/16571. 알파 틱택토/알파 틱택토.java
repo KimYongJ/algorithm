@@ -23,8 +23,8 @@ class Main{
 	// dfs는 인자로 전달된 player의 결과가 이겼는지 졌는지를 반환 한다. 비기면 0, 이기면 1, 졌으면 -1
 	static int dfs(int player) {
 		int nextPlayer = 3-player;
-		if(check(nextPlayer)) // 상대가 이겼는지 체크
-			return -1; // 상대가 이겼다면 더 이상 둘 필요가 없으므로 종료
+		if(check(nextPlayer)) 						// 상대가 이겼는지 체크
+			return -1; 								// 상대가 이겼다면 더 이상 둘 필요가 없으므로 종료
 		
 		int min = 2;
 		for(int y=0; y<3; y++) 
@@ -34,16 +34,19 @@ class Main{
 				if(map[y][x] == 0) 
 				{
 					map[y][x] = player;
-					min = Math.min(min,dfs(nextPlayer)); // 만약 dfs의 결과로 1이 반환되었다면, nextPlayer가 진것이고, 내가 이긴것이다.( 1이 반환되게 하기 위해 가장 마지막에 -min을 해준것) 
+					int res = dfs(nextPlayer);
 					map[y][x] = 0;
+					if(res == -1)
+						return 1;
+					min = Math.min(min,res); 		// 만약 dfs의 결과로 1이 반환되었다면, nextPlayer가 진것이고, 내가 이긴것이다.( 1이 반환되게 하기 위해 가장 마지막에 -min을 해준것) 
 				}
 			}
 		}
 		
-		if(min == 2 || min == 0) // min이 변함이 없거나, 비긴것이면 0 반환
+		if(min == 2) 								// min이 변함이 없으면 0 반환
 			return 0;
 		
-		return -min;	// 반환 하는 것은, 상대의 결과이기 때문에, 상대가 이긴거면 내가 진것이고, 내가 진것이면 상대가 이긴것이다. 그렇기에 부호를 반대로하여 결과를 반전시키고있다. 그래야 dfs를 호출한 dfs가 이긴건지 진건지 알 수 있음
+		return -min;// 반환 하는 것은, 상대의 결과이기 때문에, 상대가 이긴거면 내가 진것이고, 내가 진것이면 상대가 이긴것이다. 그렇기에 부호를 반대로하여 결과를 반전시키고있다. 그래야 dfs를 호출한 dfs가 이긴건지 진건지 알 수 있음
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
