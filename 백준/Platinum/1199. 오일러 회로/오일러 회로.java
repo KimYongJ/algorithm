@@ -13,7 +13,7 @@ class Main{
 	}
 	
 	public static void DFS(int now) {
-		for(int i=0; i<N; i++) 
+		for(int i=0; i<map.length; i++) 
 		{
 			while(map[now][i] > 0) 
 			{
