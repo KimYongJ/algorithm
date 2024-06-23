@@ -1,8 +1,6 @@
 // https://github.com/kimyongj/algorithm
 
 class Main{
-	
-	static int N;
 	static int map[][];
 	static StringBuilder sb;
 	
@@ -25,14 +23,12 @@ class Main{
 		sb.append(now + 1).append(' ');		
 	}
 	public static void main(String[] args)throws Exception{
-		N	= read();
-		map = new int[N][N];
-		
-		int v;
+		int N = read();
+		map   = new int[N][N];
 		
 		for(int y=0; y<N; y++) 
 		{
-			v = 0;
+			int v = 0;
 			for(int x=0; x<N; x++) 
 			{
 				map[y][x] = read();
