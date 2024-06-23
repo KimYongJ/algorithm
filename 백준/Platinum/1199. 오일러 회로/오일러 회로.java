@@ -1,44 +1,52 @@
-import java.io.*;
-import java.util.*;
+// https://github.com/kimyongj/algorithm
 
-public class Main {
-
-	static int n;
-	static int[][] arr;
+class Main{
+	
+	static int N;
+	static int map[][];
 	static StringBuilder sb;
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-        n = Integer.parseInt(br.readLine());
-		arr = new int[n][n];
-		StringTokenizer st;
-        
-		for(int i=0; i<n; i++) {
-			int vertex = 0;
-			st = new StringTokenizer(br.readLine());
-			for(int j=0; j<n; j++) {
-				arr[i][j] = Integer.parseInt(st.nextToken());
-				vertex += arr[i][j];
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
+	public static void DFS(int now) {
+		for(int i=0; i<N; i++) 
+		{
+			while(map[now][i] > 0) 
+			{
+				map[now][i]--;
+				map[i][now]--;
+				DFS(i);
 			}
-			if(vertex%2!=0) {
-				System.out.println(-1);
+		}
+		sb.append(now + 1).append(' ');		
+	}
+	public static void main(String[] args)throws Exception{
+		N	= read();
+		map = new int[N][N];
+		
+		int v;
+		
+		for(int y=0; y<N; y++) 
+		{
+			v = 0;
+			for(int x=0; x<N; x++) 
+			{
+				map[y][x] = read();
+				v += map[y][x];
+			}
+			if( v % 2 != 0)
+			{
+				System.out.print(-1);
 				return;
 			}
 		}
 		
 		sb = new StringBuilder();
-		getEulerCircuit(0);
-		System.out.println(sb.toString());
-	}
-	
-	static void getEulerCircuit(int cur) {
-		for(int nxt=0; nxt<arr.length; nxt++) {
-			while(arr[cur][nxt] > 0) {
-				arr[cur][nxt]--;
-				arr[nxt][cur]--;
-				getEulerCircuit(nxt);
-			}
-		}
-		sb.append((cur+1)+" ");
+		DFS(0);
+		System.out.print(sb.toString());
 	}
 }
