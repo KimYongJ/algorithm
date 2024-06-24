@@ -1,17 +1,18 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 
 	static int result;
 	static int N;
-	static int map[][];
 	static int original[][];
-	static int order[];
 	
-	public static int[][] sum(int m) {
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
+	public static int[][] sum(int[][]map, int m) {
 		int newMap[][] = new int[N][N];
 		// 블록을 내렸을 때 
 		if(m == 0) { 
@@ -88,48 +89,24 @@ class Main{
 		}
 		return newMap;
 	}
-	public static void cal() {
-		map = new int[N][N];
-		for(int y=0; y<N; y++)
-			for(int x=0; x<N; x++)
-				map[y][x] = original[y][x];
 
-		for(int m : order) 
-			map = sum(m);		// 붙어있는 것들에 대해 하나로 합치며 연산한다. 
+	public static void backtracking(int depth, int map[][]) {
+		if(depth < 0) return;
+		backtracking(depth - 1, sum(map, 0));
+		backtracking(depth - 1, sum(map, 1));
+		backtracking(depth - 1, sum(map, 2));
+		backtracking(depth - 1, sum(map, 3));
 		
-			// 이하 결과 계산
-		for(int y=0; y<N; y++) 
-			for(int x=0; x<N; x++)
-				result = Math.max(map[y][x], result);
-	}
-	public static void backtracking(int depth) {
-		if(depth < 0) {
-			cal();
-			return;
-		}
-		for(int i=0; i<4; i++) // 순서 : 내리고, 올리고, 왼쪽, 오른쪽 
-		{
-			order[depth] = i;
-			backtracking(depth - 1);
-		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N			= Integer.parseInt(br.readLine());
-		order		= new int[5];
+		N			= read();
 		original	= new int[N][N];
 		
 		for(int y=0; y<N; y++) 
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=0; x<N; x++) 
-			{
-				original[y][x] = Integer.parseInt(st.nextToken());
-			}
-		}
-		
-		backtracking(4);
+				result = Math.max(result, original[y][x] = read());
+
+		backtracking(4, original);
 		
 		System.out.print(result);
 	}
