@@ -3,8 +3,6 @@
 class Main{
 
 	static int result;
-	static int N;
-	static int original[][];
 	
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -12,101 +10,101 @@ class Main{
 		return n;
 	}
 	
-	public static int[][] sum(int[][]map, int m) {
+	public static int[][] up(int[][]map, int N){
 		int newMap[][] = new int[N][N];
-		// 블록을 내렸을 때 
-		if(m == 0) { 
-            for(int c=0; c<N; c++) {
-                int nextIdx = N-1, baseBlock = -1;
-                for(int r=N-1; r>=0; r--) {
-                    if(map[r][c]==0) {
-                        continue;
-                    }
-                    if(map[r][c]==baseBlock) {
-                        newMap[nextIdx+1][c]  <<=1;
-                        baseBlock=-1;
-                        result = Math.max(result, newMap[nextIdx+1][c]);
-                    }else {
-                        newMap[nextIdx--][c] =baseBlock = map[r][c];
-                    }
-                }
-            }
-		}
-		// 블록을 올렸을 때 
-		else if(m == 1) {
-			for(int c=0; c<N; c++) {
-                int nextIdx = 0, baseBlock = -1;
-                for(int r=0; r<N; r++) {
-                    if(map[r][c]==0) {
-                        continue;
-                    }
-                    if(map[r][c]==baseBlock) {
-                        newMap[nextIdx-1][c] <<=1; 
-                        baseBlock=-1;
-                        result = Math.max(result, newMap[nextIdx-1][c]); 
-                    }else {
-                        newMap[nextIdx++][c] =baseBlock = map[r][c];
-                       
-                    }
-                }
-			}
-		}
-		// 블록을 왼쪽으로 보냈을 때 
-		else if(m==2) {
+		for(int c=0; c<N; c++) {
+            int nextIdx = 0, baseBlock = -1;
             for(int r=0; r<N; r++) {
-                int nextIdx = 0, baseBlock = -1;
-                for(int c=0; c<N; c++) {
-                    if(map[r][c]==0) {
-                        continue;
-                    }
-                    if(map[r][c]==baseBlock) {
-                        newMap[r][nextIdx-1]  <<=1;
-                        baseBlock=-1;
-                        result = Math.max(result, newMap[r][nextIdx-1]);
-                    }else {
-                        newMap[r][nextIdx++] =baseBlock = map[r][c];
-                    }
+                if(map[r][c]==0) {
+                    continue;
                 }
-            }
-		}
-		// 블록을 오른쪽으로 보냈을 때 
-		else {
-            for(int r=0; r<N; r++) {
-                int nextIdx =N-1, baseBlock = -1;
-                for(int c=N-1; c>=0; c--) {
-                    if(map[r][c]==0) {
-                        continue;
-                    }
-                    if(map[r][c]==baseBlock) {
-                        newMap[r][nextIdx+1]  <<=1;
-                        baseBlock=-1;
-                        result = Math.max(result, newMap[r][nextIdx+1]);
-                    }else {
-                        newMap[r][nextIdx--] =baseBlock = map[r][c];
-                    }
+                if(map[r][c]==baseBlock) {
+                    newMap[nextIdx-1][c] <<=1; 
+                    baseBlock=-1;
+                    result = Math.max(result, newMap[nextIdx-1][c]); 
+                }else {
+                    newMap[nextIdx++][c] =baseBlock = map[r][c];
+                   
                 }
             }
 		}
 		return newMap;
 	}
+	public static int[][] down(int[][] map, int N){
+		int newMap[][] = new int[N][N];
+        for(int c=0; c<N; c++) {
+            int nextIdx = N-1, baseBlock = -1;
+            for(int r=N-1; r>=0; r--) {
+                if(map[r][c]==0) {
+                    continue;
+                }
+                if(map[r][c]==baseBlock) {
+                    newMap[nextIdx+1][c]  <<=1;
+                    baseBlock=-1;
+                    result = Math.max(result, newMap[nextIdx+1][c]);
+                }else {
+                    newMap[nextIdx--][c] =baseBlock = map[r][c];
+                }
+            }
+        }
+		return newMap;
+	}
+	public static int[][] left(int[][] map, int N){
+		int newMap[][] = new int[N][N];
+		 for(int r=0; r<N; r++) {
+             int nextIdx = 0, baseBlock = -1;
+             for(int c=0; c<N; c++) {
+                 if(map[r][c]==0) {
+                     continue;
+                 }
+                 if(map[r][c]==baseBlock) {
+                     newMap[r][nextIdx-1]  <<=1;
+                     baseBlock=-1;
+                     result = Math.max(result, newMap[r][nextIdx-1]);
+                 }else {
+                     newMap[r][nextIdx++] =baseBlock = map[r][c];
+                 }
+             }
+         }
+		return newMap;
+	}
+	public static int[][] right(int[][] map, int N){
+		int newMap[][] = new int[N][N];
+        for(int r=0; r<N; r++) {
+            int nextIdx =N-1, baseBlock = -1;
+            for(int c=N-1; c>=0; c--) {
+                if(map[r][c]==0) {
+                    continue;
+                }
+                if(map[r][c]==baseBlock) {
+                    newMap[r][nextIdx+1]  <<=1;
+                    baseBlock=-1;
+                    result = Math.max(result, newMap[r][nextIdx+1]);
+                }else {
+                    newMap[r][nextIdx--] =baseBlock = map[r][c];
+                }
+            }
+        }
+		return newMap;
+	}
 
-	public static void backtracking(int depth, int map[][]) {
+	public static void backtracking(int depth, int map[][], int N) {
 		if(depth < 0) return;
-		backtracking(depth - 1, sum(map, 0));
-		backtracking(depth - 1, sum(map, 1));
-		backtracking(depth - 1, sum(map, 2));
-		backtracking(depth - 1, sum(map, 3));
+		backtracking(depth - 1, up(map,N),N);
+		backtracking(depth - 1, down(map,N),N);
+		backtracking(depth - 1, left(map,N),N);
+		backtracking(depth - 1, right(map,N),N);
 		
 	}
 	public static void main(String[] args)throws Exception{
-		N			= read();
-		original	= new int[N][N];
+		int N				= read();
+		int original[][]	= new int[N][N];
 		
 		for(int y=0; y<N; y++) 
 			for(int x=0; x<N; x++) 
 				result = Math.max(result, original[y][x] = read());
 
-		backtracking(4, original);
+		backtracking(4, original, N);
 		
 		System.out.print(result);
 	}
