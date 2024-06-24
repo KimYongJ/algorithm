@@ -101,8 +101,15 @@ class Main{
 		int original[][]	= new int[N][N];
 		
 		for(int y=0; y<N; y++) 
+		{
 			for(int x=0; x<N; x++) 
-				result = Math.max(result, original[y][x] = read());
+			{
+				if(result < (original[y][x] = read())) 
+				{
+					result = original[y][x];
+				}
+			}
+		}
 
 		backtracking(4, original, N);
 		
