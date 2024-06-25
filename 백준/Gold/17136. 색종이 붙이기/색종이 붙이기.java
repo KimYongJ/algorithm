@@ -38,30 +38,27 @@ class Main{
 		}
 		return true;
 	}
-	public static void backtracking(int remainOne, int usepaper, int y, int x) {
+	public static void backtracking(int usepaper, int y, int x) {
 		if(result < usepaper) 
 			return;
-		if(remainOne == 0) 
-		{
-			result = Math.min(result,  usepaper);
-			return;
-		}
 		if(x == 10) {
 			x = 0;
 			y +=1;
 		}
-		if(y == 10) 
+		if(y == 10) {
+			result = Math.min(result,  usepaper);
 			return;
+		}
 		if(map[y][x] == 0) 
 		{
-			backtracking(remainOne, usepaper, y, x+1);
+			backtracking(usepaper, y, x+1);
 		}else {
 			for(int i=5; i>=1; i--) 
 			{
 				if(validate(i,y,x) && paper[i] > 0) {
 					paper[i]--;
 					change(y,x,i,1,0);
-					backtracking(remainOne - i*i, usepaper+1, y, x+1);
+					backtracking(usepaper+1, y, x+1);
 					change(y,x,i,0,1);
 					paper[i]++;
 				}
@@ -85,7 +82,7 @@ class Main{
 			}
 		}
 		
-		backtracking(oneCnt,0,0,0); // 순서 : 가려진 1의 개수, 사용한 종이개수, y좌표, x좌표
+		backtracking(0,0,0); // 순서 : 사용한 종이개수, y좌표, x좌표
 		
 		System.out.print(result == 26 ? -1 : result);
 	}
