@@ -15,32 +15,33 @@ class Main{
 	public static void change(int y, int x, int len, int before, int after) {
 		int ylen = y + len;
 		int xlen = x + len;
-		for(int y1=y; y1<ylen; y1++) 
-		{
+		while(y<ylen) {
 			for(int x1=x; x1<xlen; x1++) 
 			{
-				if(map[y1][x1] == before) 
+				if(map[y][x1] == before) 
 				{
-					map[y1][x1] = after;
+					map[y][x1] = after;
 				}
 			}
+			y++;
 		}
 	}
 	public static boolean validate(int len, int y, int x) {
 		int ylen = y + len;
 		int xlen = x + len;
-		if(ylen > 10 || xlen > 10) {
+		if(ylen > 10 || xlen > 10) 
+		{
 			return false;
 		}
-		for(int y1=y; y1<ylen; y1++) 
-		{
-			for(int x1=x; x1<xlen; x1++) 
+		while(y<ylen) {
+			for(int x1= x; x1<xlen; x1++) 
 			{
-				if(map[y1][x1] == 0) 
+				if(map[y][x1] == 0) 
 				{
 					return false;
 				}
 			}
+			y++;
 		}
 		return true;
 	}
@@ -53,17 +54,15 @@ class Main{
 		}
 		if(y < 10 && map[y][x] == 0)  // 0인 경우 0이 아닌 위치 까지 y, x를 변화 시킴
 		{
-			int nextY = y;
-			int nextX = x;
-			while(nextY < 10 && map[nextY][nextX] == 0) {
-				nextX ++ ;
-				if(nextX == 10) {
-					nextX = 0;
-					nextY ++;
+			while(y < 10 && map[y][x] == 0) 
+			{
+				x ++ ;
+				if(x == 10) 
+				{
+					x = 0;
+					y ++;
 				}
 			}
-			y = nextY;
-			x = nextX;
 		}
 		if(y == 10) // 마지막 도달시 값 저장 후 종료
 		{
