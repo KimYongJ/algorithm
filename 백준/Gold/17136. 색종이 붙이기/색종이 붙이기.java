@@ -1,13 +1,16 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	static int result = 26;
 	static int map[][];
 	static int paper[] = {0,5,5,5,5,5};
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void change(int y, int x, int len, int before, int after) {
 		int ylen = y + len;
@@ -33,7 +36,7 @@ class Main{
 		{
 			for(int x1=x; x1<xlen; x1++) 
 			{
-				if(map[y1][x1] != 1) 
+				if(map[y1][x1] == 0) 
 				{
 					return false;
 				}
@@ -42,8 +45,7 @@ class Main{
 		return true;
 	}
 	public static void backtracking(int usepaper, int y, int x) {
-		if(result < usepaper) 
-			return;
+		if(result < usepaper) { return; } // 조기 종료
 		if(x == 10) 
 		{
 			x = 0;
@@ -63,7 +65,7 @@ class Main{
 			y = nextY;
 			x = nextX;
 		}
-		if(y == 10) 
+		if(y == 10) // 마지막 도달시 값 저장 후 종료
 		{
 			result = Math.min(result,  usepaper);
 			return;
@@ -82,15 +84,13 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
 		map = new int[10][10];
+		
 		for(int y=0; y<10; y++)
 		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=0; x<10; x++)
 			{
-				map[y][x] = Integer.parseInt(st.nextToken());
+				map[y][x] = read();
 			}
 		}
 		
