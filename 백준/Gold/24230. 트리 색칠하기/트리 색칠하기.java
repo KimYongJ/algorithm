@@ -19,11 +19,13 @@ class Main{
 	static Node		adNode[];
 	
 	public static void DFS(int node, int beforeColor) {
+		if(visit[node]) return;
+		visit[node] = true;
+		
 		for(Node now=adNode[node]; now!=null; now=now.next) 
 		{
 			if(!visit[now.node]) 
-			{
-				visit[now.node] = true; 
+			{ 
 				if(beforeColor != color[now.node])
 				{
 					result ++; 
@@ -59,7 +61,6 @@ class Main{
 		{
 			result = 1;
 		}
-		visit[1] = true;
 		DFS(1,color[1]);
 		
 		System.out.print(result);
