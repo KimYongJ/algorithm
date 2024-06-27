@@ -31,7 +31,7 @@ class Main{
 		}
 		for(int i=1; i<=N; i++) 
 		{
-			if(!visit[i] && validate(i)) 
+			if(!visit[i] && indegree[i] >= K-1 && validate(i)) 
 			{
 				visit[i] = true;
 				if(DFS(depth + 1, i))
