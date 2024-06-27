@@ -18,19 +18,13 @@ class Main{
 	static boolean	visit[];
 	static Node		adNode[];
 	
-	public static void DFS(int node, int beforeColor) {
-		if(visit[node]) return;
+	public static void marking(int node, int beforeColor) {
 		visit[node] = true;
-		
 		for(Node now=adNode[node]; now!=null; now=now.next) 
 		{
-			if(!visit[now.node]) 
+			if(!visit[now.node] && beforeColor == color[now.node]) 
 			{ 
-				if(beforeColor != color[now.node])
-				{
-					result ++; 
-				}
-				DFS(now.node, color[now.node]);
+				marking(now.node, color[now.node]);
 			}
 		}
 	}
@@ -56,12 +50,15 @@ class Main{
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
 		}
-		// 루트 노드가 칠해져 있는 경우 시작 부터 칠해야 하니까 시작을 1로한다.
-		if(color[1] != 0) 
+
+		for(int node=1; node<=N; node++)
 		{
-			result = 1;
+			if(!visit[node] && color[node] != 0) 
+			{
+				marking(node,color[node]);
+				result++;
+			}
 		}
-		DFS(1,color[1]);
 		
 		System.out.print(result);
 	}
