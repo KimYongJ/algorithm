@@ -1,7 +1,4 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -11,11 +8,16 @@ class Main{
 	static boolean map[][];		// 친구관계를 담을 배열
 	static boolean visit[];		// 방문 체크할 배열
 	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static boolean validate(int node) {
-		// 지금까지 방문한 노드와 모두 친구인지 ? 
 		for(int i=1; i<=N; i++) 
 		{
-			if(visit[i] && !map[node][i]) 
+			if(visit[i] && !map[node][i]) // 지금까지 방문한 노드와 모두 친구인지 ?
 			{
 				return false;
 			}
@@ -40,20 +42,17 @@ class Main{
 	}
 
 	public static void main(String[] args)throws Exception{
-		BufferedReader br	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st	= new StringTokenizer(br.readLine());
-		StringBuilder sb	= new StringBuilder();
-		K		= Integer.parseInt(st.nextToken());
-		N		= Integer.parseInt(st.nextToken());
+		StringBuilder sb = new StringBuilder();
+		K		= read();
+		N		= read();
 		map		= new boolean[N+1][N+1];
 		indegree= new int[N+1];
 		
-		int a,b,F = Integer.parseInt(st.nextToken());
+		int a,b,F = read();
 		for(int f=0; f<F; f++) 
 		{
-			st	= new StringTokenizer(br.readLine());
-			a	= Integer.parseInt(st.nextToken());
-			b	= Integer.parseInt(st.nextToken());
+			a	= read();
+			b	= read();
 			map[a][b] = map[b][a] = true; // 친구관계 체킹
 			indegree[a]++;
 			indegree[b]++;
