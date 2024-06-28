@@ -5,26 +5,26 @@ import java.util.ArrayList;
 
 class Main{
 	
-	static long result = Integer.MIN_VALUE;
+	static int result = Integer.MIN_VALUE;
 	static int N;
 	static int DEPTH;
 	static int order[];
-	static ArrayList<Long> numbers			= new ArrayList<>();// 숫자를 담을 배열
+	static ArrayList<Integer> numbers		= new ArrayList<>();// 숫자를 담을 배열
 	static ArrayList<Character> operator	= new ArrayList<>();// 연산자를 담을 배열
 
-	public static long cal(long a, long b, char op) {
+	public static int cal(int a, int b, char op) {
 		if(op == '+') return a+b;
 		if(op == '-') return a-b;
 		else return a*b;
 	}
 	public static void compare() {
-		ArrayList<Long> numc		= (ArrayList<Long>) numbers.clone();
+		ArrayList<Integer> numc		= (ArrayList<Integer>) numbers.clone();
 		ArrayList<Character> opc	= (ArrayList<Character>) operator.clone();
 		// 우선인 연산자 연산
 		for(int i=DEPTH-1; i>=0; i--) 
 		{
 			int idx = order[i];
-			long num = cal(numc.get(idx), numc.get(idx+1), opc.get(idx));
+			int num = cal(numc.get(idx), numc.get(idx+1), opc.get(idx));
 			opc.remove(idx);
 			numc.remove(idx);
 			numc.remove(idx);
@@ -35,7 +35,7 @@ class Main{
 			if(opc.get(i)== '-') {
 				opc.remove(i);
 				opc.add(i,'+');
-				long num = -numc.get(i+1);
+				int num = -numc.get(i+1);
 				numc.remove(i+1);
 				numc.add(i+1, num);
 			}
@@ -44,7 +44,7 @@ class Main{
 		for(int i=0; i<opc.size(); i++) {
 			if(opc.get(i)== '*') {
 				opc.remove(i);
-				long num = numc.get(i) * numc.get(i+1);
+				int num = numc.get(i) * numc.get(i+1);
 				numc.remove(i);
 				numc.remove(i);
 				numc.add(i, num);
@@ -52,8 +52,8 @@ class Main{
 			}
 		}
 		// 나머지를 더한다.
-		long number = 0;
-		for(long n : numc) {
+		int number = 0;
+		for(int n : numc) {
 			number += n;
 		}
 		if(result < number) {
@@ -83,7 +83,7 @@ class Main{
 			if(i%2== 1) {
 				operator.add(arr.charAt(i));
 			}else {
-				numbers.add((long)(arr.charAt(i)-'0'));
+				numbers.add(arr.charAt(i)-'0');
 			}
 		}
 		
@@ -105,6 +105,5 @@ class Main{
 			}
 			System.out.print(result);
 		}
-
 	}
 }
