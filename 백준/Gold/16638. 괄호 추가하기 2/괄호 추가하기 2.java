@@ -31,8 +31,10 @@ class Main{
 			numc.add(idx, num);
 		}
 		// 마이너스를 플러스로 변경하고 숫자를 음수로 바꾼다.
-		for(int i=0; i<opc.size(); i++) {
-			if(opc.get(i)== '-') {
+		for(int i=0; i<opc.size(); i++) 
+		{
+			if(opc.get(i)== '-')
+			{
 				opc.remove(i);
 				opc.add(i,'+');
 				int num = -numc.get(i+1);
@@ -41,8 +43,10 @@ class Main{
 			}
 		}
 		// 곱하기를 먼저 한다.
-		for(int i=0; i<opc.size(); i++) {
-			if(opc.get(i)== '*') {
+		for(int i=0; i<opc.size(); i++) 
+		{
+			if(opc.get(i)== '*') 
+			{
 				opc.remove(i);
 				int num = numc.get(i) * numc.get(i+1);
 				numc.remove(i);
@@ -53,22 +57,19 @@ class Main{
 		}
 		// 나머지를 더한다.
 		int number = 0;
-		for(int n : numc) {
+		for(int n : numc)
 			number += n;
-		}
+		
 		// 결과와 비교한다.
-		if(result < number) {
+		if(result < number)
 			result = number;
-		}
 	}
 	public static void DFS(int depth, int idx) {
 		if(depth > DEPTH)
 			return;
 		
 		if(0 != depth) 
-		{
 			compare(depth);	// 조합을 한꺼번에 탐색토록 함, 1개 골랐을 때, 2개 골랐을 때.... N개 골랏을 때 모두 한번에 탐색
-		}
 		
 		for(int i=idx; i<operator.size(); i++) 
 		{
@@ -85,23 +86,17 @@ class Main{
 		for(int i=0; i<N; i++) 
 		{
 			if(i%2== 1)
-			{
 				operator.add(arr.charAt(i));
-			}
 			else
-			{
 				numbers.add(arr.charAt(i)-'0');
-			}
 		}
 		
 		if(N == 1) 
-		{
 			System.out.print(arr);
-		}
+		
 		else if(N == 3) 
-		{
 			System.out.print(cal(numbers.get(0),numbers.get(1),operator.get(0)));
-		}
+		
 		else 
 		{
 			DEPTH = (int)Math.ceil(operator.size() / 2.0);
