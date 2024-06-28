@@ -20,7 +20,7 @@ class Main{
 	public static void compare(int depth) {
 		ArrayList<Integer> numc		= (ArrayList<Integer>) numbers.clone();
 		ArrayList<Character> opc	= (ArrayList<Character>) operator.clone();
-		// 우선인 연산자 연산
+		// 우선인 연산자 연산먼저 계산
 		for(int i=depth-1; i>=0; i--) 
 		{
 			int idx = order[i];
@@ -56,6 +56,7 @@ class Main{
 		for(int n : numc) {
 			number += n;
 		}
+		// 결과와 비교한다.
 		if(result < number) {
 			result = number;
 		}
@@ -66,7 +67,7 @@ class Main{
 		
 		if(0 != depth) 
 		{
-			compare(depth);	// 조합을 한꺼번에 탐색토록 함
+			compare(depth);	// 조합을 한꺼번에 탐색토록 함, 1개 골랐을 때, 2개 골랐을 때.... N개 골랏을 때 모두 한번에 탐색
 		}
 		
 		for(int i=idx; i<operator.size(); i++) 
