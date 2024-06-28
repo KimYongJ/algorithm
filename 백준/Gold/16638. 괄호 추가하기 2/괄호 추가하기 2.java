@@ -17,11 +17,11 @@ class Main{
 		if(op == '-') return a-b;
 		else return a*b;
 	}
-	public static void compare() {
+	public static void compare(int depth) {
 		ArrayList<Integer> numc		= (ArrayList<Integer>) numbers.clone();
 		ArrayList<Character> opc	= (ArrayList<Character>) operator.clone();
 		// 우선인 연산자 연산
-		for(int i=DEPTH-1; i>=0; i--) 
+		for(int i=depth-1; i>=0; i--) 
 		{
 			int idx = order[i];
 			int num = cal(numc.get(idx), numc.get(idx+1), opc.get(idx));
@@ -61,14 +61,16 @@ class Main{
 		}
 	}
 	public static void DFS(int depth, int idx) {
-		int size = operator.size();
-		
-		if(DEPTH == depth) {
-			compare();
+		if(depth > DEPTH)
 			return;
+		
+		if(0 != depth) 
+		{
+			compare(depth);	// 조합을 한꺼번에 탐색토록 함
 		}
 		
-		for(int i=idx; i<size; i++) {
+		for(int i=idx; i<operator.size(); i++) 
+		{
 			order[depth] = i;
 			DFS(depth + 1, i+2);
 		}
@@ -79,10 +81,14 @@ class Main{
 		N = Integer.parseInt(br.readLine());
 		
 		String arr = br.readLine();
-		for(int i=0; i<N; i++) {
-			if(i%2== 1) {
+		for(int i=0; i<N; i++) 
+		{
+			if(i%2== 1)
+			{
 				operator.add(arr.charAt(i));
-			}else {
+			}
+			else
+			{
 				numbers.add(arr.charAt(i)-'0');
 			}
 		}
@@ -97,12 +103,9 @@ class Main{
 		}
 		else 
 		{
-			int len = (int)Math.ceil(operator.size() / 2.0);
-			for(DEPTH=1; DEPTH<=len; DEPTH++) 
-			{
-				order = new int[DEPTH];	// 먼저 연산할 순서를 담을 배열
-				DFS(0,0);
-			}
+			DEPTH = (int)Math.ceil(operator.size() / 2.0);
+			order = new int[DEPTH];	// 먼저 연산할 순서를 담을 배열
+			DFS(0,0);
 			System.out.print(result);
 		}
 	}
