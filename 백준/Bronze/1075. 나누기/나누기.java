@@ -8,13 +8,11 @@ class Main{
         int F = Integer.parseInt(br.readLine());
         int N = Integer.parseInt(str.substring(0,str.length()-2)) * 100;
         
-        for(int i=0; i<=99; i++) {
+        for(int i=0; i<=99; i++, N++) {
         	if(N % F == 0) {
-        		N %= 100;
         		break;
         	}
-        	N++;
         }
-        System.out.print(String.format("%02d",N));
+        System.out.print(String.format("%02d",N % 100));
     }
 }
