@@ -8,14 +8,6 @@ class Main{
 	static int[]	num;	// 처음 입력받은 문자열을 숫자로 변환한 것
 	static int		len;
 	static HashSet<Integer> set;
-	public static int getNum(int m) {
-		int sum = 0;
-		for(int n : num) {
-			if(n != 0)
-				sum += Math.pow(n,m);
-		}
-		return sum;
-	}
 
 	public static void backtracking(int depth,int sum, int start) {
 		if(depth == len) 
@@ -30,10 +22,12 @@ class Main{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder	sb = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
+		boolean flag;
+		String str;
 		while(T-->0) 
 		{
-			boolean flag = true;
-			String str = br.readLine();
+			flag = true;
+			str = br.readLine();
 			len = str.length();
 			num = new int[len];
 			for(int i=0; i<len; i++)
@@ -55,14 +49,13 @@ class Main{
 				backtracking(0,0,0);
 				
 				int cnt = 0;
-				for(int i=1; i<=30; i++) 
+				for(int i=1; i<=7; i++)     // 몇승까지 만들어낼 것인지 제한을 둔다. 현재 테케는 7까지
 				{
-					int num = getNum(i);	// 만들 수 있는 숫자
-					if(num > 1000000000) 
-					{
-						break;
-					}
- 					if(set.remove(num))		
+					int	sum = 0;			// 만들 수 있는 숫자
+					for(int n : num) 
+						sum += Math.pow(n,i);
+
+ 					if(set.remove(sum))		
 					{
 						cnt++;
 					}
