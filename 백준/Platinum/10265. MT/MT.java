@@ -91,6 +91,7 @@ class Main{
 		}
 		
         // 배낭 문제
+        int result = 0;
 		int len = startList.size();
 		int dp[][] = new int[len+1][K+1];
 		for(int i = 1; i<=len; i++) {
@@ -105,14 +106,12 @@ class Main{
 						dp[i][j] = Math.max(dp[i][j], dp[i-1][j-k] + k);
 					}
 				}
+                if(j == K && dp[i][K] > result){
+                    result = dp[i][K];
+                }
 			}
 		}
 		
-		int result = 0;
-		for(int i=1; i<=len; i++) {
-			if(dp[i][K] > result)
-				result = dp[i][K];
-		}
 		System.out.print(result);
 		
 	}
