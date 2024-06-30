@@ -20,6 +20,12 @@ class Main{
 	static boolean reverse_visit[];
 	static ArrayList<ArrayList<Integer>> startList;
 	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static int find_reverse(int node) {
 		if(reverse_visit[node]) 
 			return 0;
@@ -54,10 +60,8 @@ class Main{
 		return false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());
-		K		= Integer.parseInt(st.nextToken());
+		N		= read();
+		K		= read();
 		forward	= new Node[N];
 		reverse = new Node[N];
 		cycle_flag		= new int[N];
@@ -66,10 +70,10 @@ class Main{
 		reverse_visit	= new boolean[N];
 		startList		= new ArrayList<>(); // 최소 사이클의 시작점과 사이클의 노드 개수, 그 사이클까지 연결된 막대노드들의 개수의 합을 담을 리스트
 		
-		st = new StringTokenizer(br.readLine());
+
 		for(int i=0; i<N; i++) 
 		{
-			int a = Integer.parseInt(st.nextToken()) - 1;
+			int a = read() - 1;
 			reverse[a] = new Node(i, reverse[a]);
 			forward[i] = new Node(a, forward[i]);
 		}
@@ -86,6 +90,7 @@ class Main{
 			}
 		}
 		
+        // 배낭 문제
 		int len = startList.size();
 		int dp[][] = new int[len+1][K+1];
 		for(int i = 1; i<=len; i++) {
