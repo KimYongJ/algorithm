@@ -26,12 +26,10 @@ class Main{
 			int nextIdx = i + base[depth] + 1;
 			if(!visit[i] && nextIdx < len && !visit[nextIdx])
 			{
-				visit[i] = true;
-				visit[nextIdx] = true;
+				visit[i] = visit[nextIdx] = true;
 				result[i] = result[nextIdx] = base[depth];
 				backtracking(depth + 1);
-				visit[nextIdx] = false;
-				visit[i] = false;
+				visit[i] = visit[nextIdx] = false;
 			}
 		}
 	}
