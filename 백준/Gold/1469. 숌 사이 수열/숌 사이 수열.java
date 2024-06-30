@@ -1,10 +1,7 @@
 // https://github.com/kimyongj/algorithm
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -53,9 +50,8 @@ class Main{
 		backtracking(0);
 		
 		if(list.size() == 0) 
-		{
 			System.out.print(-1);
-		}
+		
 		else 
 		{
 			Collections.sort(list,(a,b)->{
