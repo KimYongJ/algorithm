@@ -1,7 +1,9 @@
 // https://github.com/kimyongj/algorithm
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 class Main{
 	
@@ -10,62 +12,63 @@ class Main{
 	static int		base[];
 	static int		result[];
 	static boolean	visit[];
-	static ArrayList<int[]> list = new ArrayList<>();
 
-	static int read() throws Exception {// 빠른 입력을 위한 함수
-		int c, n = System.in.read() & 15;
-		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
-		return n;
-	}
-	
-	public static void backtracking(int depth) {
-		if(depth == N) 
+	public static boolean backtracking(int idx) {
+		if(idx == len) 
 		{
-			list.add(result.clone());
-			return;
+			return true;
 		}
-		for(int i=0; i<len; i++)
+		if(result[idx] != -1) 
 		{
-			int nextIdx = i + base[depth] + 1;
-			if(!visit[i] && nextIdx < len && !visit[nextIdx])
+			return backtracking(idx + 1);
+		}
+		
+		for(int i=0; i<N; i++)
+		{
+			int nextIdx = idx + base[i] + 1;
+			if(!visit[i] && nextIdx < len && result[nextIdx] == -1)
 			{
-				visit[i] = visit[nextIdx] = true;
-				result[i] = result[nextIdx] = base[depth];
-				backtracking(depth + 1);
-				visit[i] = visit[nextIdx] = false;
+				visit[i] = true;
+				result[idx] = result[nextIdx] = base[i];
+				if(backtracking(idx + 1))
+					return true;
+				result[idx] = result[nextIdx] = -1;
+				visit[i] = false;
 			}
 		}
+
+		return false;
 	}
 
 	public static void main(String[] args)throws Exception{
-		N		= read();
+		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		N		= Integer.parseInt(br.readLine());
 		len		= N<<1;
 		base	= new int[N];
 		result	= new int[len];
-		visit	= new boolean[len];
-
+		visit	= new boolean[N];
+		
+		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++) 
-			base[i] = read();
-		
-		backtracking(0);
-		
-		if(list.size() == 0) 
-			System.out.print(-1);
-		
-		else 
 		{
-			Collections.sort(list,(a,b)->{
-				for(int i=0; i<len; i++) {
-					if(a[i] < b[i])return -1;
-					if(a[i] > b[i])return 1;
-				}
-				return 0;
-			});
+			base[i] = Integer.parseInt(st.nextToken());
+		}
+		for(int i=0; i<len; i++) {
+			result[i] = -1;
+		}
+		
+		Arrays.sort(base);
+		
+		if( backtracking(0) ) 
+		{
 			StringBuilder sb = new StringBuilder();
-			base = list.get(0);
-			for(int b : base)
-				sb.append(b).append(' ');
+			for(int r : result)
+				sb.append(r).append(' ');
 			System.out.print(sb);
+		}
+		else {
+			System.out.print(-1);
 		}
 	}
 }
