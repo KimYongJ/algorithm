@@ -10,20 +10,21 @@ class Node{
 class Main{
 	
 	static int N;
+	static int cnt;
 	static Node adNode[];
 	static boolean visit[];
 	static boolean isRoot[]; // 루트인 것은 false 값을 갖는 배열
-	public static int DFS(int node) {
-		int cnt = 1;
+	
+	public static void DFS(int node) {
 		for(Node now=adNode[node]; now!=null; now=now.next) 
 		{
 			if(!visit[now.node]) 
 			{
 				visit[now.node] = true;
-				cnt += DFS(now.node);
+				cnt++;
+				DFS(now.node);
 			}
 		}
-		return cnt;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
@@ -40,7 +41,7 @@ class Main{
 			a = st.nextToken().charAt(0) - 'A';
 			b = st.nextToken().charAt(0) - 'A';
 			adNode[a] = new Node(b, adNode[a]);
-			isRoot[b] = true;	// 루트가 아닌 것은 true, 루트인 것은 false
+			isRoot[b] = true;// 루트가 아닌 것은 true, 루트인 것은 false
 		}
 		st	= new StringTokenizer(br.readLine());
 		T	= Integer.parseInt(st.nextToken());
@@ -48,14 +49,12 @@ class Main{
 		{
 			visit[ st.nextToken().charAt(0) - 'A'] = true;
 		}
-		
-		int cnt = 0;
 		for(int i=0; i<N; i++) 
 		{
 			if(!isRoot[i] && !visit[i]) 
 			{
 				visit[i] = true;
-				cnt += DFS(i)-1;
+				DFS(i);
 			}
 		}
 		System.out.print(cnt);
