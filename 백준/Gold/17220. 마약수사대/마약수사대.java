@@ -9,19 +9,19 @@ class Node{
 }
 class Main{
 	
-	static int N;
-	static int cnt;
-	static Node adNode[];
-	static boolean visit[];
-	static boolean isRoot[]; // 루트인 것은 false 값을 갖는 배열
+	static int		N;
+	static int		cnt;
+	static Node		adNode[];
+	static boolean	visit[];
+	static boolean	isRoot[]; // 루트인 것은 false 값을 갖는 배열
 	
 	public static void DFS(int node) {
 		for(Node now=adNode[node]; now!=null; now=now.next) 
 		{
 			if(!visit[now.node]) 
 			{
-				visit[now.node] = true;
 				cnt++;
+				visit[now.node] = true;
 				DFS(now.node);
 			}
 		}
@@ -37,9 +37,9 @@ class Main{
 		int a,b;
 		while(T-->0) 
 		{
-			st = new StringTokenizer(br.readLine());
-			a = st.nextToken().charAt(0) - 'A';
-			b = st.nextToken().charAt(0) - 'A';
+			st	= new StringTokenizer(br.readLine());
+			a	= st.nextToken().charAt(0) - 'A';
+			b	= st.nextToken().charAt(0) - 'A';
 			adNode[a] = new Node(b, adNode[a]);
 			isRoot[b] = true;// 루트가 아닌 것은 true, 루트인 것은 false
 		}
