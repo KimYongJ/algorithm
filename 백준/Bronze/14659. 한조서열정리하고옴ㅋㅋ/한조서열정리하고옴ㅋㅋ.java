@@ -20,6 +20,7 @@ class Main{
 				if(arr[i] > arr[j]) {
 					cnt++;
 				}else {
+					i = j-1;
 					break;
 				}
 			}
