@@ -22,7 +22,10 @@ class Main{
 			}
 			else 
 			{
-				result	= Math.max(result, cnt);
+				if(result < cnt) 
+				{
+					result = cnt;
+				}
 				num1	= num2;
 				cnt		= 0;
 			}
