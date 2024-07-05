@@ -19,7 +19,7 @@ class Main{
 		int book = read();
 		for(int i=0; i<M; i++)				// 책 인덱스
 		{
-			if(box[boxIdx] - book < 0)	// 박스에 책을 못 넣는다면 책인덱스 +1 을 하고 낭비된 공간 더하기.
+			if(box[boxIdx] - book < 0)		// 박스에 책을 못 넣는다면 책인덱스 +1 을 하고 낭비된 공간 더하기.
 			{
 				result += box[boxIdx++];
 			}
@@ -28,10 +28,12 @@ class Main{
 				box[boxIdx] -= book;
 				book = 0;
 			}
-			if(book != 0)				// 책을 넣지 못하였다면 책 인덱스를 -1을 하여 원래 인덱스로 돌림(추후 +1을하니까)
+			if(book != 0)					// 책을 넣지 못하였다면 책 인덱스를 -1을 하여 원래 인덱스로 돌림(추후 +1을하니까)
 			{
 				i--;
-			}else {
+			}
+			else							// 책을 넣었으면 다음 책을 읽어들인다.
+			{
 				book = read();
 			}
 		}
