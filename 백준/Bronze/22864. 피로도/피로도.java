@@ -1,4 +1,6 @@
 // https://github.com/kimyongj/algorithm
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -6,6 +8,7 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		int inc		= read();
 		int work	= read();
 		int dec		= read();
@@ -25,6 +28,8 @@ class Main{
 				energy = Math.max(0, energy - dec);
 			}
 		}
-		System.out.print(result);
+		bw.write(String.valueOf(result));
+		bw.flush();
+		bw.close();
 	}
 }
