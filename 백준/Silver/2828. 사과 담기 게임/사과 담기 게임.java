@@ -19,13 +19,15 @@ class Main{
 			num	= read();
 			if(num < start)
 			{
-				result	+= move = (start-num);
+				move	= start - num;
+				result	+= move;
 				start	-= move;
 				end		-= move;
 			}
 			else if(end < num) 
 			{
-				result	+= move = num - end;
+				move	= num - end;
+				result	+= move;
 				start	+= move;
 				end		+= move;
 			}
