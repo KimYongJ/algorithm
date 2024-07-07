@@ -58,20 +58,25 @@ class Main{
 			{
 				boolean flag = true;
 				Node node = list.get(i);
+				int min = 999;
 				for(int s : node.sticker) {
 					if(stype[s] < 1) {
 						flag = false;
 						break;
 					}
+					if(min > stype[s]) 
+					{
+						min = stype[s];
+					}
 				}
 				
 				if(flag) // 상금을 차지할 수 있을 때  
 				{
-					i--;
-					for(int s : node.sticker) {
-						stype[s]--;
+					for(int s : node.sticker) 
+					{
+						stype[s] -= min;
 					}
-					result += node.reword;
+					result += min * node.reword;
 				}
 			}
 			sb.append(result).append('\n');
