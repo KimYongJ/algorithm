@@ -26,8 +26,10 @@ class Main{
 		while(str != null && !str.isEmpty()) 
 		{
 			String[] s = str.split(" ");
+			
 			sb.append(	get(s[0], s[1]) ? "Yes" : "No")
 				.append('\n');
+			
 			str = br.readLine();
 		}
 		System.out.print(sb);
