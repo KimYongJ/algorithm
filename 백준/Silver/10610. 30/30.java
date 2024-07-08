@@ -1,14 +1,18 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		char ch[]	= {'0','1','2','3','4','5','6','7','8','9'};
+		int arr[]	= new int[10];
 		String str	= br.readLine();
 		int len		= str.length();
 		int sum		= 0;
-		int arr[]	= new int[10];
-		
+				
 		for(int i=0; i<len; i++) 
 		{
 			int c = str.charAt(i)-'0';
@@ -18,19 +22,20 @@ class Main{
 		
 		if(arr[0] == 0 || sum % 3 != 0) 
 		{
-			System.out.print(-1);
+			bw.write("-1");
 		}
 		else 
 		{
-			StringBuilder sb = new StringBuilder();
 			for(int i=9; i>=0; i--) 
 			{
 				while(arr[i]-- > 0) 
 				{
-					sb.append(i);
+					bw.write(ch[i]);
 				}
 			}
-			System.out.print(sb.toString());
 		}
+		bw.flush();
+		bw.close();
+		br.close();
 	}
 }
