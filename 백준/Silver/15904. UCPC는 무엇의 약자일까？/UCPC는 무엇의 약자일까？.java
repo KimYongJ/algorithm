@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
 		char arr[]	= {'U','C','P','C'};
 		String str	= br.readLine();
 		int len		= str.length();
@@ -15,20 +14,13 @@ class Main{
 		{
 			if(str.charAt(i) == arr[idx]) 
 			{
-				idx++;
-				if(idx == 4) 
+				if(++idx == 4) 
 				{
-					break;
+					System.out.print("I love UCPC");
+					return;
 				}
 			}
 		}
-		if(idx == 4) 
-		{
-			System.out.print("I love UCPC");
-		}
-		else 
-		{
-			System.out.print("I hate UCPC");
-		}
+		System.out.print("I hate UCPC");
 	}
 }
