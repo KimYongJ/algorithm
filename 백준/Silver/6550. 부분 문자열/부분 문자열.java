@@ -7,21 +7,24 @@ class Main{
 		int len = t.length();
 		int len2= s.length();
 		int idx = 0;
-		for(int i=0; i<len && idx < len2; i++) 
+		for(int i=0; i<len; i++) 
 		{
 			if(t.charAt(i) == s.charAt(idx)) 
 			{
-				idx++;
+				if(++idx == len2) 
+				{
+					return true;
+				}
 			}
 		}
-		return idx == len2;
+		return false;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder	sb = new StringBuilder();
 		String str		   = br.readLine();
 		
-		while(str != null && str.length() > 0) 
+		while(str != null && !str.isEmpty()) 
 		{
 			String[] s = str.split(" ");
 			sb.append(	get(s[0], s[1]) ? "Yes" : "No")
