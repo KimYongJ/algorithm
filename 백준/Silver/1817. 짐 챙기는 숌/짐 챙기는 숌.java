@@ -11,27 +11,22 @@ class Main{
 		int M		= Integer.parseInt(st.nextToken()); // 박스의 무게 최대치
 		int idx		= 0;
 		int m		= 0;
-		int arr[]	= new int[N];
-		
+		int num;
 		if(N > 0) 
 		{
 			st = new StringTokenizer(br.readLine());
-			for(int i=0; i<N; i++) 
-			{
-				arr[i] = Integer.parseInt(st.nextToken());
-			}
-			
 			idx = 1;
 			for(int i=0; i<N; i++) 
 			{
-				if(m + arr[i] <= M) 
+				num = Integer.parseInt(st.nextToken());
+				if(m + num <= M) 
 				{
-					m += arr[i];
+					m += num;
 				}
 				else 
 				{
 					idx ++;
-					m = arr[i];
+					m = num;
 				}
 			}
 		}
