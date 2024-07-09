@@ -20,14 +20,11 @@ class Main{
 		
 		Arrays.sort(arr);
 		
-		for(int i=0; i<N; i++) 
+		for(int i=0; i<N && arr[i] <= L; i++) 
 		{
-			if(arr[i] > L) 
-			{
-				break;
-			}
 			L++;
 		}
+		
 		System.out.print(L);
 	}
 }
