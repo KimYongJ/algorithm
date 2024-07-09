@@ -11,23 +11,19 @@ class Main{
 		String B = "BB";
 		int cnt = 0;
 		int len = S.length();
-		int n;
 		for(int i=0; i<len; i++) 
 		{
 			if(S.charAt(i) == '.') 
 			{
 				if(cnt % 2 == 0) 
 				{
-					n = cnt / 4;
-					for(int a=0; a<n; a++) {sb.append(A);}
-					n = (cnt%4) / 2;
-					for(int b=0; b<n; b++) {sb.append(B);}
+					sb.append(A.repeat(cnt/4));
+					sb.append(B.repeat((cnt%4) / 2));
 					sb.append('.');
 				}
 				else 
 				{
-					System.out.print(-1);
-					return;
+					break;
 				}
 				cnt = 0;
 			}else {
@@ -37,12 +33,12 @@ class Main{
 		if(cnt % 2 == 1) 
 		{
 			System.out.print(-1);
-			return;
 		}
-		n = cnt / 4;
-		for(int a=0; a<n; a++) {sb.append(A);}
-		n = (cnt%4) / 2;
-		for(int b=0; b<n; b++) {sb.append(B);}
-		System.out.print(sb.toString());
+		else 
+		{
+			sb.append(A.repeat(cnt/4));
+			sb.append(B.repeat((cnt%4) / 2));
+			System.out.print(sb.toString());
+		}
 	}
 }
