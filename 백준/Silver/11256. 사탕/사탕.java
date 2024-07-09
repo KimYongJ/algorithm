@@ -1,29 +1,28 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
+
 class Main{
 	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder	sb = new StringBuilder();
-		StringTokenizer st;
-		int T = Integer.parseInt(br.readLine());
+		StringBuilder sb = new StringBuilder();
 		int J, N, cnt, arr[];
-		
+		int T = read();
 		while(T-->0)
 		{
-			st	= new StringTokenizer(br.readLine());
-			J	= Integer.parseInt(st.nextToken()); // 사탕 개수
-			N	= Integer.parseInt(st.nextToken()); // 상자의 개수
+			J	= read(); // 사탕 개수
+			N	= read(); // 상자의 개수
 			arr = new int[N];
 			cnt = 0;
 			
 			for(int i=0; i<N; i++) 
 			{
-				st = new StringTokenizer(br.readLine());
-				arr[i] = Integer.parseInt(st.nextToken()) * Integer.parseInt(st.nextToken());
+				arr[i] = read() * read();
 			}
 			
 			Arrays.sort(arr);
@@ -38,5 +37,4 @@ class Main{
 		}
 		System.out.print(sb);
 	}
-	
 }
