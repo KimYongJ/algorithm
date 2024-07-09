@@ -20,15 +20,11 @@ class Main{
 					sb.append(A.repeat(cnt/4));
 					sb.append(B.repeat((cnt%4) / 2));
 					sb.append('.');
+					cnt = 0;
 				}
-				else 
-				{
-					break;
-				}
-				cnt = 0;
-			}else {
-				cnt++;
+				else break;
 			}
+			else cnt++;
 		}
 		if(cnt % 2 == 1) 
 		{
