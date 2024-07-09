@@ -1,24 +1,25 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken()); // 박스 개수
-		int M		= Integer.parseInt(st.nextToken()); // 박스의 무게 최대치
-		int idx		= 0;
-		int m		= 0;
-		int num;
-		if(N > 0) 
+		int N = read(); // 박스 개수
+		if(N == 0) 
 		{
-			st = new StringTokenizer(br.readLine());
-			idx = 1;
+			System.out.print(0);
+		}
+		else 
+		{
+			int M	= read(); // 박스의 무게 최대치
+			int idx	= 1;
+			int m	= 0;
+			int num;
 			for(int i=0; i<N; i++) 
 			{
-				num = Integer.parseInt(st.nextToken());
+				num = read();
 				if(m + num <= M) 
 				{
 					m += num;
@@ -29,8 +30,7 @@ class Main{
 					m = num;
 				}
 			}
+			System.out.print(idx);
 		}
-		
-		System.out.print(idx);
 	}
 }
