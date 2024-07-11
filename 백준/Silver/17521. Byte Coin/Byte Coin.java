@@ -26,7 +26,7 @@ class Main{
 					W %= arr[i-1];
 				}
 			}
-			else // 내일이 떨어지거나 오늘과 같은 경우 
+			else if(coin > 0)// 내일이 떨어지거나 오늘과 같은 경우 
 			{
 				W += coin * arr[i-1];
 				coin = 0;
