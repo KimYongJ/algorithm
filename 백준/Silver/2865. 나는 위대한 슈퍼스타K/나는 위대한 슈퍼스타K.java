@@ -1,19 +1,14 @@
 // https://github.com/kimyongj/algorithm
-import java.util.PriorityQueue;
-class Node{
-	int n; double a;
-	Node(int n, double a){this.n=n; this.a=a;}
-}
+import java.util.Arrays;
 class Main{
 	public static void main(String[] args)throws Exception{
-		PriorityQueue<Node> pq	= new PriorityQueue<Node>((a,b)->Double.compare(b.a,a.a));
 		I in  = new I();
 		int N = in.nextInt(); // 참가인원
 		int M = in.nextInt(); // 장르 개수
 		int K = in.nextInt(); // 본선에 나갈 인원
-		int n;
+		int n, idx = N;
 		double a, ans = 0.0;
-		boolean visit[] = new boolean[N+1];
+		double arr[] = new double[N+1];
 		
 		while(M-->0)
 		{
@@ -21,22 +16,20 @@ class Main{
 			{
 				n = in.nextInt();		// 참가번호
 				a = in.nextDouble();	// 능력치
-				pq.add(new Node(n,a));
-			}
-		}
-		while(K-->0)
-		{
-			while(true)
-			{
-				Node node = pq.poll();
-				if(!visit[node.n]) 
+				if(arr[n] < a) 
 				{
-					visit[node.n] = true;
-					ans += node.a;
-					break;
+					arr[n] = a;
 				}
 			}
 		}
+		
+		Arrays.sort(arr);
+		
+		while(K-->0)
+		{
+			ans += arr[idx--];
+		}
+		
 		System.out.print(String.format("%.1f", ans));
 	}
 }
