@@ -6,26 +6,20 @@ class Main{
 		int T 				= in.nextInt();
 		while(T-->0) 
 		{
-			int len = in.nextInt();
-			char s1[] = new char[len];
 			int w = 0, b = 0;				// w와 b의 개수
-			
+            int len = in.nextInt();
+			char s1[] = new char[len];
+
 			for(int i=0; i<len; i++) 
-			{
 				s1[i] = in.nextChar();
-			}
+			
 			for(int i=0; i<len; i++)
 			{
 				char c = in.nextChar();
 				if(s1[i] != c) 
 				{
-					if(c == 'W') 
-					{
-						w++;
-					}else 
-					{
-						b++;
-					}
+					if(c == 'W') w++;
+					else b++;
 				}
 			}
 			sb.append(Math.max(w, b)).append('\n');			
