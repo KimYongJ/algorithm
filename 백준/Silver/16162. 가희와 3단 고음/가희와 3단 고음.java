@@ -28,6 +28,7 @@ class Main{
 				}
 				if(X < x) {
 					X = x;
+					break;
 				}
 			}
 		}
