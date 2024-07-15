@@ -10,16 +10,12 @@ class Main{
 		int A = read(); // 고음의 첫항
 		int D = read(); // 공차
 		int X = 0;
-		int num;
 		for(int i=0; i<N; i++) 
-		{
-			num = read();
-			if(num == A)
+			if(read() == A)
 			{
 				A+=D;
 				X++;
 			}
-		}
 		System.out.print(X);
 	}
 }
