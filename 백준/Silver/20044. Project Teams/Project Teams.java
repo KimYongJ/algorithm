@@ -9,14 +9,11 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int N		= read() * 2;
 		int arr[]	= new int[N];
+		int sum		= 0;
 		int left	= 0;
 		int right	= N-1;
-		int sum		= 0;
 		
-		for(int i=0; i<N; i++) 
-		{
-			arr[i] = read();
-		}
+		for(int i=0; i<N; i++) arr[i] = read();
 		
 		Arrays.sort(arr);
 		
@@ -25,9 +22,7 @@ class Main{
 		{
 			sum = arr[left] + arr[right];
 			if(min > sum) 
-			{
 				min = sum;
-			}
 		}
 		System.out.print(min);
 	}
