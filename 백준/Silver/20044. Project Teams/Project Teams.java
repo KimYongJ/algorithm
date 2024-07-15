@@ -25,7 +25,10 @@ class Main{
 		while(++left < --right) 
 		{
 			sum = arr[left] + arr[right];
-			min = Math.min(min, sum);
+			if(min > sum) 
+			{
+				min = sum;
+			}
 		}
 		System.out.print(min);
 	}
