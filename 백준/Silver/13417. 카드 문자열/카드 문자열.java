@@ -18,10 +18,7 @@ class Main{
 					first = c;
 					str.insert(0,c);
 				}
-				else 
-				{
-					str.append(c);
-				}
+				else str.append(c);
 			}
 			sb.append(str.toString()).append('\n');
 		}
