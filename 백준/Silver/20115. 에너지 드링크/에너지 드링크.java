@@ -9,9 +9,10 @@ class Main{
 		int N = (int)read();
 		long max = 0;
 		long sum = 0;
-		for(int i=0; i<N; i++) 
+		long num;
+		while(N-->0) 
 		{
-			long num = read();
+			num = read();
 			sum += num;
 			if(max < num) 
 			{
