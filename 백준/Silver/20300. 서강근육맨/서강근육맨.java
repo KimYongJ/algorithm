@@ -1,20 +1,20 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
+	static long read() throws Exception {// 빠른 입력을 위한 함수
+		long c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
+		int N		= (int)read();
 		long arr[]	= new long[N];
 		int left	= 0;
 		int right	= N-1;
 		long max	= 0;
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++) 
 		{
-			arr[i] = Long.parseLong(st.nextToken());
+			arr[i] = read();
 		}
 		
 		Arrays.sort(arr);
