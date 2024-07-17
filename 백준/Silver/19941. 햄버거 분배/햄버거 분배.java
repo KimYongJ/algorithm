@@ -14,9 +14,9 @@ class Main{
 		{
 			if(arr[i] == 'P') 
 			{
-				left	= Math.max(i - K, 0) - 1;
+				left	= Math.max(i - K, 0);
 				right	= Math.min(i + K, N-1);
-				while(++left <= right) 
+				for(;left<=right; left++) 
 				{
 					if(arr[left] == 'H') 
 					{
