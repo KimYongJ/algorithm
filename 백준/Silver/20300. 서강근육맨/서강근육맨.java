@@ -21,14 +21,12 @@ class Main{
 		
 		if(N%2 == 1)	// 홀수인 경우 마지막을 max로 놓고, 나머지들을 비교연산한다.
 		{
-			right --;
+			right--;
 			max = arr[N-1];
 		}
-		
+
 		while(left < right) 
-		{
 			max = Math.max(max, arr[left++] + arr[right--]);
-		}
 		
 		System.out.print(max);
 	}
