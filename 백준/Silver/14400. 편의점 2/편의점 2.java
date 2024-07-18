@@ -1,40 +1,44 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+// https://github.com/kimyongj/algorithm
 import java.util.Arrays;
-import java.util.StringTokenizer;
- 
-public class Main {
- 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
- 
-        int n = Integer.parseInt(st.nextToken());
- 
-        int[] x = new int[n];
-        int[] y = new int[n];
- 
-        for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            x[i] = Integer.parseInt(st.nextToken());
-            y[i] = Integer.parseInt(st.nextToken());
+class Main{
+    private static int read() throws Exception {
+        int val = 0;
+        int c = System.in.read();
+        while (c <= ' ') {
+            c = System.in.read();
         }
- 
-        Arrays.sort(x);
-        Arrays.sort(y);
- 
-        int medianX = x[n / 2];
-        int medianY = y[n / 2];
- 
-        long minXDistance = 0;
-        long minYDistance = 0;
- 
-        for (int i = 0; i < n; i++) {
-            minXDistance += Math.abs(medianX - x[i]);
-            minYDistance += Math.abs(medianY - y[i]);
+        boolean minus = false;
+        if (c == '-') {
+            minus = true;
+            c = System.in.read();
         }
- 
-        System.out.print(minXDistance + minYDistance);
+        do {
+            val = 10 * val + c - 48;
+        } while ((c = System.in.read()) >= 48 && c <= 57);
+        if (minus) return -val;
+        return val;
     }
+	public static void main(String[] args)throws Exception{
+		int N	= read();
+		int Y[]	= new int[N];
+		int X[] = new int[N];
+		long sum = 0;
+		for(int i=0; i<N; i++) 
+		{
+			Y[i] = read();
+			X[i] = read();
+		}
+		
+		Arrays.sort(Y);
+		Arrays.sort(X);
+		
+		int baseY = Y[N/2];
+		int baseX = X[N/2];
+		
+		for(int i=0; i<N; i++) 
+		{
+			sum += Math.abs(baseY - Y[i]) + Math.abs(baseX - X[i]);
+		}
+		System.out.print(sum);
+	}
 }
