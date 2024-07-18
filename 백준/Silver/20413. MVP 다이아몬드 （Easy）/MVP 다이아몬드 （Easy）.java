@@ -15,14 +15,12 @@ class Main{
 		
 		for(int i=0; i<N; i++) 
 		{
-			switch(in.nextChar()) 
-			{
-				case 'B':	idx=0;break;
-				case 'S':	idx=1;break;
-				case 'G':	idx=2;break;
-				case 'P':	idx=3;break;
-				default:	idx=4;break;
-			}
+			char c = in.nextChar();
+			if		(c=='B') idx=0;
+			else if	(c=='S') idx=1;
+			else if	(c=='G') idx=2;
+			else if	(c=='P') idx=3;
+			else 			 idx=4;
 			if(idx == 4) 
 			{
 				result += money[idx] * (N-i);
@@ -33,7 +31,6 @@ class Main{
 		System.out.print(result);
 	}
 }
-
 class READ {
     final int SIZE = 1 << 13;
     byte[] buffer = new byte[SIZE];
