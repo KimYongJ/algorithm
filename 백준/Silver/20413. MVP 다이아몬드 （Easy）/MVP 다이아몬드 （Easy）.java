@@ -1,39 +1,34 @@
 // https://github.com/kimyongj/algorithm
 class Main{
-	public static int getIndex(char c) {
-		switch(c) 
-		{
-			case 'B':return 0;
-			case 'S':return 1;
-			case 'G':return 2;
-			case 'P':return 3;
-			default:return 4;
-		}
-	}
 	public static void main(String[] args)throws Exception{
-		READ read	= new READ();
-		int N		= read.nextInt();
+		READ in		= new READ();
+		int N		= in.nextInt();
 		int money[] = new int[5];
 		int before	= 0;
 		int result	= 0;
+		int idx; 
 		
 		for(int i=0; i<4; i++)
-		{
-			money[i] = read.nextInt() - 1;
-		}
+			money[i] = in.nextInt() - 1;
+		
 		money[4] = money[3]+1;
 		
 		for(int i=0; i<N; i++) 
 		{
-			int idx = getIndex(read.nextChar());
+			switch(in.nextChar()) 
+			{
+				case 'B':	idx=0;break;
+				case 'S':	idx=1;break;
+				case 'G':	idx=2;break;
+				case 'P':	idx=3;break;
+				default:	idx=4;break;
+			}
 			if(idx == 4) 
 			{
-				result += money[idx];
+				result += money[idx] * (N-i);
+				break;
 			}
-			else 
-			{
-				result += before = money[idx] - before;
-			}
+			else result += before = money[idx] - before;
 		}
 		System.out.print(result);
 	}
