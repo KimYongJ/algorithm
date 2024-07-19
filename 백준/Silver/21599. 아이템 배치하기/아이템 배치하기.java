@@ -6,30 +6,30 @@ import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-		int arr[] = new int[N];
-		boolean visit[] = new boolean[N];
-		int cnt = 0;
+		int N		= Integer.parseInt(br.readLine());
+		int arr[]	= new int[N];
+		int minIdx	= N;
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		
 		for(int i=0; i<N; i++)
 		{
-			if(0 != Integer.parseInt(st.nextToken()))
-				cnt++;
+			arr[i] = Integer.parseInt(st.nextToken());
 		}
-//		Arrays.sort(arr);
-//		for(int i=N-1; i>=0; i--) 
-//		{
-//			int idx = i;
-//			while(arr[i]-->0 && idx >= 0) 
-//			{
-//				if(!visit[idx])
-//				{
-//					visit[idx] = true;
-//					cnt++;
-//				}
-//				--idx;
-//			}
-//		}
-		System.out.print(cnt);
+		
+		Arrays.sort(arr);
+		
+		if(arr[N-1] == 0)
+		{
+			System.out.print(0);
+		}
+		else 
+		{
+			for(int i=N-1; i>=0; i--) 
+			{
+				if(arr[i] == 0) break;
+				minIdx = Math.min(minIdx, i - arr[i] + 1);
+			}
+			System.out.print(minIdx < 0 ? N : N - minIdx);
+		}
 	}
 }
