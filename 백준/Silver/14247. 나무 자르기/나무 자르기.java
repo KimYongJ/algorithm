@@ -1,6 +1,6 @@
 // https://github.com/kimyongj/algorithm
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 class Node{
 	int base, inc;
 	Node(int base, int inc){this.base=base; this.inc=inc;}
@@ -12,21 +12,17 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		ArrayList<Node> list = new ArrayList<>();
-		int N = read();
+		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.inc - b.inc);
+		long sum	= 0;
+		int N		= read();
+		int base[]	= new int[N];
 		
-		for(int i=0; i<N; i++)list.add(new Node(read(), 0));
-		for(int i=0; i<N; i++)list.get(i).inc = read();
-	
-		Collections.sort(list,(a,b)->{
-			if(a.inc == b.inc)return b.base - a.base;
-			return a.inc - b.inc;
-		});
-
-		long sum = 0;
+		for(int i=0; i<N; i++)base[i] = read();
+		for(int i=0; i<N; i++)pq.add(new Node(base[i], read()));
+		
 		for(int i=0; i<N; i++) 
 		{
-			Node node = list.get(i);
+			Node node = pq.poll();
 			sum += node.base + (node.inc * (long)(i));
 		}
 		System.out.print(sum);
