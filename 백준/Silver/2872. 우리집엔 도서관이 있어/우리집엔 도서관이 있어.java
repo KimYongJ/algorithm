@@ -9,24 +9,18 @@ class Main{
 		int N		= read();
 		int arr[]	= new int[N];
 		int idx		= 0;
+		int cnt	 	= 1;
+		
 		for(int i=0; i<N; i++) 
 			if((arr[i]= read()) == N) 
 				idx = i;
-		
-		if(arr[0] == N) 
-			System.out.print(N-1);
-		else 
-		{
-			int cnt	 = 1;
-			
-			for(int i=idx-1; i>=0; i--) 
-				if(arr[idx]-1 == arr[i]) 
-				{
-					--arr[idx];
-					++cnt;
-				}
-			
-			System.out.print(N - cnt);
-		}
+
+		for(int i=idx-1; i>=0; i--) 
+			if(arr[idx]-1 == arr[i]) 
+			{
+				--arr[idx];
+				++cnt;
+			}
+		System.out.print(N - cnt);
 	}
 }
