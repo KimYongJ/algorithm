@@ -36,12 +36,11 @@ class Main{
 			}
 		}
 		
-		Loop :
 		for(int y=0; y<Y; y++) {
 			for(int x=0; x<X; x++) {
 				if(arr[0][y][x] != arr[1][y][x]) {
-					cnt = -1;
-					break Loop;
+					System.out.print(-1);
+					return;
 				}
 			}
 		}
