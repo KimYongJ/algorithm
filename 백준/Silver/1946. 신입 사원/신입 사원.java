@@ -14,16 +14,14 @@ class Main{
 			for(int i=1; i<N; i++)
 				arr[read()] = read();
 			
-			int cnt = 1;
-			int score = arr[1];
-			for(int i=2; i<N; i++)
+			int cnt		= 1;
+			int score	= arr[1];
+			for(int i=2; i<N && score != 1; i++)
 			{
 				if(arr[i] < score) 
 				{
 					score = arr[i];
 					cnt++;
-					if(score == 1)
-						break;
 				}
 			}
 			sb.append(cnt).append('\n');
