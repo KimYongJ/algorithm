@@ -1,27 +1,25 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PriorityQueue<Integer> pq = new PriorityQueue<>();
-		int N = Integer.parseInt(br.readLine());
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N	= read();
+		int sum	= 0;
+		int cnt = 1;
 		
 		for(int i=0; i<N; i++) 
-			pq.add(Integer.parseInt(st.nextToken()));
+			pq.add(read());
 
-		int sum	= 0;
-		int cnt = 0;
-		for(int i=0; i<N; i++) 
+		
+		for(int i=0; i<N && sum < cnt; i++) 
 		{
 			sum += pq.poll();	// 지금까지 만든 체인개수
 			cnt = N - 1 - i;	// 특정 인덱스일 때 남은 체인 개수
-			if(sum >= cnt) {
-				break;
-			}
 		}
 		System.out.print(cnt);
 	}
