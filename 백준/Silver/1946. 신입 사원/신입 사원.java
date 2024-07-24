@@ -1,9 +1,4 @@
 // https://github.com/kimyongj/algorithm
-import java.util.PriorityQueue;
-class Node{
-	int a,b;
-	Node(int a, int b){this.a=a; this.b=b;}
-}
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -14,19 +9,21 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		int T = read();
 		while(T-->0) {
-			PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.a-b.a);
-			int N = read();
-			for(int i=0; i<N; i++)
-			{
-				pq.add(new Node(read(),read()));
-			}
+			int N		= read()+1;
+			int arr[]	= new int[N];
+			for(int i=1; i<N; i++)
+				arr[read()] = read();
+			
 			int cnt = 1;
-			int score = pq.poll().b;
-			for(int i=1; i<N; i++) {
-				int b = pq.poll().b;
-				if(b < score) {
-					score = b;
+			int score = arr[1];
+			for(int i=2; i<N; i++)
+			{
+				if(arr[i] < score) 
+				{
+					score = arr[i];
 					cnt++;
+					if(score == 1)
+						break;
 				}
 			}
 			sb.append(cnt).append('\n');
