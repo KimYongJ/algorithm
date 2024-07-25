@@ -2,46 +2,47 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 class Main{
-	public static void change(boolean arr[], int idx) {
-		arr[idx] = !arr[idx];
-		if(idx-1>=0) arr[idx-1] = !arr[idx-1];
-		if(idx+1<arr.length)arr[idx+1] = !arr[idx+1];
-	}
-	public static int solution(boolean v[][], boolean flag) {
-		int cnt = 0;
-		int len = v[0].length;
-		boolean arr[] = v[0].clone();
-		if(flag) {
-			change(arr,0);
-			cnt++;
-		}
-		for(int i=1; i<len; i++) {
-			if(arr[i-1] != v[1][i-1]) {
-				change(arr, i);
-				cnt++;
-			}
-		}
-		
-		if(v[1][len-1] != arr[len-1]) {
-			cnt = Integer.MAX_VALUE;
-		}
-		return cnt;
-	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N			= Integer.parseInt(br.readLine());
-		boolean v[][]	= new boolean[2][N];
-		for(int i=0; i<2; i++) 
+		int N		= Integer.parseInt(br.readLine());
+		int Acnt	= 1;
+		int Bcnt	= 0;
+		String str1 = br.readLine();
+		String str2 = br.readLine();
+		boolean A[] = new boolean[N]; // 첫번째를 눌렀을 경우
+		boolean B[] = new boolean[N]; // 안 누른 경우
+		boolean base[] = new boolean[N];
+
+		for(int i=0; i<N; i++)
 		{
-			String str = br.readLine();
-			for(int j=0; j<N; j++) 
+			base[i] = str1.charAt(i) == '1';
+			A[i] = B[i] = str2.charAt(i) == '1';
+		}
+		A[0] = !A[0];
+		A[1] = !A[1];
+		
+		for(int i=1; i<N; i++)
+		{
+			if(A[i-1] != base[i-1]) 
 			{
-				v[i][j] = str.charAt(j) == '1';
+				Acnt++;
+				A[i] = !A[i];
+				if(i>0)		A[i-1] = !A[i-1];
+				if(i<N-1)	A[i+1] = !A[i+1];
+			}
+			if(B[i-1] != base[i-1])
+			{
+				Bcnt++;
+				B[i] = !B[i];
+				if(i>0)		B[i-1] = !B[i-1];
+				if(i<N-1)	B[i+1] = !B[i+1];
 			}
 		}
+		if(A[N-1] != base[N-1])Acnt = 100000;
+		if(B[N-1] != base[N-1])Bcnt = 100000;
 		
-		int res = Math.min(solution(v, true),solution(v, false));
+		int res = Math.min(Acnt, Bcnt);
 		
-		System.out.print(res == Integer.MAX_VALUE ? -1 : res);
+		System.out.print(res == 100000 ? -1 : res);
 	}
 }
