@@ -8,15 +8,9 @@ class Main{
         while (c <= ' ') {
             c = System.in.read();
         }
-        boolean minus = false;
-        if (c == '-') {
-            minus = true;
-            c = System.in.read();
-        }
         do {
             val = 10 * val + c - 48;
         } while ((c = System.in.read()) >= 48 && c <= 57);
-        if (minus) return -val;
         return val;
     }
 	public static void main(String[] args)throws Exception{
