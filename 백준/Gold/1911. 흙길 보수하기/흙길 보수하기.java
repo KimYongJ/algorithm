@@ -17,16 +17,15 @@ class Main{
 		int idx = 0;
 		int cnt = 0;
 		for(int i=0; i<N; i++) 
+			pq.add(new Node(read(),read()));
+		
+		while(!pq.isEmpty()) 
 		{
-			int s = read();
-			int e = read();
-			pq.add(new Node(s,e));
-		}
-		while(!pq.isEmpty()) {
 			Node now = pq.poll();
 			int s = Math.max(now.s, idx);
 			int l = now.e-s;
-			if(l > 0) {
+			if(l > 0) 
+			{
 				int c = l/L;
 				if(l%L > 0) c++;
 				cnt += c;
