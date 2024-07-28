@@ -13,7 +13,7 @@ class Main{
 		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
-		double L = Integer.parseInt(st.nextToken());
+		int L = Integer.parseInt(st.nextToken());
 		int idx = 0;
 		int cnt = 0;
 		for(int i=0; i<N; i++) 
@@ -29,9 +29,10 @@ class Main{
 			int e = now.e;
 			int l = e-s;
 			if(l > 0) {
-				int c = (int)Math.ceil(l/L);
+				int c = l/L;
+				if(l%L > 0) c++;
 				cnt += c;
-				idx = s + c*(int)L;
+				idx = s + c*L;
 			}
 		}
 		System.out.print(cnt);
