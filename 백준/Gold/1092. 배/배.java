@@ -31,6 +31,7 @@ class Main{
 		
 		PriorityQueue<Integer> pq = new PriorityQueue<>();// 옮긴 횟수가 작은 것 순으로 오름차순
 		int cidx = C-1;
+		int res = 0;
 		for(;cidx>0; cidx--) 
 		{
 			if(brr[B-1] > crr[cidx]) break;
@@ -39,22 +40,20 @@ class Main{
 
 		for(int i=B-1; i>=0; i--) // 박스역방향 순회 
 		{
-			if(brr[i] > crr[cidx]) {
-				pq.add(pq.poll()+1);
-			}else {
+			if(brr[i] <= crr[cidx]) 
+			{
 				for(;cidx>0; cidx--) 
 				{
 					if(brr[i] > crr[cidx]) break;
 					else pq.add(0);
 				}
-				pq.add(pq.poll()+1);
 			}
+			int n = pq.poll() + 1;
+			if(res < n)
+				res = n;
+			pq.add(n);
 		}
 		
-		int res = 0;
-		while(!pq.isEmpty()) {
-			res = Math.max(pq.poll(), res);
-		}
 		System.out.print(res);
 	}
 }
