@@ -1,16 +1,19 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Main{
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Integer> pq = new PriorityQueue<Integer>((a,b)->b-a);
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int n = Integer.parseInt(br.readLine());
-		int k = Integer.parseInt(br.readLine());
+		int n = read();
+		int k = read();
 		int arr[] = new int[n];
 		
 		if(n <= k) {
@@ -18,9 +21,8 @@ class Main{
 			return;
 		}
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<n; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 	
 		Arrays.sort(arr);
 		
