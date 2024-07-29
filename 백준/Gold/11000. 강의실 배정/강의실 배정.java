@@ -13,7 +13,6 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Integer> pq = new PriorityQueue<>();
-		int cnt		= 1;
 		int N		= read();
 		Node[] list = new Node[N];
 
@@ -28,10 +27,9 @@ class Main{
 		{
 			if(pq.peek() <= list[i].s) 
 				pq.poll();
-			else 
-				cnt++;
+
 			pq.add(list[i].e);
 		}
-		System.out.print(cnt);
+		System.out.print(pq.size());
 	}
 }
