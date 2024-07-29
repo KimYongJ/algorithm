@@ -4,17 +4,18 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String base = br.readLine();
-		StringBuilder sb = new StringBuilder(br.readLine());
-		while(base.length() != sb.length()) {
-			char c = sb.charAt(sb.length()-1);
-			sb.deleteCharAt(sb.length()-1);
-			if(c == 'B')	sb = sb.reverse();
+		StringBuilder sb1 = new StringBuilder(br.readLine());
+		StringBuilder sb2 = new StringBuilder(br.readLine());
+		while(sb1.length() < sb2.length()) {
+			char c = sb2.charAt(sb2.length()-1);
+			sb2.deleteCharAt(sb2.length()-1);
+			if(c == 'B')	
+				sb2 = sb2.reverse();
 			else if(c != 'A') {
-				sb.append(c);
+				sb2.append(c);
 				break;
 			}
 		}
-		System.out.print(base.equals(sb.toString()) ? 1 : 0);
+		System.out.print(sb1.toString().equals(sb2.toString()) ? 1 : 0);
 	}
 }
