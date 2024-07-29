@@ -1,6 +1,5 @@
 // https://github.com/kimyongj/algorithm
 import java.util.Arrays;
-import java.util.PriorityQueue;
 class Main{
 	public static int read() throws Exception {
 		int c, n = System.in.read() & 15;
@@ -11,11 +10,12 @@ class Main{
 		return isNegative ? ~n + 1 : n;
 	}
 	public static void main(String[] args)throws Exception{
-		PriorityQueue<Integer> pq = new PriorityQueue<Integer>((a,b)->b-a);
+		int sum = 0;
 		int n = read();
 		int k = read();
 		int arr[] = new int[n];
-		
+		int dif[] = new int[n-1];
+
 		if(n <= k) {
 			System.out.print(0);
 			return;
@@ -23,19 +23,16 @@ class Main{
 		
 		for(int i=0; i<n; i++)
 			arr[i] = read();
-	
+
 		Arrays.sort(arr);
 		
-		int sum = 0;
 		for(int i=1; i<n; i++) 
-		{
-			int num = arr[i] - arr[i-1];
-			sum += num;
-			pq.add(num);
-		}
+			sum += dif[i-1] = arr[i] - arr[i-1];
 		
-		for(int i=1; i<k; i++)
-			sum -=pq.poll();
+		Arrays.sort(dif);
+		
+		for(int i=1,j=n-2; i<k; i++,j--)
+			sum -= dif[j];
 		
 		System.out.print(sum);
 	}
