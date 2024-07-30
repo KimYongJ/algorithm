@@ -8,15 +8,15 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int N = read(); // 초기 물병개수
 		int K = read(); // 목표 물병 개수
-		int bit = Integer.lowestOneBit(N);
-		int res = 0;
 		
 		if(K >= N) // 특정 조건 조기종료
 		{
 			System.out.print(0);
 			return;
 		}
-
+		int bit = Integer.lowestOneBit(N);
+		int res = 0;
+		
 		while(Integer.bitCount(N) > K) 
 		{
 			if((N&bit)>0) 
