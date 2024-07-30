@@ -18,12 +18,12 @@ class Main{
 			arr[i] = Integer.parseInt(st.nextToken());
 		
 		for(int i=0; i<N-1; i++)
-			sum += diff[i] = arr[i+1] - arr[i];
+			diff[i] = arr[i+1] - arr[i];
 
 		Arrays.sort(diff);
 
-		for(int i=N-2; K>1; i--,K--)
-			sum -= diff[i];
+		for(int i=0; i<N - K; i++)
+			sum += diff[i];
 		
 		System.out.print(sum);
 	}
