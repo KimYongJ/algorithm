@@ -1,23 +1,30 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken()); // 초기 물병개수
-		int K = Integer.parseInt(st.nextToken()); // 목표 물병 개수
+		int N = read(); // 초기 물병개수
+		int K = read(); // 목표 물병 개수
+		int bit = Integer.lowestOneBit(N);
+		int res = 0;
+		
 		if(K >= N) // 특정 조건 조기종료
 		{
 			System.out.print(0);
 			return;
 		}
-		int res = 0;
-		while(Integer.bitCount(N) > K) {
-			int lowerBit = Integer.lowestOneBit(N);
-			N += lowerBit;
-			res += lowerBit;
+
+		while(Integer.bitCount(N) > K) 
+		{
+			if((N&bit)>0) 
+			{
+				N+=bit;
+				res+=bit;
+			}
+			bit<<=1;
 		}
 		System.out.print(res);
 	}
