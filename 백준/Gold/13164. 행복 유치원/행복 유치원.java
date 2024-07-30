@@ -11,7 +11,7 @@ class Main{
 		int K		= Integer.parseInt(st.nextToken());
 		int arr[]	= new int[N];
 		int diff[]	= new int[N-1];
-		long sum	= 0;
+		int sum	= 0;
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
