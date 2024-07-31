@@ -1,8 +1,5 @@
 // https://github.com/kimyongj/algorithm
 import java.util.ArrayList;
-class Node{
-	int idx,num; Node(int idx, int num){this.idx=idx; this.num=num;}
-}
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -12,10 +9,8 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		ArrayList<Integer> list = new ArrayList<>();
 		int N = read();
-
 		for(int i=0; i<N; i++)
 			list.add(read());
-		
 		int S = read();
 		
 		for(int i=0; i<N && S>0; i++) 
@@ -33,7 +28,6 @@ class Main{
 			list.remove(maxIdx);
 			list.add(i,maxNum);
 		}
-		
 		StringBuilder sb = new StringBuilder();
 		for(int a : list) 
 			sb.append(a).append(' ');
