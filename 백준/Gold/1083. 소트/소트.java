@@ -1,45 +1,44 @@
 // https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 class Node{
 	int idx,num; Node(int idx, int num){this.idx=idx; this.num=num;}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		ArrayList<Integer> list = new ArrayList<>();
 		int N = Integer.parseInt(br.readLine());
-		int arr[] = new int[N];
-		PriorityQueue<Node> pq;
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			list.add(Integer.parseInt(st.nextToken()));
 		
 		int S = Integer.parseInt(br.readLine());
 		
-		for(int i=0; i<N; i++) 
+		for(int i=0; i<N && S>0; i++) 
 		{
-			pq = new PriorityQueue<Node>((a,b)->b.num-a.num);
-			for(int s=i; s<N; s++)
-				pq.add(new Node(s, arr[s]));
-			
-			while(!pq.isEmpty()) {
-				Node now = pq.poll();
-				if(now.idx-i <= S) {
-					S -= (now.idx-i);
-					for(int j=now.idx; j>i; j--) {
-						int tmp = arr[j];
-						arr[j] = arr[j-1];
-						arr[j-1] = tmp;
-					}
-					break;
+			int maxNum = 0, maxIdx = 0;
+			for(int j=i,s=S; j<N && s>=0; j++,s--) {
+				if(maxNum < list.get(j)) {
+					maxNum = list.get(j);
+					maxIdx = j;
 				}
 			}
+			S -= (maxIdx - i);
+			list.remove(maxIdx);
+			list.add(i,maxNum);
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		for(int a : arr) sb.append(a).append(' ');
+		for(int a : list) 
+			sb.append(a).append(' ');
 		System.out.print(sb.toString());
 	}
 }
