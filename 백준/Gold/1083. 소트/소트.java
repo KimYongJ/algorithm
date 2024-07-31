@@ -1,8 +1,5 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 class Node{
 	int idx,num; Node(int idx, int num){this.idx=idx; this.num=num;}
 }
@@ -13,20 +10,21 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		ArrayList<Integer> list = new ArrayList<>();
-		int N = Integer.parseInt(br.readLine());
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = read();
+
 		for(int i=0; i<N; i++)
-			list.add(Integer.parseInt(st.nextToken()));
+			list.add(read());
 		
-		int S = Integer.parseInt(br.readLine());
+		int S = read();
 		
 		for(int i=0; i<N && S>0; i++) 
 		{
 			int maxNum = 0, maxIdx = 0;
-			for(int j=i,s=S; j<N && s>=0; j++,s--) {
-				if(maxNum < list.get(j)) {
+			for(int j=i,s=S; j<N && s>=0; j++,s--) 
+			{
+				if(maxNum < list.get(j)) 
+				{
 					maxNum = list.get(j);
 					maxIdx = j;
 				}
