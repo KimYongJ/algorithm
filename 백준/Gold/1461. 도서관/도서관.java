@@ -1,42 +1,51 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Main{
-
-	public static int getDist(PriorityQueue<Integer> pq, int M) {
-		int sum = 0;
-		int i = 0;
-		while(!pq.isEmpty()) {
-			int n = pq.poll();
-			if(i % M == 0)
-				sum += n<<1;
-			i++;
-		}
-		return sum;
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
 	}
-
 	public static void main(String[] args)throws Exception{
-		BufferedReader br		= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st		= new StringTokenizer(br.readLine());
 		PriorityQueue<Integer> pos = new PriorityQueue<Integer>((a,b)->b-a);
 		PriorityQueue<Integer> neg = new PriorityQueue<Integer>((a,b)->b-a);
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-		int max = 0;
-		st = new StringTokenizer(br.readLine());
+		int N = read();
+		int M = read();
+		int n,max = 0;
 		for(int i=0; i<N; i++) 
 		{
-			int n = Integer.parseInt(st.nextToken());
-			if(n < 0) 
-				neg.add(n = Math.abs(n));
+			n = read();
+			if(n< 0) 
+			{
+				n = -n;
+				neg.add(n);
+			}
 			else
 				pos.add(n);
+			
 			if(max < n)
 				max = n;
 		}
 		
-		System.out.print(getDist(pos,M) + getDist(neg,M) - max);
+		int sum = -max;
+		int pSize = pos.size();
+		int nSize = neg.size();
+		for(int i=0; i<pSize; i++) 
+		{
+			n = pos.poll();
+			if(i % M == 0)
+				sum += n<<1;
+		}
+		for(int i=0; i<nSize; i++) 
+		{
+			n = neg.poll();
+			if(i % M == 0)
+				sum += n<<1;
+		}
+		
+		System.out.print(sum);
 	}
 }
