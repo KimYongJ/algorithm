@@ -8,21 +8,22 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Integer> pq = new PriorityQueue<>();
-		int N = read();
+		int res	= 0;
+		int N	= read();
 
 		for(int i=0; i<N; i++)
 			pq.add(read());
 	
-		int result = 0;
+		
 		while(pq.size() > 1) 
 		{
 			int a = pq.poll();
 			int b = pq.poll();
 			
-			result += a+b;
+			res += a+b;
 			
 			pq.add(a+b);
 		}
-		System.out.print(result);
+		System.out.print(res);
 	}
 }
