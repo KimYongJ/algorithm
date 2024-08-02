@@ -2,35 +2,37 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N			= Integer.parseInt(br.readLine());
-		String str[]	= new String[N];
-		ArrayList<String> result = new ArrayList<>();
+		BufferedReader br			= new BufferedReader(new InputStreamReader(System.in));
+		int N						= Integer.parseInt(br.readLine());
+		HashSet<String> set			= new HashSet<>();
+		ArrayList<String> result	= new ArrayList<>();
 		
 		for(int i=0; i<N; i++)
-			str[i] = br.readLine();
+			set.add(br.readLine());
 		
-		Arrays.sort(str,(a,b)->b.length() - a.length());
+		ArrayList<String> list	= new ArrayList<>(set);
+		
+		Collections.sort(list,(a,b)->b.length() - a.length());
+		
+		N = set.size();
 		
 		for(int i=0; i<N; i++)
 		{
 			boolean flag = true;
 			for(String s : result) 
-			{
-				if(s.startsWith(str[i])) 
+				if(s.startsWith(list.get(i))) 
 				{
 					flag = false;
 					break;
 				}
-			}
+			
 			if(flag) 
-			{
-				result.add(str[i]);
-			}
+				result.add(list.get(i));
 		}
 		System.out.print(result.size());
 	}
