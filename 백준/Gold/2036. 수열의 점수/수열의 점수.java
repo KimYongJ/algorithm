@@ -1,17 +1,22 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 class Main{
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PriorityQueue<Integer> pos = new PriorityQueue<Integer>((a,b)->b-a);
 		PriorityQueue<Integer> neg = new PriorityQueue<>();
-		int N = Integer.parseInt(br.readLine());
+		int N = read();
 		boolean zero = false;
 		long sum = 0;
 		while(N-->0) {
-			int n = Integer.parseInt(br.readLine());
+			int n = read();
 			if(n == 0) zero = true;
 			else if(n == 1) sum++;
 			else if(n > 0) pos.add(n);
