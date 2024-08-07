@@ -1,47 +1,45 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Meat{
 	int w, p;
 	Meat(int w, int p){this.w=w; this.p=p;}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Meat> pq = new PriorityQueue<Meat>((a,b)->{
-			if(a.p==b.p) return b.w-a.w; // 무게 기준 내림차순
-			return a.p-b.p; // 가격 기준 오름차순
+			if(a.p==b.p) return b.w-a.w;// 무게 기준 내림차순
+			return a.p-b.p;				// 가격 기준 오름차순
 		});
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-		// 전과 무게와 가격이 같다면 갱신하지 않는다.
+		int N = read();
+		int M = read();
+		
 		while(N-->0) 
-		{
-			st = new StringTokenizer(br.readLine());
-			int w = Integer.parseInt(st.nextToken());
-			int p = Integer.parseInt(st.nextToken());
-			pq.add(new Meat(w,p));
-		}
-		// 목표무게가 넘었어도 같으면 안됨 달라야만 가능
+			pq.add(new Meat(read(),read()));
+		
 		int result		= Integer.MAX_VALUE;
 		int weight		= 0;
 		int price		= 0;
 		int beforePrice = -1;
 		while(!pq.isEmpty()) {
 			Meat now = pq.poll();
-			weight += now.w;
-			if(beforePrice == now.p) {
-				price += now.p;
-			}else {
-				price = now.p;
-			}
 			
-			if(weight >= M) {
+			weight += now.w;
+			
+			if(beforePrice == now.p)
+				price += now.p;
+			else
+				price = now.p;
+			
+			if(weight >= M) // 목표무게가 넘었어도 이전 가격과 현재 가격이 같은것이면 반복문 계속해야함.
+			{
 				result = Math.min(price, result);
-				if(beforePrice != now.p) {
+				if(beforePrice != now.p)// 이전과 같은 무게일 경우는 반복문을 종료하지 않는다.
+				{
 					break;	
 				}
 			}
