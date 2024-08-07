@@ -1,27 +1,29 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Main{
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Integer> m_bg = new PriorityQueue<>();
 		PriorityQueue<Integer> m_sm = new PriorityQueue<>();
 		PriorityQueue<Integer> f_bg = new PriorityQueue<>();
 		PriorityQueue<Integer> f_sm = new PriorityQueue<>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = read();
 		for(int i=0; i<N; i++) // 남자 넣기 
 		{
-			int num = Integer.parseInt(st.nextToken());
+			int num = read();
 			if(num < 0)	m_sm.add(-num);
 			else m_bg.add(num);
 		}
-		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++) // 여자 넣기 
 		{
-			int num = Integer.parseInt(st.nextToken());
+			int num = read();
 			if(num < 0)	f_sm.add(-num);
 			else f_bg.add(num);
 		}
