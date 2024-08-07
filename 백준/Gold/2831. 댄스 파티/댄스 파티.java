@@ -27,21 +27,17 @@ class Main{
 		}
 		int cnt = 0;
 		while(!(m_bg.isEmpty() || f_sm.isEmpty())) 
-		{
-			if(m_bg.peek() < f_sm.peek()) {
+			if(m_bg.peek() < f_sm.poll()) {
 				cnt++;
 				m_bg.poll();
-				f_sm.poll();
-			}else f_sm.poll();
-		}
+			}
+
 		while(!(m_sm.isEmpty() || f_bg.isEmpty())) 
-		{
-			if(f_bg.peek() < m_sm.peek()) {
+			if(f_bg.peek() < m_sm.poll()) 
+			{
 				cnt++;
 				f_bg.poll();
-				m_sm.poll();
-			}else m_sm.poll();
-		}
+			}
 		
 		System.out.print(cnt);
 	}
