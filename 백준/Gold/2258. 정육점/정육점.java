@@ -36,7 +36,7 @@ class Main{
 			if(beforePrice == now.p) {
 				price += now.p;
 			}else {
-				beforePrice = price = now.p;
+				price = now.p;
 			}
 			
 			if(weight >= M) {
@@ -45,6 +45,7 @@ class Main{
 					break;	
 				}
 			}
+			beforePrice = now.p;
 		}
 		System.out.print(weight < M ? -1 : result);
 	}
