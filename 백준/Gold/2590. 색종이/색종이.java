@@ -1,15 +1,17 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int size1 = Integer.parseInt(br.readLine());
-		int size2 = Integer.parseInt(br.readLine()) * 4;
-		int size3 = Integer.parseInt(br.readLine());
-		int size4 = Integer.parseInt(br.readLine());
-		int size5 = Integer.parseInt(br.readLine());
-		int res = Integer.parseInt(br.readLine()) + size5 + size4;
+		int size1 = read();
+		int size2 = read() * 4;
+		int size3 = read();
+		int size4 = read();
+		int size5 = read();
+		int res	  = read() + size5 + size4;
 		size1 -= size5 * 11; // 5cm의 여백을 1에서 뺀다.
 		size2 -= 20 * size4;// 4cm 종이의 여백을 구한다.
 
@@ -32,8 +34,7 @@ class Main{
 		if(size2 < 0) {
 			size1 += size2;
 		}
-		
-		if(size2 > 0){
+		else if(size2 > 0){
 			res += Math.ceil(size2 / 36.0);
 			if(size2 % 36 != 0) {
 				size1 -= 36 - (size2 % 36);
