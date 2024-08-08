@@ -1,24 +1,25 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0) {
 			PriorityQueue<Long> pq = new PriorityQueue<>();
-			long sum = 0;
-			int N = Integer.parseInt(br.readLine());
-			st = new StringTokenizer(br.readLine());
+			long n,sum	= 0;
+			int N		= read();
+			
 			while(N-->0)
-				pq.add(Long.parseLong(st.nextToken()));
+				pq.add((long)read());
+			
 			while(pq.size() > 1) 
 			{
-				long n = pq.poll() + pq.poll();
+				n = pq.poll() + pq.poll();
 				sum += n;
 				pq.add(n);
 			}
