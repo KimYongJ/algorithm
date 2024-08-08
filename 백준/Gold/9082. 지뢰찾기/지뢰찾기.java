@@ -7,8 +7,10 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0) {
-			int N = Integer.parseInt(br.readLine());
-			int nums[] = new int[N];
+			int N		= Integer.parseInt(br.readLine());
+			int cnt1	= 0;
+			int cnt2	= 0;
+			int nums[]	= new int[N];
 			char bomb1[] = new char[N];
 			char bomb2[] = new char[N];
 			String str1 = br.readLine();
@@ -17,6 +19,10 @@ class Main{
 			{
 				nums[i] = str1.charAt(i)-'0';
 				bomb2[i] = bomb1[i] = str2.charAt(i);
+				if(bomb1[i] == '*') {
+					cnt1++;
+					cnt2++;
+				}
 			}
 			boolean valid1 = true;
 			boolean valid2 = true;
@@ -52,6 +58,7 @@ class Main{
 						if(bomb1[ss] == '#') {
 							n--;
 							bomb1[ss] = '*';
+							cnt1++;
 						}
 						ss++;
 					}
@@ -65,6 +72,7 @@ class Main{
 						if(bomb2[ee] == '#') {
 							n--;
 							bomb2[ee] = '*';
+							cnt2++;
 						}
 						ee--;
 					}
@@ -77,20 +85,8 @@ class Main{
 						bomb2[o] = 'x';
 				}
 			}
-			
-			
-			int cnt1 = 0;
-			int cnt2 = 0;
-			if(valid1) {
-				for(char c : bomb1)
-					if(c=='*')
-						cnt1++;
-			}
-			if(valid2) {
-				for(char c : bomb2)
-					if(c=='*')
-						cnt2++;
-			}
+			if(!valid1) cnt1=0;
+			if(!valid2) cnt2=0;
 			sb.append(Math.max(cnt1, cnt2)).append('\n');
 		}
 		System.out.print(sb.toString());
