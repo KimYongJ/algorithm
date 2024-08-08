@@ -4,22 +4,27 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String s = br.readLine();
-		String p = br.readLine();
-		int cnt = 0;
-		Loop : 
-		while(p.length() > 1) {
+		String s	= br.readLine();
+		String p	= br.readLine();
+		int len		= p.length();
+		int sIdx	= 0;
+		int cnt		= 0;
+		boolean isContinue;
+		while(len > sIdx) 
+		{
 			cnt++;
-			for(int i=1; i<=p.length(); i++) {
-				if(!s.contains(p.substring(0,i))){
-					p = p.substring(i-1);
-					continue Loop;
+			isContinue = false;
+			for(int i=sIdx+1; i<=len; i++) {
+				if(!s.contains(p.substring(sIdx,i))){
+					sIdx = i-1;
+					isContinue = true;
+					break;
 				}
 			}
-			System.out.print(cnt);
-			return;
+			if(!isContinue) {
+				System.out.print(cnt);
+				return;
+			}
 		}
-		if(p.length() != 0) cnt++;
-		System.out.print(cnt);
 	}
 }
