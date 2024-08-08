@@ -10,7 +10,7 @@ class Main{
 		int sIdx	= 0;
 		int cnt		= 0;
 		boolean isContinue;
-		while(len > sIdx) 
+		while(true) 
 		{
 			cnt++;
 			isContinue = false;
