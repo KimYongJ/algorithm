@@ -13,9 +13,9 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Integer> scorePq	= new PriorityQueue<Integer>((a,b)->b-a);
 		PriorityQueue<Node> list		= new PriorityQueue<Node>((a,b)->b.day - a.day);
+		
 		int N		= read();
 		int maxDay	= 0;
-		int res		= 0;
 		for(int i=0; i<N; i++) 
 		{
 			int d = read(); // 마감일
@@ -25,13 +25,13 @@ class Main{
 				maxDay = d;
 			}
 		}
+		
+		int res		= 0;
 		for(int i=maxDay; i>=1; i--) 
 		{
-			if(!list.isEmpty() && list.peek().day == i) 
-			{
-				while(!list.isEmpty() && list.peek().day == i)
-					scorePq.add(list.poll().score);
-			}
+			while(!list.isEmpty() && list.peek().day == i)
+				scorePq.add(list.poll().score);
+			
 			if(!scorePq.isEmpty())
 				res += scorePq.poll();
 		}
