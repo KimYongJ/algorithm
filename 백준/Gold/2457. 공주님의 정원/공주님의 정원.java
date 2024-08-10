@@ -34,12 +34,11 @@ class Main{
 		while(start < 1201 && flag != start)
 		{
 			flag = start;
-			for(int j=0; j<list.size(); j++)
+			for(int j=0; j<N; j++)
 			{
 				Node now = list.get(j);
 				if(now.s <= start) {
 					start = list.get(j).e;
-					list.remove(j);
 					cnt++;
 					break;
 				}
