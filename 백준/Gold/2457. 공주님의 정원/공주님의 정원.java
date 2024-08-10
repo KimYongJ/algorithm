@@ -38,7 +38,7 @@ class Main{
 			{
 				Node now = list.get(j);
 				if(now.s <= start) {
-					start = list.get(j).e;
+					start = now.e;
 					cnt++;
 					break;
 				}
