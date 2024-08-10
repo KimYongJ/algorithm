@@ -28,18 +28,20 @@ class Main{
 			return b.e-a.e;
 		});
 		
+		int maxIdx = N;
 		int cnt = 0;
 		int start = 301;
-		int flag = 0;
-		while(start < 1201 && flag != start)
+		int before = 0;
+		while(start < 1201 && before != start)
 		{
-			flag = start;
-			for(int j=0; j<N; j++)
+			before = start;
+			for(int j=0; j<maxIdx; j++)
 			{
 				Node now = list.get(j);
 				if(now.s <= start) {
 					start = now.e;
 					cnt++;
+					maxIdx = j;
 					break;
 				}
 			}
