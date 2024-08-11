@@ -22,31 +22,34 @@ class Main{
 			list.add(new Node(a,b));
 		}
 		
-		Collections.sort(list,(a,b)->{
-			if(a.e==b.e) return a.s-b.s;
-			return b.e-a.e;
-		});
+		Collections.sort(list,(a,b)->a.s != b.s  ? a.s-b.s : a.e-b.e);
 		
-		int maxIdx = N;
-		int cnt = 0;
-		int start = 301;
-		int before = 0;
-		while(start < 1201 && before != start)
+		
+		int j		= 0;
+		int cnt		= 0;
+		int end		= 301;
+		int maxEnd;
+		while(end < 1201)
 		{
-			before = start;
-			for(int j=0; j<maxIdx; j++)
+			maxEnd = 0;
+			for(;j<N; j++) 
 			{
 				Node now = list.get(j);
-				if(now.s <= start) {
-					start = now.e;
-					cnt++;
-					maxIdx = j;
+				if(now.s > end)
 					break;
-				}
+				else if(maxEnd < now.e)
+					maxEnd = now.e;
 			}
+			if(maxEnd != 0)
+			{
+				end = maxEnd;
+				cnt++;
+			}
+			else break;
+			
 		}
 		
-		if(start < 1201)
+		if(end < 1201)
 			cnt = 0;
 		System.out.print(cnt);
 	}
