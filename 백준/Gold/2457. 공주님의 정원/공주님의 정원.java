@@ -1,6 +1,5 @@
 //https://github.com/kimyongj/algorithm
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.PriorityQueue;
 class Node{
 	int s,e;
 	Node(int s,int e){this.s=s;this.e=e;}
@@ -12,14 +11,12 @@ class Main{
 		return n;
 	}
 	public static void main(String args[])throws Exception{
-		ArrayList<Node> list = new ArrayList<>();
+		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.s != b.s  ? a.s-b.s : a.e-b.e);
 		int N = read();
 		
 		for(int i=0; i<N; i++) 
-			list.add(new Node(read() * 100 + read(),read() * 100 + read()));
-		
-		Collections.sort(list,(a,b)->a.s != b.s  ? a.s-b.s : a.e-b.e);
-		
+			pq.add(new Node(read() * 100 + read(),read() * 100 + read()));
+
 		int j		= 0;
 		int cnt		= 0;
 		int end		= 301;
@@ -27,13 +24,16 @@ class Main{
 		while(end < 1201)
 		{
 			maxEnd = 0;
-			for(;j<N; j++) 
+			while(j<N)
 			{
-				Node now = list.get(j);
-				if(now.s > end)
+				if(pq.peek().s > end)
 					break;
-				else if(maxEnd < now.e)
-					maxEnd = now.e;
+				else if(maxEnd < pq.peek().e) {
+					maxEnd = pq.poll().e;
+				}else {
+					pq.poll();
+				}
+				j++;
 			}
 			if(maxEnd != 0)
 			{
