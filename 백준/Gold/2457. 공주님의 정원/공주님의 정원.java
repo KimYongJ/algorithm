@@ -16,14 +16,9 @@ class Main{
 		int N = read();
 		
 		for(int i=0; i<N; i++) 
-		{
-			int a = read() * 100 + read();
-			int b = read() * 100 + read();
-			list.add(new Node(a,b));
-		}
+			list.add(new Node(read() * 100 + read(),read() * 100 + read()));
 		
 		Collections.sort(list,(a,b)->a.s != b.s  ? a.s-b.s : a.e-b.e);
-		
 		
 		int j		= 0;
 		int cnt		= 0;
