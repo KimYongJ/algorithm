@@ -1,18 +1,20 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+    private static int read() throws Exception{
+        int val = 0,c = System.in.read();
+        while (c <= ' ') {c = System.in.read();        }
+        do {val = 10 * val + c - 48;} 
+        while ((c = System.in.read()) >= 48 && c <= 57);
+        return val;
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N	= Integer.parseInt(br.readLine());
+		int N	= read();
 		int max = 0;
 		int day = 0;
 		int counting[] = new int[1000001];
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		
 		for(int i=0; i<N; i++)
-			counting[Integer.parseInt(st.nextToken())]++;
+			counting[read()]++;
 		
 		for(int i=1000000; i>=1; i--) 
 			if(counting[i] > 0) 
