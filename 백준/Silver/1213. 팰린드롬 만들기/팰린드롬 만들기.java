@@ -20,7 +20,8 @@ class Main{
 		{
 			if(cnt[i] % 2 == 1) 
 			{
-				oddCnt++;
+				if(++oddCnt>1)
+					break;
 				oddIndex = i;
 				cnt[i]--;
 			}
