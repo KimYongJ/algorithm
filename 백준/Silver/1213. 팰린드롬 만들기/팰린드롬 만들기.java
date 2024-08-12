@@ -7,14 +7,15 @@ class Main{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder	sb1 = new StringBuilder();
 		StringBuilder	sb2 = new StringBuilder();
-		int cnt[] = new int[26];
-		String str = br.readLine();
+		String str	= br.readLine();
+		int cnt[]	= new int[26];
 		
 		for(int i=0; i<str.length(); i++)
 			cnt[str.charAt(i)-'A']++;
 		
-		int oddCnt = 0;
-		int oddIndex = 0;
+		int oddCnt		= 0;
+		int oddIndex	= 0;
+		
 		for(int i=0; i<26; i++) 
 		{
 			if(cnt[i] % 2 == 1) 
