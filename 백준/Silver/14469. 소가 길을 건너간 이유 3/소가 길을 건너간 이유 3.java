@@ -1,30 +1,30 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{
 	int a, c;
 	Node(int a, int c){this.a=a;this.c=c;}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.a-b.a);
-		int N = Integer.parseInt(br.readLine());
-		for(int i=0; i<N; i++)
-		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken()); // 도착시간
-			int c = Integer.parseInt(st.nextToken()); // 검문시간
-			pq.add(new Node(a,c));
-		}
+		int N = read();
 		
+		while(N-->0)
+			pq.add(new Node(read(),read()));
+			
 		int res = 0;
-		for(int i=0; i<N; i++) 
+		while(!pq.isEmpty()) 
 		{
 			Node now = pq.poll();
-			res = Math.max(now.a, res);
+			if(now.a > res)
+			{
+				res = now.a;
+			}
 			res += now.c;
 		}
 		System.out.print(res);
