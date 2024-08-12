@@ -28,7 +28,7 @@ class Main{
 		
 		int res = (N/6 * six_min);
 		int mod = N % 6;
-		if(mod != 0) // N개보다 더많이 살때(세트를구매할때)가 더 싼경우를 위한 분기
+		if(mod != 0) // N개보다 더 많이 살때(세트를구매할때)가 더 싼경우를 위한 분기
 		{
 			res += Math.min((mod * one_min), six_min);
 		}
