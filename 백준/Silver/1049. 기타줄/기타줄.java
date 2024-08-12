@@ -1,0 +1,34 @@
+// https://github.com/kimyongj/algorithm
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+class Main{
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int N = Integer.parseInt(st.nextToken()); // 끊어진 기타 개수
+		int M = Integer.parseInt(st.nextToken()); // 기타 브랜드 수
+		int one_min = Integer.MAX_VALUE;
+		int six_min = Integer.MAX_VALUE;
+		
+		while(M-->0) 
+		{
+			st = new StringTokenizer(br.readLine());
+			int six = Integer.parseInt(st.nextToken());
+			int one = Integer.parseInt(st.nextToken());
+			six = Math.min(six, one * 6);
+			one_min = Math.min(one_min, one);
+			six_min = Math.min(six_min, six);
+		}
+		
+		int res = (N/6 * six_min);
+		int mod = N % 6;
+		if(mod != 0) // N개보다 더많이 살때(세트를구매할때)가 더 싼경우를 위한 분기
+		{
+			res += Math.min((mod * one_min), six_min);
+		}
+		
+		System.out.print(res);
+	}
+}
