@@ -14,12 +14,8 @@ class Main{
 		int max			= 0;
 		
 		for(int i=0; i<N; i++) 
-		{
-			origin1[i] = read();
-			if(max < origin1[i]) {
+			if(max < (origin1[i]= read()))
 				max = origin1[i];
-			}
-		}
 		
 		// 피보나치 수열 생성
 		list.add(0);
