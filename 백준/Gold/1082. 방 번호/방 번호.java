@@ -11,6 +11,36 @@ class Node{
 	}
 }
 class Main{
+	
+	public static int changeNumber(ArrayList<Integer> dummy,int arr[], int M, int N) {
+		int len = dummy.size();
+		int idx = -1;
+		while(++idx < len) 
+		{
+			int num = dummy.get(idx);
+			int remainCost = arr[num] + M; // 해당 숫자를 사기 위한 가격 + 남은돈
+			int nextIdx = -1;
+			int nextCost = 0;
+			// remainCost로 살 수 있는 가장 큰 값을 찾는다.
+			for(int i=0; i<N; i++)
+			{
+				if(arr[i] <= remainCost) 
+				{
+					nextCost = arr[i];
+					nextIdx = i;
+				}
+			}
+			
+			if(nextIdx != -1) 
+			{
+				// 해당 idx삭제 후 다른 idx로 교체
+				dummy.set(idx,nextIdx);
+				M = remainCost - nextCost;
+			}
+		}
+		
+		return M;
+	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
@@ -35,27 +65,8 @@ class Main{
 			M -=now.cost;
 			dummy.add(now.idx);
 		}
-		int len = dummy.size();
-		int idx = -1;
-		while(++idx < len) {
-			int num = dummy.get(idx);
-			int remainCost = arr[num] + M; // 해당 숫자를 사기 위한 가격 + 남은돈
-			int nextIdx = -1;
-			int nextCost = 0;
-			// remainCost로 살 수 있는 가장 큰 값을 찾는다.
-			for(int i=0; i<N; i++) {
-				if(arr[i] <= remainCost) {
-					nextCost = arr[i];
-					nextIdx = i;
-				}
-			}
-			
-			if(nextIdx != -1) {
-				// 해당 idx삭제 후 다른 idx로 교체
-				dummy.set(idx,nextIdx);
-				M = remainCost - nextCost;
-			}
-		}
+		
+		M = changeNumber(dummy,arr,M, N);
 		//가장 앞이 0일 수 이으므로 맨뒤 0을 삭제하고, 반복.
 		int remainCost = M;
 		while(dummy.size()>0 && dummy.get(0) == 0) 
@@ -77,35 +88,11 @@ class Main{
 				remainCost -= nextCost;
 			}
 		}
-		M = remainCost;
 		
-		len = dummy.size();
-		idx = -1;
-		while(++idx < len) {
-			int num = dummy.get(idx);
-			remainCost = arr[num] + M; // 해당 숫자를 사기 위한 가격 + 남은돈
-			int nextIdx = -1;
-			int nextCost = 0;
-			// remainCost로 살 수 있는 가장 큰 값을 찾는다.
-			for(int i=0; i<N; i++) {
-				if(arr[i] <= remainCost) {
-					nextCost = arr[i];
-					nextIdx = i;
-				}
-			}
-			
-			if(nextIdx != -1) {
-				// 해당 idx삭제 후 다른 idx로 교체
-				dummy.set(idx,nextIdx);
-				M = remainCost - nextCost;
-			}
-		}
+		changeNumber(dummy,arr,remainCost, N); // 다시 가장 큰 수 들로 변경
 		
-		if(dummy.size() == 0) {
+		if(dummy.size() == 0)
 			dummy.add(0);
-		}
-		
-		
 			
 		StringBuilder sb = new StringBuilder();
 		for(int d : dummy)sb.append(d);
