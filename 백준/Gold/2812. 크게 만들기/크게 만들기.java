@@ -1,21 +1,23 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
 	public static void main(String args[])throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken()); // 자리수
-		int K = Integer.parseInt(st.nextToken()); // 지울 수
+		int N = read(); // 자리수
+		int K = read(); // 지울 수
 		int limit = N-K; // 최종 만들어야하는 길이
-		String str = br.readLine();
-
+		int str[] = new int[N];
 		
+		for(int i=0; i<N; i++)
+			str[i] = System.in.read()-'0';
+
 		for(int i=0; i<N; i++) {
-			char c = str.charAt(i);
-			while(K > 0 && sb.length()>0 && sb.charAt(sb.length()-1) < c) 
+			int c = str[i];
+			while(K > 0 && sb.length()>0 && sb.charAt(sb.length()-1)-'0' < c) 
 			{
 				sb.deleteCharAt(sb.length()-1);
 				--K;
