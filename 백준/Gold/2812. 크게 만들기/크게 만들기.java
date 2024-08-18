@@ -15,10 +15,10 @@ class Main{
 		
 		for(int i=0; i<N; i++) {
 			char c = str.charAt(i);
-			while(K != 0 && sb.length()>0 && sb.charAt(sb.length()-1) < c) 
+			while(K > 0 && sb.length()>0 && sb.charAt(sb.length()-1) < c) 
 			{
 				sb.deleteCharAt(sb.length()-1);
-				if(--K==0)break;
+				--K;
 			}
 			sb.append(c);
 		}
