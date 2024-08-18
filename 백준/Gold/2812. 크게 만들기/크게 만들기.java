@@ -15,14 +15,15 @@ class Main{
 		for(int i=0; i<N; i++)
 			str[i] = System.in.read()-'0';
 
-		for(int i=0; i<N; i++) {
-			int c = str[i];
-			while(K > 0 && sb.length()>0 && sb.charAt(sb.length()-1)-'0' < c) 
+		for(int i=0; i<N; i++) 
+		{
+			int len = sb.length() - 1;
+			while(K > 0 && len>=0 && sb.charAt(len)-'0' < str[i]) 
 			{
-				sb.deleteCharAt(sb.length()-1);
+				sb.deleteCharAt(len--);
 				--K;
 			}
-			sb.append(c);
+			sb.append(str[i]);
 		}
 		
 		
