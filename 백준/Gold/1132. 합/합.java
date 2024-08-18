@@ -34,10 +34,9 @@ class Main{
 		}
 		
 		ArrayList<Node> list = new ArrayList<>();
-		for(int i=0; i<10; i++) {
+		for(int i=0; i<10; i++)
 			if(valueOfChar[i] > 0)
 				list.add(new Node(i,valueOfChar[i]));
-		}
 			
 		Collections.sort(list,(a,b)->Long.compare(b.value,a.value));
 		
@@ -48,32 +47,32 @@ class Main{
 
 		int psZeroIdx = -1; // 0이 가능하면서도, rank가 가장 작아야 한다.
 		int dummyRank = 11;
-		for(int i=0; i<10; i++) {
-			if(!nonZeroList[i] && dummyRank > rank[i]) {
+		for(int i=0; i<10; i++)
+			if(!nonZeroList[i] && dummyRank > rank[i])
+			{
 				psZeroIdx = i;
 				dummyRank = rank[i];
 
 			}
-		}
 		
-		for(int i=0; i<10; i++) {
-			if(rank[i] == 0 && nonZeroList[i]) {
-				for(int j=0; j<10; j++) {
-					if(rank[psZeroIdx] > rank[j]) {
+		for(int i=0; i<10; i++)
+			if(rank[i] == 0 && nonZeroList[i]) 
+			{
+				for(int j=0; j<10; j++) 
+					if(rank[psZeroIdx] > rank[j]) 
 						rank[j]++;
-					}
-				}
+
 				rank[psZeroIdx] = 0;
 				break;
 			}
-		}
 		
 		long res = 0;
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<N; i++) 
+		{
 			StringBuilder sb = new StringBuilder();
-			for(char c : str[i].toCharArray()) {
+			for(char c : str[i].toCharArray())
 				sb.append(rank[c-'A']);
-			}
+
 			res += Long.parseLong(sb.toString());
 		}
 		
