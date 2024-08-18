@@ -1,15 +1,11 @@
 //https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.PriorityQueue;
 class Node{
 	int ch;
 	long value;
-	Node(int ch, long value){
-		this.ch = ch;
-		this.value = value;
-	}
+	Node(int ch, long value){this.ch = ch;	this.value = value;	}
 }
 class Main{
 	public static void main(String[] args)throws Exception{
@@ -33,18 +29,17 @@ class Main{
 			}
 		}
 		
-		ArrayList<Node> list = new ArrayList<>();
+		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->Long.compare(b.value,a.value));
 		for(int i=0; i<10; i++)
 			if(valueOfChar[i] > 0)
-				list.add(new Node(i,valueOfChar[i]));
+				pq.add(new Node(i,valueOfChar[i]));
 			
-		Collections.sort(list,(a,b)->Long.compare(b.value,a.value));
-		
 		int rank[] = new int[10];
+		int f = 9;
 		
-		for(int i=0,j=9; i<list.size(); i++,j--)
-			rank[list.get(i).ch] = j;
-
+		while(!pq.isEmpty())
+			rank[pq.poll().ch] = f--;
+		
 		int psZeroIdx = -1; // 0이 가능하면서도, rank가 가장 작아야 한다.
 		int dummyRank = 11;
 		for(int i=0; i<10; i++)
@@ -69,11 +64,11 @@ class Main{
 		long res = 0;
 		for(int i=0; i<N; i++) 
 		{
-			StringBuilder sb = new StringBuilder();
+			long num = 0;
 			for(char c : str[i].toCharArray())
-				sb.append(rank[c-'A']);
+				num = num * 10 + rank[c-'A'];
 
-			res += Long.parseLong(sb.toString());
+			res += num;
 		}
 		
 		System.out.print(res);
