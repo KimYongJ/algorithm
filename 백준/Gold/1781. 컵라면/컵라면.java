@@ -15,7 +15,7 @@ class Main{
 		boolean visit[] = new boolean[N+1];
 		
 		PriorityQueue<Node> stored	= new PriorityQueue<Node>((a,b)->a.cnt-b.cnt);
-		PriorityQueue<Node> pq		= new PriorityQueue<Node>((a,b)->a.dl != b.dl ? a.dl-b.dl : b.cnt-a.cnt);
+		PriorityQueue<Node> pq		= new PriorityQueue<Node>((a,b)->a.dl-b.dl);
 		
 		for(int i=0; i<N; i++) 
 			pq.add(new Node(read(),read()));
