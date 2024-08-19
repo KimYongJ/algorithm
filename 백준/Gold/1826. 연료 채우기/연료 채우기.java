@@ -18,22 +18,20 @@ class Main{
 
 		int goal	= read();	// 목표위치
 		int nowp	= read();	// 초기 연료이자 초기에 갈 수 있는 최대 위치.
-		int before	= -1;		// 반복을 종료하기 위한 플레그
 		
-		while(nowp < goal && before != nowp) 
+		while(nowp < goal)		// 현재 위치가 목표위치보다 작을 때
 		{
-			before = nowp;
 			while(!pq.isEmpty() && pq.peek().d <= nowp) 
-				fuelQ.add(pq.poll().f);
+				fuelQ.add(pq.poll().f);// 현재위치보다 작은 주유소들의 연료를 fuelQ에삽입
 			
-			if(!fuelQ.isEmpty()) 
+			if(!fuelQ.isEmpty())
 			{
-				nowp += fuelQ.poll();
+				nowp += fuelQ.poll();// 큐에서 가장큰 연료를 하나 꺼내고 결과 +1
 				res++;
-			}
+			}else break;// 큐가 비어있다면 더 이상 갈 수 없는 것이므로 종료
 		}
 		
-		if(nowp < goal)
+		if(nowp < goal)// 목표에 도달하지 못했을 때
 			res = -1;
 		
 		System.out.print(res);
