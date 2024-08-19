@@ -32,15 +32,15 @@ class Main{
 			
 			int min = Math.abs(goal[i]);
 			int j;
-			
+			boolean isNegative = goal[i]<0;
 			for(j = i+1; j<N; j++) 
 			{
-				if((goal[j] == 0) || !((goal[i]>0 && goal[j]>0) || (goal[i]<0 && goal[j]<0)))
+				if((goal[j] == 0) || !((!isNegative && goal[j]>0) || (isNegative && goal[j]<0)))
 					break;
 				min = Math.min(min, Math.abs(goal[j]));
 			}
 			
-			if(goal[i] < 0) 
+			if(isNegative) 
 				min = -min;
 			
 			while(--j>=0) 
