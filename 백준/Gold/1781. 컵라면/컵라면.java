@@ -1,25 +1,25 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{
 	int dl, cnt; Node(int dl, int cnt){this.dl=dl;this.cnt=cnt;}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		PriorityQueue<Node> stored = new PriorityQueue<Node>((a,b)->a.cnt-b.cnt);
-		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.dl != b.dl ? a.dl-b.dl : b.cnt-a.cnt);
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		int N = Integer.parseInt(br.readLine());
-		int res = 0;
+		int N			= read();
+		int res 		= 0;
 		boolean visit[] = new boolean[N+1];
+		
+		PriorityQueue<Node> stored	= new PriorityQueue<Node>((a,b)->a.cnt-b.cnt);
+		PriorityQueue<Node> pq		= new PriorityQueue<Node>((a,b)->a.dl != b.dl ? a.dl-b.dl : b.cnt-a.cnt);
+		
 		for(int i=0; i<N; i++) 
-		{
-			st = new StringTokenizer(br.readLine());
-			pq.add(new Node(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));
-		}
+			pq.add(new Node(read(),read()));
+		
 		for(int i=1; i<=N; i++) // 시간마다 탐색 
 		{
 			while(!pq.isEmpty() && pq.peek().dl == i) // 해당 시간까지 데드라인인 객체들은 모두 꺼낸다.
@@ -38,13 +38,11 @@ class Main{
 					stored.add(now);
 				}
 			}
-			if(!visit[i]) {
-				visit[i] = true;
-				if(!pq.isEmpty()) {
-					Node now = pq.poll();
-					res += now.cnt;
-					stored.add(now);
-				}
+			if(!visit[i] && !pq.isEmpty())
+			{
+				Node now = pq.poll();
+				res += now.cnt;
+				stored.add(now);
 			}
 		}
 		System.out.print(res);
