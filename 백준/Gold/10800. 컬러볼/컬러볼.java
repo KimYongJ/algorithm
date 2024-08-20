@@ -11,45 +11,37 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		int N		= read();
-		int maxSize = 0;
 		int color[]	= new int[N+1];
 		int result[]= new int[N];
 		Node list[] = new Node[N];
+		
 		for(int i=0; i<N; i++)
-		{
-			int col = read();
-			int size = read();
-			list[i] = new Node(i, col, size);
-			maxSize = Math.max(maxSize, size);
-		}
-		int sum[] = new int[maxSize+1]; // 누적합
+			list[i] = new Node(i, read(), read());
 		
 		Arrays.sort(list,(a,b)->a.s-b.s); // 크기로 오름차순 정렬
 		
-		int j = 0;
-		for(int i=1; i<=maxSize; i++) 
+		int sum = 0;
+		int beforeSize = list[0].s;
+		for(int i=0; i<N; i++) 
 		{
-			int s;
-			for(s=j;s<N; s++)
+			if(list[i].s != beforeSize) // 이전 사이즈랑 다르면 누적합(sum)과 color에 따른 사이즈를 갱신함.
 			{
-				if(list[s].s > i) 
-					break;
-				result[list[s].idx] =  sum[i-1] - color[list[s].c];
-				sum[i] += list[s].s;
+				int idx = i;
+				while(--idx >=0 && list[idx].s == beforeSize)
+				{
+					sum += list[idx].s;
+					color[list[idx].c]+= list[idx].s;
+				}
+				beforeSize = list[i].s;
 			}
-			for(s=j;s<N; s++)
-			{
-				if(list[s].s > i) 
-					break;
-				color[list[s].c]+= list[s].s;
-			}
-			j = s;
-			sum[i] += sum[i-1];
+			result[list[i].idx] =  sum - color[list[i].c];
 		}
 		
 		StringBuilder sb = new StringBuilder();
+		
 		for(int i=0; i<N; i++)
 			sb.append(result[i]).append('\n');
+		
 		System.out.print(sb.toString());
 	}
 }
