@@ -7,7 +7,7 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		int end = read();	// 최대길이
-		int M	= read();	// 놓을 심판 개수
+		int M	= read()-1;	// 놓을 심판 개수
 		int K	= read();	// 심판이 자리잡을 수 있는 곳
 		int arr[]	= new int[K];// 심판이 들어갈 수 있는 위치
 		
@@ -19,7 +19,7 @@ class Main{
 		while(start <= end)
 		{
 			mid = (start + end) / 2;
-			int m = M-1;
+			int m = M;
 			int idx = 0;
 			for(int i=1; i<K; i++)
 			{
@@ -40,7 +40,6 @@ class Main{
 		
 		StringBuilder sb = new StringBuilder("1");
 		int idx = 0;
-		M--;
 		for(int i=1; i<K; i++) 
 		{
 			if(M > 0 && arr[i] - arr[idx] >= res) 
