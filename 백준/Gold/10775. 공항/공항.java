@@ -7,11 +7,8 @@ class Main{
 		return gate[x] = find(gate, gate[x]);
 	}
 	public static void union(int gate[],int x, int y) {
-		int x1 = find(gate,x);
 		int y1 = find(gate,y);
-		if(x1 > y1) {
-			gate[x1] = y1;
-		}
+		if(x > y1) gate[x] = y1;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
