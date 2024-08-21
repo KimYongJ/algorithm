@@ -1,34 +1,36 @@
 // https://github.com/kimyongj/algorithm
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
-	public static int find(int gate[], int x) {
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	public static int find(int gate[], int x) 
+	{
 		if(gate[x] == x) return x;
 		return gate[x] = find(gate, gate[x]);
 	}
-	public static void union(int gate[],int x, int y) {
-		int y1 = find(gate,y);
-		if(x > y1) gate[x] = y1;
-	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int G = Integer.parseInt(br.readLine()); // 게이트 수 1<=105
-		int P = Integer.parseInt(br.readLine()); // 비행기 수 1<=105
-		int cnt = 0;
-		int gate[] = new int[G+1];
+		int G		= read(); // 게이트 수 1<=105
+		int P		= read(); // 비행기 수 1<=105
+		int cnt		= 0;
+		int gate[]	= new int[G+1];
+		int x,y;
 		
 		for(int i=1; i<=G; i++) // 게이트 초기화
 			gate[i] = i;
 		
 		for(int i=0; i<P; i++) 
 		{
-			int now = Integer.parseInt(br.readLine());
-			int x = find(gate, now);
+			int now = read();
 			
-			if(x == 0)
+			if((x = find(gate, now)) == 0)
 				break;
 			
-			union(gate, x, x-1);
+			y = find(gate,x-1);
+			
+			if(x > y) 
+				gate[x] = y;
 			
 			cnt++;
 		}
