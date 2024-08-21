@@ -20,13 +20,8 @@ class Main{
 		for(int i=1; i<=G; i++) // 게이트 초기화
 			gate[i] = i;
 		
-		for(int i=0; i<P; i++) 
+		for(int i=0; i<P && ((x = find(gate, read())) != 0); i++) 
 		{
-			int now = read();
-			
-			if((x = find(gate, now)) == 0)
-				break;
-			
 			y = find(gate,x-1);
 			
 			if(x > y) 
