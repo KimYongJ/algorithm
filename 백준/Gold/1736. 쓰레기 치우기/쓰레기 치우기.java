@@ -25,25 +25,22 @@ class Main{
 		}
 		
 		for(int x=X-1; x>=0; x--) 
-		{
 			if(pq[x].size() != 0) 
 			{
 				cnt++;
 				int now = pq[x].peek();
 				for(int x1=x-1; x1>=0; x1--) 
 				{
-					int min = 100;
+					if(pq[x1].isEmpty()) continue;
+					
+					int min = Math.min(now,pq[x1].peek());
+					
 					while(!pq[x1].isEmpty() && now >= pq[x1].peek()) 
-					{
-						min = Math.min(min,pq[x1].poll());
-					}
-					if(min < now) 
-					{
-						now = min;
-					}
+						pq[x1].poll();
+					
+					now = min;
 				}
 			}
-		}
 		System.out.print(cnt);
 	}
 }
