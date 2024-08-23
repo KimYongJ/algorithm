@@ -31,7 +31,8 @@ class Main{
 				int now = pq[x].peek();
 				for(int x1=x-1; x1>=0; x1--) 
 				{
-					if(pq[x1].isEmpty()) continue;
+					if(pq[x1].isEmpty()) 
+						continue;
 					
 					int min = Math.min(now,pq[x1].peek());
 					
