@@ -8,7 +8,7 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		int N		= read();
-		int res		= 0;
+		int res		= 1;
 		int cnt		= 1;
 		int arr[]	= new int[N+1];
 		
@@ -22,8 +22,6 @@ class Main{
 			else
 				cnt = 1;
 		}
-		
-		res = Math.max(res, 1);
 		
 		System.out.print(N-res);
 	}
