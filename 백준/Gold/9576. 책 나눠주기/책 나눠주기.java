@@ -21,10 +21,10 @@ class Main{
 		while(T-->0) 
 		{
 			PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.b != b.b ? a.b-b.b : a.a-b.a);
-			int N = read(); // 총 책의 수
-			int M = read(); // 학생 수
-			int cnt = 0;
-			int parent[] = new int[N+2];
+			int N		= read(); // 총 책의 수
+			int M		= read(); // 학생 수
+			int cnt		= 0;
+			int parent[]= new int[N+2];
 			
 			for(int i=1; i<N+2; i++)
 				parent[i] = i;
