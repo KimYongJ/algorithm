@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/9576
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{	int a, b;	Node(int a, int b){this.a=a; this.b=b;} }
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
