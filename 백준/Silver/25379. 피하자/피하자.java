@@ -10,14 +10,16 @@ class Main{
 		int N = Integer.parseInt(br.readLine());
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		ArrayList<Integer> even = new ArrayList<>();
-		for(int i=0; i<N; i++){
+		for(int i=0; i<N; i++)
+		{
 			int n = Integer.parseInt(st.nextToken());
-			if(n % 2 == 0) {
+			if(n % 2 == 0)
+			{
 				even.add(i);
 			}
 		}
 		int len = even.size() - 1;
-		int res1 = 0, res2 = 0;
+		long res1 = 0, res2 = 0;
 		if(len >= 0) {
 			res1 = even.get(0); // 왼쪽에서 오른쪽 탐색
 			res2 = N-1-even.get(len); // 오른쪽에서 왼쪽 탐색
