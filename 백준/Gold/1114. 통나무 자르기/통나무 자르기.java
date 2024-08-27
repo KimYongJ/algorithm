@@ -31,13 +31,18 @@ class Main{
 		Arrays.sort(arr);
 		
 		int res = L;
+		int res2= 0;
 		int start = 0;
 		int end = L+1;
 		int mid;
-		while(start <= end) {
+		while(start <= end) 
+		{
 			mid = (start + end) / 2;
-			if(check(mid,C,L,arr)) {
+			int IDX = check(mid,C,L,arr);
+			if(IDX > 0)
+			{
 				res = mid;
+				res2 = IDX;
 				end = mid-1;
 			}else {
 				start = mid+1;
@@ -45,55 +50,27 @@ class Main{
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(res).append(' ').append(getIdx(res,C-1,L,arr));
+		sb.append(res).append(' ').append(res2);
 		System.out.print(sb.toString());
 	}
-	public static int getIdx(int mid,int cnt,int L,int[] arr) {
-		int s = 1;
-		int len = arr.length;
-		while(true) 
-		{
-			boolean flag = true;
-			int start = arr[s];
-			int count = cnt;
-			for(int i=s+1; i<len; i++)
-			{
-				if(arr[i] - start > mid) 
-				{
-					start = arr[i-1];
-					if(arr[i] - arr[i-1] > mid || --count <0)
-					{
-						flag = false;
-						break;
-					}
-				}
-			}
-			
-			if(flag)
-				return arr[s];
-			
-			s++;
-		}
-	}
-	public static boolean check(int mid, int cnt,int L,int[] arr) {
+	public static int check(int mid, int cnt,int L,int[] arr) {
 		if(arr[0] > mid) 
-			return false;
+			return 0;
 		int len = arr.length;
-		int start = 0;
-		for(int i=1; i<len; i++) 
+		int start = arr[len-1];
+		for(int i=len-2; i>=0; i--) // 역순으로 탐색하여 마지막 start가 가장 먼저 자른 것이 되도록한다. 
 		{
-			if(arr[i] - start > mid) 
+			if(start - arr[i] > mid) 
 			{
-				if(arr[i] - arr[i-1] > mid)
-					return false;
+				if(arr[i+1] - arr[i] > mid || --cnt<0)
+					return 0;
 				
-				start = arr[i-1];
-				
-				if(--cnt<0)
-					return false;
+				start = arr[i+1];
+
 			}
 		}
-		return true;
+		// cnt가 0보다 크면 즉, 아직 더 자를것이 있다면 첫번째를 자를 수 있으므로 arr[1]반환
+		return cnt > 0 ? arr[1] : start;
 				
 	}
 }
