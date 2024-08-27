@@ -1,22 +1,21 @@
 // https://github.com/kimyongj/algorithm
 // https://www.acmicpc.net/problem/1114
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int L = Integer.parseInt(st.nextToken()); // 최대 길이
-		int K = Integer.parseInt(st.nextToken()); // 위치개수
-		int C = Integer.parseInt(st.nextToken()); // 자르는 횟수
+		int L = read(); // 최대 길이
+		int K = read(); // 위치개수
+		int C = read(); // 자르는 횟수
 		
-		st = new StringTokenizer(br.readLine());
 		HashSet<Integer> set = new HashSet<>();
 		for(int i=0; i<K; i++)
-			set.add(Integer.parseInt(st.nextToken()));
+			set.add(read());
 		
 		K = set.size()+2;
 		int arr[] = new int[K];
@@ -26,11 +25,11 @@ class Main{
 		
 		arr[K-1] = L;
 		
-		C = Math.min(C, K); // 자라는 횟수와 위치 개수 중 작은것을 선택.  
+		C = Math.min(C, K); // 자르는 횟수와 위치 개수 중 작은것을 선택.  
 		
 		Arrays.sort(arr);
 		
-		int res = L;
+		int res1 = L;
 		int res2= 0;
 		int start = 0;
 		int end = L+1;
@@ -41,7 +40,7 @@ class Main{
 			int IDX = check(mid,C,L,arr);
 			if(IDX > 0)
 			{
-				res = mid;
+				res1 = mid;
 				res2 = IDX;
 				end = mid-1;
 			}else {
@@ -50,7 +49,7 @@ class Main{
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(res).append(' ').append(res2);
+		sb.append(res1).append(' ').append(res2);
 		System.out.print(sb.toString());
 	}
 	public static int check(int mid, int cnt,int L,int[] arr) {
