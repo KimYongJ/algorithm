@@ -54,8 +54,6 @@ class Main{
 		System.out.print(sb.toString());
 	}
 	public static int check(int mid, int cnt,int L,int[] arr) {
-		if(arr[0] > mid) 
-			return 0;
 		int len = arr.length;
 		int start = arr[len-1];
 		for(int i=len-2; i>=0; i--) // 역순으로 탐색하여 마지막 start가 가장 먼저 자른 것이 되도록한다. 
