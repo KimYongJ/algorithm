@@ -5,9 +5,9 @@ import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 class Node{
-	int count, aDist, bDist, diff;
+	int count, a, b, diff;
 	Node(int cnt, int a, int b, int diff){
-		this.count=cnt;	this.aDist=a;this.bDist=b;this.diff=diff;
+		this.count=cnt;	this.a=a;this.b=b;this.diff=diff;
 	}
 }
 class Main{
@@ -38,58 +38,29 @@ class Main{
 			
 			while(!pq.isEmpty()) 
 			{
-				Node t = pq.poll();
-				if(t.aDist < t.bDist) {
-					if(A >= t.count) {
-						result += t.count * t.aDist;
-						A -= t.count;
-					}else {
-						result += A * t.aDist;
-						t.count -= A;
-						A = 0;
-						
-						result += t.count * t.bDist;
-						B -= t.count;
-					}
-				}else {
-					if(B >= t.count) {
-						result += t.count * t.bDist;
-						B -= t.count;
-					}else {
-						result += B * t.bDist;
-						t.count -= B;
-						B = 0;
-						
-						result += t.count * t.aDist;
-						A -= t.count;
+				Node now = pq.poll();
+				if(now.a > now.b) // b로가는게 더 이득일 때 
+				{
+					int balloon = Math.min(B, now.count); // 최소로 없앨 수 있는 풍선 수
+					B -= balloon;
+					now.count -= balloon;
+					result += balloon * now.b;
+					if(now.count > 0) {
+						result += now.count * now.a;
+						A -= now.count;
 					}
 				}
-//				if(now.aDist > now.bDist) // b로가는게 더 이득일 때 
-//				{
-//					if(B >= now.remain) {
-//						B -= now.remain;
-//						result += now.remain * now.b;
-//					}else {
-//						result += B * now.b;
-//						now.remain -= B;
-//						B = 0;
-//						A -= now.remain;
-//						result += now.remain * now.a;
-//					}
-//				}
-//				else // a로가는게 더 이득일 때
-//				{
-//					if(A >= now.remain) {
-//						A -= now.remain;
-//						result += now.remain * now.a;
-//					}else {
-//						result += A * now.a;
-//						now.remain -= A;
-//						A = 0;
-//						B -= now.remain;
-//						result += now.remain * now.b;
-//					}
-//				}
+				else // a로가는게 더 이득일 때
+				{
+					int balloon = Math.min(A, now.count); // 최소로 없앨 수 있는 풍선 수
+					A -= balloon;
+					now.count -= balloon;
+					result += balloon * now.a;
+					if(now.count > 0) {
+						result += now.count * now.b;
+						B -= now.count;
+					}
+				}
 			}
 			sb.append(result).append('\n');
 		}
