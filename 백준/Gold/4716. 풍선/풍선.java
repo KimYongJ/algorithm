@@ -13,6 +13,7 @@ class Node{
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
 		while(true) 
 		{
@@ -90,7 +91,8 @@ class Main{
 //					}
 //				}
 			}
-			System.out.println(result);
+			sb.append(result).append('\n');
 		}
+		System.out.print(sb.toString());
 	}
 }
