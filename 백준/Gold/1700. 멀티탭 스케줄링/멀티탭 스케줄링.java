@@ -29,23 +29,19 @@ class Main{
 			return;
 		}
 		// 그리디 원리 : 현재 코드에 있는 것들 중 가장 늦게 사용되는 것을 체크
-		for(; idx<K; idx++) 
+		while(idx < K) 
 		{
-			if(cord.contains(arr[idx])) // 이미 코드에 있을 경우 
-				continue;
-
-			result++;
-			
-			HashSet<Integer> dummy = new HashSet<>(cord);// 연산을 위한 복사
-			for(int i= idx+1; i<K && dummy.size() > 1; i++)// 현재 코드에 있는게 하나남을 때 까지 반복
-				dummy.remove(arr[i]);// 가장 늦게 사용되는것을 체크하기 위한 것
-			
-			for(int n : dummy)
-			{
-				cord.remove(n);
+			if(!cord.contains(arr[idx])) 
+			{ // 코드에 없을 경우만 연산 진행 
+				HashSet<Integer> dummy = new HashSet<>(cord);// 연산을 위한 복사
+				for(int i= idx+1; i<K && dummy.size() > 1; i++)// 현재 코드에 있는게 하나남을 때 까지 반복
+					dummy.remove(arr[i]);// 가장 늦게 사용되는것을 체크하기 위한 것
+				
+				cord.remove(dummy.iterator().next());
 				cord.add(arr[idx]);
-				break;
+				result++;
 			}
+			++idx;
 		}
 		System.out.print(result);
 	}
