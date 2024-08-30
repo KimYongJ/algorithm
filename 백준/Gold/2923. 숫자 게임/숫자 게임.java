@@ -11,12 +11,14 @@ class Main{
 		int T	= read();
 		int A[] = new int[101];
 		int B[] = new int[101];
+		int AA[];
+		int BB[];
 		while(T-->0)
 		{
 			A[read()]++;
 			B[read()]++;
-			int AA[] = new int[101];
-			int BB[] = new int[101];
+			AA = new int[101];
+			BB = new int[101];
 			for(int i=1; i<=100; i++) 
 			{
 				AA[i] = A[i];
