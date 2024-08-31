@@ -1,31 +1,20 @@
 //https://github.com/kimyongj/algorithm
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-class Node{
-	String str; int idx, len;
-	Node(String str, int idx, int len){this.str=str; this.idx=idx; this.len=len;}
-}
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		ArrayDeque<Node> q = new ArrayDeque<>();
-		while(true) 
-		{
-			String str = br.readLine();
-			if(str == null || str.length()==0)
-				break;
-			q.add(new Node(str, 0, str.length()));
-		}
-		while(!q.isEmpty()) 
-		{
-			Node now = q.poll();
-			if(now.len > now.idx) {
-				sb.append(now.str.charAt(now.idx++));
-				q.add(now);
-			}
-		}
+		String str[] = new String[5];
+		
+		for(int i=0; i<5; i++)
+			str[i] = br.readLine();
+		
+		for(int i=0; i<15; i++)
+			for(int j=0; j<5; j++)
+				if(str[j].length() > i)
+					sb.append(str[j].charAt(i));
+
 		System.out.print(sb.toString());
 	}
 }
