@@ -21,10 +21,10 @@ class Main{
 		{
 			if(i%2==0)// 정방향으로 놓길 원하는 사람 
 			{
-				if(forward[fStartIdx] < reverse[rStartIdx])
-					front.append(forward[fStartIdx++]);
-				else 
+				if(forward[fStartIdx] >= reverse[rStartIdx]) 
 					back.append(forward[fEndIdx--]);
+				else 
+					front.append(forward[fStartIdx++]);
 			}
 			else // 역방향으로 놓길 원하는 사람
 			{
