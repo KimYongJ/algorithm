@@ -5,13 +5,13 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N			= Integer.parseInt(br.readLine());// 범위 0<=20
-		boolean arr[][]	= new boolean[N][N];
+		int N		= Integer.parseInt(br.readLine());// 범위 0<=20
+		int row[]	= new int[N]; // 
 		for(int i=0; i<N; i++)
 		{
 			String str = br.readLine();
 			for(int j=0; j<N; j++)
-				arr[i][j] = str.charAt(j) == 'T';
+				row[i] |= str.charAt(j) == 'T' ? (1<<N-j-1) : 0;
 		}
 		
 		int ans = Integer.MAX_VALUE;
@@ -21,17 +21,7 @@ class Main{
 			int sum = 0;
 			for(int x=0; x<N; x++) 
 			{
-				int Tcnt = 0;
-				for(int y=0; y<N; y++) 
-				{
-					boolean flag = arr[y][x];
-					
-					if((s&(1<<y)) != 0) 
-						flag = !flag;
-					
-					if(flag)
-						Tcnt++;
-				}
+				int Tcnt = Integer.bitCount(row[x] ^ s);
 				sum += Math.min(Tcnt,  N-Tcnt);
 			}
 			ans = Math.min(ans, sum);
