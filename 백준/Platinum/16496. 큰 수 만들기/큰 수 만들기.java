@@ -6,7 +6,13 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		PriorityQueue<String> pq = new PriorityQueue<String>((a,b)-> (b+a).compareTo(a+b));
+		PriorityQueue<String> pq = new PriorityQueue<String>(
+				(a,b)->
+			new StringBuilder().append(b).append(a).toString()
+			.compareTo(
+					new StringBuilder().append(a).append(b).toString()
+			)
+		);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		StringTokenizer st = new StringTokenizer(br.readLine());
