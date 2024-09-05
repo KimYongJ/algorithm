@@ -8,7 +8,7 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		int min, res= 0;
+		int res		= 0;
 		int i, N	= read(); // 라면공장개수 N (3<=만개)
 		int arr[]	= new int[N+2];
 		for(i=0; i<N; i++)
@@ -18,15 +18,33 @@ class Main{
 		while(++i<N)
 			if(arr[i] != 0)
 			{
+				if(arr[i+1] > arr[i+2]) 
+				{
+					int two = Math.min(arr[i], arr[i+1] - arr[i+2]);
+					res += two * 5;
+					arr[i] -= two;
+					arr[i+1] -= two;
+					
+					int three = Math.min(arr[i], Math.min(arr[i+1], arr[i+2]));
+					res += three * 7;
+					arr[i] -= three;
+					arr[i+1] -= three;
+					arr[i+2] -= three;
+				}
+				else 
+				{
+					int three = Math.min(arr[i], Math.min(arr[i+1], arr[i+2]));
+					res += three * 7;
+					arr[i] -= three;
+					arr[i+1] -= three;
+					arr[i+2] -= three;
+					
+					int two = Math.min(arr[i], arr[i+1]);
+					res += two * 5;
+					arr[i] -= two;
+					arr[i+1] -= two;
+				}
 				res += 3 * arr[i];
-				
-				min = Math.min(arr[i], arr[i+1]);
-				res += 2 * min;
-				arr[i+1] -= min;
-				
-				min = Math.min(min, arr[i+2] - Math.min(arr[i+1], arr[i+2]));
-				res += 2 * min;
-				arr[i+2] -= min;
 			}
 		System.out.print(res);
 	}
