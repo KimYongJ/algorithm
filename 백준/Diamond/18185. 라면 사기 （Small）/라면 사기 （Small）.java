@@ -6,6 +6,7 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
 	}
+	
 	public static void main(String[] args)throws Exception{
 		int min, res= 0;
 		int i, N	= read(); // 라면공장개수 N (3<=만개)
@@ -18,8 +19,8 @@ class Main{
 			if(arr[i] != 0)
 			{
 				res += 3 * arr[i];
-				min = Math.min(arr[i], arr[i+1]);
 				
+				min = Math.min(arr[i], arr[i+1]);
 				res += 2 * min;
 				arr[i+1] -= min;
 				
