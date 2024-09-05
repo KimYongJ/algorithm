@@ -1,19 +1,20 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/18185
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int min, res= 0;
-		int N		= Integer.parseInt(br.readLine()); // 라면공장개수 N (3<=만개)
+		int i, N	= read(); // 라면공장개수 N (3<=만개)
 		int arr[]	= new int[N+2];
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+		for(i=0; i<N; i++)
+			arr[i] = read();
 		
-		for(int i=0; i<N; i++)
+		i = -1;
+		while(++i<N)
 			if(arr[i] != 0)
 			{
 				res += 3 * arr[i];
