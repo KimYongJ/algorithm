@@ -6,26 +6,26 @@ import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int res		= 0;
+		int min, res= 0;
 		int N		= Integer.parseInt(br.readLine()); // 라면공장개수 N (3<=만개)
 		int arr[]	= new int[N+2];
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
 			arr[i] = Integer.parseInt(st.nextToken());
 		
-		int min;
 		for(int i=0; i<N; i++)
-		{
-			res += 3 * arr[i];
-			min = Math.min(arr[i], arr[i+1]);
-			
-			res += 2 * min;
-			arr[i+1] -= min;
-			
-			min = Math.min(min, arr[i+2] - Math.min(arr[i+1], arr[i+2]));
-			res += 2 * min;
-			arr[i+2] -= min;
-		}
+			if(arr[i] != 0)
+			{
+				res += 3 * arr[i];
+				min = Math.min(arr[i], arr[i+1]);
+				
+				res += 2 * min;
+				arr[i+1] -= min;
+				
+				min = Math.min(min, arr[i+2] - Math.min(arr[i+1], arr[i+2]));
+				res += 2 * min;
+				arr[i+2] -= min;
+			}
 		System.out.print(res);
 	}
 }
