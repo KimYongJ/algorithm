@@ -26,9 +26,7 @@ class Main{
 		{
 			now = pq.poll();
 			if(now.s <= e)
-			{
 				e = Math.max(e, now.e);
-			}
 			else 
 			{
 				res += e - s;
