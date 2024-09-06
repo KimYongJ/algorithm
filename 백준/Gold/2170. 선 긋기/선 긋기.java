@@ -17,7 +17,7 @@ class Main{
 		int res = 0;
 		
 		for(int i=0; i<N; i++)
-			pq.add(new Node(read(),read()));
+			pq.offer(new Node(read(),read()));
 		
 		Node now	= pq.poll();
 		int s		= now.s;
