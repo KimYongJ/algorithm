@@ -1,32 +1,34 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17383
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
-	public static boolean check(long mid, long arr[]) {
-		long one = 0;		// 1의 개수
-		long two = 0;		// 2의 개수
-		for(long a : arr) {
-			long flag = (long)Math.ceil((double)a/mid);
-			if(flag == 1) one++;
-			else if(flag == 2) two++;
-			else {
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	public static boolean check(long mid, int arr[]) {
+		int one		= 0;	// 1의 개수
+		boolean two = false;// 2가있는지 체크
+		for(int a : arr) 
+		{
+			int flag = (int)Math.ceil((double)a/mid);
+			if(flag == 1) 
+				one++;
+			else if(flag == 2)
+				two = true;
+			else
 				one -= flag - 2;// 1사용 개수
-			}
 		}
-		if(one < 0) return false;
-		if(one <= 0 && two > 0) return false;
+		if(one < 0)				return false;// 1을 초과한 경우 
+		if(one == 0 && two)		return false;// 2가 1개 이상인 경우는 반드시 1이 필요하다.
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine()); // N(1<=십만)
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		long arr[] = new long[N];
-		for(int i=0; i<N; i++) {
-			arr[i] = Long.parseLong(st.nextToken()); // 원소 범위(1<=1억)
-		}
+		int N = read(); // N(1<=십만)
+		int arr[] = new int[N];
+		for(int i=0; i<N; i++)
+			arr[i] = read(); // 원소 범위(1<=1억)
+		
 		long start = 1;
 		long end = 1_100_000_000;
 		long mid;
