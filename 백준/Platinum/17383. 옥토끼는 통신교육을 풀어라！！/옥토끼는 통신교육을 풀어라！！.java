@@ -24,22 +24,26 @@ class Main{
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
-		int N = read(); // N(1<=십만)
-		int arr[] = new int[N];
+		int N		= read(); // N(1<=십만)
+		int arr[]	= new int[N];
+		
 		for(int i=0; i<N; i++)
 			arr[i] = read(); // 원소 범위(1<=1억)
 		
-		long start = 1;
-		long end = 1_100_000_000;
+		long start	= 1;
+		long end	= 1_000_000_001;
+		long res	= 0;
 		long mid;
-		long res = 0;
 		while(start <= end) 
 		{
 			mid = (start + end) / 2;
-			if(check(mid, arr)) {
+			if(check(mid, arr))
+			{
 				res = mid;
 				end = mid -1;
-			}else {
+			}
+			else 
+			{
 				start = mid + 1;
 			}
 		}
