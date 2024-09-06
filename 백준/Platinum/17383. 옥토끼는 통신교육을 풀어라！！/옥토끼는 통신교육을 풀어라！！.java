@@ -6,12 +6,12 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
 	}
-	public static boolean check(long mid, int arr[]) {
+	public static boolean check(long mid, double arr[]) {
 		int one		= 0;	// 1의 개수
 		boolean two = false;// 2가있는지 체크
-		for(int a : arr) 
+		for(double a : arr) 
 		{
-			int flag = (int)Math.ceil((double)a/mid);
+			int flag = (int)Math.ceil(a/mid);
 			if(flag == 1) 
 				one++;
 			else if(flag == 2)
@@ -24,8 +24,8 @@ class Main{
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
-		int N		= read(); // N(1<=십만)
-		int arr[]	= new int[N];
+		int N		 = read(); // N(1<=십만)
+		double arr[] = new double[N];
 		
 		for(int i=0; i<N; i++)
 			arr[i] = read(); // 원소 범위(1<=1억)
