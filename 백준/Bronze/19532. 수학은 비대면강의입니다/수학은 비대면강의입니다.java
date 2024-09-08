@@ -11,18 +11,11 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
-		int a=read(),b=read(),c=read(),d=read(),e=read(),f=read(),x=-1000,y;
-
-		while(++x < 1000) 
-		{
-			y = -1000;
-			while(++y < 1000)
-				if((a*x + b*y == c) &&( d*x + e*y == f))
-				{
-					sb.append(x).append(' ').append(y);
-					System.out.print(sb.toString());
-					return;
-				}
-		}
+		int a=read(),b=read(),c=read(),d=read(),e=read(),f=read();
+		sb
+		.append((c*e - b*f) / (a*e - b*d))
+		.append(' ')
+		.append((c*d - a*f) / (b*d - a*e));
+		System.out.print(sb.toString());
 	}
 }
