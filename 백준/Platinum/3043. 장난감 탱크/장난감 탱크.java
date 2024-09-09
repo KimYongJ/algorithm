@@ -74,8 +74,8 @@ class Main{
 		cnt += MOVE_UP_OR_LEFT(		col, N, MOVE_LEFT);
 		cnt += MOVE_DOWN_OR_RIGHT(	col, N, MOVE_RIGHT);
 
-		System.out.println(cnt);
-		System.out.print(sb.toString());
+		System.out.print(new StringBuilder().append(cnt).append('\n')
+                         .append(sb.toString()).toString());
 	}
 }
 /*
