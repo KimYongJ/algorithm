@@ -29,7 +29,7 @@ class Main{
 		{
 			Node now = arr[i];
 			int idx = now.idx;
-			int target = i + 1;
+			int target = i;
 			while(idx > target) {
 				++cnt;
 				--idx;
@@ -43,7 +43,7 @@ class Main{
 		for(int i=N-1; i>=0; i--) {
 			Node now = arr[i];
 			int idx = now.idx;
-			int target = i + 1;
+			int target = i;
 			while(idx < target) {
 				++cnt;
 				++idx;
@@ -60,8 +60,8 @@ class Main{
 		
 		for(int i=0; i<N; i++)
 		{
-			int r	= read();
-			int c	= read();
+			int r	= read()-1;
+			int c	= read()-1;
 			row[i]	= new Node(i+1, r);
 			col[i]	= new Node(i+1, c);
 		}
