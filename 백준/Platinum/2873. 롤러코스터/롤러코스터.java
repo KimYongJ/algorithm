@@ -15,7 +15,6 @@ class Main{
 			sb.append(dir);
 			flag = (flag+1) % 2;
 		}
-		sb.deleteCharAt(sb.length()-1);
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -92,8 +91,9 @@ class Main{
 				
 				sy+=2;
 			}
-			sb.deleteCharAt(sb.length()-1);
 		}
+		
+		sb.deleteCharAt(sb.length()-1);
 		System.out.print(sb.toString());
 	}
 }
