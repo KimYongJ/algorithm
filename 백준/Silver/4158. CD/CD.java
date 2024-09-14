@@ -14,27 +14,22 @@ class Main{
 			int M = read();
 			if(N==0 && M == 0)
 				break;
-			int res = 0;
-			int arr[] = new int[N];
+			
+			int res		= 0;
+			int s		= 0;
+			int arr[]	= new int[N];
+			
 			for(int i=0; i<N; i++)
 				arr[i] = read();
-			
-			int s = 0;
+
 			for(int i=0; i<N; i++)
 			{
 				int g = read();
-				for(int j=s; j<N; j++)
-				{
-					if(arr[j] == g)
-					{
-						res++;
-						s = j;
-						break;
-					}
-					if(arr[j] < g)
-						s = j;
-					else break;
-				}
+				while(s<N && arr[s] < g)
+					s++;
+
+				if(s < N && arr[s] == g)
+					res++;
 			}
 			sb.append(res).append('\n');
 		}
