@@ -19,23 +19,21 @@ class Main{
 			for(int i=0; i<N; i++)
 				arr[i] = read();
 			
+			int s = 0;
 			for(int i=0; i<N; i++)
 			{
 				int g = read();
-				int s = 0;
-				int e = N-1;
-				while(s <= e)
+				for(int j=s; j<N; j++)
 				{
-					int mid = (s + e) / 2;
-					if(arr[mid] == g)
+					if(arr[j] == g)
 					{
 						res++;
+						s = j;
 						break;
 					}
-					if(arr[mid] < g)
-						s = mid+1;
-					else
-						e = mid-1;
+					if(arr[j] < g)
+						s = j;
+					else break;
 				}
 			}
 			sb.append(res).append('\n');
