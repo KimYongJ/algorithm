@@ -9,6 +9,7 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
+
 		int T = read();
 		while(T-->0)
 		{
@@ -20,31 +21,21 @@ class Main{
 			
 			for(int i=0; i<N; i++)
 				arr1[i] = read();
-			
+
 			for(int i=0; i<M; i++)
 				arr2[i] = read();
 			
+			Arrays.sort(arr1);
 			Arrays.sort(arr2);
 			
+			int idx = 0;
 			for(int n : arr1)
 			{
-				int s = 0;
-				int e = M-1;
-				int idx = -1;
-				while(s <= e)
-				{
-					// 숫자n이 arr2에서 몇번째 서열인지
-					int mid = (s + e) / 2;
-					if(arr2[mid] < n)
-					{
-						idx = mid;
-						s = mid + 1;
-					}
-					else
-						e = mid - 1;
-				}
-				if(idx != -1)
-					res += idx + 1;
+				while(idx < M && arr2[idx] < n)
+					idx++;
+				
+				if(idx <= M)
+					res += idx;
 			}
 			sb.append(res).append('\n');
 		}
