@@ -3,6 +3,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
+
 class Main{
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
@@ -23,7 +24,7 @@ class Main{
 			int number = Integer.parseInt(br.readLine());
 			int s	= 0;
 			int e	= N-1;
-			int idx	= -1;
+			int idx	= 0;
 			while(s <= e)
 			{
 				int mid = (s + e) / 2;
@@ -37,9 +38,8 @@ class Main{
 					s = mid + 1;
 				}
 			}
-			if(idx != -1) {
-				sb.append(name[idx]).append('\n');
-			}
+			
+			sb.append(name[idx]).append('\n');
 		}
 		System.out.print(sb.toString());
 	}
