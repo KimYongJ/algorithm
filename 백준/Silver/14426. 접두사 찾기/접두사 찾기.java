@@ -4,37 +4,35 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Node{
-	boolean now;
 	Node[] next = new Node[26];
-	Node(boolean now) {this.now = now;}
 }
 class Trie{
-	Node[] string;
-	Trie() {string = new Node[26];}
+	Node root;
+	Trie() {root = new Node();}
 	
 	public void add(String str)
 	{
-		int c = str.charAt(0) - 'a';
-		if(string[c] == null) {
-			string[c] = new Node(true);
-		}
-		Node now[] = string[c].next;
-		for(int i=1; i<str.length(); i++) {
-			c = str.charAt(i) - 'a';
-			if(now[c] == null) {
-				now[c] = new Node(true);
-			}
-			now = now[c].next;
+		Node current = root;
+		for(int i=0; i<str.length(); i++)
+		{
+			int c = str.charAt(i) - 'a';
+			
+			if(current.next[c] == null)
+				current.next[c] = new Node();
+			
+			current = current.next[c];
 		}
 	}
 	public boolean contains(String str) {
-		int c = str.charAt(0) - 'a';
-		if(string[c] == null) return false;
-		Node now[] = string[c].next;
-		for(int i=1; i<str.length(); i++) {
-			c = str.charAt(i) - 'a';
-			if(now[c] == null) return false;
-			now = now[c].next;
+		Node current = root;
+		for(int i=0; i<str.length(); i++)
+		{
+			int c = str.charAt(i) - 'a';
+			
+			if(current.next[c] == null)
+				return false;
+			
+			current = current.next[c];
 		}
 		return true;
 	}
