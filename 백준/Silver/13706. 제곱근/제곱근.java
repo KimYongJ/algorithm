@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print(new BigInteger(br.readLine()).sqrt());
+		System.out.print(new BigInteger(new BufferedReader(new InputStreamReader(System.in)).readLine()).sqrt());
 	}
 }
