@@ -1,23 +1,20 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/13702
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
-
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken()); // 막걸리 주전자 개수 N( 만이하 )
-		int K = Integer.parseInt(st.nextToken()); // 나눌 사람의 수 K( 백만이하 )
+		int N = read(); // 막걸리 주전자 개수 N( 만이하 )
+		int K = read(); // 나눌 사람의 수 K( 백만이하 )
 		int arr[] = new int[N]; // 막걸리 용량 ( 0 <= int형최대 )
-		long s = 1,e = 0;
+
 		for(int i=0; i<N; i++)
-		{
-			arr[i] = Integer.parseInt(br.readLine());
-			e = Math.max(e, arr[i]);
-		}
+			arr[i] = read();
 		
+		long s = 1,e = Integer.MAX_VALUE;
 		long res = 0;
 		while(s <= e)
 		{
