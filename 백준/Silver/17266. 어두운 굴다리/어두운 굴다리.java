@@ -6,38 +6,22 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
 	}
-	public static boolean check(int pos[], int mid, int N) {
-		int s = 0;// 가장왼쪽
-		for(int p : pos)
-		{
-			if(p - mid > s)
-				return false;
-			s = p + mid;
-		}
-		return pos[pos.length-1] + mid >= N;
-	}
 	public static void main(String[] args)throws Exception{
 		int N		= read();		// 굴다리 길이 (1<=십만)
 		int M		= read();		// 가로등의 개수 M (1<=N)
 		int pos[]	= new int[M];	// 가로등의 위치(오름차순 정렬)
+		int maxGap	= pos[0] = read();
 		
-		for(int i=0; i<M; i++)
-			pos[i] = read();
-		
-		int res	= 0;
-		int s	= 0;
-		int e	= N;
-		while(s <= e)
+		for(int i=1; i<M; i++)
 		{
-			int mid = (s + e) / 2;
-			if(check(pos, mid, N))
-			{
-				res = mid;
-				e = mid - 1;
-			}
-			else
-				s = mid + 1;
+			pos[i] = read();
+			
+			int gap = (int)Math.ceil((pos[i] - pos[i-1])/2.0);
+			maxGap = Math.max(maxGap, gap);
 		}
-		System.out.print(res);
+		
+		maxGap = Math.max(maxGap, N - pos[M-1]);
+		
+		System.out.print(maxGap);
 	}
 }
