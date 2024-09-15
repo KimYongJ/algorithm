@@ -1,5 +1,5 @@
 //https://github.com/KimYongJ/algorithm
-//https://www.acmicpc.net/problem/2776
+//https://www.acmicpc.net/problem/7795
 import java.util.Arrays;
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
@@ -9,26 +9,23 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
-
 		int T = read();
 		while(T-->0)
 		{
 			int N = read();
 			int M = read();
 			int res = 0;
+            int idx = 0;
 			int arr1[] = new int[N];
 			int arr2[] = new int[M];
-			
 			for(int i=0; i<N; i++)
 				arr1[i] = read();
-
 			for(int i=0; i<M; i++)
 				arr2[i] = read();
 			
 			Arrays.sort(arr1);
 			Arrays.sort(arr2);
 			
-			int idx = 0;
 			for(int n : arr1)
 			{
 				while(idx < M && arr2[idx] < n)
