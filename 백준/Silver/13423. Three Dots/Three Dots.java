@@ -20,19 +20,26 @@ class Main{
 			
 			Arrays.sort(arr);
 			
-			for(int i=0; i<N-2; i++)
-				for(int j=i+1; j<N-1; j++)
+			for(int i=1; i<N-1; i++)
+			{
+				int leftIdx	= i - 1;
+				int rightIdx= i + 1;
+				while(leftIdx >= 0 && rightIdx < N)
 				{
-					int next = (arr[j] << 1) - arr[i];
-					for(int k=j+1; k<N; k++)
+					int leftInterval	= arr[i] - arr[leftIdx];
+					int rightInterval	= arr[rightIdx] - arr[i];
+					if(leftInterval == rightInterval)
 					{
-						if(arr[k] == next)
-							res ++;
-						if(next < arr[k])
-							break;
-					}
+						res++;
+						leftIdx--;
+						rightIdx++;
+					}else if(leftInterval < rightInterval)
+						leftIdx--;
+					else
+						rightIdx++;
 				}
-			
+				
+			}
 			sb.append(res).append('\n');
 		}
 		System.out.print(sb.toString());
