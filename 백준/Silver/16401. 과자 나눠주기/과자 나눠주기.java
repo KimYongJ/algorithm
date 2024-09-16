@@ -31,13 +31,14 @@ class Main{
 		
 		left = 1;
 		right = 1_000_000_000;
-		while(left <= right) {
+        
+		while(left <= right)
+        {
 			mid = (left + right) / 2;
-			if(check(mid)) {
+			if(check(mid))
 				left = mid+1;
-			}else {
+			else
 				right = mid-1;
-			}
 		}
 		System.out.println(left-1);
 	}
