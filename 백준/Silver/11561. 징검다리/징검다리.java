@@ -1,20 +1,20 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/11561
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
+	static long read() throws Exception {// 빠른 입력을 위한 함수
+		long c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = (int)read();
 		while(T-- > 0)
 		{
-			long N = Long.parseLong(br.readLine());
-			long s = 1;
-			long e = (long)Math.sqrt(2 * N);
-			long res = 0;
-			
-			N *= 2;
+			long N	= read();
+			long s	= 1;
+			long e	= (long)Math.sqrt(N<<=1);
+			long res= 0;
 			
 			while(s <= e)
 			{
