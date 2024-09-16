@@ -30,14 +30,14 @@ class Main{
 				int rightIdx= i + 1;
 				while(leftIdx >= 0 && rightIdx < N)
 				{
-					int leftInterval	= arr[i] - arr[leftIdx];
-					int rightInterval	= arr[rightIdx] - arr[i];
-					if(leftInterval == rightInterval)
+					int leftDiff	= arr[i] - arr[leftIdx];
+					int rightDiff	= arr[rightIdx] - arr[i];
+					if(leftDiff == rightDiff)
 					{
 						res++;
 						leftIdx--;
 						rightIdx++;
-					}else if(leftInterval < rightInterval)
+					}else if(leftDiff < rightDiff)
 						leftIdx--;
 					else
 						rightIdx++;
