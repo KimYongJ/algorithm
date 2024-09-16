@@ -10,25 +10,7 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		int T = (int)read();
 		while(T-- > 0)
-		{
-			long N	= read();
-			long s	= 1;
-			long e	= (long)Math.sqrt(N<<=1);
-			long res= 0;
-			
-			while(s <= e)
-			{
-				long mid = (s + e) / 2;
-				if(mid * (mid + 1) <= N) // 등차 수열공식 n(n+1)/2 간소화 후 연산진행
-				{
-					s = mid + 1;
-					res = mid;
-				}
-				else
-					e = mid - 1;
-			}
-			sb.append(res).append('\n');
-		}
+			sb.append((long)((-1 + Math.sqrt(1 + 8 * read())) / 2)).append('\n');
 		System.out.print(sb.toString());
 	}
 }
