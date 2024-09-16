@@ -5,9 +5,12 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	public static boolean check(int arr[], long maxTime, long targetNumber){
-		for(int a : arr)
+		for(int a : arr) {
 			targetNumber -= maxTime / a;
-		return targetNumber <= 0;
+			if(targetNumber <= 0)
+				return true;
+		}
+		return false;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
