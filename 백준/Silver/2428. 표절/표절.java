@@ -8,35 +8,30 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		int N		= read();		// 솔루션 개수 (1<=십만)
+		int N		= read();	// 솔루션개수 (1<=십만)
 		int arr[]	= new int[N];	// 각 솔루션 파일 크기(1<=억)
-		long cnt	= 0;
 		
 		for(int i=0; i<N; i++)
 			arr[i] = read();
 		
 		Arrays.sort(arr);
 		
-		for(int i=0; i<N; i++)
+		long cnt = 0;
+		for(int i=N-1; i>=0; i--)
 		{
-			int target	= (arr[i] * 10) / 9;
-			int s		= i + 1;
-			int e		= N - 1;
-			int r		= i;
+			int target	= (int)Math.ceil(arr[i] * 0.9);
+			int s		= 0;
+			int e		= i - 1;
 			
 			while(s <= e)
 			{
 				int mid = (s + e) >> 1;
-				if(arr[mid] <= target)
-				{
-					r = mid;
-					s = mid + 1;
-				}
+				if(target <= arr[mid])
+					e = mid - 1;
 				else
-					e = mid - 1;					
+					s = mid + 1;
 			}
-			
-			cnt += r - i;
+			cnt += i - s;
 		}
 		
 		System.out.print(cnt);
