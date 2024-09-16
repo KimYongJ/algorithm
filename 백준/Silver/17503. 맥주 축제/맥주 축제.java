@@ -14,14 +14,13 @@ class Main{
 	public static boolean check(Node[] node, long level, int target, int day) {
 		long sum = 0;
 		for(Node n : node)
-		{
 			if(n.lev <= level)
 			{
 				sum += n.pre;
 				if(--day == 0)
 					break;
 			}
-		}
+
 		return day == 0 && sum >= target;
 	}
 	public static void main(String[] args)throws Exception{
@@ -41,7 +40,7 @@ class Main{
 		
 		while(s <= e)
 		{
-			long mid = (int)((s + e) >> 1);
+			long mid = (s + e) >> 1;
 			if(check(node, mid, M, N))
 			{
 				res = mid;
