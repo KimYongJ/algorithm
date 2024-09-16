@@ -9,7 +9,7 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int N	= read();	// 버스의 개수(1<=50)
 		int T	= read();	// 터미널에 도착하는시간 (1<=백만)
-		int min = Integer.MAX_VALUE;
+		int min = 2_000_001;
 		for(int i=0; i<N; i++)
 		{
 			int S = read();	// 버스 시작 시각(1<=백만)
@@ -26,7 +26,7 @@ class Main{
 			}
 		}
 		
-		if(min == Integer.MAX_VALUE)
+		if(min == 2_000_001)
 			min = -1;
 		
 		System.out.print(min);
