@@ -1,19 +1,30 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/18114
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
-
 class Main{
+	public static boolean findTargetNumber(int target, int arr[], int s, int e) {
+		while(s <= e)
+		{
+			int mid = (s + e) >> 1;
+			if(arr[mid] == target)
+				return true;
+			if(arr[mid] < target)
+				s = mid + 1;
+			else
+				e = mid - 1;
+		}
+		return false;
+	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N		= Integer.parseInt(st.nextToken());	// 물건의 개수(1<=오천)
 		int C		= Integer.parseInt(st.nextToken());	// 무게(1<=억)
 		int arr[]	= new int[N];						// 무게(1<=억)
-		
+		int res		= 0;
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
 		{
@@ -34,21 +45,22 @@ class Main{
 			int sum = arr[s] + arr[e];
 			if(sum == C)
 			{
-				System.out.print(1);
-				return;
+				res = 1;
+				break;
 			}
-			
-			for(int i=s+1; i<e; i++) {
-				if(arr[i] + sum == C) {
-					System.out.print(1);
-					return;
+			if(sum > C)
+				e--;
+			else
+			{
+				int target = C - sum;
+				if(findTargetNumber(target, arr,s + 1, e - 1))
+				{
+					res = 1;
+					break;
 				}
-				if(arr[i] + sum > C) break;
+				s++;
 			}
-			
-			if(sum < C) s++;
-			else e--;
 		}
-		System.out.print(0);
+		System.out.print(res);
 	}
 }
