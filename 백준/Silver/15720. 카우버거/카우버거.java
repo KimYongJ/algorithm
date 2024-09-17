@@ -24,12 +24,8 @@ class Main{
 		int B		= read();	// 버거 개수(1<=1000)
 		int C		= read();	// 사이드 개수(1<=1000)
 		int D		= read();	// 음료 개수(1<=1000)
-		int sum1	= 0;
+		int sum1	= input(bq, B) + input(cq, C) + input(dq, D);
 		int minus	= 0;
-		
-		sum1 += input(bq, B);
-		sum1 += input(cq, C);
-		sum1 += input(dq, D);
 
 		while(!bq.isEmpty() && !cq.isEmpty() && !dq.isEmpty())
 			minus += (bq.poll() + cq.poll() + dq.poll()) / 10;
