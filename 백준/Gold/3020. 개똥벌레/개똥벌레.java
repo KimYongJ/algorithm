@@ -20,17 +20,20 @@ class Main{
 			}else
 				arr[M - Integer.parseInt(br.readLine())] += 1;
 		}
-		int min = arr[0];
+		
+		int cnt[]	= new int[N+1];
+		int min		= arr[0];
+		
+		cnt[arr[0]]++;
+		
 		for(int i=1; i<M; i++)
 		{
 			arr[i] += arr[i-1];
 			min = Math.min(min, arr[i]);
+			cnt[arr[i]]++;
 		}
-		int cnt = 0;
-		for(int i=0; i<M; i++)
-			if(arr[i] == min)
-				cnt++;
 		
-		System.out.print(new StringBuilder().append(min).append(' ').append(cnt));
+		
+		System.out.print(new StringBuilder().append(min).append(' ').append(cnt[min]));
 	}
 }
