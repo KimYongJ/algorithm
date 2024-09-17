@@ -9,32 +9,35 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int N		= read();	// 길이 N(2<=이십만) 항상짝수
 		int M		= read();	// 높이 H(2<=오십만)
-		int arr[]	= new int[M+1];						// 종유석을 담을 배열
+		int arr[]	= new int[M+1];// 종유석을 담을 배열
 		
 		for(int i=0; i<N; i++)
 		{
 			if(i % 2 == 0)
 			{
-				arr[0]		+= 1;
-				arr[read()] += -1;
+				arr[0]			+= 1;
+				arr[read()] 	+= -1;
 			}else
 				arr[M - read()] += 1;
 		}
 		
-		int cnt[]	= new int[N+1];	// 최소 구간 카운팅 정렬
-		int min		= arr[0];
-		
-		cnt[arr[0]]++;
+		int cnt	= 0;
+		int min	= arr[0];
 		
 		for(int i=1; i<M; i++)
 		{
 			arr[i] += arr[i-1];
-			
-			cnt[arr[i]]++;
-			
-			min = Math.min(min, arr[i]);
+			if(min > arr[i])
+			{
+				min = arr[i];
+				cnt = 1;
+			}
+			else if(min == arr[i])
+				cnt++;
 		}
+		if(min == arr[0])
+			cnt++;
 		
-		System.out.print(new StringBuilder().append(min).append(' ').append(cnt[min]));
+		System.out.print(new StringBuilder().append(min).append(' ').append(cnt));
 	}
 }
