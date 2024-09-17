@@ -5,42 +5,49 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 class Main{
-	public static boolean check(char arr[][], int mid,int Y, int X)
-	{
-		HashSet<String> set = new HashSet<>();
-		for(int x=0; x<X; x++) {
-			StringBuilder sb = new StringBuilder();
-			for(int y= mid;y<Y; y++) {
-				sb.append(arr[y][x]);
-			}
-			if(set.contains(sb.toString())) {
-				return false;
-			}
-			set.add(sb.toString());
-		}
-		return true;
-	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int Y = Integer.parseInt(st.nextToken());	// 2<=천
-		int X = Integer.parseInt(st.nextToken());	// 2<=천
-		char arr[][] = new char[Y][X];
+		BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st	= new StringTokenizer(br.readLine());
+		int Y				= Integer.parseInt(st.nextToken());	// 2<=천
+		int X				= Integer.parseInt(st.nextToken());	// 2<=천
+		char base[][]		= new char[Y][X];
+		StringBuilder arr[]	= new StringBuilder[X];
+		HashSet<String> set = new HashSet<>();
 		
 		for(int y=0; y<Y; y++)
-			arr[y] = br.readLine().toCharArray();
+			base[y] = br.readLine().toCharArray();
 		
-		int s = 1;
-		int e = Y - 1;
+		for(int x=0; x<X; x++)
+		{
+			arr[x] = new StringBuilder();
+			for(int y=0; y<Y; y++)
+				arr[x].append(base[y][x]);
+		}
+		
+		int s	= 1;
+		int e	= Y - 1;
 		int res = 0; // 지울 수 있는 가장 밑에 행
-		while(s <= e) {
-			int mid = (s + e) >> 1;
-			if(check(arr, mid,Y, X)) {
+		
+		while(s <= e)
+		{
+			int mid			= (s + e) >> 1;
+			boolean flag	= true;
+			
+			for(int x=0; x<X; x++)
+			{
+				String str = arr[x].substring(mid);
+				if(set.contains(str))
+					flag = false;
+				set.add(str);
+			}
+		
+			if(flag)
+			{
 				res = mid;
 				s = mid + 1;
-			}else {
-				e = mid - 1;
 			}
+			else
+				e = mid - 1;
 		}
 		
 		 System.out.print(res);
