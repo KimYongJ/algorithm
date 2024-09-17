@@ -1,34 +1,19 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/18114
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
-	public static boolean findTargetNumber(int target, int arr[], int s, int e) {
-		while(s <= e)
-		{
-			int mid = (s + e) >> 1;
-			if(arr[mid] == target)
-				return true;
-			if(arr[mid] < target)
-				s = mid + 1;
-			else
-				e = mid - 1;
-		}
-		return false;
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 물건의 개수(1<=오천)
-		int C		= Integer.parseInt(st.nextToken());	// 무게(1<=억)
-		int arr[]	= new int[N];						// 무게(1<=억)
-		int res		= 0;
-		st = new StringTokenizer(br.readLine());
+		int N		= read();		// 물건의 개수(1<=오천)
+		int C		= read();		// 무게(1<=억)
+		int arr[]	= new int[N];	// 무게(1<=억)
 		for(int i=0; i<N; i++)
 		{
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 			if(arr[i] == C)
 			{
 				System.out.print(1);
@@ -45,22 +30,35 @@ class Main{
 			int sum = arr[s] + arr[e];
 			if(sum == C)
 			{
-				res = 1;
-				break;
+				System.out.print(1);
+				return;
 			}
 			if(sum > C)
 				e--;
 			else
 			{
 				int target = C - sum;
-				if(findTargetNumber(target, arr,s + 1, e - 1))
+				int ss = s + 1;
+				int ee = e - 1;
+				while(ss <= ee)						// 가운데 숫자도 이분탐색으로 찾음
 				{
-					res = 1;
-					break;
+					int mid = (ss + ee) >> 1;
+					if(arr[mid] == target)
+					{
+						System.out.print(1);
+						return;
+					}
+					if(arr[mid] < target)
+						ss = mid + 1;
+					else
+						ee = mid - 1;
 				}
+				
 				s++;
+				
 			}
 		}
-		System.out.print(res);
+		
+		System.out.print(0);
 	}
 }
