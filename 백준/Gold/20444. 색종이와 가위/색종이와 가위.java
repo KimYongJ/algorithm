@@ -1,20 +1,17 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/20444
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
+	static long read() throws Exception {// 빠른 입력을 위한 함수
+		long c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		long N	= Integer.parseInt(st.nextToken());	// 1<=2의31제곱-1
-		long K	= Long.parseLong(st.nextToken());	// 1<=2의61제곱-1
-		
-		long s = 0;
-		long e = N;
-		
+		long N	= read();	// 1<=2의31제곱-1
+		long K	= read();	// 1<=2의61제곱-1
+		long s	= 0;
+		long e	= N;
+
 		while(s <= e)
 		{
 			long mid	= (s + e) >> 1;				// 가로로 자르는 횟수
@@ -33,7 +30,7 @@ class Main{
 	}
 }
 
-// 이하 완전 탐색..
+// ..이하 완전 탐색 코드 ..
 //class Main{
 //	public static void main(String[] args)throws Exception{
 //		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
