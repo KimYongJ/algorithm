@@ -1,6 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17245
-import java.util.ArrayList;
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -12,9 +11,10 @@ class Main{
 		int s		= 1;
 		int e		= 0;
 		int res		= 0;
+		int arr[][] = new int[N][N];
 		long total	= 0;
 		
-		ArrayList<Integer> list = new ArrayList<>();
+		
 		for(int i=0; i<N; i++)
 			for(int j=0; j<N; j++)
 			{
@@ -22,7 +22,7 @@ class Main{
 				if(n > 0)
 				{
 					e = Math.max(e, n);
-					list.add(n);
+					arr[i][j] = n;
 					total += n;
 				}
 			}
@@ -35,8 +35,10 @@ class Main{
 			int mid		= (s + e) >> 1;
 			long sum	= 0;
 			
-			for(int l : list)
-				sum += Math.min(mid, l);
+			for(int i=0; i<N; i++)
+				for(int j=0; j<N; j++)
+					if(arr[i][j] != 0)
+						sum += Math.min(mid, arr[i][j]);
 			
 			if(total <= sum)
 			{
