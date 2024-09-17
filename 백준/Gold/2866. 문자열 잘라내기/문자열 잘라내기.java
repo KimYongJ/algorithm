@@ -41,7 +41,10 @@ class Main{
 			{
 				String str = arr[x].substring(mid);
 				if(set.contains(str))
+				{
 					flag = false;
+					break;
+				}
 				set.add(str);
 			}
 		
