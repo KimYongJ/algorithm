@@ -7,10 +7,12 @@ import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-		int s = 1;
-		int e = 0;
-		long total = 0;
+		int N		= Integer.parseInt(br.readLine());
+		int s		= 1;
+		int e		= 0;
+		int res		= 0;
+		long total	= 0;
+		
 		ArrayList<Integer> list = new ArrayList<>();
 		for(int i=0; i<N; i++)
 		{
@@ -26,8 +28,8 @@ class Main{
 				}
 			}
 		}
+		
 		total = (long)Math.ceil(total / 2.0);
-		int res = 0;
 		
 		while(s <= e)
 		{
