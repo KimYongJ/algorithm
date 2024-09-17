@@ -1,26 +1,26 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/9024
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
-
 class Main{
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-- >0)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int N		= Integer.parseInt(st.nextToken());	// 2<=백만
-			int K		= Integer.parseInt(st.nextToken());	// -억<=억
+			int N		= read();	// 2<=백만
+			int K		= read();	// -억<=억
 			int arr[]	= new int[N];
 			
-			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<N; i++)
-				arr[i] = Integer.parseInt(st.nextToken());
+				arr[i] = read();
 			
 			Arrays.sort(arr);
 			
@@ -43,10 +43,11 @@ class Main{
 						diff = abs;
 					}
 				}
-				if(sum < K) s++;
-				else e--;
+				if(sum < K)
+					s++;
+				else
+					e--;
 			}
-			
 			
 			sb.append(cnt).append('\n');
 		}
