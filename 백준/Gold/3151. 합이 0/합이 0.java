@@ -55,12 +55,7 @@ class Main{
 				}
 				
 				if(idx != 0)
-				{
-					if(idx == idx1)
-						cnt++;
-					else cnt += (idx1 - idx) + 1;
-				}
-				
+					cnt += (idx1 - idx) + 1;
 			}
 		}
 		System.out.print(cnt);
