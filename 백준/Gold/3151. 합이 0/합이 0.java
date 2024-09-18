@@ -1,6 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/3151
-import java.util.Arrays;
 class Main{
 	public static int read() throws Exception {
 		int c, n = System.in.read() & 15;
@@ -11,60 +10,24 @@ class Main{
 		return isNegative ? ~n + 1 : n;
 	}
 	public static void main(String[] args)throws Exception{
-		int N		= read();		// 학생수 (1<=만)
-		int arr[]	= new int[N];	// 학생들의 코딩 실력(-만<=만)
+		int N		= read();						// 학생수 (1<=만)
+		int arr[]	= new int[N];					// 학생들의 코딩 실력(-만<=만)
+		long result	= 0;
+		int count[] = new int[40001];				// 두 학생의 합을 담아 놓을 배열 (인덱스 범위: -20000 ~ 20000, 0을 기준으로 함)
 		
-		for(int i=0; i<N; i++)
+		for (int i = 0; i < N; i++) 
 			arr[i] = read();
 		
-		Arrays.sort(arr);
-
-		long cnt = 0;
-		for(int i=0; i<N-2; i++) 
+		for (int i = 0; i < N; i++)
 		{
-			if(arr[i] > 0)
-				break;
+			result += count[20000 - arr[i]];		// 세 번째 학생이 선택된 상태에서, 두 학생의 합과 더해서 0이 되는 경우를 찾음
 			
-			int left	= i + 1;
-			int right	= N - 1;
-			
-			while(left < right)
-			{
-				int sum = arr[i] + arr[left] + arr[right];
-				
-				if(sum == 0)// 원하는 값을 찾았다면 중복된 값 체크
-				{
-					if(arr[left] == arr[right])
-					{
-						long len = right - left + 1;// 양쪽이 같으면 조합을 구함
-						cnt += len * (len - 1) / 2;
-						break;
-					}
-					
-					int leftCount = 1;
-					while(left + 1< right && arr[left + 1] == arr[left])
-					{
-						leftCount++;
-						left++;
-					}
-					
-					int rightCount = 1;
-					while(left < right - 1 && arr[right - 1] == arr[right])
-					{
-						rightCount++;
-						right--;
-					}
-					
-					cnt += (long)leftCount * rightCount;
-				}
-				
-				if(0 < sum)
-					right--;
-				else
-					left++;
+			// 현재 학생 이전의 학생들과 두 학생의 합을 미리 count 배열에 기록
+			for (int j = 0; j < i; j++) {			// 첫 번째와 두 번째 학생 선택
+				count[20000 + arr[i] + arr[j]]++;	// 두 학생의 합을 0을 기준으로 인덱싱하여 count 배열에 기록
 			}
-			
 		}
-		System.out.print(cnt);
+
+		System.out.print(result);
 	}
 }
