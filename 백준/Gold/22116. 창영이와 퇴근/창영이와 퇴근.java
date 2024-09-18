@@ -12,7 +12,7 @@ class Node{
 }
 class Main{	
 	public static void main(String[] args)throws Exception{
-		int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
+        // 입력 부분
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());	// 1<=천
 		int map[][] = new int[N][N];					// 1<=십억
@@ -23,6 +23,8 @@ class Main{
 				map[y][x] = Integer.parseInt(st.nextToken());
 		}
 
+        // 다익스트라 부분
+        int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
 		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.diff - b.diff);
 		int visit[][] = new int[N][N];
 		
@@ -35,8 +37,10 @@ class Main{
 		while(!pq.isEmpty())
 		{
 			Node now = pq.poll();
-			if(now.y == now.x && now.y == N-1) {
-				continue;
+			if(now.y == now.x && now.y == N-1)
+            {
+				System.out.print(now.diff);
+				return;
 			}
 			
 			for(int xy[] : dxy)
@@ -44,9 +48,9 @@ class Main{
 				int nextY = now.y + xy[0];
 				int nextX = now.x + xy[1];
 				if(nextY <0 || nextX <0 || nextY >=N || nextX>=N) continue;
-				
+				// diff를 최댓 값으로 하고, 
 				int diff = Math.max(Math.abs(map[now.y][now.x]- map[nextY][nextX]), now.diff);
-				if(visit[nextY][nextX] > diff)
+				if(visit[nextY][nextX] > diff)// visit은 최소값으로 담기게 하여 최대 값의 최소가 담기도록 만듦
 				{
 					visit[nextY][nextX] = diff;
 					pq.add(new Node(nextY, nextX, diff));
@@ -54,7 +58,6 @@ class Main{
 			}
 		}
 		
-		
-		System.out.print(visit[N-1][N-1] == 1000000000 ? 0 : visit[N-1][N-1]);
+		System.out.print(0);
 	}
 }
