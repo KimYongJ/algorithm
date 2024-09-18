@@ -21,19 +21,22 @@ class Main{
 		long cnt = 0;
 		for(int i=0; i<N-2; i++) 
 		{
-			int left = i + 1;
-			int right= N - 1;
-			int target = -arr[i];
+			if(arr[i] > 0)
+				break;
+			
+			int left	= i + 1;
+			int right	= N - 1;
 			while(left < right)
 			{
-				int sum = arr[left] + arr[right];
-				if(target < sum)
+				int sum = arr[i] + arr[left] + arr[right];
+				if(0 < sum)
 					right--;
-				else if(sum < target)
+				else if(sum < 0)
 					left++;
 				else	// 원하는 값을 찾았다면 중복된 값 체크
 				{
-					if(arr[left] == arr[right]) {
+					if(arr[left] == arr[right])
+					{
 						int len = right - left + 1;
 						int add = len * (len - 1) / 2;
 						cnt += (long)add;
