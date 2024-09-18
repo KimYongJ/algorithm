@@ -3,10 +3,8 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-class Main
-{
-	public static void main(String[] args)throws Exception
-	{
+class Main{
+	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());	// 5<=1000
 		int arr[]	= new int[N];						// 1<=이억
@@ -18,26 +16,17 @@ class Main
 		
 		for(int i=N-1; i>=0; i--)
 			for(int j=i; j>=0; j--)
-			{
-				int target = arr[i] - arr[j]; // 두 수를 합친 숫자
-				if(target <= 0)
-					continue;
-				
-				int s = 0;
-				int e = j;
-				while(s <= e)
+				for(int k=j; k>=0; k--)
 				{
-					int sum = arr[s] + arr[e];
-					if(sum == target) {
+					int target = arr[i] - (arr[j] + arr[k]);
+					if(target <= 0) break;
+					
+					if(Arrays.binarySearch(arr, target) >= 0)
+					{
 						System.out.print(arr[i]);
 						return;
 					}
-					if(sum < target)
-						s++;
-					else e--;
 				}
-				
-			}
 		
 	}
 }
