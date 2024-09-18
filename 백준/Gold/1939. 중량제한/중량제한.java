@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1939
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{
 	int node;
 	int weight;
@@ -19,36 +16,38 @@ class Node{
 	}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());	// 섬개수(2<=만)
-		int M = Integer.parseInt(st.nextToken());	// 다리개수 (1<=십만) 
-		
-		Node adNode[] = new Node[N+1]; // 각 섬당 연결된 다리를 담을 배열( 빠른 연산을 위해 별도 자료구조 생성 )
+		// 입력 부분
+		int N			= read();			// 섬개수(2<=만)
+		int M			= read();			// 다리개수 (1<=십만) 
+		Node adNode[]	= new Node[N+1];	// 각 섬당 연결된 다리를 담을 배열( 빠른 연산을 위해 별도 자료구조 생성 )
 
 		for(int i=0; i<M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());	// 섬(1<=N)
-			int b = Integer.parseInt(st.nextToken());	// 섬(1<=N)
-			int c = Integer.parseInt(st.nextToken());	// 중량(1<=십억)
+			int a = read();	// 섬(1<=N)
+			int b = read();	// 섬(1<=N)
+			int c = read();	// 중량(1<=십억)
 			adNode[a] = new Node(b, c, adNode[a]);
 			adNode[b] = new Node(a, c, adNode[b]);
 		}
-		st = new StringTokenizer(br.readLine());
-		int start	= Integer.parseInt(st.nextToken());
-		int end		= Integer.parseInt(st.nextToken());
 		
-		int weight[] = new int[N+1];
+		// 변형된 다익스트라 부분
+		int start		= read();
+		int end			= read();
+		int weight[]	= new int[N+1];
 		PriorityQueue<Node> pq = new PriorityQueue<>((a,b)->b.weight-a.weight);
 		pq.add(new Node(start, 1000000000));
 		
 		while(!pq.isEmpty())
 		{
 			// A -> B로 가는데 지나는 다리의 중량의 최소가 최대가 되도록 한다. 
-			Node now = pq.poll(); // now.weight에는 해당 노드 까지 이동하는데 드는 최소 중량이 들어있다. 이 최소 중량은 weight[next.node] < minWeight 제한 조건에 의해 최대이다
-			if(now.node == end)
+			Node now = pq.poll();	// now.weight에는 해당 노드 까지 이동하는데 드는 최소이면서 최대인 중량이 들어있다. 이 now.weight은 weight[next.node] < minWeight 제한 조건에 의해 최대이다
+			if(now.node == end)		// 우선순위 큐는 무게가 최대인것이 앞으로오기 때문에 end에 도착할 때가 최소 중량이 최대이다.
 			{
 				System.out.print(now.weight);
 				return;
