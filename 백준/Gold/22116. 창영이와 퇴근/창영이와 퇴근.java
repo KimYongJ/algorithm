@@ -3,65 +3,58 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 class Node{
-	int y, x;
-	Node(int y, int x){this.y=y; this.x=x;}
+	int y, x, diff;
+	Node(int y, int x,int diff){this.y=y; this.x=x;this.diff=diff;}
 }
-class Main{
-	static int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
-	public static boolean check(int map[][], int N, int maxDiff) {
-		boolean visit[][] = new boolean[N][N];
-		ArrayDeque<Node> q = new ArrayDeque<>();
-		visit[0][0] = true;
-		q.add(new Node(0,0));
-		while(!q.isEmpty())
-		{
-			Node now = q.poll();
-			if(now.y == now.x && now.y == N-1)
-			{
-				return true;
-			}
-			for(int xy[] : dxy)
-			{
-				int nextY = now.y + xy[0];
-				int nextX = now.x + xy[1];
-				if(
-						nextY>=0 && nextX>=0 && nextY < N && nextX < N 
-						&& !visit[nextY][nextX]
-						&& Math.abs(map[now.y][now.x]- map[nextY][nextX]) <= maxDiff
-					)
-				{
-					visit[nextY][nextX] = true;
-					q.add(new Node(nextY, nextX));
-				}
-			}
-		}
-		return false;
-	}
+class Main{	
 	public static void main(String[] args)throws Exception{
+		int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());	// 1<=천
-		int map[][] = new int[N][N];				// 1<=십억
+		int N		= Integer.parseInt(br.readLine());	// 1<=천
+		int map[][] = new int[N][N];					// 1<=십억
 		for(int y=0; y<N; y++)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int x=0; x<N; x++)
 				map[y][x] = Integer.parseInt(st.nextToken());
 		}
+
+		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.diff - b.diff);
+		int visit[][] = new int[N][N];
 		
-		int s = 0;
-		int e = 1_000_000_001;
-		int res = 0;
-		while(s <= e)
+		for(int v[] : visit)
+			Arrays.fill(v, 1000000000);
+		
+		pq.add(new Node(0,0,0));
+		visit[0][0] = 0;
+		
+		while(!pq.isEmpty())
 		{
-			int mid = (s + e) >> 1; // 최대 차이날 수 있는 경사
-			if(check(map, N, mid)) {
-				e = mid - 1;
-				res = mid;
-			}else s = mid + 1;
+			Node now = pq.poll();
+			if(now.y == now.x && now.y == N-1) {
+				continue;
+			}
+			
+			for(int xy[] : dxy)
+			{
+				int nextY = now.y + xy[0];
+				int nextX = now.x + xy[1];
+				if(nextY <0 || nextX <0 || nextY >=N || nextX>=N) continue;
+				
+				int diff = Math.max(Math.abs(map[now.y][now.x]- map[nextY][nextX]), now.diff);
+				if(visit[nextY][nextX] > diff)
+				{
+					visit[nextY][nextX] = diff;
+					pq.add(new Node(nextY, nextX, diff));
+				}
+			}
 		}
-		System.out.print(res);
+		
+		
+		System.out.print(visit[N-1][N-1] == 1000000000 ? 0 : visit[N-1][N-1]);
 	}
 }
