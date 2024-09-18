@@ -1,16 +1,18 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2295
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 5<=1000
-		int arr[]	= new int[N];						// 1<=이억
+		int N		= read();		// 5<=1000
+		int arr[]	= new int[N];	// 1<=이억
 		
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(br.readLine());
+			arr[i] = read();
 		
 		Arrays.sort(arr);
 		
