@@ -1,32 +1,29 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/22116
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{
 	int y, x, diff;
 	Node(int y, int x,int diff){this.y=y; this.x=x;this.diff=diff;}
 }
 class Main{	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
         // 입력 부분
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 1<=천
-		int map[][] = new int[N][N];					// 1<=십억
+		int N		= read();		// 1<=천
+		int map[][] = new int[N][N];// 1<=십억
 		for(int y=0; y<N; y++)
-		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int x=0; x<N; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
+				map[y][x] = read();
 
         // 다익스트라 부분
-        int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
 		PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->a.diff - b.diff);
-		int visit[][] = new int[N][N];
+		int visit[][]	= new int[N][N];
+		int dxy[][]		= {{0,1},{1,0},{-1,0},{0,-1}};
 		
 		for(int v[] : visit)
 			Arrays.fill(v, 1000000000);
@@ -36,9 +33,9 @@ class Main{
 		
 		while(!pq.isEmpty())
 		{
-			Node now = pq.poll();
+			Node now = pq.poll(); // now에는 현재 이동하면서 만난 경사 차이의 최대값이 있음, 큐에서는 diff가 제일 작은것들만 먼저 꺼냄
 			if(now.y == now.x && now.y == N-1)
-            {
+			{
 				System.out.print(now.diff);
 				return;
 			}
