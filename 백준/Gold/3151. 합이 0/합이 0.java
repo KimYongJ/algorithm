@@ -21,42 +21,42 @@ class Main{
 		long cnt = 0;
 		for(int i=0; i<N-2; i++) 
 		{
-			for(int j=i+1; j<N-1; j++)
+			int left = i + 1;
+			int right= N - 1;
+			int target = -arr[i];
+			while(left < right)
 			{
-				int target = -(arr[i] + arr[j]);
-				int s = j + 1;
-				int e = N - 1;
-				int idx = 0;
-				while(s <= e) // 가장 작은 target의 인덱스 찾기
+				int sum = arr[left] + arr[right];
+				if(target < sum)
+					right--;
+				else if(sum < target)
+					left++;
+				else	// 원하는 값을 찾았다면 중복된 값 체크
 				{
-					int mid = (s + e) >> 1;
-					if(arr[mid] >= target)
-					{
-						e = mid - 1;
-						if(arr[mid] == target)
-							idx = mid;
+					if(arr[left] == arr[right]) {
+						int len = right - left + 1;
+						int add = len * (len - 1) / 2;
+						cnt += (long)add;
+						break;
 					}
-					else
-						s = mid + 1;
+					int leftCount = 1;
+					while(left + 1< right && arr[left + 1] == arr[left]) {
+						leftCount++;
+						left++;
+					}
+					
+					int rightCount = 1;
+					while(left < right - 1 && arr[right - 1] == arr[right]) {
+						rightCount++;
+						right--;
+					}
+					
+					cnt += (long)leftCount * rightCount;
+					
+					left++;
 				}
-				
-				s = j + 1;
-				e = N - 1;
-				int idx1 = 0;
-				while(s <= e) // 가장 큰 target의 인덱스 찾기
-				{
-					int mid = (s + e) >> 1;
-					if(arr[mid] <= target)
-					{
-						s = mid + 1;
-						if(arr[mid] == target)
-							idx1 = mid;
-					}else e = mid - 1;
-				}
-				
-				if(idx != 0)
-					cnt += (idx1 - idx) + 1;
 			}
+			
 		}
 		System.out.print(cnt);
 	}
