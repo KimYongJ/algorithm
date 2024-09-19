@@ -1,6 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2143
-import java.util.Arrays;
+import java.util.HashMap;
 class Main{
 	public static int read() throws Exception {
 		int c, n = System.in.read() & 15;
@@ -9,40 +9,6 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
 		if (c == 13) System.in.read();
 		return isNegative ? ~n + 1 : n;
-	}
-	public static int upper(long arr[], long target) {
-		int idx = -1;
-		int s = 0;
-		int e = arr.length - 1;
-		while(s <= e) {
-			int mid = (s + e) >> 1;
-			if(arr[mid] <= target)
-			{
-				
-				s = mid + 1;
-				if(arr[mid] == target)
-					idx = mid;
-			}
-			else e = mid - 1;
-		}
-		return idx;
-	}
-	public static int lower(long arr[], long target) {
-		int idx = -1;
-		int s = 0;
-		int e = arr.length - 1;
-		while(s <= e) {
-			int mid = (s + e) >> 1;
-			if(arr[mid] >= target)
-			{
-				e = mid - 1;
-				if(arr[mid] == target)
-					idx = mid;
-			}
-			else
-				s = mid + 1;
-		}
-		return idx;
 	}
 	public static void main(String[] args)throws Exception{
 		long cnt		= 0;
@@ -57,36 +23,24 @@ class Main{
 		for(int i=0; i<M; i++)
 			arr2[i] = read();
 		
-		long list1[] = new long[N*(N+1) / 2];
-		long list2[] = new long[M*(M+1) / 2];
-		
-		int idx = 0;
+		HashMap<Long, Long> hm = new HashMap<>();
 		for(int i=0; i<N; i++)
 		{
-			list1[idx++] = arr1[i];
+
+			hm.put(arr1[i], hm.getOrDefault(arr1[i], 0L) + 1);
 			for(int j=i+1; j<N; j++)
-				list1[idx++] = arr1[i] += arr1[j];
+			{
+				arr1[i] += arr1[j];
+				hm.put(arr1[i], hm.getOrDefault(arr1[i], 0L) + 1);
+			}
 		}
-		idx = 0;
 		for(int i=0; i<M; i++)
 		{
-			list2[idx++] = arr2[i];
-			for(int j=i+1; j<M; j++)
-				list2[idx++] = arr2[i] += arr2[j];
-		}
-		
-		Arrays.sort(list1);
-		Arrays.sort(list2);
-		
-		for(long l : list1)
-		{
-			long target = T - l;
-			int idx1 = upper(list2, target);
-			int idx2 = lower(list2, target);
-			if(idx1 != -1 && idx2 != -1)
-				cnt += idx1 - idx2 + 1;
-			else if(idx1 != -1 || idx2 != -1)
-				cnt++;
+			cnt += hm.getOrDefault(T - arr2[i], 0L);
+			for(int j=i+1; j<M; j++) {
+				arr2[i] += arr2[j];
+				cnt += hm.getOrDefault(T - arr2[i], 0L);
+			}
 		}
 		
 		System.out.print(cnt);
