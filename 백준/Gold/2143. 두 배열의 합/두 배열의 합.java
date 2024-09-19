@@ -26,21 +26,16 @@ class Main{
 		HashMap<Long, Long> hm = new HashMap<>();
 		for(int i=0; i<N; i++)
 		{
-
-			hm.put(arr1[i], hm.getOrDefault(arr1[i], 0L) + 1);
-			for(int j=i+1; j<N; j++)
-			{
-				arr1[i] += arr1[j];
-				hm.put(arr1[i], hm.getOrDefault(arr1[i], 0L) + 1);
-			}
+			long sum = 0;
+			for(int j=i; j<N; j++)
+				hm.put(sum += arr1[j], hm.getOrDefault(sum, 0L) + 1);
 		}
+		
 		for(int i=0; i<M; i++)
 		{
-			cnt += hm.getOrDefault(T - arr2[i], 0L);
-			for(int j=i+1; j<M; j++) {
-				arr2[i] += arr2[j];
-				cnt += hm.getOrDefault(T - arr2[i], 0L);
-			}
+			long sum = 0;
+			for(int j=i; j<M; j++)
+				cnt += hm.getOrDefault(T - (sum += arr2[j]), 0L);
 		}
 		
 		System.out.print(cnt);
