@@ -1,10 +1,15 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2143
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
+	public static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		boolean isNegative = n == 13;
+		if (isNegative) n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+		if (c == 13) System.in.read();
+		return isNegative ? ~n + 1 : n;
+	}
 	public static int upper(long arr[], long target) {
 		int idx = -1;
 		int s = 0;
@@ -40,20 +45,17 @@ class Main{
 		return idx;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		long cnt		= 0;
-		long T			= Integer.parseInt(br.readLine());	// -십억<=십억
-		int N			= Integer.parseInt(br.readLine());	// 1<=천
-		Long arr1[]		= new Long[N];						// -백만<=백만
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		long T			= read();		// -십억<=십억
+		int N			= read();		// 1<=천
+		long arr1[]		= new long[N];	// -백만<=백만
 		for(int i=0; i<N; i++)
-			arr1[i] = Long.parseLong(st.nextToken());
+			arr1[i] = read();
 		
-		int M			= Integer.parseInt(br.readLine());
-		Long arr2[]		= new Long[M];						// -백만<=백만
-		st = new StringTokenizer(br.readLine());
+		int M			= read();
+		long arr2[]		= new long[M];	// -백만<=백만
 		for(int i=0; i<M; i++)
-			arr2[i] = Long.parseLong(st.nextToken());
+			arr2[i] = read();
 		
 		long list1[] = new long[N*(N+1) / 2];
 		long list2[] = new long[M*(M+1) / 2];
@@ -82,7 +84,6 @@ class Main{
 			int idx1 = upper(list2, target);
 			int idx2 = lower(list2, target);
 			if(idx1 != -1 && idx2 != -1)
-			
 				cnt += idx1 - idx2 + 1;
 			else if(idx1 != -1 || idx2 != -1)
 				cnt++;
@@ -91,3 +92,11 @@ class Main{
 		System.out.print(cnt);
 	}
 }
+/*
+10
+1
+9
+5
+1 -1 -2 3 5
+출 3
+ * */
