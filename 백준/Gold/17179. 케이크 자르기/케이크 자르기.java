@@ -9,13 +9,14 @@ class Main{
 	public static boolean check(int arr[], int mid , int cut, int len) {
 		int start	= 0;
 		int cutCnt	= 0;
-		for(int i=0; i<arr.length && cutCnt < cut; i++)
-			if(arr[i] - start >= mid)
+		for(int now : arr)
+			if(now - start >= mid)
 			{
-				cutCnt++;
-				start = arr[i];
+				start = now;
+				if(++cutCnt == cut)
+					return len - start >= mid;
 			}
-		return cutCnt == cut && len - start >= mid;
+		return false;
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
