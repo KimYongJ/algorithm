@@ -8,9 +8,6 @@ class Main{
 	}
 	public static int getIdx(int LIS[], int target, int len)
 	{
-		if(LIS[0] > target)
-			return 0;
-		
 		int s	= 0;
 		int e	= len - 1;
 		int idx	= 0;
@@ -38,9 +35,8 @@ class Main{
 			int arr[]	= new int[N];
 			
 			for(int i=0; i<N; i++)
-				arr[i] = read();			// 입력이 이미 정렬되어있기 때문에 입력된 부분에 대해서 가장 긴 부분수열만 구하면된다.
+				arr[i] = read();			// 입력이 이미 정렬되어있기 때문에 입력된 부분에 대해서 가장 긴 부분수열(Longest Increasing Subsequence)만 구하면된다.
 
-			int idx;
 			int len		= 1;
 			int LIS[]	= new int[N];		// 최장 증가하는 부분 수열을 담을 배열
 			LIS[0]		= arr[0];			// 초기값을 arr[0]번째 값으로 넣는다.
@@ -49,12 +45,11 @@ class Main{
 			{
 				if(arr[i] > LIS[len-1])		// 찾을값인 arr[i]가 LIS의 마지막 값보다 크다면 바로 LIS에 넣음 
 					LIS[len++] = arr[i];
+				else if(LIS[0] > arr[i])	// LIS의 가장 앞부분이 arr[i]보다 크다면 LIS[0]을 작은 값으로 대입함
+					LIS[0] = arr[i];
 				else
-				{
-					idx = getIdx(LIS, arr[i], len);	// LIS에서 arr[i]값 보다 작은 값중 가장 큰 IDX의 +1을 구해온다.
-
-					LIS[idx] = arr[i];		// 값 덮어씌우기
-				}
+					// LIS에서 arr[i]값 보다 작은 값중 가장 큰 IDX의 +1을 구해온다.
+					LIS[getIdx(LIS, arr[i], len)] = arr[i];		// IDX + 1 위치에 값 덮어씌우기
 			}
 			sb.append(len).append('\n');
 		}
