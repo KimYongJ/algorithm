@@ -4,9 +4,34 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+
 class Main{
-		public static void main(String[] args)throws Exception{
+	public static int getIdx(ArrayList<Integer> list, int target) {
+		int size = list.size();
+		if(size == 0)
+			return 0;
+		if(list.get(size-1) < target)
+			return size;
+		
+		int s	= 0;
+		int e	= list.size() - 1;
+		int idx	= 0;
+		while(s <= e)
+		{
+			int mid = (s + e) >> 1;
+			if(target == list.get(mid)) {
+				return mid;
+			}
+			if(list.get(mid) < target) {
+				s = mid + 1;
+				idx = mid + 1;
+			}
+			else if(target <= list.get(mid))
+				e = mid - 1;
+		}
+		return idx;
+	}
+	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
@@ -28,10 +53,7 @@ class Main{
 			{
 				int now = a[1];
 				
-				int idx = Collections.binarySearch(list, now);
-				
-				if(idx < 0)
-					idx = -(idx+1); // 찾으려는 now가 없는 경우 음수를 반환하는데, 이 때 now가 들어가야할 위치를 원래위치 + 1을 음수로 변환해서 반환한다.
+				int idx = getIdx(list, now); // list에서 now가 들어갈 위치를 가져온다.
 				
 				if(idx < list.size())
 					list.set(idx, now);
