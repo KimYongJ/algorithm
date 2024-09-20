@@ -8,6 +8,8 @@ class Main{
 	}
 	public static int getIdx(int LIS[], int target, int len)
 	{
+		if(LIS[0] > target)
+			return 0;
 		
 		int s	= 0;
 		int e	= len - 1;
@@ -32,11 +34,11 @@ class Main{
 		int T = read();
 		while(T-->0)
 		{
-			int N		= read();		// 포트의개수(1<=사만)
+			int N		= read();			// 포트의개수(1<=사만)
 			int arr[]	= new int[N];
 			
 			for(int i=0; i<N; i++)
-				arr[i] = read();
+				arr[i] = read();			// 입력이 이미 정렬되어있기 때문에 입력된 부분에 대해서 가장 긴 부분수열만 구하면된다.
 
 			int idx;
 			int len		= 1;
