@@ -1,39 +1,35 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17179
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static boolean check(int arr[], int mid , int cut, int len) {
 		int start	= 0;
 		int cutCnt	= 0;
-		int lastIdx = 0;
 		for(int i=0; i<arr.length && cutCnt < cut; i++)
-		{
 			if(arr[i] - start >= mid)
 			{
-				lastIdx = i;
 				cutCnt++;
 				start = arr[i];
 			}
-		}
-		return cutCnt >= cut && len - arr[lastIdx] >= mid;
+		return cutCnt == cut && len - start >= mid;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		int N		= Integer.parseInt(st.nextToken());	// 자르는 횟수(1<=천)
-		int M		= Integer.parseInt(st.nextToken());	// 자르는 지점(1<=천)
-		int L		= Integer.parseInt(st.nextToken());	// 롤케익길이(1<x<=사백만)
-		int arr[]	= new int[M];						// 자를 수 있는 지점
+		int N		= read();		// 자르는 횟수(1<=천)
+		int M		= read();		// 자르는 지점(1<=천)
+		int L		= read();		// 롤케익길이(1<x<=사백만)
+		int arr[]	= new int[M];	// 자를 수 있는 지점
 		
 		for(int i=0; i<M; i++)
-			arr[i] = Integer.parseInt(br.readLine());
+			arr[i] = read();
 		
 		while(N-->0)
 		{
-			int cut = Integer.parseInt(br.readLine()); // 자르는 횟수
+			int cut = read();// 자르는 횟수
 			int s	= 1;
 			int e	= L / 2;
 			int res	= 0;
