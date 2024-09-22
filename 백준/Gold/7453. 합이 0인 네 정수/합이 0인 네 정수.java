@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/7453
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
     static int read() throws Exception {
         int c, n = System.in.read() & 15;
@@ -14,8 +11,7 @@ class Main{
         return m ? ~n + 1 : n;
     }
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 1 ≤ n ≤ 4000
+		int N		= read();	// 1 ≤ n ≤ 4000
 		int LEN		= N * N;
 		int A[]		= new int[N];
 		int B[]		= new int[N];
@@ -26,11 +22,10 @@ class Main{
 		
 		for(int i=0; i<N; i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			A[i] = Integer.parseInt(st.nextToken());
-			B[i] = Integer.parseInt(st.nextToken());
-			C[i] = Integer.parseInt(st.nextToken());
-			D[i] = Integer.parseInt(st.nextToken());
+			A[i] = read();
+			B[i] = read();
+			C[i] = read();
+			D[i] = read();
 		}
 		
 		for(int i=0, len = 0; i<N; i++) 
