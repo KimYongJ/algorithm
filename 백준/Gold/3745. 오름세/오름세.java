@@ -1,26 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/3745
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
-    private static int read() throws Exception{
-        int val = 0;
-        int c = System.in.read();
-        while (c <= ' ') {
-            c = System.in.read();
-        }
-        boolean minus = false;
-        if (c == '-') {
-            minus = true;
-            c = System.in.read();
-        }
-        do {
-            val = 10 * val + c - 48;
-        } while ((c = System.in.read()) >= 48 && c <= 57);
-        if (minus) return -val;
-        return val;
-    }
 	public static int getIdx(int LIS[], int target, int len) {
 		int idx = 0;
 		int s	= 0;
@@ -41,28 +21,20 @@ class Main{
 		return idx;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
+		Reader in = new Reader();
 		while(true)
 		{
-			StringTokenizer st;
-			try {
-			st = new StringTokenizer(br.readLine());
-			}catch(Exception e) {
-				break;
-			}
-			String str = st.nextToken();
-			if(str == null || str.length() == 0)
+			int N = in.nextInt();	// 1<=100000
+			if(N <= 0)
 				break;
 			
-			int N		= Integer.parseInt(str);	// 1<=100000
 			int len		= 1;
 			int arr[]	= new int[N];
 			int LIS[]	= new int[N];
 			
-			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<N; i++)
-				arr[i] = Integer.parseInt(st.nextToken());
+				arr[i] = in.nextInt();
 			
 			LIS[0] = arr[0];
 			
@@ -78,3 +50,32 @@ class Main{
 		System.out.print(sb.toString());
 	}
 }
+
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {return 47 < c && c < 58;}
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
+}
+
