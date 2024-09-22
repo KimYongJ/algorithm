@@ -28,10 +28,10 @@ class Main{
 			D[i] = read();
 		}
 		
-		Arrays.sort(A);
-		Arrays.sort(B);
-		Arrays.sort(C);
-		Arrays.sort(D);
+		Arrays.sort(A);	// 이부분을 해주면 추후 정렬이 더 빨라지는듯?
+		Arrays.sort(B); // 이부분을 해주면 추후 정렬이 더 빨라지는듯?
+		Arrays.sort(C); // 이부분을 해주면 추후 정렬이 더 빨라지는듯?
+		Arrays.sort(D); // 이부분을 해주면 추후 정렬이 더 빨라지는듯?
 		
 		for(int i=0, len = 0; i<N; i++) 
 			for(int j=0; j<N; j++, len++)
