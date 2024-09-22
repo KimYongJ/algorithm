@@ -58,18 +58,12 @@ class Main{
 			{
 				long leftCnt	= 1;
 				long rightCnt	= 1;
-				while(left + 1 < LEN && AB[left + 1] == AB[left])
-				{
-					left++;
+				while(++left< LEN && AB[left] == AB[left - 1])
 					leftCnt++;
-				}
-				while(0 <= right - 1 && CD[right - 1] == CD[right])
-				{
-					right--;
+				while(0 <= --right && CD[right] == CD[right + 1])
 					rightCnt++;
-				}
+				
 				cnt += leftCnt * rightCnt;
-				left++;
 			}
 		}
 		
