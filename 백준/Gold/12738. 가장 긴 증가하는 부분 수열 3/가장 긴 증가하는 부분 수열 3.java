@@ -1,9 +1,14 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/12738
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48)
+        {n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 	public static int getIdx(int LIS[], int target, int e) {
 		int s	= 0;
 		int res = 0;
@@ -21,26 +26,22 @@ class Main{
 		return res;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int arr[] = new int[N];
+		int N		= read();
+		int arr[]	= new int[N];
 		
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i]	= read();
 		
-		int len = 1;
-		int LIS[] = new int[N];
-		LIS[0] = arr[0];
+		int len		= 1;
+		int LIS[]	= new int[N];
+		LIS[0]		= arr[0];
 		
 		for(int i=1; i<N; i++)
 		{
 			if(LIS[len-1] < arr[i])
 				LIS[len++] = arr[i];
-			else {
-				int idx = getIdx(LIS, arr[i], len - 1);
-				LIS[idx] = arr[i];
-			}
+			else
+				LIS[getIdx(LIS, arr[i], len - 1)] = arr[i];
 		}
 		System.out.print(len);
 	}
