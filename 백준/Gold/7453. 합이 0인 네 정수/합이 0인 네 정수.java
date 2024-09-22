@@ -5,45 +5,14 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 class Main{
-	public static int lowerBound(int[] list, int target, int len) {
-		int idx	= -1;
-		int s	= 0;
-		int e	= len - 1;
-		while(s <= e)
-		{
-			int mid = (s + e) >> 1;
-			if(list[mid] == target)
-			{
-				idx = mid;
-				e = mid - 1;
-			}
-			else if(list[mid] < target)
-				s = mid + 1;
-			else
-				e = mid - 1;
-		}
-		
-		return idx;
-	}
-	public static int upperBound(int[] list, int target, int len) {
-		int idx	= -1;
-		int s	= 0;
-		int e	= len - 1;
-		while(s <= e)
-		{
-			int mid = (s + e) >> 1;
-			if(list[mid] == target)
-			{
-				idx = mid;
-				s = mid + 1;
-			}
-			else if(list[mid] < target)
-				s = mid + 1;
-			else
-				e = mid - 1;
-		}
-		return idx;
-	}
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());	// 1 ≤ n ≤ 4000
@@ -52,7 +21,8 @@ class Main{
 		int B[]		= new int[N];
 		int C[]		= new int[N];
 		int D[]		= new int[N];
-		int list[]	= new int[LEN];
+		int AB[]	= new int[LEN];
+		int CD[]	= new int[LEN];
 		
 		for(int i=0; i<N; i++)
 		{
@@ -65,24 +35,44 @@ class Main{
 		
 		for(int i=0, len = 0; i<N; i++) 
 			for(int j=0; j<N; j++, len++)
-				list[len] = A[i] + B[j];
-		
-		Arrays.sort(list);
-		
-		long cnt = 0;
-		for(int i=0; i<N; i++)
-		{
-			for(int j=0; j<N; j++)
 			{
-				int target = -(C[i] + D[j]);
-				int idx1 = lowerBound(list, target, LEN);
-				if(idx1 != -1)
+				AB[len] = A[i] + B[j];
+				CD[len] = C[i] + D[j];
+			}
+		
+		Arrays.sort(AB);
+		Arrays.sort(CD);
+		
+		long cnt	= 0;
+		int left	= 0;
+		int right	= LEN-1;
+		
+		while(0<=right && left < LEN)
+		{
+			int sum = AB[left] + CD[right];
+			if(0 < sum)
+				right--;
+			else if(sum < 0)
+				left++;
+			else
+			{
+				long leftCnt	= 1;
+				long rightCnt	= 1;
+				while(left + 1 < LEN && AB[left + 1] == AB[left])
 				{
-					int idx2 = upperBound(list, target, LEN);
-					cnt += idx2 - idx1 + 1;
+					left++;
+					leftCnt++;
 				}
+				while(0 <= right - 1 && CD[right - 1] == CD[right])
+				{
+					right--;
+					rightCnt++;
+				}
+				cnt += leftCnt * rightCnt;
+				left++;
 			}
 		}
+		
 		System.out.print(cnt);
 	}
 }
