@@ -1,5 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/12738
+import java.util.Arrays;
 class Main{
     static int read() throws Exception {
         int c, n = System.in.read() & 15;
@@ -9,39 +10,23 @@ class Main{
         {n = (n << 3) + (n << 1) + (c & 15);}
         return m ? ~n + 1 : n;
     }
-	public static int getIdx(int LIS[], int target, int e) {
-		int s	= 0;
-		int res = 0;
-		while(s <= e)
-		{
-			int mid = (s + e) >> 1;
-			if(target <= LIS[mid])
-			{
-				e = mid - 1;
-				res = mid;
-			}
-			else
-				s = mid + 1;
-		}
-		return res;
-	}
 	public static void main(String[] args)throws Exception{
 		int N		= read();
+		int len		= 0;
 		int arr[]	= new int[N];
+		int LIS[]	= new int[N];
 		
 		for(int i=0; i<N; i++)
 			arr[i]	= read();
 		
-		int len		= 1;
-		int LIS[]	= new int[N];
-		LIS[0]		= arr[0];
-		
-		for(int i=1; i<N; i++)
+		for(int i=0; i<N; i++)
 		{
-			if(LIS[len-1] < arr[i])
-				LIS[len++] = arr[i];
-			else
-				LIS[getIdx(LIS, arr[i], len - 1)] = arr[i];
+			int idx = Arrays.binarySearch(LIS, 0, len, arr[i]);
+			if(idx < 0)
+				idx = ~idx;
+			if(idx == len)
+				len++;
+			LIS[idx] = arr[i];
 		}
 		System.out.print(len);
 	}
