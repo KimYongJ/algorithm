@@ -1,9 +1,6 @@
-// https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+//https://github.com/KimYongJ/algorithm
+//https://www.acmicpc.net/problem/2206
 import java.util.ArrayDeque;
-
 class Main{
     
     static int Y, X;
@@ -13,7 +10,6 @@ class Main{
     static boolean visit[][][];
     
     public static void main(String[] args)throws Exception{
-    	BufferedReader br 	= new BufferedReader(new InputStreamReader(System.in));
         Y                   = read();
         X                   = read();
         arr                 = new int[Y][X];
