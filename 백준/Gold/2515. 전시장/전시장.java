@@ -1,25 +1,23 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2515
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Node{
-	int H, C;
-	Node(int H, int C){this.H=H; this.C=C;}
+	int H, C;Node(int H, int C){this.H=H; this.C=C;}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());	// 그림 개수(1<=삼십만)
-		int S = Integer.parseInt(st.nextToken());	// 판매 가능 그림길이(1<=이천만 & S<=H)
+		int N = read();	// 그림 개수(1<=삼십만)
+		int S = read();	// 판매 가능 그림길이(1<=이천만 & S<=H)
 		Node list[] = new Node[N];
 		for(int i=0; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int h = Integer.parseInt(st.nextToken());	// 높이(1<=이천만)
-			int c = Integer.parseInt(st.nextToken());	// 가격(1<=천)
+			int h = read();	// 높이(1<=이천만)
+			int c = read();	// 가격(1<=천)
 			list[i] = new Node(h,c);
 		}
 		
@@ -43,8 +41,9 @@ class Main{
 			while(s <= e)
 			{
 				int mid = (s + e) >> 1;
-				if(list[mid].H <= targetHeight) {
-					s = mid + 1;
+				if(list[mid].H <= targetHeight)
+				{
+					s	= mid + 1;
 					idx = mid;
 				}
 				else
