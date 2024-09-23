@@ -7,40 +7,39 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		int N			= read();	// 상자개수(1<=백만)
-		int K			= read();	// 규칙개수(1<=만)
-		int D			= read();	// 도토리개수(1<=십억)
-		int counting[]	= new int[N+1];
-		int prevSum[]	= new int[N+2];
+		int N		= read();		// 상자개수(1<=백만)
+		int K		= read();		// 규칙개수(1<=만)
+		int D		= read();		// 도토리개수(1<=십억)
+		int arr[][]	= new int[K][3];// 규칙을 담을 배열
 		
 		for(int i=0; i<K; i++)
 		{
-			int A = read();	// 시작상자
-			int B = read();	// 종료상자
-			int C = read();	// 간격
-			if(C == 1) {
-				prevSum[A] += 1;
-				prevSum[B + 1] += -1;
+			arr[i][0] = read();		// 시작상자
+			arr[i][1] = read();		// 종료상자
+			arr[i][2] = read();		// 간격
+		}
+
+		int s	= 1;
+		int e	= N;
+		int idx = 0;
+		while(s <= e)
+		{
+			int mid = (s + e) >> 1;	// 상자 인덱스
+			int d	= 0;			// 도토리개수
+			
+			for(int i=0; i<K && d < D; i++)
+				if(mid >= arr[i][0])// 탐색할 상자인덱스가 규칙의 시작 인덱스보다 작다면 스킵, 아니면 연산함
+					d += ((Math.min(mid,arr[i][1]) - arr[i][0]) / arr[i][2]) + 1;
+			
+			if(D <= d)
+			{
+				e = mid - 1;
+				idx = mid;
 			}
 			else
-				while(A <= B)
-				{
-					counting[A]++;
-					A+=C;
-				}
-		}
-		
-		for(int i=1; i<=N; i++)
-			prevSum[i] += prevSum[i - 1];
-		
-		int Dcnt	= 0;
-		int idx		= 0;
-		while(idx <= N)
-		{
-			Dcnt += counting[idx] + prevSum[idx];
-			if(Dcnt >= D)
-				break;
-			++idx;
+			{
+				s = mid + 1;
+			}
 		}
 		System.out.print(idx);
 	}
