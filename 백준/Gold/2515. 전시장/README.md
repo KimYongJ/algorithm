@@ -18,7 +18,7 @@
 
 <p>전시장에서 그림을 판매하는 업체에 하나의 전시대가 배정된다. 전시될 그림은 직사각형의 모양을 가지고 있고, 그림의 높이는 다를 수 있지만 폭은 모두 동일하다고 가정한다. 각 그림에는 가격이 매겨져 있다. </p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 300px; height: 169px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/5c4fa7a7-8987-43d1-a380-5e17462285d0/-/preview/" style="width: 300px; height: 169px;"></p>
 
 <p>업체는 그림들을 관람객에게 보이기 위해 전시대에 배치하는데, 전시대의 폭이 그림의 폭과 동일하여 겹쳐서 배치해야만 한다. 예를 들어, 위의 그림은 전시대에 네 개의 그림 A, B, C, D를 C, B, A, D의 순서로 겹쳐서 배치한 상황을 보여준다.</p>
 
