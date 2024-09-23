@@ -1,24 +1,23 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/15732
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N			= Integer.parseInt(st.nextToken());	// 상자개수(1<=백만)
-		int K			= Integer.parseInt(st.nextToken());	// 규칙개수(1<=만)
-		int D			= Integer.parseInt(st.nextToken());	// 도토리개수(1<=십억)
+		int N			= read();	// 상자개수(1<=백만)
+		int K			= read();	// 규칙개수(1<=만)
+		int D			= read();	// 도토리개수(1<=십억)
 		int counting[]	= new int[N+1];
 		int prevSum[]	= new int[N+2];
 		
 		for(int i=0; i<K; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int A = Integer.parseInt(st.nextToken());	// 시작상자
-			int B = Integer.parseInt(st.nextToken());	// 종료상자
-			int C = Integer.parseInt(st.nextToken());	// 간격
+			int A = read();	// 시작상자
+			int B = read();	// 종료상자
+			int C = read();	// 간격
 			if(C == 1) {
 				prevSum[A] += 1;
 				prevSum[B + 1] += -1;
