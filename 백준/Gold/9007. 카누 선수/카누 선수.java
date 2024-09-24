@@ -1,10 +1,12 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/9007
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static int getSum(int arr1[], int arr2[], int K, int len)
 	{
 		int s	= 0;
@@ -13,8 +15,8 @@ class Main{
 		int abs = Integer.MAX_VALUE;
 		while(s < len && 0 <= e)
 		{
-			int total = arr1[s] + arr2[e];
-			int totalABS = Math.abs(K - total);
+			int total		= arr1[s] + arr2[e];
+			int totalABS	= Math.abs(K - total);
 			
 			if(totalABS < abs)
 			{
@@ -34,14 +36,12 @@ class Main{
 		return sum;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int K		= Integer.parseInt(st.nextToken());	// 보트값(1<=사천만)
-			int N		= Integer.parseInt(st.nextToken());	// 각반학생수(1<=천)
+			int K		= read();;	// 보트값(1<=사천만)
+			int N		= read();;	// 각반학생수(1<=천)
 			int	len		= N * N;
 			int A[]		= new int[N];
 			int B[]		= new int[N];
@@ -49,18 +49,14 @@ class Main{
 			int D[]		= new int[N];
 			int AB[]	= new int[len];
 			int CD[]	= new int[len];
-			st = new StringTokenizer(br.readLine());
 			for(int i=0; i<N; i++)
-				A[i] = Integer.parseInt(st.nextToken());
-			st = new StringTokenizer(br.readLine());
+				A[i] = read();
 			for(int i=0; i<N; i++)
-				B[i] = Integer.parseInt(st.nextToken());
-			st = new StringTokenizer(br.readLine());
+				B[i] = read();
 			for(int i=0; i<N; i++)
-				C[i] = Integer.parseInt(st.nextToken());
-			st = new StringTokenizer(br.readLine());
+				C[i] = read();
 			for(int i=0; i<N; i++)
-				D[i] = Integer.parseInt(st.nextToken());
+				D[i] = read();
 			
 			Arrays.sort(A);
 			Arrays.sort(B);
