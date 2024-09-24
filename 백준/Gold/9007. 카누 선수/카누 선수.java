@@ -49,14 +49,11 @@ class Main{
 			int D[]		= new int[N];
 			int AB[]	= new int[len];
 			int CD[]	= new int[len];
-			for(int i=0; i<N; i++)
-				A[i] = read();
-			for(int i=0; i<N; i++)
-				B[i] = read();
-			for(int i=0; i<N; i++)
-				C[i] = read();
-			for(int i=0; i<N; i++)
-				D[i] = read();
+            
+			for(int i=0; i<N; i++) A[i] = read();
+			for(int i=0; i<N; i++) B[i] = read();
+			for(int i=0; i<N; i++) C[i] = read();
+			for(int i=0; i<N; i++) D[i] = read();
 			
 			Arrays.sort(A);
 			Arrays.sort(B);
