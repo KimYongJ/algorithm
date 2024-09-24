@@ -1,9 +1,11 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/12014
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static int getIdx(int LIS[], int target, int e, int s) {
 		int idx = 0;
 		while(s <= e)
@@ -21,20 +23,18 @@ class Main{
 		return idx;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine()); // test case 2<=100
+		int T = read(); // test case 2<=100
 		for(int t=1; t<=T; t++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int N		= Integer.parseInt(st.nextToken());	// 1<=만
-			int K		= Integer.parseInt(st.nextToken());	// 1<=만
+			int N		= read();	// 1<=만
+			int K		= read();	// 1<=만
 			int arr[]	= new int[N];
 			int LIS[]	= new int[N];
 			int len		= 1;
-			st = new StringTokenizer(br.readLine());
+
 			for(int i=0; i<N; i++)
-				arr[i] = Integer.parseInt(st.nextToken());
+				arr[i] = read();
 			
 			LIS[0] = arr[0];
 			for(int i=1; i<N; i++)
