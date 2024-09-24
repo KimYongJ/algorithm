@@ -5,33 +5,33 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 class Main{
-	public static int getNum(int arr[], int target, int e, int s)
+	public static int getSum(int arr1[], int arr2[], int K, int len)
 	{
-		int res = 0;
-		int abs = 40_000_001;
-		while(s <= e)
+		int s	= 0;
+		int e	= len - 1;
+		int sum = 0;
+		int abs = Integer.MAX_VALUE;
+		while(s < len && 0 <= e)
 		{
-			int mid		= (s + e) >> 1;
-			int sum		= target - arr[mid];
-			int sumAbs	= Math.abs(sum);
+			int total = arr1[s] + arr2[e];
+			int totalABS = Math.abs(K - total);
 			
-			if(sum == 0)
-				return  arr[mid];
-			
-			if(sumAbs < abs)
+			if(totalABS < abs)
 			{
-				res = arr[mid];
-				abs = sumAbs;
+				abs = totalABS;
+				sum = total;
 			}
-			else if(sumAbs == abs && arr[mid] < res) 
-				res = arr[mid];
+			else if(totalABS == abs && total < sum)
+				sum = total;
 			
-			if(sum < 0)
-				e = mid - 1;
+			if(total == K)
+				break;
+			else if(total < K)
+				s++;
 			else
-				s = mid + 1;
+				e--;
 		}
-		return res;
+		return sum;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -62,6 +62,8 @@ class Main{
 			for(int i=0; i<N; i++)
 				D[i] = Integer.parseInt(st.nextToken());
 			
+			Arrays.sort(A);
+			Arrays.sort(B);
 			Arrays.sort(C);
 			Arrays.sort(D);
 			
@@ -72,25 +74,10 @@ class Main{
 					CD[idx] = C[i] + D[j];
 				}
 
+			Arrays.sort(AB);
 			Arrays.sort(CD);
 			
-			int res = 0;
-			int abs = 40_000_001;
-			for(int i=0; i<len; i++)
-			{
-				int sum = AB[i] + getNum(CD, K - AB[i], len - 1, 0);
-				int K_sum_abs = Math.abs(K - sum);
-				
-				if(K_sum_abs < abs)
-				{
-					res = sum;
-					abs = K_sum_abs;
-				}
-				else if(K_sum_abs == abs && sum < res)
-					res = sum;
-			}
-			
-			sb.append(res).append('\n');
+			sb.append( getSum(AB, CD, K, len) ).append('\n');
 		}
 		System.out.print(sb.toString());
 	}
