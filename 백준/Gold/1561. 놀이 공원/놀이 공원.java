@@ -7,54 +7,62 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		int N		= read();				// 아이들수(1<=20억)
-		int M		= read();				// 놀이기구수(1<=만)
-		int arr[]	= new int[M];			// 운행시간(1<=30)
-		
+		int N		= read();				// 아이들 수(1<=20억)
+		int M		= read();				// 기계 수
+		int arr[]	= new int[M];			// 놀이기구 운행시간(1<=30);
+		long s		= 1;
+		long e		= 0;
 		for(int i=0; i<M; i++)
+		{
 			arr[i] = read();
-
-		if(N <= M)
+			e = Math.max(e, arr[i]);
+		}
+		
+		if(N <= M)							// 기계보다 사람이 적거나 같다면 바로 종료
 		{
 			System.out.print(N);
 			return;
 		}
 		
-		long totalTime	= 0;				// 모든 아이가 놀이기구를 타는데 걸린 시간
-		long s			= 0;
-		long e			= 60_000_000_000L;
+		long totalTime = 0;					// 모든 아이들을 다 태우는데 걸리는 시간
+		e = (N * e) / M;					// 아이들수 x 가장긴 놀이기구 운행시간 / 기계 수
 		
 		while(s <= e) {
-			long mid = (s + e) >> 1;		// 모든 아이가 놀이기구를 타는데 걸린 시간
-			long sum = M;
-			
+			long mid = (s + e) >> 1; 		// 모든 아이들을 다 태우는데 걸리는 시간
+			long sum = M;					// 아이틀의 숫자의 합 (가장 처음 0초에 M명이 바로 탈 수 있으므로 기본 값은 M)
 			for(int i=0; i<M; i++)
-				sum += mid / arr[i];		// 해당시간까지 놀이기구를 탄 아이들의 수
+				sum += mid / arr[i];
 			
-			if(sum < N)						// mid시간으로N명을 만들 수 없을 때 s를 추가해줌
-			{
+			if(sum < N)
 				s = mid + 1;
-			}
-			else							// mid시간으로 N명이 가능할 때 결과를 대입하여 조건을 만족하는 최소 mid를 구함
-			{
+			else {
 				e = mid - 1;
 				totalTime = mid;
 			}
 		}
 		
-		long time		= totalTime - 1;	// 만족시간 1분전 까지 학생들을 구함
-		int childCnt	= M;				// 최초 0분은 M명이 일괄 들어가므로 M 기본 세팅
+		long oneMinuteAgo = totalTime - 1;	// 종료 1분전 값
+		long sum = M;						// 종료 1분전 아이들의 수
 		for(int i=0; i<M; i++)
-			childCnt += (time / arr[i]);	// 목표 시간 1분전까지 탄 모든 아이들을 구한다.
+			sum += oneMinuteAgo / arr[i]; 	// 종료 1분전 아이들의 수를 구한다.
+		
+		N -= sum;							// 총 아이들과 종료 1분전 아이들을 빼서 마지막 1분간의 아이들 숫자만 N에 남긴다.
 		
 		for(int i=0; i<M; i++)
-			if(totalTime % arr[i] == 0)		// 최종 시간에 탈 수 있는 아이들을 구한다 이 때 운영시간과 나눈 나머지가 0인 것들이 탈 수 있는 기계인것
-			{
-				if(++childCnt >= N)			// 아이들이 다 타서 N명이 되었을 때 결과 출력
+			if(totalTime % arr[i] == 0)		// 마지막 시간이기 때문에 무조건 해당 부분에 값을 찾을 수 있게 된다. 
+				if(--N == 0)				// 나머지가 0인 아이들을 찾을 때마다 N을 1씩 감소해주고, 마지막 아이 즉, 0이 되는 순간 그 idx를 출력
 				{
-					System.out.print(i + 1);
+					System.out.print(i+1);
 					return;
 				}
-			}
+
 	}
 }
+/*
+24 5
+1 2 2 4 4
+출력 : 4
+1987654321 2
+15 14
+출력 : 2
+*/
