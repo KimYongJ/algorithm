@@ -1,16 +1,14 @@
+// https://github.com/KimYongJ/algorithm
 class Main{
     public static void main(String[] args)throws Exception{        
         int T = read(), idx = 0,result = 0,data = 0;
         int[] arr = new int[T];
 
-        while(T-->0){
-            
+        while(T-->0)
             if((data=read())!=0)
                 result +=(arr[idx++] = data);
             else
                 result -= arr[--idx];
-            
-        }
         
         System.out.println(result);
         
