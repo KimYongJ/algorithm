@@ -64,23 +64,9 @@ class Main{
 		long cnt	= 0;
 		int len		= left.size();
 		int s		= 0;
+		
 		while(s < len)
-		{
-			int lvalue	= left.get(s);
-			int lidx	= getUpperBound(left, lvalue);
-			long lcnt	= lidx - s + 1;
-
-			s = lidx + 1;
-			
-			long rcnt = getUpperBound(right, C - lvalue); // C-lvalue 값보다 작거나 같은 가장 큰수
-			if(rcnt == -1)
-			{
-				cnt++;
-				continue;
-			}
-			
-			cnt += lcnt * (rcnt+1);
-		}
+			cnt += getUpperBound(right, C - left.get(s++)) + 1;
 		
 		System.out.print(cnt);
 	
