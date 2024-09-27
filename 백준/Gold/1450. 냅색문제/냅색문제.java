@@ -52,7 +52,6 @@ class Main{
 		getSum(0, N/2, 0, left);	// arr의 0번째 인덱스부터 N/2인덱스까지 부분합을 모두 구해 left 리스트에 담는다.
 		getSum(N/2, N, 0, right);	// arr의 N/2번째 인덱스부터 마지막까지 부분합을 모두 구해 right 리스트에 담는다. 
 		
-		Collections.sort(left);
 		Collections.sort(right);
 		
 		long cnt	= 0;
