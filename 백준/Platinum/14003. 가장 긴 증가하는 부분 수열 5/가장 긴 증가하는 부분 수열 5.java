@@ -2,7 +2,6 @@
 //https://www.acmicpc.net/problem/14003
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 class Main{
 	public static int binarySearch(int s, int e, int target, int LIS[]) {
@@ -52,19 +51,20 @@ class Main{
 			}
 		
 		sb.append(len).append('\n');
+		int result[] = new int[len];
 		
 		len -= 1;
 		
-		PriorityQueue<Integer> pq = new PriorityQueue<>();
+		
 		for(int i=N-1; i>=0; i--)
 			if(idxArr[i] == len)
 			{
+				result[len] = arr[i];
 				len--;
-				pq.offer(arr[i]);
 			}
 		
-		while(!pq.isEmpty())
-			sb.append(pq.poll()).append(' ');
+		for(int l : result)
+			sb.append(l).append(' ');
 		
 		System.out.print(sb.toString());
 	}
