@@ -9,13 +9,12 @@ class Main{
 	
 	static int N, C, arr[];
 
-	public static void getSum(int s, int e, long sum, ArrayList<Integer> list) {
+	public static void getSum(int s, int e, int sum, ArrayList<Integer> list) {
 		if(s == e)
 		{
-			if(sum <= C){
-				list.add((int)sum);
-				return;
-			}
+			if(sum <= C)
+				list.add(sum);
+			return;
 		}
 		getSum(s + 1, e, sum, list);
 		if(sum+arr[s] <= C)
