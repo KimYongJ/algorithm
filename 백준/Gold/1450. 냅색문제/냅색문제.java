@@ -1,14 +1,16 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1450
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 class Main{
 	
 	static int N, C, arr[];
 
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void getSum(int s, int e, int sum, ArrayList<Integer> list) {
 		if(s == e)
 		{
@@ -21,10 +23,11 @@ class Main{
 			getSum(s + 1, e, sum+arr[s], list);
 	}
 	public static int getUpperBound(ArrayList<Integer> list, int target) {
-		int s = 0;
-		int e = list.size() - 1;
-		int idx = -1;
-		while(s <= e) {
+		int s	= 0;
+		int e	= list.size() - 1;
+		int idx = 0;
+		while(s <= e)
+		{
 			int mid = (s + e) >> 1;
 			if(list.get(mid) <= target)
 			{
@@ -37,21 +40,12 @@ class Main{
 		return idx;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N	= Integer.parseInt(st.nextToken());	// 물건개수(1<=30)
-		C	= Integer.parseInt(st.nextToken());	// 총무게(0<=10억)
-		arr = new int[N];						// 주어지는 무게들(1<=10억)
-		st = new StringTokenizer(br.readLine());
+		N	= read();		// 물건개수(1<=30)
+		C	= read();		// 총무게(0<=10억)
+		arr = new int[N];	// 주어지는 무게들(1<=10억)
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
-		
-		if(C == 0)
-		{
-			System.out.print(1);
-			return;
-		}
-		
+			arr[i] = read();
+
 		ArrayList<Integer> left	= new ArrayList<>();
 		ArrayList<Integer> right= new ArrayList<>();
 		
