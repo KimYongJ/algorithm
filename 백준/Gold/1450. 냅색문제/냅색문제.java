@@ -37,21 +37,6 @@ class Main{
 		}
 		return idx;
 	}
-	public static int getLowerBound(ArrayList<Integer> list, int target) {
-		int s = 0;
-		int e = list.size() - 1;
-		int idx = 0;
-		while(s <= e) {
-			int mid = (s + e) >> 1;
-			if(list.get(mid) <= target) {
-				e = mid - 1;
-				idx = mid;
-			}
-			else 
-				s = mid + 1;
-		}
-		return idx;
-	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -88,18 +73,14 @@ class Main{
 
 			s = lidx + 1;
 			
-			int upper = getUpperBound(right, C - lvalue); // C-lvalue 값보다 작거나 같은 가장 큰수
-			if(upper == -1)
+			long rcnt = getUpperBound(right, C - lvalue); // C-lvalue 값보다 작거나 같은 가장 큰수
+			if(rcnt == -1)
 			{
 				cnt++;
 				continue;
 			}
 			
-			int lower = getLowerBound(right, right.get(upper));
-			
-			long rcnt = upper - lower + 1;
-			
-			cnt += lcnt * rcnt;
+			cnt += lcnt * (rcnt+1);
 		}
 		
 		System.out.print(cnt);
