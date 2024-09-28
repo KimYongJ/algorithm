@@ -15,22 +15,22 @@ class Main{
     }
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
-		int T = read();						// 1<=50
+		int T = read();							// 1<=50
 		while(T-->0)
 		{
-			int N			= read();		// 편의점개수 (0<=100)
-			Node cs[]		= new Node[N];	// 편의점 위치를 담을 배열
-			boolean flag	= false;
-			boolean visit[] = new boolean[N];
-			Node start		= new Node(read(),read());
+			int N				= read();		// 편의점개수 (0<=100)
+			Node cs[]			= new Node[N];	// 편의점 위치를 담을 배열
+			boolean flag		= false;
+			boolean visit[]		= new boolean[N];
+			ArrayDeque<Node> q	= new ArrayDeque<>();
+			
+			q.add(new Node(read(),read()));
 			
 			for(int i=0; i<N; i++)
 				cs[i] = new Node(read(),read());
 			
 			Node last = new Node(read(),read());
 			
-			ArrayDeque<Node> q = new ArrayDeque<>();
-			q.add(start);
 			while(!q.isEmpty())
 			{
 				Node now = q.poll();
