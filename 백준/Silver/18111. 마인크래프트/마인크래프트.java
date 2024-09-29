@@ -1,31 +1,26 @@
 // https://github.com/KimYongJ/algorithm/tree/main
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
     
     private static int N,M,B,arr[][];
     private static int[] result = new int[]{Integer.MAX_VALUE , 0}; // 순서 : 시간 , 땅의 높이
     
     public static void main(String... args)throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        B = Integer.parseInt(st.nextToken());
+
+        N = read();
+        M = read();
+        B = read();
         arr = new int[N][M];
         
         int max = Integer.MIN_VALUE;
         int min = Integer.MAX_VALUE;
         
-        for(int i=0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
+        for(int i=0; i<N; i++)
             for(int j=0; j<M; j++){
-                arr[i][j] = Integer.parseInt(st.nextToken());
+                arr[i][j] = read();
                 max = Math.max(max,arr[i][j]); // 높이 중 최댓 값
                 min = Math.min(min,arr[i][j]); // 높이 중 최솟 값
             }
-        }
+        
         
         for(int i=min; i<=max; i++){// 높이의 최솟값 ~ 최댓값 사이에 대해 드는 시간을 구한다.
             int time = getTime(i); // 높이 i로 만들 때 걸리는 시간을 구하는 함수
@@ -55,5 +50,9 @@ class Main{
         }
         return resultTime;
     }
-    
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
 }
