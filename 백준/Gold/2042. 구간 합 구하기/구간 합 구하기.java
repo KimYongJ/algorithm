@@ -1,9 +1,14 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2042
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+    static long read() throws Exception {
+    	long c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 	// 파라미터 : 원소배열, 현재노드, 현재구간 배열시작, 현재구간 배열 끝
 	public static long init(long tree[], long[] arr, int node, int start, int end) {
 		if(start == end)	// 배열의 시작과 끝이 같다면 leaf노드이므로 원소 배열 값 그대로 담는다.
@@ -38,16 +43,14 @@ class Main{
 				+ sum(tree, (node<<1)+1, ((start+end)>>1)+1, end, left, right);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder 	sb = new StringBuilder();
-		int N = Integer.parseInt(st.nextToken());	// 수의 개수(1<=백만)
-		int M = Integer.parseInt(st.nextToken());	// 수의 변경이 일어나는 횟수(1<=만)
-		int K = Integer.parseInt(st.nextToken());	// 구간의 합을 구하는 횟수
+		int N = (int)read();	// 수의 개수(1<=백만)
+		int M = (int)read();	// 수의 변경이 일어나는 횟수(1<=만)
+		int K = (int)read();	// 구간의 합을 구하는 횟수
 		
 		long[] arr = new long[N+1];
 		for(int i=1; i<=N; i++)
-			arr[i] = Long.parseLong(br.readLine());
+			arr[i] = read();
 		
 		int h			= (int) Math.ceil(Math.log(N) / Math.log(2));
 		int treeSize	= (int)Math.pow(2, h + 1);	// 높이를 이용해 배열의 사이즈를 구한다.
@@ -57,10 +60,9 @@ class Main{
 		
 		for(int i=0; i<M+K; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int cmd = Integer.parseInt(st.nextToken());
-			int a	= Integer.parseInt(st.nextToken());
-			long b	= Long.parseLong(st.nextToken());
+			int cmd = (int)read();
+			int a	= (int)read();
+			long b	= read();
 			if(cmd == 1)// b번째 수를 c로 바꾸기
 			{
 				update(tree, 1, 1, N, a, b-arr[a]);// 파라미터 : 현재노드 , 배열의 시작, 배열의 끝, 변경된 데이터의 인덱스, 원래 데이터 값과 변경 데이터 값의 차이
