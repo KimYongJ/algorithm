@@ -49,7 +49,6 @@ class Main{
 		tree = new int[(int)Math.pow(2,h + 1)];
 		
 		while(N-->0)
-		{
 			if(read() == 1)			// 사탕을 꺼내는 경우
 			{
 				int rnk = read();
@@ -61,7 +60,7 @@ class Main{
 				int cnt = read();	// 몇개를 넣을 것인지
 				update(1, 1, size, idx, cnt);
 			}
-		}
+
 		System.out.print(sb);
 	}
 }
