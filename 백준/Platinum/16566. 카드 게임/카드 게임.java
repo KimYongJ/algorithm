@@ -3,7 +3,7 @@
 import java.util.Arrays;
 class Main{
 
-	static int K, h, size;
+	static int N, K, h, size;
 	static int[] arr, tree;
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -54,17 +54,21 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
-		read();				// N, 숫자 범위 1<=사백만 안씀
+		N		= read();	// N, 숫자 범위 1<=사백만 안씀
 		size	= read();	// 내카드번호 1<=N
 		K		= read();	// 철수가 낼 카드 순서
 		h		= (int)Math.ceil(Math.log(size) / Math.log(2));
 		tree	= new int[1<<(h + 1)];
 		arr 	= new int[size + 1];
 
-		for(int i=1; i<=size; i++)
-			arr[i] = read();
+		boolean isExist[] = new boolean[N+1];
+		for(int i=0; i<size; i++)
+			isExist[read()] = true;
 		
-		Arrays.sort(arr);
+		for(int i = 1, idx = 1; i<=N; i++) 
+			if(isExist[i])
+				arr[idx++] = i;
+		
 		
 		init(1, 1, size);	// 세그먼트 트리 초기화
 		
