@@ -1,14 +1,15 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/16566
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
 
-	static int size;
+	static int K, h, size;
 	static int[] arr, tree;
-	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static int init(int treeNode, int s, int e) {
 		if(s == e)
 			return tree[treeNode] = arr[s];
@@ -39,43 +40,36 @@ class Main{
 		int mid = (s + e) >> 1;				// 다음 범위
 		int nextTreeNode = treeNode * 2;	// 다음 세그먼트 노드
 		
-		if(target < tree[nextTreeNode] && target < tree[nextTreeNode + 1]) {// 다음 노드들도 모두 target보다 크다면
-			if(tree[nextTreeNode] < tree[nextTreeNode + 1]) // 왼쪽이 작다면 왼쪽으로 
+		if(target < tree[nextTreeNode] && target < tree[nextTreeNode + 1])// 다음 노드들도 모두 target보다 크다면
+		{
+			if(tree[nextTreeNode] < tree[nextTreeNode + 1])				// target보단 왼쪽이 크지만 오른쪽보다 왼쪽이 작다면 왼쪽으로 내려감 
 				return getTarget(nextTreeNode, s , mid, target);
 			else
 				return getTarget(nextTreeNode + 1, mid + 1, e, target); // 오른쪽이 작다면 오른쪽 노드로 내려감
 		}
-		if(target < tree[nextTreeNode])
+		if(target < tree[nextTreeNode])	// 왼쪽 노드만 target보다 크다면
 			return getTarget(nextTreeNode, s , mid, target);
-		else	
+		else							// 오른쪽 노드가 target보다 크다면
 			return getTarget(nextTreeNode + 1, mid + 1, e, target);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		Integer.parseInt(st.nextToken());			// N, 숫자 범위 1<=사백만 안씀
-		size = Integer.parseInt(st.nextToken());	// 내카드번호 1<=N
-		int K = Integer.parseInt(st.nextToken());	// 철수가 낼 카드 순서
-		int h = (int)Math.ceil(Math.log(size) / Math.log(2));
-		tree= new int[1<<(h + 1)];
-		arr = new int[size + 1];
-		
-		
-		st = new StringTokenizer(br.readLine());
+		read();				// N, 숫자 범위 1<=사백만 안씀
+		size	= read();	// 내카드번호 1<=N
+		K		= read();	// 철수가 낼 카드 순서
+		h		= (int)Math.ceil(Math.log(size) / Math.log(2));
+		tree	= new int[1<<(h + 1)];
+		arr 	= new int[size + 1];
+
 		for(int i=1; i<=size; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		Arrays.sort(arr);
 		
 		init(1, 1, size);	// 세그먼트 트리 초기화
 		
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<K; i++) {
-			int targetIdx = Integer.parseInt(st.nextToken());
-			int res = getTarget(1,1, size, targetIdx);
-			sb.append(res).append('\n');
-		}
+		for(int i=0; i<K; i++)
+			sb.append( getTarget(1,1, size, read()) ).append('\n');
 		
 		System.out.print(sb);
 	}
