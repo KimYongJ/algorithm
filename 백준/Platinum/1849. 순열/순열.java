@@ -10,7 +10,6 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
 	}
-	
 	public static int init(int treeNode, int s, int e) {
 		if(s == e)
 			return tree[treeNode] = 1;	// 리프노드는 1 대입
@@ -40,7 +39,7 @@ class Main{
 			return;
 		}
 		int mid = (s + e) >> 1;
-		if(cnt <= tree[treeNode*2])
+		if(cnt < tree[treeNode*2])
 			query(treeNode * 2, s , mid, cnt);
 		else
 			query(treeNode * 2 + 1, mid + 1, e, cnt - tree[treeNode * 2]);
@@ -56,7 +55,7 @@ class Main{
 		init(1, 1, N);
 		// 	각 입력에 대해 1번부터 N번까지 숫자 중 자기 앞에 비어있는 숫자와 같은 곳에 들어가 결과를 대입한다
 		for(int i=0; i<N; i++)
-			query(1, 1, N, read() + 1);
+			query(1, 1, N, read());
 		
 		for(int i=1; i<=N; i++)
 			sb.append(arr[i]).append('\n');
