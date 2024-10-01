@@ -19,26 +19,12 @@ class Main{
 		
 		return tree[treeNode] = init(treeNode*2, s, mid) + init(treeNode*2 + 1, mid + 1, e);
 	}
-	// 특정 originIdx까지 있는 모든 노드에 대해 diff값을 더한다.
-	public static void update(int treeNode, int s, int e, int originIdx, int diff) {
-		if(originIdx < s || e < originIdx)
-			return;
-		
-		tree[treeNode] += diff;
-		
-		if(s == e)
-			return;
-		
-		int mid = (s + e) >> 1;
-
-		update(treeNode * 2, s, mid, originIdx, diff);
-		update(treeNode * 2 + 1, mid + 1, e, originIdx, diff);
-	}
 	// 주어진 cnt만큼 리프노드에서 오른쪽으로 간 리프노드를 찾는다. cnt가 1이면 리프노드의 1이 왼쪽에서 한번 나온 위치의 다음 위치로, 즉 2번째로 감
 	public static void query(int treeNode, int s, int e, int cnt) {
-		if(s == e) {
-			update(1, 1, N, s, -1);
-			res[s] = idx--;	// 해당 위치에 idx값(1~N)을 차례로 넣는다.
+		if(s == e)
+		{
+			tree[treeNode]--;	// 연산이 끝난 후 1을 줄여주어 이미 탐색한 곳들을 다시 탐색할 필요 없게 만든다.
+			res[s] = idx--;		// 해당 위치에 idx값(1~N)을 차례로 넣는다.
 			return;
 		}
 		
@@ -48,6 +34,8 @@ class Main{
 			query(treeNode * 2, s, mid, cnt);
 		else
 			query(treeNode * 2 + 1, mid + 1, e, cnt - tree[treeNode * 2]);
+		
+		tree[treeNode]--; 		// 연산이 끝난 후 1을 줄여주어 이미 탐색한 곳들을 다시 탐색할 필요 없게 만든다.
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
