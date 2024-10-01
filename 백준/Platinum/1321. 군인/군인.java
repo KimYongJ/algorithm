@@ -8,8 +8,8 @@ import java.util.StringTokenizer;
 class Main{
 	
 	static int N, H;
-	static long[] arr, tree;
-	public static long init(int treeNode, int s, int e) {
+	static int[] arr, tree;
+	public static int init(int treeNode, int s, int e) {
 		if(s == e)
 			return tree[treeNode] = arr[s];
 		
@@ -44,8 +44,8 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		N	= Integer.parseInt(br.readLine());
 		H	= (int)Math.ceil(Math.log(N) / Math.log(2));
-		arr	= new long[N+1];
-		tree= new long[1<<(H + 1)];
+		arr	= new int[N+1];
+		tree= new int[1<<(H + 1)];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
