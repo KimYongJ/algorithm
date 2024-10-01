@@ -38,13 +38,13 @@ class Main{
 		int cnt = (K+1) >> 1;		// 찾으려는 중앙 값 개수
 		// 세그먼트 트리는 항상 개수가 K개만 들어가있도록 만든다.
 		tree	= new int[1<<(h+1)];// 세그먼트 트리의 노드는 자기 자식노드들의 개수 의 합이다. 각 리프노드는 숫자를 의미한다.(1~65536까지)
-		arr	= new int[N];
+		arr		= new int[N];
 		
 		long res = 0;
 		for(int i=0, j = 1-K; i<N; i++, j++)
 		{
 			arr[i] = read();
-			update(1, 0, MAX, arr[i], 1);	    // 세그먼트 트리에 값 업데이트
+			update(1, 0, MAX, arr[i], 1);		// 세그먼트 트리에 값 업데이트
 			if(0<=j)
 			{
 				res += query(1, 0, MAX, cnt);
