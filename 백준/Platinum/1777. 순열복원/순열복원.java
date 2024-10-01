@@ -2,7 +2,7 @@
 //https://www.acmicpc.net/problem/1777
 class Main{
 	
-	static int N, H, idx;
+	static int N, H;
 	static int[] arr, tree, res;
 	
 	static int read() throws Exception {// 빠른 입력을 위한 함수
@@ -20,28 +20,23 @@ class Main{
 		return tree[treeNode] = init(treeNode*2, s, mid) + init(treeNode*2 + 1, mid + 1, e);
 	}
 	// 주어진 cnt만큼 리프노드에서 오른쪽으로 간 리프노드를 찾는다. cnt가 1이면 리프노드의 1이 왼쪽에서 한번 나온 위치의 다음 위치로, 즉 2번째로 감
-	public static void query(int treeNode, int s, int e, int cnt) {
+	public static int query(int treeNode, int s, int e, int cnt) {
+		
+		tree[treeNode]--;// 현재 방문한 곳에서 하나를 빼주어 추후 연산을 줄여준다.
+		
 		if(s == e)
-		{
-			tree[treeNode]--;	// 연산이 끝난 후 1을 줄여주어 이미 탐색한 곳들을 다시 탐색할 필요 없게 만든다.
-			res[s] = idx--;		// 해당 위치에 idx값(1~N)을 차례로 넣는다.
-			return;
-		}
+			return s;
 		
 		int mid = (s + e) >> 1;
 		
-		if(cnt < tree[treeNode * 2])
-			query(treeNode * 2, s, mid, cnt);
-		else
-			query(treeNode * 2 + 1, mid + 1, e, cnt - tree[treeNode * 2]);
-		
-		tree[treeNode]--; 		// 연산이 끝난 후 1을 줄여주어 이미 탐색한 곳들을 다시 탐색할 필요 없게 만든다.
+		return cnt < tree[treeNode * 2]					? 
+					query(treeNode * 2, s, mid, cnt)	: 
+					query(treeNode * 2 + 1, mid + 1, e, cnt - tree[treeNode * 2]);
 	}
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
 		N		= read();	// 순열 크기 (1<=십만)
 		H		= (int)Math.ceil(Math.log(N+1) / Math.log(2));
-		idx 	= N;
 		arr 	= new int[N + 1];
 		res 	= new int[N + 1];
 		tree	= new int[1<<(H+1)];
@@ -52,7 +47,7 @@ class Main{
 			arr[i] = read();
 		
 		for(int i=N; i>0; i--)		// 뒤에서부터 탐색하며 왼쪽에서 오른쪽으로 채워나간다.
-			query(1, 1, N, arr[i]);
+			res[query(1, 1, N, arr[i])] = i;
 		
 		for(int i=N; i>=1; i--)
 			sb.append(res[i]).append(' ');
