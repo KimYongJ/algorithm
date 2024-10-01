@@ -50,7 +50,7 @@ class Main{
 		N	= read();										// 원소개수 (1<=십만)
 		H	= (int)Math.ceil(Math.log(N) / Math.log(2));	// 세그먼트 트리의 높이
 		arr = new int[N + 1];
-		tree= new int[1<<(H + 2)];
+		tree= new int[1<<(H + 1)];
 		
 		// 세그먼트 트리의 노드들은 자기 앞에 비어있는 숫자를 갖고있는 것으로 생각하면됨, 각 리프노드들은 1이며, 그위 노드들은 리프노드들의 누적합
 		init(1, 1, N);
