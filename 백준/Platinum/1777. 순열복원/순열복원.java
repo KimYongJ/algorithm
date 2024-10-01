@@ -10,7 +10,7 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
 	}
-	
+	// 각 리프노드는 1로하고 나머지 노드들은 모두 누적합을 구한다.
 	public static int init(int treeNode, int s, int e) {
 		if(s == e)
 			return tree[treeNode] = 1;
@@ -19,6 +19,7 @@ class Main{
 		
 		return tree[treeNode] = init(treeNode*2, s, mid) + init(treeNode*2 + 1, mid + 1, e);
 	}
+	// 특정 originIdx까지 있는 모든 노드에 대해 diff값을 더한다.
 	public static void update(int treeNode, int s, int e, int originIdx, int diff) {
 		if(originIdx < s || e < originIdx)
 			return;
@@ -33,10 +34,11 @@ class Main{
 		update(treeNode * 2, s, mid, originIdx, diff);
 		update(treeNode * 2 + 1, mid + 1, e, originIdx, diff);
 	}
+	// 주어진 cnt만큼 리프노드에서 오른쪽으로 간 리프노드를 찾는다. cnt가 1이면 리프노드의 1이 왼쪽에서 한번 나온 위치의 다음 위치로, 즉 2번째로 감
 	public static void query(int treeNode, int s, int e, int cnt) {
 		if(s == e) {
 			update(1, 1, N, s, -1);
-			res[N - s + 1] = idx--;
+			res[s] = idx--;	// 해당 위치에 idx값(1~N)을 차례로 넣는다.
 			return;
 		}
 		
@@ -64,7 +66,7 @@ class Main{
 		for(int i=N; i>0; i--)		// 뒤에서부터 탐색하며 왼쪽에서 오른쪽으로 채워나간다.
 			query(1, 1, N, arr[i]);
 		
-		for(int i=1; i<=N; i++)
+		for(int i=N; i>=1; i--)
 			sb.append(res[i]).append(' ');
 		
 		System.out.print(sb);		
