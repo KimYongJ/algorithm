@@ -15,15 +15,12 @@ class Main{
 	}
 	public static int getMin(int treeNode, int s, int e, int left, int right) {
 		if(right < s || e < left)
-			return Integer.MAX_VALUE;
+			return 1<<30;
 		if(left<=s && e<=right)
 			return segTree[treeNode];
 		
 		int mid = (s + e) >> 1;
-		return Math.min(
-							getMin(treeNode*2, s, mid, left, right), 
-							getMin(treeNode*2 + 1, mid + 1, e, left, right)
-						);
+		return Math.min( getMin(treeNode*2, s, mid, left, right), getMin(treeNode*2 + 1, mid + 1, e, left, right) );
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
