@@ -18,7 +18,9 @@ class Main{
 		
 		int mid = (s + e) >> 1;
 		
-		return sum(treeNode*2, s, mid, left, right) + sum(treeNode*2+1, mid+1, e, left, right);
+		treeNode <<= 1;
+		
+		return sum(treeNode, s, mid, left, right) + sum(treeNode+1, mid+1, e, left, right);
 	}
 	
 	static void modify(int treeNode, int s, int e, int originIdx, long diff) {
@@ -30,8 +32,11 @@ class Main{
 		if(s != e)
 		{
 			int mid = (s + e) >> 1;
-			modify(treeNode*2, s, mid, originIdx, diff);
-			modify(treeNode*2+1, mid+1, e, originIdx, diff);
+		
+			treeNode <<= 1;
+			
+			modify(treeNode, s, mid, originIdx, diff);
+			modify(treeNode+1, mid+1, e, originIdx, diff);
 		}
 	}
 	
