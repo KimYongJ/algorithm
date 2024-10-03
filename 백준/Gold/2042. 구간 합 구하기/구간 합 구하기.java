@@ -4,7 +4,7 @@ class Main{
 	
 	static long[] arr, tree;
 
-	// 파라미터 : 원소배열, 현재노드, 현재구간 배열시작, 현재구간 배열 끝
+	// 파라미터 : 현재노드, 현재구간 배열시작, 현재구간 배열 끝
 	public static long init(int node, int start, int end) {
 		if(start == end)	// 배열의 시작과 끝이 같다면 leaf노드이므로 원소 배열 값 그대로 담는다.
 			return tree[node] = arr[start];
@@ -49,9 +49,9 @@ class Main{
 		tree	= new long[1 << (h + 1)];				// 높이를 이용해 세그먼트 트리로 논리상 사용될 배열의 사이즈를 세팅
 		
 		for(int i=1; i<=N; i++)
-			arr[i] = in.nextLong();;
+			arr[i] = in.nextLong();
 
-		init(1, 1, N);									// 파라미터 : 원소배열, 현재노드, 현재구간 배열시작, 현재구간 배열 끝
+		init(1, 1, N);									// 파라미터 : 현재노드, 현재구간 배열시작, 현재구간 배열 끝
 		
 		while(M-->0)
 		{
@@ -65,7 +65,8 @@ class Main{
 				arr[a] = b;
 			}
 			else										// b번째 수부터 c번째 수까지 합 구하기
-				sb.append(sum(1,  1,  N,  a, (int)b)).append('\n');// 파라미터 : 현재 노드, 배열의 시작, 배열의 끝, 원하는 누적합의 시작, 원하는 누적합의 끝
+				sb.append(sum(1,  1,  N,  a, (int)b))
+                    .append('\n');// 파라미터 : 현재 노드, 배열의 시작, 배열의 끝, 원하는 누적합의 시작, 원하는 누적합의 끝
 		}
 		System.out.print(sb);
 	}
