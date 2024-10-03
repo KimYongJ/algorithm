@@ -14,8 +14,8 @@ class Main{
         return m ? ~n + 1 : n;
     }
     public static void main(String[] args)throws Exception{
-    	final int[][] dxy = {{0,1},{0,-1},{1,0},{-1,0}};
-    	ArrayDeque<Node> q = new ArrayDeque<>();
+    	final int[][] dxy 	= {{0,1},{0,-1},{1,0},{-1,0}};
+    	ArrayDeque<Node> q 	= new ArrayDeque<>();
     	int X		= read();				// 가로행 (2<=천)
     	int Y		= read();				// 세로행 (2<=천)
     	int res		= 0;					// 모두 익을 때 까지 걸린 일수
@@ -28,7 +28,6 @@ class Main{
     		map[0][x] = map[Y+1][x] = -1;
     	
     	for(int y=1; y<=Y; y++)
-    	{
     		for(int x=1; x<=X; x++)
     		{
     			map[y][x] = read();
@@ -37,7 +36,7 @@ class Main{
     			else if(map[y][x] == 0)		// 안익은 토마토 개수 카운팅
     				zero++;
     		}
-    	}
+
     	
     	while(!q.isEmpty())
     	{
