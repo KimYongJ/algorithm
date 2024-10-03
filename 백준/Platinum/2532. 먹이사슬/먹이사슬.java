@@ -8,14 +8,37 @@ class Node{
 	int l, r;Node(int l, int r){this.l=l; this.r=r;}
 }
 class Main{
-	public static int binarySearch(Node[] node, int[] LIS, int s, int e, int target) {
+	
+	static int N, len, LIS[];
+	static Node node[];
+	public static int upperBound(int target) {
+		int s	= 0;
+		int e	= len - 1;
 		int res = 0;
 		while(s <= e)
 		{
 			int mid = (s + e) >> 1;
-			if(target == LIS[mid]) {
-				while(LIS[++mid] == target);
-				return mid;
+			if(target <= LIS[mid])
+			{
+				s = mid + 1;
+				res = mid;
+			}
+			else
+				e = mid - 1;
+		}
+		
+		return res+1;
+	}
+	public static int binarySearch(int target) {
+		int s	= 0;
+		int e	= len - 1;
+		int res	= 0;
+		while(s <= e)
+		{
+			int mid = (s + e) >> 1;
+			if(target == LIS[mid])
+			{
+				return upperBound(target); // target을 갖는 가장큰 idx
 			}
 			if(LIS[mid] < target)
 			{
@@ -31,10 +54,10 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 동물의 수 (1<=50만)
-		int len		= 1;								// 가장긴 부분수열의 길이를 나타낼 변수
-		int LIS[]	= new int[N];						// 가장긴 부분수열을 담을 배열
-		Node node[] = new Node[N];
+		N		= Integer.parseInt(br.readLine());	// 동물의 수 (1<=50만)
+		len		= 1;								// 가장긴 부분수열의 길이를 나타낼 변수
+		LIS		= new int[N];						// 가장긴 부분수열을 담을 배열
+		node	= new Node[N];
 		
 		for(int i=0; i<N; i++)
 		{
@@ -56,7 +79,7 @@ class Main{
 			if(node[i].r <= LIS[len-1])
 				LIS[len++] = node[i].r;
 			else {
-				int idx = binarySearch(node, LIS, 0, len-1, node[i].r);
+				int idx = binarySearch(node[i].r);// 가장 긴 감소하는 부분수열
 				LIS[idx] = node[i].r;
 			}
 		}
