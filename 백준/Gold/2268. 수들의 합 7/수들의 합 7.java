@@ -2,7 +2,7 @@
 //https://www.acmicpc.net/problem/2268
 class Main{
 	
-	static long[] arr, tree;
+	static long[] tree;
 	
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -23,21 +23,21 @@ class Main{
 		return sum(treeNode, s, mid, left, right) + sum(treeNode | 1, mid+1, e, left, right);
 	}
 	
-	static void modify(int treeNode, int s, int e, int originIdx, long diff) {
+	static void modify(int treeNode, int s, int e, int originIdx, int diff) {
 		if(originIdx < s || e < originIdx)
 			return;
-
-		tree[treeNode] += diff;
-
-		if(s != e)
+		if(s == e)
 		{
-			int mid = (s + e) >> 1;
-		
-			treeNode <<= 1;
-			
-			modify(treeNode, s, mid, originIdx, diff);
-			modify(treeNode | 1, mid+1, e, originIdx, diff);
+			tree[treeNode] = diff;
+			return;
 		}
+
+		int mid = (s + e) >> 1;
+	
+		modify(treeNode<<1, s, mid, originIdx, diff);
+		modify((treeNode<<1)| 1, mid+1, e, originIdx, diff);
+		
+		tree[treeNode] = tree[treeNode<<1] + tree[treeNode<<1 | 1];
 	}
 	
 	public static void main(String[] args)throws Exception{
@@ -45,7 +45,6 @@ class Main{
 		int N	= read();
 		int M	= read();
 		int H	= (int)Math.ceil(Math.log(N) / Math.log(2));
-		arr		= new long[N+1];
 		tree	= new long[1<<(H+1)];
 
 		
@@ -56,21 +55,10 @@ class Main{
 			int b	= read();
 			
 			if(cmd == 0)// a~b구간 합
-			{	
-				long res = 0;
-				if(a < b)
-					res = sum(1, 1, N, a, b);
-				else
-					res = sum(1, 1, N, b, a);
-				sb.append( res )
+				sb.append(a < b ? sum(1, 1, N, a, b) : sum(1, 1, N, b, a) )
 					.append('\n');
-			}
 			else
-			{
-				modify(1, 1, N, a, b - arr[a]);
-				arr[a] = b;
-			}
-			
+				modify(1, 1, N, a, b);
 		}
 		System.out.print(sb.toString());
 	}
