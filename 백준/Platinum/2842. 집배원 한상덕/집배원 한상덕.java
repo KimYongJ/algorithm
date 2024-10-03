@@ -64,7 +64,10 @@ class Main{
 				set.add(arr[y][x] = in.nextInt());
 
 		// 높이를 중복없이 일차원 배열로 변경한다.
-		H = set.stream().mapToInt(Integer::intValue).toArray();
+		int idx = 0;
+		H = new int[set.size()];
+		for(int s : set)
+			H[idx++] = s;
 		// 투포인터 탐색을 위해 높이를 오름차순으로 정렬한다.
 		Arrays.sort(H);
 		
@@ -76,7 +79,7 @@ class Main{
 		// H의 시작인덱스(s)는 H의 종료인덱스(e)보다 작아야하고, 또한 H[s]와 H[e]의 고도는 시작 고도를 벗어나서는 안된다.
 		while(s<=e && e < MAXHEIGHT && H[s] <= arr[sy][sx] && arr[sy][sx] <= H[e])
 		{
-			visit	= new boolean[N + 2][N + 2];
+			visit = new boolean[N + 2][N + 2];
 
 			if(DFS(sy, sx) == Kcnt)	// 해당 집들을 모두 방문할 수 있다면 H의 시작인덱스(s)를 추가해서 최소의 범위를 구한다.
 			{
