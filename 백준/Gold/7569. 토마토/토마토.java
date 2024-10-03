@@ -1,64 +1,72 @@
-import java.io.*;
-import java.util.*;
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/7569
+import java.util.ArrayDeque;
+class Node{
+	int z, y, x;
+	Node(int z, int y, int x){this.z=z; this.x=x; this.y=y;}
+}
 
 class Main{
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int x,y,z, result, nTomato;
-    static char[][][] arr;
-    static ArrayDeque<int[]> q = new ArrayDeque<>();
-    static int[][] plus = {{0,0,1},{0,0,-1},{0,1,0},{0,-1,0},{1,0,0},{-1,0,0}};
+
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
+    
     public static void main(String[] args)throws Exception{
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        y=Integer.parseInt(st.nextToken());
-        x=Integer.parseInt(st.nextToken());
-        z=Integer.parseInt(st.nextToken());
-        arr = new char[z][x][y];
-        for(int a=0;a<z;a++)
-            for(int i=0;i<x;i++)
-                for(int j=0; j<y;j++){
-                    arr[a][i][j] = read();
-                    if(arr[a][i][j]=='1'){
-                        q.add(new int[]{a,i,j,0});
+    	final int[][] dxy	= {{0,0,1},{0,0,-1},{0,1,0},{0,-1,0},{1,0,0},{-1,0,0}};
+    	ArrayDeque<Node> q	= new ArrayDeque<>();
+    	
+        int X			= read();
+        int Y			= read();
+        int Z			= read();
+        int result		= 0;
+        int zero		= 0;
+        int arr[][][]	= new int[Z][Y][X];
+        
+        for(int z=0; z<Z; z++)
+            for(int y=0; y<Y; y++)
+            {
+                for(int x=0; x<X; x++)
+                {
+                    arr[z][y][x] = read();
+                    if(arr[z][y][x]==1)
+                        q.add(new Node(z,y,x));
+                    else if(arr[z][y][x] == 0)
+                    	zero++;
+                }
+            }
+
+        while(!q.isEmpty())
+        {
+        	int size = q.size();
+        	while(size-- >0)
+        	{
+            	Node now = q.poll();
+            	
+                for(int[] xy : dxy)
+                {
+                    int z1 = now.z + xy[0];
+                    int y1 = now.y + xy[1];
+                    int x1 = now.x + xy[2];
+
+                    if(z1<0 || z1>=Z || x1<0 || x1>=X || y1<0 || y1>=Y)
+                        continue;
+                    if(arr[z1][y1][x1] == 0)
+                    {
+                        arr[z1][y1][x1] = 1;
+                        zero--;
+                        q.add(new Node(z1, y1, x1));    
                     }
                 }
-        if(result==x*y*z){
-            System.out.print("0");
-            return;
+        	}
+        	result++;
         }
-        result = 0;
-        while(!q.isEmpty()){
-            int[] qData = q.poll();
-            for(int[] p : plus){
-                int a1 = qData[0] + p[0];
-                int x1 = qData[1] + p[1];
-                int y1 = qData[2] + p[2];
-                int dist = qData[3] + 1;
-                
-                if(a1<0 || a1>=z || x1<0 || x1>=x || y1<0 || y1>=y)
-                    continue;
-                if(arr[a1][x1][y1]=='0'){
-                    arr[a1][x1][y1] = '1';
-                    nTomato--;
-                    q.add(new int[]{a1,x1,y1,dist});    
-                }
-            }
-            result = qData[3];
-        }
-        System.out.println(nTomato==0? result : -1);
+        System.out.println(zero == 0 ? result - 1 : -1);
     }
-    public static char read()throws Exception{
-        while(true){
-            int num = br.read();
-            if(num=='1'){
-                result++;
-                return (char)num;
-            }else if(num=='0'){
-                nTomato++;
-                return (char)num;
-            }else if(num=='-'){
-                br.read();
-                return (char)num;
-            }
-        }
-    }
+
 }
