@@ -28,7 +28,6 @@ class Main{
         
         for(int z=0; z<Z; z++)
             for(int y=0; y<Y; y++)
-            {
                 for(int x=0; x<X; x++)
                 {
                     arr[z][y][x] = read();
@@ -37,7 +36,6 @@ class Main{
                     else if(arr[z][y][x] == 0)
                     	zero++;
                 }
-            }
 
         while(!q.isEmpty())
         {
