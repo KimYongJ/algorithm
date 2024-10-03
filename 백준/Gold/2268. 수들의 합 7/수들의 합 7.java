@@ -20,7 +20,7 @@ class Main{
 		
 		treeNode <<= 1;
 		
-		return sum(treeNode, s, mid, left, right) + sum(treeNode+1, mid+1, e, left, right);
+		return sum(treeNode, s, mid, left, right) + sum(treeNode | 1, mid+1, e, left, right);
 	}
 	
 	static void modify(int treeNode, int s, int e, int originIdx, long diff) {
@@ -36,12 +36,12 @@ class Main{
 			treeNode <<= 1;
 			
 			modify(treeNode, s, mid, originIdx, diff);
-			modify(treeNode+1, mid+1, e, originIdx, diff);
+			modify(treeNode | 1, mid+1, e, originIdx, diff);
 		}
 	}
 	
 	public static void main(String[] args)throws Exception{
-		StringBuilder	sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		int N	= read();
 		int M	= read();
 		int H	= (int)Math.ceil(Math.log(N) / Math.log(2));
