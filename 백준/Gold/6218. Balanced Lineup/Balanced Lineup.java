@@ -1,13 +1,15 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/6218
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int[] arr, minSeg, maxSeg;
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static int initMin(int treeNode, int s, int e) {
 		if(s == e)
 			return minSeg[treeNode] = arr[s];
@@ -57,11 +59,9 @@ class Main{
 		return Math.max(l, r);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		int N	= Integer.parseInt(st.nextToken());	// 소의 수 (1<=오만)
-		int Q	= Integer.parseInt(st.nextToken());	// 명령어 수 (1<=이십만)
+		int N	= read();	// 소의 수 (1<=오만)
+		int Q	= read();	// 명령어 수 (1<=이십만)
 		int H	= (int)Math.ceil(Math.log(N) / Math.log(2));
 		
 		arr		= new int[N + 1];
@@ -69,16 +69,15 @@ class Main{
 		maxSeg	= new int[1 <<(H + 1)];
 		
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(br.readLine()); // 1<=백만
+			arr[i] = read(); // 1<=백만
 		
 		initMin(1, 1, N);
 		initMax(1, 1, N);
 		
 		while(Q-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
+			int l = read();
+			int r = read();
 
 			sb.append(getMax(1, 1, N, l, r) - getMin(1, 1, N, l, r)).append('\n');
 		}
