@@ -12,41 +12,26 @@ class Main{
 	
 	public static int init(int treeNode, int s, int e) {
 		if(s == e)
-			return tree[treeNode] = arr[s];
+			return tree[treeNode] = s;
 		
-		int mid = (s + e) >> 1;
+		int mid				= (s + e) >> 1;
+		int nextTreeNode 	= treeNode << 1;
+		int left			= init(nextTreeNode, s, mid);
+		int right			= init(nextTreeNode | 1, mid + 1, e);
 		
-		return tree[treeNode] = Math.min(init(treeNode*2, s, mid), init(treeNode*2+1, mid + 1, e));
+		return tree[treeNode] = arr[left] <= arr[right] ? left : right;
 	}
 	
-	public static void update(int treeNode, int s, int e, int originIdx, int diff) {
-		if(originIdx < s || e < originIdx)
-			return;
+	public static int update(int treeNode, int s, int e, int originIdx, int diff) {
+		if(originIdx < s || e < originIdx || s== e)
+			return tree[treeNode];
 
-		if(s == e){
-			tree[treeNode] = diff;
-			return;
-		}
-		
 		int mid				= (s + e) >> 1;
 		int nextTreeNode	= treeNode << 1;
+		int left			= update(nextTreeNode, s, mid, originIdx, diff);
+		int right			= update(nextTreeNode | 1, mid + 1, e, originIdx, diff);
 		
-		update(nextTreeNode, s, mid, originIdx, diff);
-		update(nextTreeNode | 1, mid + 1, e, originIdx, diff);
-		
-		tree[treeNode] = Math.min(tree[nextTreeNode], tree[nextTreeNode | 1]);
-	}
-	
-	public static int getMinIdx(int treeNode, int s, int e) {
-		if(s == e)
-			return s;
-		
-		int mid				= (s + e) >> 1;
-		int nextTreeNode	= treeNode << 1;
-		
-		return tree[nextTreeNode] <= tree[nextTreeNode | 1] 	? 
-						getMinIdx(nextTreeNode, s, mid)			:
-						getMinIdx(nextTreeNode | 1, mid + 1, e);
+		return tree[treeNode] = arr[left] <= arr[right] ? left : right;
 	}
 	
 	public static void main(String[] args)throws Exception{
@@ -66,10 +51,15 @@ class Main{
 		
 		while(T-- > 0)
 			if(read() == 2)		// 해당 배열에서 가장작은 값의 인덱스 출력			
-				sb.append(getMinIdx(1, 1, N)).append('\n');
-			else				// 해당 위치 값을 없데이트, 그 후 min 최신화
-				update(1, 1, N, read(), read());
-			
+				sb.append(tree[1]).append('\n');
+			else				// 해당 위치 값을 없데이트
+			{
+				int a	= read();
+				int b	= read();
+				arr[a]	= b;
+				
+				update(1, 1, N, a, b);
+			}
 
 		System.out.print(sb.toString());
 	}
