@@ -1,11 +1,17 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/1275
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
 	static long[] arr, tree;
+	
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 	
 	public static long init(int treeNode, int s, int e){
 		if(s == e)
@@ -41,27 +47,23 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		StringBuilder	sb = new StringBuilder();
-		int N	= Integer.parseInt(st.nextToken());		// 수의개수(1<=십만)
-		int Q	= Integer.parseInt(st.nextToken());		// 턴의개수(1<=십만)
+		StringBuilder sb = new StringBuilder();
+		int N	= read();		// 수의개수(1<=십만)
+		int Q	= read();		// 턴의개수(1<=십만)
 		int H	= (int)Math.ceil(Math.log(N)/ Math.log(2));
 		
 		arr		= new long[N+1];
 		tree	= new long[1<<(H+1)];
 
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 
 		init(1, 1, N);
 
 		while(Q-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int x = Integer.parseInt(st.nextToken());
-			int y = Integer.parseInt(st.nextToken());
+			int x = read();
+			int y = read();
 			if(y < x)
 			{
 				int tmp = y;
@@ -72,8 +74,8 @@ class Main{
 			sb.append(sum(1, 1, N, x, y))
 				.append('\n');
 			
-			x = Integer.parseInt(st.nextToken());
-			y = Integer.parseInt(st.nextToken());
+			x = read();
+			y = read();
 			
 			update(1, 1, N, x, y);
 		}
