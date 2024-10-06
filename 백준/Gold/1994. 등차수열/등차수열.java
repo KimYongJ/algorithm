@@ -7,8 +7,8 @@ class Main{
 
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N;
-		if((N=Integer.parseInt(br.readLine())) == 1)
+		int N = Integer.parseInt(br.readLine());
+		if(N == 1)
 		{
 			System.out.print(1);
 			return;
@@ -39,7 +39,6 @@ class Main{
 				
 				if(max < dp[i][j])
 					max = dp[i][j];
-				
 			}
 
 		System.out.print(max);
