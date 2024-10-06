@@ -1,9 +1,17 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/20191
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 class Main{
+	static String readString() throws Exception{
+		StringBuilder sb = new StringBuilder();
+		int c = System.in.read();
+		while(c <= 32) {c = System.in.read();}
+		while(c > 32) {
+			sb.append((char)c);
+			c = System.in.read();
+		}
+		return sb.toString();
+	}
 	public static int binarySearch(ArrayList<Integer> list, int targetIdx) {
 		int s	= 0;
 		int e	= list.size() - 1;
@@ -21,15 +29,11 @@ class Main{
 			}
 		}
 		
-		if(res != -1)
-			return list.get(res) == targetIdx ? -1 : list.get(res);
-
-		return -1;
+		return res != -1 ? list.get(res) : res;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String s = br.readLine();		// 기본 문자열
-		String t = br.readLine();		// 반복 추가할 문자열/ s를 포함하도록 t를 일정하게 늘린다.
+		String s = readString();		// 기본 문자열
+		String t = readString();		// 반복 추가할 문자열/ s를 포함하도록 t를 일정하게 늘린다.
 
 		// t의 알파벳당 인덱스를 저장할 리스트 배열
 		ArrayList<Integer> list[] = new ArrayList[26];
