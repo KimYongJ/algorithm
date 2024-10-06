@@ -25,11 +25,6 @@ class Main{
 		int map[][]			= new int[Y+2][X+2];
 		boolean visit[][][]	= new boolean[2][Y+2][X+2];
 		
-		for(int y=0; y<=Y+1; y++)
-			map[y][0] = map[y][X+1] = -1;			// 패딩
-		for(int x=0; x<=X+1; x++)
-			map[0][x] = map[Y+1][x] = -1;			// 패딩
-		
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
 				map[y][x] = read();
@@ -56,6 +51,10 @@ class Main{
 				int nextX = now.x + xy[1];
 				int nextT = now.t + 1;
 				int nextG = now.g;
+				
+				if(nextY < 1 || nextX < 1 || Y < nextY || X < nextX)
+					continue;
+				
 				if(map[nextY][nextX] < 0 || visit[now.g][nextY][nextX] || T < nextT)
 					continue;
 				
