@@ -1,10 +1,7 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/17836
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 
 class Node{
 	int y, x, t, g;
@@ -13,13 +10,18 @@ class Node{
 	}
 }
 class Main{
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
 		final int dxy[][]	= {{1,0},{0,1},{-1,0},{0,-1}};
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int Y				= Integer.parseInt(st.nextToken());	// 3<=100
-		int X				= Integer.parseInt(st.nextToken());	// 3<=100
-		int T				= Integer.parseInt(st.nextToken());	// 제한시간 1<=만
+		int Y				= read();	// 3<=100
+		int X				= read();	// 3<=100
+		int T				= read();	// 제한시간 1<=만
 		int map[][]			= new int[Y+2][X+2];
 		boolean visit[][][]	= new boolean[2][Y+2][X+2];
 		
@@ -29,13 +31,11 @@ class Main{
 			map[0][x] = map[Y+1][x] = -1;			// 패딩
 		
 		for(int y=1; y<=Y; y++)
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=X; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
+				map[y][x] = read();
 		
 		ArrayDeque<Node> q = new ArrayDeque<>();
+		
 		int g = map[1][1] == 2 ? 1 : 0;
 		visit[g][1][1] = true;
 		q.add(new Node(1, 1, 0, g));
