@@ -19,30 +19,30 @@ class Main{
 		int K		= read();	// 1~K까지 바이러스 종류(1<=1,000)
 		int map[][]	= new int[N+2][N+2];
 		
-		ArrayList<Node> list[] = new ArrayList[K+1];
-		
-		for(int i=1; i<=K; i++)
-			list[i] = new ArrayList<>();
-		
+		// 패딩 넣음
 		for(int i=0; i<N+2; i++)
 			map[0][i] = map[N+1][i] = map[i][0] = map[i][N+1] = 1001;
 		
 		for(int y=1; y<=N; y++)
 			for(int x=1; x<=N; x++)
-			{
 				map[y][x] = read();
-				if(map[y][x] != 0)
-					list[map[y][x]].add(new Node(y,x));
-			}
-		
-		ArrayDeque<Node> q = new ArrayDeque<>();
-		for(int k=1; k<=K; k++)
-			for(Node now : list[k])
-				q.add(now);
 		
 		int T = read();
 		int Y = read();
 		int X = read();
+		
+		if(map[Y][X] != 0)
+		{
+			System.out.print(map[Y][X]);
+			return;
+		}else
+			map[Y][X] = 1001;
+		
+		ArrayList<Integer> result = new ArrayList<>();
+		ArrayDeque<Node> q = new ArrayDeque<>();
+		
+		q.add(new Node(Y, X));
+
 		while(T-->0)
 		{
 			int size = q.size();
@@ -56,14 +56,22 @@ class Main{
 					int nextX = now.x + xy[1];
 					if(map[nextY][nextX] == 0)
 					{
-						map[nextY][nextX] = map[now.y][now.x];
+						map[nextY][nextX] = 1001;
 						q.add(new Node(nextY, nextX));
-					}
+					}else if(map[nextY][nextX] <= 1000)
+						result.add(map[nextY][nextX]);
 				}
+			}
+			if(result.size() != 0)
+			{
+				int min = 1001;
+				for(int res : result)
+					min = Math.min(min, res);
 				
+				System.out.print(min);
+				return;
 			}
 		}
-		
-		System.out.print(map[Y][X]);
+		System.out.print(0);
 	}
 }
