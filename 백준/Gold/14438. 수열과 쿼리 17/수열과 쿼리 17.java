@@ -1,14 +1,14 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/14438
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int[] arr, tree;
 	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void init(int treeNode, int s, int e) {
 		if(s == e)
 		{
@@ -53,33 +53,30 @@ class Main{
 		
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int N = Integer.parseInt(br.readLine());
-		int H = (int)Math.ceil(Math.log(N) / Math.log(2));
 		
+		int N	= read();
+		int H	= (int)Math.ceil(Math.log(N) / Math.log(2));
 		arr		= new int[N+1];
 		tree	= new int[1<<(H + 1)];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		init(1, 1, N);
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int cmd = Integer.parseInt(st.nextToken());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int cmd	= read();
+			int a	= read();
+			int b	= read();
+			
 			if(cmd == 1)
 				update(1, 1, N, a, b);
 			else
 				sb.append( minQuery(1, 1, N, a, b) ).append('\n');
-			
 		}
 		System.out.print(sb.toString());
 	}
