@@ -1,32 +1,32 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/2660
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
-class Result{
-	int idx, score;
-	Result(int idx, int score){this.idx=idx; this.score=score;}
-}
+
 class Node{
 	int node; Node next;
 	Node(int node, Node next){this.node=node; this.next=next;}
 }
 
 class Main{
+	
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
+    
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-		Node[] adNode = new Node[N+10];
+		int N			= read();
+		Node[] adNode	= new Node[N+1];
 		
 		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = read();
+			int b = read();
 			if(a == -1 && b== -1)
 				break;
 			
@@ -34,8 +34,10 @@ class Main{
 			adNode[b] = new Node(a, adNode[b]);
 		}
 		
-		ArrayList<Result> result = new ArrayList<>();
-
+		// 결과를 담을 리스트
+		ArrayList<Integer> result = new ArrayList<>();
+		int min = 51;
+		LOOP:
 		for(int i=1; i<=N; i++)
 		{
 			ArrayDeque<Integer> q = new ArrayDeque<>();
@@ -58,26 +60,22 @@ class Main{
 							q.add(now.node);
 						}
 				}
+				if(min < score)
+					continue LOOP;
 			}
-			if(1 < score)
-				result.add(new Result(i, score - 1));
+			if(1 < score && score < min)
+			{
+				result.clear();
+				result.add(i);
+				min = score;
+			}else if(score == min)
+				result.add(i);
 		}
 		
-		Collections.sort(result, (a,b) -> a.score!=b.score ? a.score-b.score : a.idx - b.idx);
+		StringBuilder sb1 = new StringBuilder().append(min-1).append(' ').append(result.size()).append('\n');
 		
-		StringBuilder sb1 = new StringBuilder();
-		StringBuilder sb2 = new StringBuilder();
-		int cnt = 0;
-		int min = result.get(0).score;
-		for(int i=0; i<result.size(); i++)
-		{
-			Result now = result.get(i);
-			if(min < now.score)
-				break;
-			cnt++;
-			sb2.append(now.idx).append(' ');
-		}
-		sb1.append(min).append(' ').append(cnt).append('\n').append(sb2.toString());
+		for(int r : result)
+			sb1.append(r).append(' ');
 		
 		System.out.print(sb1.toString());
 	}
