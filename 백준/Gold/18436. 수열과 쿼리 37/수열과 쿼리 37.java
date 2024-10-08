@@ -20,22 +20,20 @@ class Main{
 		return even[treeNode] = initEven(nextNode, s, mid) + initEven(nextNode | 1, mid + 1, e);
 	}
 	
-	public static void update(int treeNode, int s, int e, int originIdx) {
+	public static void update(int treeNode, int s, int e, int originIdx, int diff) {
 		if(originIdx < s || e < originIdx)
 			return;
-		if(s == e)
+		
+		even[treeNode] += diff;
+		
+		if(s != e)
 		{
-			even[treeNode] = arr[s]%2 == 0 ? 1 : 0;
-			return;
+			int mid			= (s + e) >> 1;
+			int nextNode	= treeNode << 1;
+
+			update(nextNode, s, mid, originIdx, diff);
+			update(nextNode | 1, mid + 1, e, originIdx, diff);			
 		}
-		
-		int mid			= (s + e) >> 1;
-		int nextNode	= treeNode << 1;
-		
-		update(nextNode, s, mid, originIdx);
-		update(nextNode | 1, mid + 1, e, originIdx);
-		
-		even[treeNode] = even[nextNode] + even[nextNode | 1];
 	}
 	
 	public static int queryEven(int treeNode, int s, int e, int left, int right) {
@@ -64,6 +62,7 @@ class Main{
 		initEven(1, 1, N);
 		
 		int Q = read();
+		
 		while(Q-->0)
 		{
 			int cmd = read();
@@ -72,8 +71,13 @@ class Main{
 			
 			if(cmd == 1)
 			{
-				arr[a] = b;
-				update(1, 1, N, a);// 짝수를 늘림
+				int now = arr[a] % 2;
+				int next= b % 2;
+				if(now != next)
+				{
+					arr[a] = b;
+					update(1, 1, N, a, arr[a]%2 == 0 ? 1 : -1);
+				}
 			}
 			else
 			{
