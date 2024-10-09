@@ -15,19 +15,17 @@ class Main{
 		final int dxy[][]	= {{1,0},{0,1},{-1,0},{0,-1}};
 		int N				= read();
 		int map[][]			= new int[N][N];
-		boolean visit[][]	= new boolean[N][N];
 		
 		for(int y=0; y<N; y++)
 		{
 			for(int x=0; x<N; x++)
-				if((char)System.in.read() == '1')
-					map[y][x] = 1;		// 흰방만 마킹
+				map[y][x] = (char)System.in.read() - '0';
 			System.in.read();
 		}
 		
 		ArrayDeque<Node> q = new ArrayDeque<>();
 		q.add(new Node(0, 0, 0));
-		visit[0][0] = true;
+		map[0][0] = 2;
 		
 		while(!q.isEmpty())
 		{
@@ -47,19 +45,13 @@ class Main{
 					continue;
 				if(map[nextY][nextX] == 1)
 				{
-					if(!visit[nextY][nextX])
-					{
-						visit[nextY][nextX] = true;
-						q.addFirst(new Node(nextY, nextX, now.cnt));
-					}
+					map[nextY][nextX] = 2;
+					q.addFirst(new Node(nextY, nextX, now.cnt));
 				}
-				else
+				else if(map[nextY][nextX] == 0)
 				{
-					if(!visit[nextY][nextX])
-					{
-						visit[nextY][nextX] = true;
-						q.addLast(new Node(nextY, nextX, now.cnt+1));
-					}
+					map[nextY][nextX] = 2;
+					q.addLast(new Node(nextY, nextX, now.cnt+1));
 				}
 			}
 		}
