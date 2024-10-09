@@ -31,15 +31,14 @@ class Main{
 		int T = read();
 		while(T-->0)
 		{
+			ArrayDeque<Node> q	= new ArrayDeque<>();
 			int start			= read();
 			int end				= read();
-			boolean flag		= false;
-			int idx[]			= getIdx(start);
 			int cnt				= 0;
-			ArrayDeque<Node> q	= new ArrayDeque<>();
 			boolean[] visit		= new boolean[10000];
-			
+			boolean flag		= false;
 			visit[start]		= true;
+			
 			q.add(new Node(start, cnt));
 			
 			while(!q.isEmpty())
@@ -52,13 +51,12 @@ class Main{
 					sb.append(now.cnt);
 					break;
 				}
-				
-				idx = getIdx(now.num);
+
 				cnt = now.cnt + 1;
 				
 				for(int i=0; i<4; i++)
 				{
-					idx = getIdx(now.num);
+					int[] idx = getIdx(now.num);
 					for(int n = (i==0)?1:0; n<10; n++)
 					{
 						idx[i] = n;
@@ -71,7 +69,6 @@ class Main{
 					}
 				}
 			}
-			
 			if(!flag)
 				sb.append("Impossible");
 			sb.append('\n');
