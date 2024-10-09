@@ -1,6 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2665
-import java.util.PriorityQueue;
+import java.util.ArrayDeque;
 class Node{
 	int y, x, cnt;
 	Node(int y, int x, int cnt){this.y=y; this.x=x; this.cnt=cnt;}
@@ -15,25 +15,23 @@ class Main{
 		final int dxy[][]	= {{1,0},{0,1},{-1,0},{0,-1}};
 		int N				= read();
 		int map[][]			= new int[N][N];
-		int visit[][]		= new int[N][N];
-		int LIMIT			= N*N;
+		boolean visit[][]	= new boolean[N][N];
 		
 		for(int y=0; y<N; y++)
 		{
 			for(int x=0; x<N; x++)
-			{
-				visit[y][x] = LIMIT;	// 다익스트라를 위해 들어갈 가장 큰수로 마킹
 				if((char)System.in.read() == '1')
 					map[y][x] = 1;		// 흰방만 마킹
-			}
 			System.in.read();
 		}
 		
-		PriorityQueue<Node> pq = new PriorityQueue<>((a,b) -> a.cnt - b.cnt);
-		pq.add(new Node(0, 0, 0));
-		while(!pq.isEmpty())
+		ArrayDeque<Node> q = new ArrayDeque<>();
+		q.add(new Node(0, 0, 0));
+		visit[0][0] = true;
+		
+		while(!q.isEmpty())
 		{
-			Node now = pq.poll();
+			Node now = q.poll();
 			
 			if(now.y + 1 == N && now.y == now.x)
 			{
@@ -49,16 +47,19 @@ class Main{
 					continue;
 				if(map[nextY][nextX] == 1)
 				{
-					if(now.cnt < visit[nextY][nextX])
+					if(!visit[nextY][nextX])
 					{
-						visit[nextY][nextX] = now.cnt;
-						pq.add(new Node(nextY, nextX, now.cnt));
+						visit[nextY][nextX] = true;
+						q.addFirst(new Node(nextY, nextX, now.cnt));
 					}
 				}
-				else if(now.cnt + 1 < visit[nextY][nextX])
+				else
 				{
-					visit[nextY][nextX] = now.cnt + 1;
-					pq.add(new Node(nextY, nextX, now.cnt + 1));
+					if(!visit[nextY][nextX])
+					{
+						visit[nextY][nextX] = true;
+						q.addLast(new Node(nextY, nextX, now.cnt+1));
+					}
 				}
 			}
 		}
