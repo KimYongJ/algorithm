@@ -25,7 +25,7 @@ class Main{
 		
 		ArrayDeque<Node> q = new ArrayDeque<>();
 		q.add(new Node(0, 0, 0));
-		map[0][0] = 2;
+		map[0][0] = 0;
 		
 		while(!q.isEmpty())
 		{
