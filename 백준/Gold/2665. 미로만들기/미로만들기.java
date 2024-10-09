@@ -1,32 +1,32 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2665
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 class Node{
 	int y, x, cnt;
-	Node(int y, int x, int cnt){
-		this.y=y; this.x=x; this.cnt=cnt;
-	}
+	Node(int y, int x, int cnt){this.y=y; this.x=x; this.cnt=cnt;}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N			= Integer.parseInt(br.readLine());
-		int map[][]		= new int[N][N];
-		int visit[][]	= new int[N][N];
-		int LIMIT		= N*N;
+		final int dxy[][]	= {{1,0},{0,1},{-1,0},{0,-1}};
+		int N				= read();
+		int map[][]			= new int[N][N];
+		int visit[][]		= new int[N][N];
+		int LIMIT			= N*N;
 		
 		for(int y=0; y<N; y++)
 		{
-			String str = br.readLine();
 			for(int x=0; x<N; x++)
 			{
 				visit[y][x] = LIMIT;	// 다익스트라를 위해 들어갈 가장 큰수로 마킹
-				if(str.charAt(x) == '1')
+				if((char)System.in.read() == '1')
 					map[y][x] = 1;		// 흰방만 마킹
 			}
+			System.in.read();
 		}
 		
 		PriorityQueue<Node> pq = new PriorityQueue<>((a,b) -> a.cnt - b.cnt);
@@ -41,7 +41,8 @@ class Main{
 				return;
 			}
 			
-			for(int xy[] : dxy) {
+			for(int xy[] : dxy)
+			{
 				int nextY = now.y + xy[0];
 				int nextX = now.x + xy[1];
 				if(nextY<0 || nextX<0 || N<=nextY || N<=nextX)
@@ -54,16 +55,12 @@ class Main{
 						pq.add(new Node(nextY, nextX, now.cnt));
 					}
 				}
-				else {
-					if(now.cnt + 1 < visit[nextY][nextX])
-					{
-						visit[nextY][nextX] = now.cnt + 1;
-						pq.add(new Node(nextY, nextX, now.cnt + 1));
-					}
+				else if(now.cnt + 1 < visit[nextY][nextX])
+				{
+					visit[nextY][nextX] = now.cnt + 1;
+					pq.add(new Node(nextY, nextX, now.cnt + 1));
 				}
 			}
-			
-			
 		}
 	}
 }
