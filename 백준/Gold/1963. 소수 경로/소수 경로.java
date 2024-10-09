@@ -9,13 +9,8 @@ class Node{
 }
 class Main{
 	
-	static boolean[][][][] visit, isPrime;
-	
 	public static int[] getIdx(int num) {
 		return new int[] {num/1000,(num/100)%10, (num/10)%10, num%10};
-	}
-	public static boolean validate(int a, int b, int c, int d) {
-		return isPrime[a][b][c][d] &&!visit[a][b][c][d];
 	}
 	public static int getNum(int a, int b, int c, int d) {
 		return a*1000 + b*100 + c*10 + d;
@@ -23,7 +18,7 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		isPrime = new boolean[10][10][10][10];
+		boolean[] isPrime = new boolean[10000];
 		for(int num=1001; num<=9999;num++) {
 			boolean flag = true;
 			for(int i=2; i*i<=num; i++) {
@@ -33,10 +28,7 @@ class Main{
 				}
 			}
 			if(flag)
-			{
-				int idx[] = getIdx(num);
-				isPrime[idx[0]][idx[1]][idx[2]][idx[3]] = true;
-			}
+				isPrime[num] = true;
 		}
 		
 		int T = Integer.parseInt(br.readLine());
@@ -49,8 +41,8 @@ class Main{
 			int idx[] = getIdx(start);
 			int cnt = 0;
 			ArrayDeque<Node> q = new ArrayDeque<>();
-			visit = new boolean[10][10][10][10];
-			visit[idx[0]][idx[1]][idx[2]][idx[3]] = true;
+			boolean[] visit = new boolean[10000];
+			visit[start] = true;
 			q.add(new Node(start, cnt));
 			while(!q.isEmpty())
 			{
@@ -62,40 +54,18 @@ class Main{
 				}
 				idx = getIdx(now.num);
 				cnt = now.cnt + 1;
-				for(int n=1; n<10; n++)// 첫째 자리 변경
+				for(int i=0; i<4; i++)
 				{
-					if(validate(n,idx[1],idx[2],idx[3]))
+					idx = getIdx(now.num);
+					for(int n=i==0?1:0; n<10; n++)
 					{
-						visit[n][idx[1]][idx[2]][idx[3]] = true;
-						int nextNum = getNum(n, idx[1], idx[2], idx[3]);
-						q.add(new Node(nextNum, cnt));
-					}
-				}
-				for(int n=0; n<10; n++)// 첫째 자리 변경
-				{
-					if(validate(idx[0],n,idx[2],idx[3]))
-					{
-						visit[idx[0]][n][idx[2]][idx[3]] = true;
-						int nextNum = getNum(idx[0], n, idx[2], idx[3]);
-						q.add(new Node(nextNum, cnt));
-					}
-				}
-				for(int n=0; n<10; n++)// 첫째 자리 변경
-				{
-					if(validate(idx[0],idx[1],n,idx[3]))
-					{
-						visit[idx[0]][idx[1]][n][idx[3]] = true;
-						int nextNum = getNum(idx[0], idx[1], n, idx[3]);
-						q.add(new Node(nextNum, cnt));
-					}
-				}
-				for(int n=0; n<10; n++)// 첫째 자리 변경
-				{
-					if(validate(idx[0],idx[1],idx[2],n))
-					{
-						visit[idx[0]][idx[1]][idx[2]][n] = true;
-						int nextNum = getNum(idx[0], idx[1], idx[2], n);
-						q.add(new Node(nextNum, cnt));
+						idx[i] = n;
+						int nextNum = getNum(idx[0], idx[1], idx[2], idx[3]);
+						if(isPrime[nextNum] &&!visit[nextNum])
+						{
+							visit[nextNum] = true;
+							q.add(new Node(nextNum, cnt));
+						}
 					}
 				}
 			}
