@@ -19,7 +19,7 @@ class Main{
 		for(int y=0; y<N; y++)
 		{
 			for(int x=0; x<N; x++)
-				map[y][x] = (char)System.in.read() - '0';
+				map[y][x] = System.in.read();
 			System.in.read();
 		}
 		
@@ -43,14 +43,14 @@ class Main{
 				int nextX = now.x + xy[1];
 				if(nextY<0 || nextX<0 || N<=nextY || N<=nextX)
 					continue;
-				if(map[nextY][nextX] == 1)
+				if(map[nextY][nextX] == '1')
 				{
-					map[nextY][nextX] = 2;
+					map[nextY][nextX] = 0;
 					q.addFirst(new Node(nextY, nextX, now.cnt));
 				}
-				else if(map[nextY][nextX] == 0)
+				else if(map[nextY][nextX] == '0')
 				{
-					map[nextY][nextX] = 2;
+					map[nextY][nextX] = 0;
 					q.addLast(new Node(nextY, nextX, now.cnt+1));
 				}
 			}
