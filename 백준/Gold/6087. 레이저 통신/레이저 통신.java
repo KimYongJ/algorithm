@@ -48,15 +48,13 @@ class Main{
 		PriorityQueue<Node> pq = new PriorityQueue<>((a,b)->a.cnt-b.cnt);
 		pq.add(new Node(s[0][0], s[0][1], 0, -1));
 
-		int result = Integer.MAX_VALUE;
-		
 		while(!pq.isEmpty())
 		{
 			Node now = pq.poll();
 			if(now.y==s[1][0] && now.x==s[1][1])
 			{
-				result = Math.min(result, now.cnt);
-				continue;
+				System.out.print(now.cnt - 1);
+				return;
 			}
 			for(int i=0; i<4; i++)
 			{
@@ -73,6 +71,5 @@ class Main{
 				}
 			}
 		}
-		System.out.print(result - 1);
 	}
 }
