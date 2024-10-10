@@ -61,10 +61,11 @@ class Main{
 			BFS();
 		else
 			for(int i=idx; i<posList.size(); i++)
-			{
-				pos[depth] = posList.get(i);
-				DFS(depth + 1, i + 1);
-			}
+				if(M-depth <= posList.size() - i)
+				{
+					pos[depth] = posList.get(i);
+					DFS(depth + 1, i + 1);
+				}else break;
 	}
 	public static void main(String args[]) throws Exception{
 		N		= read();	// 5 ≤ N ≤ 50
