@@ -3,7 +3,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 class Node{
@@ -15,10 +14,7 @@ class Node{
 }
 
 class Main{
-	public static void end(int cnt) {
-		System.out.print(cnt);
-		System.exit(0);
-	}
+
 	public static void main(String[] args)throws Exception{
 		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -65,7 +61,10 @@ class Main{
 					boolean flag1 = 0<=nY1 && nY1<Y && 0<=nX1 && nX1<X;
 					boolean flag2 = 0<=nY2 && nY2<Y && 0<=nX2 && nX2<X;
 					if( (!flag1 && flag2) || (flag1 && !flag2))
-						end(cnt);
+					{
+						System.out.print(cnt);
+						return;
+					}
 					if(!flag1 && !flag2)
 						continue;
 					if(map[nY1][nX1] == 1)
