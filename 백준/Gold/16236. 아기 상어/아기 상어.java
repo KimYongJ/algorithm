@@ -38,11 +38,12 @@ class Main{
 		}
 		
 		int resultTime = 0;
+		Node nextShark = new Node(0,0);
 		
-		while(true)
+		while(nextShark != null)
 		{
+			nextShark					= null;
 			int time					= 0;
-			Node nextShark				= null;
 			boolean visit[][]			= new boolean[N][N];
 			ArrayDeque<Node> q			= new ArrayDeque<>();
 			PriorityQueue<Node> fish	= new PriorityQueue<>((a,b)-> a.y!=b.y ? a.y-b.y : a.x-b.x);
@@ -77,26 +78,20 @@ class Main{
 				// 위탐색에서 물고기를 찾았으면, 물고기를 지우고 최종 시간에 걸린 시간을 추가한다.
 				if(!fish.isEmpty())
 				{
-					nextShark = fish.poll();
 					resultTime += time-1;
-					map[nextShark.y][nextShark.x] = 0; 
-					fish.clear();
+					nextShark	= fish.poll();
+					shark.y		= nextShark.y;
+					shark.x		= nextShark.x;
+					
+					if(++shark.cnt == shark.lev)
+					{
+						shark.lev +=1 ;
+						shark.cnt = 0;
+					}
+					map[shark.y][shark.x] = 0;
 					break;
 				}
 			}
-			// 물고기를 찾았으면 상어의 위치를 그 물고기로 바꾸고, 크기와 먹은 물고기 수를 조정함
-			if(nextShark != null)
-			{
-				shark.y = nextShark.y;
-				shark.x = nextShark.x;
-				if(++shark.cnt == shark.lev)
-				{
-					shark.lev +=1 ;
-					shark.cnt = 0;
-				}
-			}
-			else
-				break;
 		}
 		System.out.print(resultTime);
 	}
