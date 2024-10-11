@@ -1,10 +1,7 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/16236
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class Node{
 	int y, x;
 	Node(int y, int x){this.y=y; this.x=x;}
@@ -17,32 +14,34 @@ class Shark{
 	}
 }
 class Main{
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
 		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
+		
+		int N		= read();
 		int map[][] = new int[N][N];
 		Shark shark = null;
 		
 		for(int y=0; y<N; y++)
-		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int x=0; x<N; x++)
 			{
-				int num = Integer.parseInt(st.nextToken());
+				int num = read();
 				if(num != 9)
 					map[y][x] = num;
 				else
 					shark = new Shark(y, x, 2, 0);
 			}
-		}
 		
-		int resultTime = 0;
-		Node nextShark = new Node(0,0);
+		int resultTime		= 0;
+		boolean isContinue	= true;
 		
-		while(nextShark != null)
+		while(isContinue)
 		{
-			nextShark					= null;
+			isContinue					= false;
 			int time					= 0;
 			boolean visit[][]			= new boolean[N][N];
 			ArrayDeque<Node> q			= new ArrayDeque<>();
@@ -79,9 +78,9 @@ class Main{
 				if(!fish.isEmpty())
 				{
 					resultTime += time-1;
-					nextShark	= fish.poll();
-					shark.y		= nextShark.y;
-					shark.x		= nextShark.x;
+					isContinue	= true;
+					shark.y		= fish.peek().y;
+					shark.x		= fish.peek().x;
 					
 					if(++shark.cnt == shark.lev)
 					{
