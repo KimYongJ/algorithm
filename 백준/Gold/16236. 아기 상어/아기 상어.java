@@ -1,17 +1,9 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/16236
-import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 class Node{
-	int y, x;
-	Node(int y, int x){this.y=y; this.x=x;}
-}
-class Shark{
-	int y, x, lev, cnt;
-	Shark(int y, int x, int lev, int cnt){
-		this.y=y; this.x=x; this.lev=lev;
-		this.cnt=cnt;
-	}
+	int y, x, time;
+	Node(int y, int x, int time){this.y=y; this.x=x; this.time=time;}
 }
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
@@ -24,7 +16,10 @@ class Main{
 		
 		int N		= read();
 		int map[][] = new int[N][N];
-		Shark shark = null;
+		int Sy		= 0;	// 상어 좌표
+		int Sx		= 0;	// 상어 좌표
+		int lev     = 2;	// 상어의 크기
+		int cnt     = 0;	// 상어가 먹은 물고기수
 		
 		for(int y=0; y<N; y++)
 			for(int x=0; x<N; x++)
@@ -32,8 +27,11 @@ class Main{
 				int num = read();
 				if(num != 9)
 					map[y][x] = num;
-				else
-					shark = new Shark(y, x, 2, 0);
+				else {
+
+					Sy = y;
+					Sx = x;
+				}
 			}
 		
 		int resultTime		= 0;
@@ -41,58 +39,48 @@ class Main{
 		
 		while(isContinue)
 		{
-			isContinue					= false;
-			int time					= 0;
-			boolean visit[][]			= new boolean[N][N];
-			ArrayDeque<Node> q			= new ArrayDeque<>();
-			PriorityQueue<Node> fish	= new PriorityQueue<>((a,b)-> a.y!=b.y ? a.y-b.y : a.x-b.x);
+			isContinue			= false;
+			boolean visit[][]	= new boolean[N][N];
+			PriorityQueue<Node> fish = new PriorityQueue<>((a,b)-> a.time!=b.time ? a.time - b.time : a.y!=b.y ? a.y-b.y : a.x-b.x);
 			
-			q.add(new Node(shark.y, shark.x));
+			fish.add(new Node(Sy, Sx,0));
 			
-			while(!q.isEmpty())
+			while(!fish.isEmpty())
 			{
-				++time;
-				int size = q.size();
-				while(size-- >0)
+				Node now = fish.poll();
+				// 먹을 수 있는 물고기라면 우선순위 큐에 담는다.
+				if(0 < map[now.y][now.x] && map[now.y][now.x] < lev)
 				{
-					Node now = q.poll();
-					// 먹을 수 있는 물고기라면 우선순위 큐에 담는다.
-					if(0 < map[now.y][now.x] && map[now.y][now.x] < shark.lev)
-					{
-						fish.add(now);
-						continue;
-					}
-					for(int xy[] : dxy)
-					{
-						int nextY = now.y + xy[0];
-						int nextX = now.x + xy[1];
-						if(0<=nextY && 0<=nextX && nextY<N && nextX<N 
-							&& !visit[nextY][nextX] && map[nextY][nextX]<=shark.lev)
-						{
-							visit[nextY][nextX] = true;
-							q.add(new Node(nextY, nextX));
-						}
-					}
-				}
-				// 위탐색에서 물고기를 찾았으면, 물고기를 지우고 최종 시간에 걸린 시간을 추가한다.
-				if(!fish.isEmpty())
-				{
-					resultTime += time-1;
+					resultTime += now.time;
+					Sy			= now.y;
+					Sx			= now.x;
 					isContinue	= true;
-					shark.y		= fish.peek().y;
-					shark.x		= fish.peek().x;
 					
-					if(++shark.cnt == shark.lev)
+					if(++cnt == lev)
 					{
-						shark.lev +=1 ;
-						shark.cnt = 0;
+						lev +=1 ;
+						cnt = 0;
 					}
-					map[shark.y][shark.x] = 0;
+					map[now.y][now.x] = 0;
 					break;
 				}
+				
+				int nextTime = now.time + 1;
+				
+				for(int xy[] : dxy)
+				{
+					int nextY = now.y + xy[0];
+					int nextX = now.x + xy[1];
+					if(0<=nextY && 0<=nextX && nextY<N && nextX<N 
+						&& !visit[nextY][nextX] && map[nextY][nextX]<=lev)
+					{
+						visit[nextY][nextX] = true;
+						fish.add(new Node(nextY, nextX, nextTime));
+					}
+				}
+				
 			}
 		}
 		System.out.print(resultTime);
 	}
 }
-
