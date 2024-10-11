@@ -1,18 +1,19 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/16954
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-class Node{
-	int y,x; Node(int y, int x){this.y=y; this.x=x;}
-}
+
+class Node{int y,x; Node(int y, int x){this.y=y; this.x=x;}}
+
 class Main{
 	public static void main(String[] args)throws Exception{
-		final int dxy[][] = {{0,0},{1,0},{0,1},{-1,0},{0,-1},{-1,1},{-1,-1},{1,1},{1,-1}};
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		final int dxy[][]	= {{0,0},{1,0},{0,1},{-1,0},{0,-1},{-1,1},{-1,-1},{1,1},{1,-1}};
 		int len				= 8;
 		boolean map[][]		= new boolean[len+2][len+2];
 		boolean visit[][][] = new boolean[len][len+2][len+2];
+		ArrayDeque<Node> q	= new ArrayDeque<>();
+		
+		visit[0][len][1]	= true;
+		q.add(new Node(len, 1));
 		
 		// 간단한 연산을 위해 맨위는 뚫려있게 개발
 		for(int x=1; x<=len; x++)
@@ -20,16 +21,11 @@ class Main{
 		
 		for(int y=1; y<=len; y++)
 		{
-			String str = br.readLine();
 			for(int x=1; x<=len; x++)
-			{
-				char c = str.charAt(x-1);
-				map[y][x] = c == '.';// true가 갈 수 있는 곳
-			}
+				map[y][x] = System.in.read() == '.';// true가 갈 수 있는 곳
+			System.in.read();
 		}
-		ArrayDeque<Node> q = new ArrayDeque<>();
-		visit[0][len][1] = true;
-		q.add(new Node(len, 1));
+		
 		int T = 8;
 		while(T-->0)
 		{
@@ -45,7 +41,8 @@ class Main{
 				{
 					int nextY = now.y + xy[0];
 					int nextX = now.x + xy[1];
-					if(map[nextY][nextX] && !visit[T][nextY][nextX]) {
+					if(map[nextY][nextX] && !visit[T][nextY][nextX])
+					{
 						visit[T][nextY][nextX] = true;
 						q.add(new Node(nextY, nextX));
 					}
