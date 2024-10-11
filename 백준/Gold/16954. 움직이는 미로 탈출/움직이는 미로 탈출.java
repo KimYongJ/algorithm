@@ -7,7 +7,9 @@ class Node{int y,x; Node(int y, int x){this.y=y; this.x=x;}}
 class Main{
 	public static void main(String[] args)throws Exception{
 		final int dxy[][]	= {{0,0},{1,0},{0,1},{-1,0},{0,-1},{-1,1},{-1,-1},{1,1},{1,-1}};
-		int len				= 8;
+		int T				= 8;	// 벽을 내릴 횟수
+		int len				= 8;	// 배열의 길이
+		int limitLine		= 1;	// 벽을 내릴 때 해당 라인 이상만 건든다.
 		boolean map[][]		= new boolean[len+2][len+2];
 		boolean visit[][][] = new boolean[len][len+2][len+2];
 		ArrayDeque<Node> q	= new ArrayDeque<>();
@@ -26,7 +28,6 @@ class Main{
 			System.in.read();
 		}
 		
-		int T = 8;
 		while(T-->0)
 		{
 			int size = q.size();
@@ -49,9 +50,11 @@ class Main{
 				}
 			}
 			// 벽을 한칸씩 내린다.
-			for(int y=len; y>=1; y--)
+			for(int y=len; y>=limitLine; y--)
 				for(int x=1; x<=len; x++)
 					map[y][x] = map[y-1][x];
+			
+			++limitLine;
 		}
 		
 		System.out.print(q.isEmpty() ? 0 : 1);
