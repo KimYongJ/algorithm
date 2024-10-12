@@ -1,10 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17142
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 class Node{
 	int y, x; Node(int y, int x){this.y=y; this.x=x;}
 }
@@ -13,6 +9,12 @@ class Main{
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int N, M, virusLen, res, blank, map[][];
 	static Node[] pos, dummy;
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void BFS() {
 		boolean visit[][]	= new boolean[N+2][N+2];
@@ -39,9 +41,8 @@ class Main{
 					int nextX = now.x + xy[1];
 					if(map[nextY][nextX] != 1 && !visit[nextY][nextX])
 					{
-						if(map[nextY][nextX] == 0)
-							blankCnt--;
-						if(blankCnt == 0) {
+						if(map[nextY][nextX] == 0 && --blankCnt == 0)
+						{
 							res = Math.min(res, time);
 							return;
 						}
@@ -65,10 +66,8 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());		// 연구소크기 (4<=50)
-		M		= Integer.parseInt(st.nextToken());		// 바이러스의 개수 (1<=10)
+		N		= read();		// 연구소크기 (4<=50)
+		M		= read();		// 바이러스의 개수 (1<=10)
 		res		= 2501;
 		dummy	= new Node[M];
 		pos		= new Node[10];
@@ -80,10 +79,9 @@ class Main{
 		
 		for(int y=1; y<=N; y++)
 		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=N; x++)
 			{
-				map[y][x] = Integer.parseInt(st.nextToken());
+				map[y][x] = read();
 				if(map[y][x] == 2)
 					pos[virusLen++] = new Node(y,x);
 				else if(map[y][x] == 0)
