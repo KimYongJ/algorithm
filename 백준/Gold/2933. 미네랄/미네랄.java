@@ -2,7 +2,6 @@
 //https://www.acmicpc.net/problem/2933
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
@@ -14,6 +13,7 @@ class Main{
 	static int	dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int	Y, X;
 	static char	map[][];
+	static boolean isContinue;
 	
 	public static int findX(int y, boolean flag) {
 		int x = -1;
@@ -33,6 +33,22 @@ class Main{
 				}
 		}
 		return x;
+	}
+	public static void DFS(int y, int x, ArrayList<Node>list, boolean[][] visit) {
+		for(int xy1[] : dxy)
+		{
+			int nextY = y + xy1[0];
+			int nextX = x + xy1[1];
+			if(0<=nextY && 0<=nextX && nextY<Y && nextX<X && !visit[nextY][nextX]
+				&& map[nextY][nextX] == 'x')
+			{
+				list.add(new Node(nextY, nextX));
+				visit[nextY][nextX] = true;
+				if(nextY == Y - 1)
+					isContinue = true;
+				DFS(nextY, nextX, list, visit);
+			}
+		}
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -71,32 +87,14 @@ class Main{
 					if(nextY == Y - 1)	// 좌표가 땅바닥에 닿았으면 스킵
 						continue;
 					// 해당 좌표(nextY,nextX)를 시작으로 bfs를 돌면서 가장 낮은 Y 값이 땅에 닿아있는지 체크한다.
-					ArrayDeque<Node> q		= new ArrayDeque<>();	// bfs시 사용
 					ArrayList<Node> list	= new ArrayList<>();	// 떨어뜨릴 클러스터 좌표들을 담음
-					boolean isContinue		= false;
+					isContinue				= false;
 					
 					list.add(new Node(nextY, nextX));
-					q.add(new Node(nextY, nextX));
 					visit[nextY][nextX] = true;
+					// 같은 묶음인 것들은 list에 담음
+					DFS(nextY, nextX, list, visit);
 					
-					while(!q.isEmpty())
-					{
-						Node now = q.poll();
-						for(int xy1[] : dxy)
-						{
-							int nextY1 = now.y + xy1[0];
-							int nextX1 = now.x + xy1[1];
-							if(0<=nextY1 && 0<=nextX1 && nextY1<Y && nextX1<X && !visit[nextY1][nextX1]
-								&& map[nextY1][nextX1] == 'x')
-							{
-								list.add(new Node(nextY1, nextX1));
-								q.add(new Node(nextY1, nextX1));
-								visit[nextY1][nextX1] = true;
-								if(nextY1 == Y - 1)
-									isContinue = true;
-							}
-						}
-					}
 					// 땅에 닿지 않은 좌표를 찾을 때 해당 좌표들 중
 					if(!isContinue)
 					{
