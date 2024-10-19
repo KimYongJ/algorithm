@@ -25,13 +25,7 @@ public class Main {
 			int cmd = read();
 			int a	= read();
 			int b	= read();
-			if(b < a)
-			{
-				int dummy = b;
-				b = a;
-				a = dummy;
-			}
-			
+
 			int aParent = find(a, parent);
 			int bParent = find(b, parent);
 			
