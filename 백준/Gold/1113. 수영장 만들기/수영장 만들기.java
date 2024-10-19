@@ -1,10 +1,7 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/1113
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 class Node{
 	int y, x, h;
 	Node(int y, int x){this.y=y; this.x=x;}
@@ -18,7 +15,16 @@ public class Main {
 	static boolean visit[][], check[][];
 	static ArrayList<Node> position;
 	
-	public static boolean DFS(int y, int x, int h) {
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	public static boolean DFS(int y, int x, int h){
+		if(visit[y][x])
+			return true;
+		visit[y][x] = true;
+		position.add(new Node(y, x));
 		for(int xy[] : dxy)
 		{
 			int nextY = y + xy[0];
@@ -30,11 +36,7 @@ public class Main {
 				minHeight = Math.min(map[nextY][nextX], minHeight);
 				continue;
 			}
-			if(visit[nextY][nextX])
-				continue;
 			
-			position.add(new Node(nextY, nextX));
-			visit[nextY][nextX] = true;
 			if(!DFS(nextY, nextX, h))
 				return false;
 		}
@@ -42,22 +44,20 @@ public class Main {
 		return true;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br		= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st		= new StringTokenizer(br.readLine());
 		ArrayList<Node> list	= new ArrayList<>();
-		Y		= Integer.parseInt(st.nextToken());
-		X		= Integer.parseInt(st.nextToken());
+		Y		= read();
+		X		= read();
 		map		= new int[Y+2][X+2];
 		check	= new boolean[Y+2][X+2];
 		
 		for(int y=1; y<=Y; y++)
 		{
-			String str = br.readLine();
 			for(int x=1; x<=X; x++)
 			{
-				map[y][x] = str.charAt(x-1) - '0';
+				map[y][x] = System.in.read() - '0';
 				list.add(new Node(y, x, map[y][x]));
 			}
+			System.in.read();
 		}
 		
 		Collections.sort(list,(a,b)-> a.h-b.h);
@@ -68,8 +68,7 @@ public class Main {
 				visit		= new boolean[Y+2][X+2];
 				position	= new ArrayList<>();
 				minHeight	= 10;
-				visit[node.y][node.x]= true; 
-				position.add(node);
+
 				if( DFS(node.y, node.x, node.h) )
 				{
 					result += (minHeight - node.h) * position.size();
