@@ -2,7 +2,6 @@
 //https://www.acmicpc.net/problem/1113
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
@@ -14,55 +13,33 @@ class Node{
 public class Main {
 	
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-	static int result;
+	static int result, minHeight;
 	static int Y, X, map[][];
-	static boolean outOfRange, check[][];
+	static boolean visit[][], check[][];
+	static ArrayList<Node> position;
 	
-	public static void BFS(Node start) {
-		ArrayList<Node> position	= new ArrayList<>();
-		ArrayDeque<Node> q			= new ArrayDeque<>();
-		boolean visit[][]			= new boolean[Y][X];
-		int height					= start.h;
-		int minHeight				= 10;
-		visit[start.y][start.x]		= true;
-		outOfRange					= false;
-		
-		position.add(start);
-		q.add(start);
-		
-		while(!q.isEmpty())
+	public static boolean DFS(int y, int x, int h) {
+		for(int xy[] : dxy)
 		{
-			Node now = q.poll();
-			for(int xy[] : dxy)
+			int nextY = y + xy[0];
+			int nextX = x + xy[1];
+			if(map[nextY][nextX] < h)
+				return false;
+			if(h < map[nextY][nextX])
 			{
-				int nextY = now.y + xy[0];
-				int nextX = now.x + xy[1];
-				if(nextY<0 || nextX<0 || Y<=nextY || X<=nextX || map[nextY][nextX] < height)
-					return;
-				if(height < map[nextY][nextX])
-				{
-					minHeight = Math.min(map[nextY][nextX], minHeight);
-					continue;
-				}
-				if(visit[nextY][nextX])
-					continue;
-				
-				visit[nextY][nextX] = true;
-				Node next			= new Node(nextY, nextX);
-				position.add(next);
-				q.add(next);
+				minHeight = Math.min(map[nextY][nextX], minHeight);
+				continue;
 			}
+			if(visit[nextY][nextX])
+				continue;
+			
+			position.add(new Node(nextY, nextX));
+			visit[nextY][nextX] = true;
+			if(!DFS(nextY, nextX, h))
+				return false;
 		}
 		
-		if(!outOfRange)
-		{
-			result += (minHeight - height) * position.size();
-			for(Node p : position)
-			{
-				map[p.y][p.x] = minHeight;
-				check[p.y][p.x]= true; 
-			}
-		}
+		return true;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br		= new BufferedReader(new InputStreamReader(System.in));
@@ -70,15 +47,15 @@ public class Main {
 		ArrayList<Node> list	= new ArrayList<>();
 		Y		= Integer.parseInt(st.nextToken());
 		X		= Integer.parseInt(st.nextToken());
-		map		= new int[Y][X];
-		check	= new boolean[Y][X];
+		map		= new int[Y+2][X+2];
+		check	= new boolean[Y+2][X+2];
 		
-		for(int y=0; y<Y; y++)
+		for(int y=1; y<=Y; y++)
 		{
 			String str = br.readLine();
-			for(int x=0; x<X; x++)
+			for(int x=1; x<=X; x++)
 			{
-				map[y][x] = str.charAt(x) - '0';
+				map[y][x] = str.charAt(x-1) - '0';
 				list.add(new Node(y, x, map[y][x]));
 			}
 		}
@@ -87,8 +64,21 @@ public class Main {
 		
 		for(Node node : list)
 			if(!check[node.y][node.x])
-				BFS(node);
-			
+			{
+				visit		= new boolean[Y+2][X+2];
+				position	= new ArrayList<>();
+				minHeight	= 10;
+				visit[node.y][node.x]= true; 
+				position.add(node);
+				if( DFS(node.y, node.x, node.h) )
+				{
+					result += (minHeight - node.h) * position.size();
+					for(Node p : position)
+						map[p.y][p.x] = minHeight;
+				}
+				for(Node p : position)
+					check[p.y][p.x]= true;
+			}
 
 		System.out.print(result);
 	}
