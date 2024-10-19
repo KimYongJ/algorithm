@@ -11,10 +11,8 @@ public class Main {
 		return parent[a] = find(parent[a], parent);
 	}
 	public static void main(String[] args)throws Exception{
-		StringBuilder sb	= new StringBuilder();
-		final String yes	= "YES";
-		final String no		= "NO";
-		
+		StringBuilder sb = new StringBuilder();
+
 		int N			= read();
 		int T			= read();
 		int parent[]	= new int[N+1];
@@ -38,7 +36,7 @@ public class Main {
 			int bParent = find(b, parent);
 			
 			if(cmd == 1)
-				sb.append(aParent == bParent ? yes : no).append('\n');
+				sb.append(aParent == bParent ? "YES" : "NO").append('\n');
 			else
 				parent[bParent] = aParent;
 		}
