@@ -47,7 +47,7 @@ class Main{
 							q.add(new Node(nextY, nextX));
 				}
 			}
-			T++;
+			++T;
 		}
 		
 		System.out.print(T);
