@@ -25,7 +25,7 @@ class Main{
 				if(c != '.')
 					map[y][x] = c - '0';
 				else 
-					q.add(new Node(y,x));
+					q.add(new Node(y,x));	// 모래성이 아닌 것들을 넣는다.
 			}
 			System.in.read();
 		}
@@ -42,6 +42,7 @@ class Main{
 				{
 					int nextY = now.y + xy[0];
 					int nextX = now.x + xy[1];
+					// 모래성이 아닌 것이면서, -1을 했을 때 모래성이 되는 것들을 큐에 넣는다.
 					if(0<=nextY && 0<=nextX && nextY<Y && nextX<X 
 							&& map[nextY][nextX] != 0 && --map[nextY][nextX] == 0)
 							q.add(new Node(nextY, nextX));
