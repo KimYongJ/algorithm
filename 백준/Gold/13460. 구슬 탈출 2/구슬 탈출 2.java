@@ -1,162 +1,138 @@
-// https://github.com/KimYongJ/algorithm
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/13460
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 class Node{
-	int y1, x1, y2, x2, cnt;
-	Node(int y1, int x1, int y2, int x2, int cnt){
-		this.y1 = y1; this.x1 = x1;
-		this.y2 = y2; this.x2 = x2;
-		this.cnt = cnt;
-	}
+	int y, x; 
+	Node(int y, int x){this.y=y; this.x=x;}
 }
+
+class Pos{ 
+	Node red, blue; 
+	long dir;
+	Pos(Node r, Node b){red=r; blue = b;}
+}
+
 class Main{
 	
-	static int Y, X, oY, oX, bY, bX, rY, rX;
-	static int newY1, newY2, newX1, newX2, nextCnt;
 	static int dxy[][] = {{-1,0},{1,0},{0,-1},{0,1}};
+	static int Y, X, oy, ox, res;
 	static char map[][];
+	static Node red, blue;
 	static boolean visit[][][][];
-	static ArrayDeque<Node> q ;
-	public static int getNextY(int i, int newy, int newx) {
-		while(true)
-		{
-			newy += dxy[i][0];
-			if(0> newy || newy >= Y || map[newy][newx] == '#') 
-			{
-				newy -= dxy[i][0];
-				return newy;
-			}else if(map[newy][newx] == 'O') 
-				return -1;
-		}
-	}
-	public static int getNextX(int i, int newy, int newx) {
-		while(true) {
-			newx += dxy[i][1];
-			if(0> newx || newx >= X || map[newy][newx] == '#') {
-				newx -= dxy[i][1];
-				return newx;
-			}else if(map[newy][newx] == 'O')
-				return -1;
-		}
-	}
-
-	public static int BFS() {
-		q 		= new ArrayDeque<>();
-		visit	= new boolean[Y][X][Y][X];
-		q.add(new Node(rY, rX, bY, bX, 0));
-		visit[rY][rX][bY][bX] = true;
+	
+	public static void main(String[] args)throws Exception{
+		Y		= read();
+		X		= read();
+		map 	= new char[Y][X];
+		res		= -1;
+		visit	= new boolean[10][10][10][10];
 		
-		while(!q.isEmpty()) 
+		for(int y=0; y<Y; y++)
 		{
-			Node now = q.poll();
-			
-			nextCnt = now.cnt + 1;
-			if(nextCnt > 10 ) continue;
-			Loop:
-			for(int i=0; i<4; i++) 
+			for(int x=0; x<X; x++)
 			{
-				newY1 = now.y1;
-				newX1 = now.x1;
-				newY2 = now.y2;
-				newX2 = now.x2;
-				if(i <= 1) 								// 상 하 움직임
+				map[y][x] = (char)System.in.read();
+				if(map[y][x] == 'R')
 				{
-					newY1 = getNextY(i, newY1, newX1);	// 다음 Y1 값
-					newY2 = getNextY(i, newY2, newX2);	// 다음 Y2 값
-					if(newY2 == -1)						// -1 이면 Blue가 구멍에 빠진 것이므로 무조건 실패
-						continue Loop;
-					if(newY1 == -1) 					// -1 이면 o를 만난 것이므로 출력 후 종료
-					{
-						System.out.println(nextCnt);
-						System.exit(0);
-					}
-					if(now.x1 == now.x2 && newY1 == newY2)// 같은 열에 있어서 굴린 위치가 같다면 
-					{
-						if(i == 0) 						// 위로 굴리기
-						{
-							if(now.y1 > now.y2)  newY1 += 1;
-							else  newY2 += 1;
-						}else 							// 아래로 굴리기
-						{
-							if(now.y1 > now.y2) newY2 -= 1;
-							else  newY1 -= 1;
+					map[y][x] = '.';
+					red = new Node(y,x);
+				}
+				else if(map[y][x] == 'B')
+				{
+					map[y][x] = '.';
+					blue = new Node(y,x);
+				}
+				else if(map[y][x] == 'O')
+				{
+					map[y][x] = '.';
+					oy = y; ox = x;
+				}
+			}
+			System.in.read();
+		}
+		
+		ArrayDeque<Pos> q = new ArrayDeque<>();
+		visit[red.y][red.x][blue.y][blue.x] = true; 
+		q.add(new Pos(red, blue));
+		
+		int T = -1;
+		Loop : 
+		while(++T < 10)
+		{
+			int size = q.size();
+			while(size-->0)
+			{
+				Pos now = q.poll();
+				int ry	= now.red.y;
+				int rx	= now.red.x;
+				int by	= now.blue.y;
+				int bx	= now.blue.x;
 
-						}
-					}
-					if(nextCnt <= 10 && !visit[newY1][newX1][newY2][newX2]) 
+				for(int i=0; i<4; i++)
+				{
+					boolean redFirst = check(ry, rx, by, bx, i);
+					if(redFirst)
 					{
-						visit[newY1][newX1][newY2][newX2] = true;
-						q.add(new Node(newY1, newX1, newY2, newX2, nextCnt));
+						red = nextPosition(ry, rx, 0, 0, i);
+						if(red.y == oy && red.x == ox)
+							blue= nextPosition(by, bx, 0, 0, i);
+						else
+							blue= nextPosition(by, bx, red.y, red.x, i);
+					}
+					else
+					{
+						blue= nextPosition(by, bx, 0, 0, i);
+						if(blue.y == oy && blue.x == ox)
+							red = nextPosition(ry, rx, 0, 0, i);
+						else
+							red = nextPosition(ry, rx, blue.y, blue.x, i);
 					}
 					
-				}
-				else 					// 좌 우 움직임
-				{
-					newX1 = getNextX(i, newY1, newX1);
-					newX2 = getNextX(i, newY2, newX2);
-					if(newX2 == -1)						// -1 이면 Blue가 구멍에 빠진 것이므로 무조건 실패
-						continue Loop;
-					if(newX1 == -1) 					// -1 이면 o를 만난 것이므로 출력 후 종료
+					if(blue.y == oy && blue.x == ox)
+						continue;
+					if(red.y == oy && red.x == ox)
 					{
-						System.out.println(nextCnt);
-						System.exit(0);
+						res = T+1;
+						break Loop;
 					}
-					if(now.y1 == now.y2 && newX1 == newX2)// 같은 행에 있어서 굴린 위치가 같다면
+					if(!visit[red.y][red.x][blue.y][blue.x])
 					{
-						if(i==3)  					// 우측 굴리기 
-						{
-							if(now.x1 > now.x2) newX2 -= 1;
-							else newX1 -= 1;
-							
-						}else						// 좌측 굴렸을 때  
-						{
-							if(now.x1 > now.x2) newX1 += 1;
-							else newX2 += 1;
-						}
-					}
-					
-					if(nextCnt <= 10 && !visit[newY1][newX1][newY2][newX2]) {
-						visit[newY1][newX1][newY2][newX2] = true;
-						q.add(new Node(newY1, newX1, newY2, newX2, nextCnt));
+						visit[red.y][red.x][blue.y][blue.x] = true;
+						q.add(new Pos(red, blue));
 					}
 				}
-				
 			}
-			
 		}
-
-		return -1;
+		
+		System.out.println(res);
 	}
-	public static void main(String[] args)throws Exception
-	{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		Y = Integer.parseInt(st.nextToken());
-		X = Integer.parseInt(st.nextToken());
-		map = new char[Y][X];
-		
-		String str; char c;
-		
-		for(int y=0; y<Y; y++) 
+	public static Node nextPosition(int y, int x, int y1, int x1, int dir) {
+		while(!(y==oy && x==ox))
 		{
-			str = br.readLine();
-			for(int x=0; x<X; x++) 
-			{
-				c = str.charAt(x);
-				switch(c) 
-				{
-					case 'R': rY = y; rX = x;break;
-					case 'B': bY = y; bX = x;break;
-					case 'O': oY = y; oX = x;break;
-				}
-				map[y][x] = c;
-			}
+			int nextY = y + dxy[dir][0];
+			int nextX = x + dxy[dir][1];
+			if(map[nextY][nextX] == '#' || (nextY==y1 && nextX == x1))
+				break;
+			y = nextY;
+			x = nextX;
 		}
-		System.out.println( BFS() );
-		
+		return new Node(y, x);
+	}
+	public static boolean check(int ry, int rx, int by, int bx, int flag) {
+		if(flag == 0)	// 상
+			return ry <= by;
+		if(flag == 1)
+			return ry >= by;
+		if(flag == 2)
+			return rx <= bx;
+		else
+			return rx >= bx;
+	}
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
+
+
