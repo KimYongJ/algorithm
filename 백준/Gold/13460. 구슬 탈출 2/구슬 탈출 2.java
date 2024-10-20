@@ -15,7 +15,7 @@ class Pos{
 class Main{
 	
 	static int dxy[][] = {{-1,0},{1,0},{0,-1},{0,1}};
-	static int Y, X, oy, ox, res;
+	static int Y, X, oy, ox;
 	static char map[][];
 	static Node red, blue;
 	static boolean visit[][][][];
@@ -24,7 +24,6 @@ class Main{
 		Y		= read();
 		X		= read();
 		map 	= new char[Y][X];
-		res		= -1;
 		visit	= new boolean[10][10][10][10];
 		
 		for(int y=0; y<Y; y++)
@@ -56,7 +55,6 @@ class Main{
 		q.add(new Pos(red, blue));
 		
 		int T = -1;
-		Loop : 
 		while(++T < 10)
 		{
 			int size = q.size();
@@ -92,8 +90,8 @@ class Main{
 						continue;
 					if(red.y == oy && red.x == ox)
 					{
-						res = T+1;
-						break Loop;
+						System.out.println(T+1);
+						return;
 					}
 					if(!visit[red.y][red.x][blue.y][blue.x])
 					{
@@ -104,7 +102,7 @@ class Main{
 			}
 		}
 		
-		System.out.println(res);
+		System.out.println(-1);
 	}
 	public static Node nextPosition(int y, int x, int y1, int x1, int dir) {
 		while(!(y==oy && x==ox))
