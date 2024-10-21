@@ -1,10 +1,7 @@
 //https://github.com/KimYongJ
 //https://www.acmicpc.net/problem/18500
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 
 class Node{int y, x; Node(int y, int x){this.y=y; this.x=x;}}
 
@@ -17,6 +14,12 @@ class Main{
 	static ArrayList<Node> list;
 	static ArrayList<ArrayList<Node>> total;
 
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static int findX(int y, boolean flag) {
 		int x = -1;
 		if(flag){
@@ -53,25 +56,22 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y	= Integer.parseInt(st.nextToken());
-		X	= Integer.parseInt(st.nextToken());
+		Y	= read();
+		X	= read();
 		map	= new char[Y][X];
 		
 		for(int y=0; y<Y; y++)
 		{
-			String str = br.readLine();
 			for(int x=0; x<X; x++)
-				map[y][x] = str.charAt(x);
+				map[y][x] = (char)System.in.read();
+			System.in.read();
 		}
 		
 		boolean flag = true;				// true : 왼쪽에서 오른쪽, false : 오른쪽에서 왼쪽
-		int T = Integer.parseInt(br.readLine());
-		st = new StringTokenizer(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			int y		= Y - Integer.parseInt(st.nextToken());// 어느 위치에 창을 던지는지 체크
+			int y		= Y - read();// 어느 위치에 창을 던지는지 체크
 			int x		= findX(y, flag);	// 어느 x좌표인지 체크
 			flag		= !flag;
 			total		= new ArrayList<>();
