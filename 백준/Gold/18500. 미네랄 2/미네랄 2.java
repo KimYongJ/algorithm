@@ -110,17 +110,14 @@ class Main{
 			// 땅에 닿지 않은 좌표를 찾을 때 해당 좌표들 중 x를만나기 까지 가장 짧은 길이를 찾음, 자기자신이면 스킵
 			if(total.size() > 0)
 			{
-				Collections.sort(total, (a,b)->b.get(0).y - a.get(0).y);
-				
 				for(int i=0; i<total.size(); i++)
 				{
 					int minDist	= 101;				// list의 좌표 중, 자기y좌표 + 1이 x가 아닌 좌표들 중 x를 만나기 까지 가장 짧은 이동거리
 					boolean visitY[][] = new boolean[Y][X];
-					for(Node now : total.get(i))
-						visitY[now.y][now.x] = true; // 자기 자신 방문 처리
 
 					for(Node now : total.get(i))
 					{
+						visitY[now.y][now.x] = true; // 자기 자신 방문 처리(높이기준 내림차순이라 가능함)
 						int nextY1	= now.y + 1;
 						int dist	= 1;
 						
