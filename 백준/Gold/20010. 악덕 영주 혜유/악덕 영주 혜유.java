@@ -1,9 +1,6 @@
 //https://github.com/KimYongJ
 //https://www.acmicpc.net/problem/20010
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 class AdNode{
 	int adNode, dist;
 	AdNode next;
@@ -22,6 +19,12 @@ class Main{
 	static int parent[];
 	static AdNode[] adNode;
 	static boolean visit[];
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static int getParent(int x) {
 		if(parent[x] == x) return x;
@@ -52,34 +55,26 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());		// 마을 수(1<=1000)
-		int T		= Integer.parseInt(st.nextToken());		// 설치 가능 교역로 수(1<=백만)
-		int cnt		= 1;									// 간선의 개수
-		int total	= 0;									// 스패닝트리의 간선들의 합
-		adNode		= new AdNode[N];						// 인접 노드를 담을 배열		
-		parent		= new int[N];							// 최소스패닝트리를 구하기 위해 사이클을 확인알 배열
+		int N		= read();			// 마을 수(1<=1000)
+		int T		= read();			// 설치 가능 교역로 수(1<=백만)
+		int cnt		= 1;				// 간선의 개수
+		int total	= 0;				// 스패닝트리의 간선들의 합
+		adNode		= new AdNode[N];	// 인접 노드를 담을 배열		
+		parent		= new int[N];		// 최소스패닝트리를 구하기 위해 사이클을 확인알 배열
 		
 		for(int i=1; i<N; i++)
-			parent[i] = i;	// 자기자신으로 초기화
-		
+			parent[i] = i;				// 자기자신으로 초기화
+		// 최소 스패닝 트리를 구하기 위해 노드의 거리를 기준으로 내림차순 정렬할 우선순위 큐
 		PriorityQueue<Node> pq = new PriorityQueue<>((a,b)->a.d-b.d);
 		while(T-->0)
-		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			int d = Integer.parseInt(st.nextToken());
-			pq.add(new Node(a,b,d));
-		}
+			pq.add(new Node(read(),read(),read()));
 		
 		while(cnt < N)
 		{
 			Node now	= pq.poll();
 			int aParent = getParent(now.a);
 			int bParent = getParent(now.b);
-			
+			// 사이클이 아니여야만 연결
 			if(aParent != bParent)
 			{
 				++cnt;
