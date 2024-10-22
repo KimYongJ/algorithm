@@ -3,7 +3,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 class Node{
@@ -12,20 +11,21 @@ class Node{
 }
 class Main{
 	public static void main(String[] args)throws Exception{
+		final int MAX = 100_000_000;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());	// 건물의수(2<=100)
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int T			= Integer.parseInt(st.nextToken());	// 제한 시간
 		int M			= Integer.parseInt(st.nextToken());	// 제한 돈
-		int time[][]	= new int[N+1][T+1];
-		int res			= 100_000_000;
+		int time[]		= new int[N+1];
+		int money[]		= new int[N+1];
+		int res			= MAX;
 		ArrayList<Node>[] adNode = new ArrayList[N+1];
 		
-		adNode[1] = new ArrayList<>();
-		for(int i=2; i<=N; i++)
+		for(int i=1; i<=N; i++)
 		{
-			Arrays.fill(time[i] ,100_000_000);
+			time[i] = money[i] = MAX;
 			adNode[i] = new ArrayList<>();
 		}
 		
@@ -58,11 +58,15 @@ class Main{
 				if(T < nextTime || M < nextMoney)
 					continue;
 				
-				if(nextMoney < time[next.node][nextTime])
-				{
-					time[next.node][nextTime]= nextMoney;
+				if(nextMoney < money[next.node]) {
+					money[next.node]= nextMoney;
 					pq.add(new Node(next.node, nextTime, nextMoney));
 				}
+				else if(nextTime < time[next.node]) {
+					time[next.node] = nextTime;
+					pq.add(new Node(next.node, nextTime, nextMoney));
+				}
+				
 			}
 		}
 		
