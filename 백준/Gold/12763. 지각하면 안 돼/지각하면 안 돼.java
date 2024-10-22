@@ -20,7 +20,6 @@ class Main{
 		int M			= Integer.parseInt(st.nextToken());	// 제한 돈
 		int time[]		= new int[N+1];
 		int money[]		= new int[N+1];
-		int res			= MAX;
 		ArrayList<Node>[] adNode = new ArrayList[N+1];
 		
 		for(int i=1; i<=N; i++)
@@ -48,9 +47,6 @@ class Main{
 		{
 			Node now = pq.poll();	// 현재 위치까지 오는데 든 총 이동시간과 총 택시비를 갖고 있다.
 			
-			if(now.node == N)
-				res = Math.min(res, now.money);
-			
 			for(Node next : adNode[now.node])
 			{
 				int nextTime = now.time + next.time;		// 현재까지 오는데 든 시간과 다음 노드로 가는데 드는 시간을 합침
@@ -69,9 +65,7 @@ class Main{
 				
 			}
 		}
-		
-		if(res == 100_000_000)
-			res = -1;
-		System.out.print(res);
+
+		System.out.print(money[N] == MAX ? -1 : money[N]);
 	}
 }
