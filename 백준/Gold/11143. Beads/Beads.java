@@ -39,17 +39,17 @@ class Main{
 		int T = read();
 		while(T-->0)
 		{
-			int N = read();
-			int t = read() + read();
-			int H = (int)Math.ceil(Math.log(N) / Math.log(2)) + 1;
-			
-			arr = new long[(1 << H)];
+			int N	= read();
+			int t	= read() + read();
+			int H	= (int)Math.ceil(Math.log(N) / Math.log(2)) + 1;
+			arr		= new long[(1 << H)];
 			
 			while(t-->0)
 			{
-				char c = (char)System.in.read();
-				int i = read();
-				int j = read();
+				char c	= (char)System.in.read();
+				int i	= read();
+				int j	= read();
+				
 				if(c=='P')
 					update(1, 1, N, i, j);
 				else
