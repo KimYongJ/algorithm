@@ -2,12 +2,13 @@
 //https://www.acmicpc.net/problem/12763
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 class Node{
 	int node, time, money;
+	Node next;
 	Node(int n, int t, int m){node=n; time=t; money=m;}
+	Node(int n, int t, int m, Node nxt){node=n; time=t; money=m;next=nxt;}
 }
 class Main{
 	public static void main(String[] args)throws Exception{
@@ -20,13 +21,10 @@ class Main{
 		int M			= Integer.parseInt(st.nextToken());	// 제한 돈
 		int time[]		= new int[N+1];
 		int money[]		= new int[N+1];
-		ArrayList<Node>[] adNode = new ArrayList[N+1];
+		Node[] adNode	= new Node[N+1];
 		
 		for(int i=1; i<=N; i++)
-		{
 			time[i] = money[i] = MAX;
-			adNode[i] = new ArrayList<>();
-		}
 		
 		int R = Integer.parseInt(br.readLine());
 		while(R-->0)
@@ -36,8 +34,8 @@ class Main{
 			int b = Integer.parseInt(st.nextToken());	// 연결노드
 			int t = Integer.parseInt(st.nextToken());	// 이동시간
 			int m = Integer.parseInt(st.nextToken());	// 택시비
-			adNode[a].add(new Node(b, t, m));			// 양방향 연결
-			adNode[b].add(new Node(a, t, m));			// 양방향 연결
+			adNode[a] = new Node(b, t, m, adNode[a]);	// 양방향 연결
+			adNode[b] = new Node(a, t, m, adNode[b]);	// 양방향 연결
 		}
 		
 		PriorityQueue<Node> pq = new PriorityQueue<>((a,b)->a.money - b.money);
@@ -47,7 +45,7 @@ class Main{
 		{
 			Node now = pq.poll();	// 현재 위치까지 오는데 든 총 이동시간과 총 택시비를 갖고 있다.
 			
-			for(Node next : adNode[now.node])
+			for(Node next=adNode[now.node]; next!=null; next=next.next)
 			{
 				int nextTime = now.time + next.time;		// 현재까지 오는데 든 시간과 다음 노드로 가는데 드는 시간을 합침
 				int nextMoney= now.money + next.money;		// 현재까지 오는데 든 돈과 다음 노드까지 가는데 드는 돈을 합침
@@ -62,7 +60,6 @@ class Main{
 					time[next.node] = nextTime;
 					pq.add(new Node(next.node, nextTime, nextMoney));
 				}
-				
 			}
 		}
 
