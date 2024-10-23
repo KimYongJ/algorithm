@@ -16,16 +16,15 @@ class Main{
 	
 	public static void DFS(int node, int t)
 	{
-		if(indg[node] > 0)
-			return;
-		
 		result = Math.max(result, t);
 		
 		for(Node next=adNode[node]; next!=null; next=next.next)
 		{
-			indg[next.node]--;
 			maxTime[next.node] = Math.max(maxTime[next.node],t);
-			DFS(next.node, maxTime[next.node] + time[next.node]);
+			if(0<indg[next.node])
+				--indg[next.node];
+			if(indg[next.node] == 0)
+				DFS(next.node, maxTime[next.node] + time[next.node]);
 		}
 	}
 	
