@@ -1,18 +1,24 @@
 //https://github.com/KimYongJ
 //https://www.acmicpc.net/problem/12896
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+
 class Node{
 	int node;
 	Node next;
 	Node(int n, Node nxt){node=n; next=nxt;}
 }
+
 class Main{
 	
 	static Node[] adNode;
 	static int N, maxLen, maxNode;
 	static boolean visit[];
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void DFS(int node, int len) {
 		if(maxLen < len)
 		{
@@ -27,14 +33,13 @@ class Main{
 			}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		adNode	= new Node[N+1];
+		
 		for(int i=1; i<N; i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = read();
+			int b = read();
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
 		}
