@@ -1,8 +1,5 @@
 //https://github.com/KimYongJ
 //https://www.acmicpc.net/problem/14657
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node, time;Node next;
 	Node(int node, int time, Node next){this.node=node; this.next=next; this.time=time;}
@@ -14,14 +11,22 @@ class Main{
 	static Node adNode[];
 	static boolean visit[];
 
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void DFS(int node, int cnt, int time) {
 		if(maxCnt < cnt)
 		{
-			maxCnt = cnt;
+			maxCnt	= cnt;
 			maxTime = time;
 			maxNode = node;
-		}else if(maxCnt == cnt && time < maxTime) {
-			maxCnt = cnt;
+		}
+		else if(maxCnt == cnt && time < maxTime)
+		{
+			maxCnt	= cnt;
 			maxTime = time;
 			maxNode = node;
 		}
@@ -34,19 +39,15 @@ class Main{
 			}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		N		= Integer.parseInt(st.nextToken());	// 노드 수(2<=오만)
-		T		= Integer.parseInt(st.nextToken());	// 하루 투자 가능시간(1<=십만)
+		N		= read();			// 노드 수(2<=오만)
+		T		= read();			// 하루 투자 가능시간(1<=십만)
 		adNode	= new Node[N+1];
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());	// 문제번호
-			int b = Integer.parseInt(st.nextToken());	// 문제번호
-			int c = Integer.parseInt(st.nextToken());	// 한문제를 넘는데 걸리는 시간(1<=천)
+			int a = read();			// 문제번호
+			int b = read();			// 문제번호
+			int c = read();			// 한문제를 넘는데 걸리는 시간(1<=천)
 			adNode[a] = new Node(b, c, adNode[a]);
 			adNode[b] = new Node(a, c, adNode[b]);
 		}
@@ -57,7 +58,7 @@ class Main{
 		
 		visit = new boolean[N+1];
 		visit[maxNode] = true;
-		maxCnt = 0;
+		maxCnt	= 0;
 		maxTime = 0;
 		DFS(maxNode, 0, 0);
 		
