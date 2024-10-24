@@ -36,7 +36,7 @@ class Main{
 		{
 			int now = q.poll();
 			for(Node next=adNode[now]; next!=null; next=next.next)
-				if(--indg[next.node] == 0)
+				if(0 < indg[next.node] && --indg[next.node] == 0)
 				{
 					res++;
 					q.add(next.node);
