@@ -38,11 +38,10 @@ class Main{
 			for(Node next=adNode[now]; next!=null; next=next.next)
 				if(--indg[next.node] == 0)
 				{
-					++res;
+					res++;
 					q.add(next.node);
 				}
 		}
-		
 		System.out.print(res);
 	}
 }
