@@ -1,8 +1,5 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/2132
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node; Node next;
 	Node(int node, Node next){
@@ -11,40 +8,46 @@ class Node{
 }
 public class Main {
 	
-	static int N, minNode, maxCnt, maxCost, arr[];
+	static int N, minNode, maxCost, arr[];
 	static Node adNode[];
 	static boolean visit[];
 	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		arr		= new int[N+1];
 		adNode	= new Node[N+1];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			adNode[a] = new Node(b, adNode[a]);
-			adNode[b] = new Node(a, adNode[b]);
+			int a		= read();
+			int b		= read();
+			adNode[a]	= new Node(b, adNode[a]);
+			adNode[b]	= new Node(a, adNode[b]);
 		}
-		minNode = 10000;
-		DFS(1, arr[1], 0);
 		
-		maxCost = 0;
-		
-		int node = minNode;
 		minNode = 10000;
+		DFS(1, arr[1], 0);// 1번 노드를 시작으로 모든노드를 탐색하며 최대배이용 기장 큰 노드를 찾는다.
+		
+		// 1번 노드에서 떨어진, 최대비용이 가장 큰 노드가 minNode에 담김, 다시 이를 통해 최대 cost를 찾으면됨
+		// 트리의 지름을 응용한 문제로 단순 지나친 노드 개수가 아니라 큰 비용을 갖는 노드일 때만 노드번호를 저장하는 것이 포인트
+		int node	= minNode;
+		minNode		= 10000;
+		maxCost		= 0;
 		DFS(node, arr[node], 0);
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(maxCost).append(' ').append( Math.min(node, minNode));
-		System.out.print(sb.toString());
+		System.out.print(
+						new StringBuilder().append(maxCost)
+						.append(' ').append( Math.min(node, minNode) )
+						);
 	}
 	public static void DFS(int node, int cost, int beforeNode) {
 		if(maxCost < cost)
