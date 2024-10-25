@@ -2,12 +2,12 @@
 //https://www.acmicpc.net/problem/17501
 import java.util.Arrays;
 
-public class Main
-{
-    static int N, root, Lidx, Ridx;
-    static int[][] tree;
-    static int[] elements;
-    
+class Main{
+	
+	static int N, root, leftIdx, rightIdx;
+	static int arr[];
+	static int tree[][];
+	
     static int read() throws Exception {
         int c, n = System.in.read() & 15;
         boolean m = n == 13;
@@ -17,39 +17,34 @@ public class Main
         return m ? ~n + 1 : n;
     }
     
-    public static int DFS(int node, int flag) {
-    	
-    	if(node <= N)// 리프노드에 도착한 경우
-    		return flag < 0 ? elements[Lidx++] : elements[Ridx--];// 음수일 경우 작은 수 반환
+	public static int DFS(int node, int flag) {
+		if(node <= N)// 리프노드일 경우
+			return flag < 0 ? arr[leftIdx++] : arr[rightIdx--];// 부호가 음수이면 작은 리프노드수를, 양수면 큰리프노드수를 반환
 
-    	int leftValue = DFS(tree[node][0], flag);
-    	int rightValue= DFS(tree[node][1], flag * tree[node][2]);
-    	
-    	// 후위 탐색(음수일 경우 마이너스 반환)
-    	return tree[node][2] < 0 ? leftValue - rightValue : leftValue + rightValue;
-    }
-    public static void main(String[] args) throws Exception {
-        N			= read();				// 노드의 개수
-        tree 		= new int[200_010][3];	// 트리표현, [0]:왼쪽자식노드 [1]:오른쪽자식노드 [2]:부호
-        elements	= new int[N];			// 각 노드당 들어있는 값
-        root		= (N<<1) - 1;			// 루트노드 번호
-        Ridx		= N - 1;
-        // 피연산자 입력
-        for (int i = 1; i <= N; i++)
-        {
-            elements[i-1]	= read();
-            tree[i][2]		= 1;
-        }
-        // 연산자와 연결 정보 입력
-        for (int i = N + 1; i <= root; i++)
-        {
-            tree[i][2] = (System.in.read() == '-') ? -1 : 1;
-            tree[i][0] = read();
-            tree[i][1] = read();
-        }
-        
-        Arrays.sort(elements);
-        
-        System.out.println( DFS(root, 1) );
-    }
+		int leftValue = DFS(tree[node][0], flag);					// 왼쪽 탐색
+		int rightValue= DFS(tree[node][1], flag * tree[node][2]);	// 오른쪽 탐색
+		// 현재 노드의 부호에 따라 왼쪽 오른쪽 값을 더하거나 빼준다.
+		return tree[node][2] < 0 ? leftValue - rightValue : leftValue + rightValue;
+	}
+	public static void main(String[] args)throws Exception{
+		N		= read();
+		root	= (N << 1) - 1;
+		arr		= new int[N];
+		tree	= new int[root+1][3];
+		rightIdx= N - 1;
+		
+		for(int i=1; i<=N; i++)
+			arr[i-1] = read();		// 리프노드 값 입력
+		// 부호 입력
+		for(int i=N+1; i<=root; i++)
+		{
+			tree[i][2] = System.in.read()=='-' ? -1 : 1;
+			tree[i][0] = read();
+			tree[i][1] = read();
+		}
+		
+		Arrays.sort(arr);			// 리프노드 값을 오름차순 정렬하여 추후 후위탐색에서 사용
+		
+		System.out.print( DFS(root, 1) );
+	}
 }
