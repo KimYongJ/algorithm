@@ -2,15 +2,14 @@
 //https://www.acmicpc.net/problem/17501
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main
 {
     static int n, lp, rp;
     static int[][] tree;
-    static ArrayList<Integer> elements;
+    static int[] elements;
     
     static int dfs(int node, int m)
     {
@@ -19,8 +18,8 @@ public class Main
         {
             // 리프 노드까지 도달했을 때의 m값을 곱한다.
             // m은 루트부터 현재 노드의 최종 부호이다.
-            if (m < 0) return elements.get(lp++);
-            return elements.get(rp--);
+            if (m < 0) return elements[lp++];
+            return elements[rp--];
         }
         // 연산자 노드인 경우, 양쪽 자식에 대해 재귀한다.
         // 이 때, 우측 자식에 대해서만 m값에 현재 노드의 값(+-1)을 곱해준다.
@@ -35,14 +34,13 @@ public class Main
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n			= Integer.parseInt(br.readLine());
         tree 		= new int[200_010][3];
-        elements	= new ArrayList<>();
+        elements	= new int[n];
         
         // 피연산자 입력
         for (int i = 1; i <= n; i++)
         {
-            int val = Integer.parseInt(br.readLine());
-            elements.add(val);
-            tree[i][2] = 1;
+            elements[i-1]	= Integer.parseInt(br.readLine());
+            tree[i][2]		= 1;
         }
         
         // 연산자와 연결 정보 입력
@@ -58,7 +56,7 @@ public class Main
             tree[i][2] = (type == '-') ? -1 : 1;
         }
         
-        Collections.sort(elements);
+        Arrays.sort(elements);
         
         rp = n - 1;
         
