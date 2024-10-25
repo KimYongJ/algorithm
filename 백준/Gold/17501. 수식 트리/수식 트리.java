@@ -7,60 +7,54 @@ import java.util.StringTokenizer;
 
 public class Main
 {
-    static int n, lp, rp;
+    static int N, Lidx, Ridx;
     static int[][] tree;
     static int[] elements;
     
-    static int dfs(int node, int m)
-    {
-        // 리프 노드인 경우 (즉, 피연산자 노드인 경우)
-        if (node <= n)
-        {
-            // 리프 노드까지 도달했을 때의 m값을 곱한다.
-            // m은 루트부터 현재 노드의 최종 부호이다.
-            if (m < 0) return elements[lp++];
-            return elements[rp--];
-        }
-        // 연산자 노드인 경우, 양쪽 자식에 대해 재귀한다.
-        // 이 때, 우측 자식에 대해서만 m값에 현재 노드의 값(+-1)을 곱해준다.
-        int leftRes = dfs(tree[node][0], m);
-        int rightRes = dfs(tree[node][1], m * tree[node][2]);
-        
-        if (tree[node][2] < 0) return leftRes - rightRes;
-        return leftRes + rightRes;
+    public static int DFS(int node, int flag) {
+    	// 리프노드에 도착한 경우
+    	if(node <= N)
+    	{
+    		if(flag < 0)// 음수일 경우 작은 수 반환
+    			return elements[Lidx++];
+    		return elements[Ridx--];
+    	}
+    	
+    	int leftValue = DFS(tree[node][0], flag);
+    	int rightValue= DFS(tree[node][1], flag * tree[node][2]);
+    	
+    	if(tree[node][2] < 0)// 음수일 경우
+    		return leftValue - rightValue;
+    	return leftValue + rightValue;
     }
-    
     public static void main(String[] args) throws Exception {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n			= Integer.parseInt(br.readLine());
+        N			= Integer.parseInt(br.readLine());
         tree 		= new int[200_010][3];
-        elements	= new int[n];
+        elements	= new int[N];
         
         // 피연산자 입력
-        for (int i = 1; i <= n; i++)
+        for (int i = 1; i <= N; i++)
         {
             elements[i-1]	= Integer.parseInt(br.readLine());
             tree[i][2]		= 1;
         }
         
         // 연산자와 연결 정보 입력
-        for (int i = n + 1; i < n<<1; i++)
+        for (int i = N + 1; i < N<<1; i++)
         {
         	StringTokenizer st = new StringTokenizer(br.readLine());
             char type = st.nextToken().charAt(0);
-            int l = Integer.parseInt(st.nextToken());
-            int r = Integer.parseInt(st.nextToken());
-            
-            tree[i][0] = l;
-            tree[i][1] = r;
             tree[i][2] = (type == '-') ? -1 : 1;
+            tree[i][0] = Integer.parseInt(st.nextToken());
+            tree[i][1] = Integer.parseInt(st.nextToken());
         }
         
         Arrays.sort(elements);
         
-        rp = n - 1;
+        Ridx = N - 1;
         
-        int root = 2 * n - 1;
-        System.out.println( dfs(root, 1) );
+        int root = (N<<1) - 1;
+        System.out.println( DFS(root, 1) );
     }
 }
