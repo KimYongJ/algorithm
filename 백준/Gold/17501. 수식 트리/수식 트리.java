@@ -10,7 +10,7 @@ public class Main
     static int N, Lidx, Ridx;
     static int[][] tree;
     static int[] elements;
-    
+
     public static int DFS(int node, int flag) {
     	// 리프노드에 도착한 경우
     	if(node <= N)
@@ -29,9 +29,9 @@ public class Main
     }
     public static void main(String[] args) throws Exception {
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N			= Integer.parseInt(br.readLine());
-        tree 		= new int[200_010][3];
-        elements	= new int[N];
+        N			= Integer.parseInt(br.readLine());	// 노드의 개수
+        tree 		= new int[200_010][3];				// 트리표현, [0]:왼쪽자식노드 [1]:오른쪽자식노드 [2]:부호
+        elements	= new int[N];						// 각 노드당 들어있는 값
         
         // 피연산자 입력
         for (int i = 1; i <= N; i++)
@@ -44,8 +44,8 @@ public class Main
         for (int i = N + 1; i < N<<1; i++)
         {
         	StringTokenizer st = new StringTokenizer(br.readLine());
-            char type = st.nextToken().charAt(0);
-            tree[i][2] = (type == '-') ? -1 : 1;
+        	char c = st.nextToken().charAt(0);
+            tree[i][2] = (c == '-') ? -1 : 1;
             tree[i][0] = Integer.parseInt(st.nextToken());
             tree[i][1] = Integer.parseInt(st.nextToken());
         }
