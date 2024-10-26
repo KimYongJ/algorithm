@@ -71,7 +71,7 @@ class Main{
 		{
 			fileCategoryCnt	= 0;
 			fileTotalCnt	= 0;
-			visit			= new boolean[2002];
+			visit			= new boolean[2001];
 			String[] cmd	= br.readLine().split("/");
 			
 			int node = idxData.get(cmd[cmd.length-1]);
