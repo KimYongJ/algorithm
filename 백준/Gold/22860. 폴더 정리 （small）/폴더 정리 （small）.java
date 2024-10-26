@@ -38,7 +38,7 @@ class Main{
 		// 폴더 + 파일의 총 개수
 		int T	= Integer.parseInt(st.nextToken()) + Integer.parseInt(st.nextToken());
 		int idx = 1;
-		adNode	= new Node[2001];
+		adNode	= new Node[1999];
 		while(T-->0)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -71,7 +71,7 @@ class Main{
 		{
 			fileCategoryCnt	= 0;
 			fileTotalCnt	= 0;
-			visit			= new boolean[2001];
+			visit			= new boolean[1999];
 			String[] cmd	= br.readLine().split("/");
 			
 			int node = idxData.get(cmd[cmd.length-1]);
