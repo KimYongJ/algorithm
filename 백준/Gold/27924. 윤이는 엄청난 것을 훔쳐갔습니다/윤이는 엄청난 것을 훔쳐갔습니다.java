@@ -2,27 +2,26 @@
 //https://www.acmicpc.net/problem/27924
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
 class Node{
 	int node; Node next;
 	Node(int node, Node next){this.node=node; this.next=next;}
 }
+class Person{
+	boolean isCop; int node;
+	Person(boolean i, int n){isCop=i;node=n;}
+}
 class Main{
 	
-	static Node adNode[];
-	static int dist[];
-	static boolean flag, visit[];
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N	= Integer.parseInt(br.readLine());
-		flag	= false;
-		dist	= new int[N+1];
-		adNode	= new Node[N+1];
-		visit	= new boolean[N+1];
-		
-		Arrays.fill(dist, 200_001);
+		int N				= Integer.parseInt(br.readLine());
+		Node[] adNode		= new Node[N+1];
+		boolean[] isLeaf	= new boolean[N+1];
+		boolean[] copVisit	= new boolean[N+1];
+		boolean[] runVisit	= new boolean[N+1];
 		
 		StringTokenizer st;
 		for(int i=1; i<N; i++)
@@ -32,54 +31,50 @@ class Main{
 			int b = Integer.parseInt(st.nextToken());
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
+			isLeaf[a] = !isLeaf[a];
+			isLeaf[b] = !isLeaf[b];
 		}
 		st = new StringTokenizer(br.readLine());
 		int a = Integer.parseInt(st.nextToken());
 		int b = Integer.parseInt(st.nextToken());
 		int c = Integer.parseInt(st.nextToken());
 		
-		visit = new boolean[N+1];
-		visit[b] = true;
-		DFS(b, 0);
-		visit = new boolean[N+1];
-		visit[c] = true;
-		DFS(c, 0);
-		visit = new boolean[N+1];
-		visit[a] = true;
-		result_DFS(a, 0);
-		
-		if(flag)	System.out.print("YES");
-		else		System.out.print("NO");
-	}
-	public static void result_DFS(int node, int depth) {
-		if(flag)
-			return;
-		
-		int edgeCnt = 0;
-		for(Node next=adNode[node]; next!=null; next=next.next)
+		ArrayDeque<Person> q = new ArrayDeque<>();
+		q.add(new Person(false, a));
+		q.add(new Person(true, b));
+		q.add(new Person(true, c));
+		runVisit[a] = true;
+		copVisit[b] = copVisit[c] = true;
+		while(!q.isEmpty())
 		{
-			++edgeCnt;
-			if(!visit[next.node])
-			{
-				visit[next.node] = true;
-				result_DFS(next.node, depth + 1);
+			Person now = q.poll();
+			if(!now.isCop) {
+				if(copVisit[now.node])
+					continue;
+				if(isLeaf[now.node]) {
+					System.out.print("YES");
+					return;
+				}
+			}
+			for(Node next=adNode[now.node]; next!=null; next=next.next) {
+				if(now.isCop)
+				{
+					if(!copVisit[next.node])
+					{
+						copVisit[next.node] = true;
+						q.add(new Person(true,  next.node));
+					}
+				}
+				if(!now.isCop) {
+					if(!copVisit[next.node]&& !runVisit[next.node]) {
+						runVisit[next.node] = true;
+						q.add(new Person(false, next.node));
+					}
+				}
 			}
 		}
-		if(edgeCnt == 1 && depth < dist[node])
-			flag = true;
-	}
-	public static void DFS(int node, int depth) {
-		int edgeCnt = 0;
-		for(Node next=adNode[node]; next!=null; next=next.next)
-		{
-			++edgeCnt;
-			if(!visit[next.node])
-			{
-				visit[next.node] = true;
-				DFS(next.node, depth + 1);
-			}
-		}
-		if(edgeCnt == 1)
-			dist[node] = Math.min(dist[node], depth);
+		
+		
+		System.out.print("NO");
 	}
 }
