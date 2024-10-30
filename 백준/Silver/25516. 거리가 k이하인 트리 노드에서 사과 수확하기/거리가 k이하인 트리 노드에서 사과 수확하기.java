@@ -1,44 +1,46 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/25516
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
-	int node; Node next;
-	Node(int node, Node next){this.node=node; this.next=next;}
+	int node; Node next; Node(int node, Node next){this.node=node; this.next=next;}
 }
 class Main{
 	
-	static int N, K, apple[];
+	static int N, K, cnt, apple[];
 	static Node adNode[];
-	public static int DFS(int node, int depth) {
-		if(K < depth)
-			return 0;
-		int cnt = apple[node];
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
+	public static void DFS(int node, int depth) {
+		if(K < depth) return;
+		
+		cnt += apple[node];
+		
 		for(Node next=adNode[node]; next!=null; next=next.next)
-			cnt += DFS(next.node, depth + 1);
-		return cnt;
+			DFS(next.node, depth + 1);
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());
-		K		= Integer.parseInt(st.nextToken());
+		N		= read();
+		K		= read();
 		apple	= new int[N];
 		adNode	= new Node[N];
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int p = Integer.parseInt(st.nextToken());
-			int c = Integer.parseInt(st.nextToken());
+			int p = read();
+			int c = read();
 			adNode[p] = new Node(c, adNode[p]);
 		}
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			apple[i] = Integer.parseInt(st.nextToken());
 		
-		System.out.print(DFS(0,0));
+		for(int i=0; i<N; i++)
+			apple[i] = read();
+		
+		DFS(0,0);
+		
+		System.out.print(cnt);
 	}
 }
