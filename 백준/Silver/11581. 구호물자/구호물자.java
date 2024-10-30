@@ -1,9 +1,6 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/11581
 // 시작 노드는 1번, 도착 노드는 N
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node; Node next;
 	Node(int node, Node next){
@@ -14,41 +11,56 @@ class Main{
 	
 	static Node[] adNode;
 	static int N;
-	static boolean flag, visit[];
+	static boolean visit[];
 	
-	public static void DFS(int now) {
-		if(flag)
-			return;
-		
+    private static int read() throws Exception{
+        int val = 0;
+        int c = System.in.read();
+        while (c <= ' ') {
+            c = System.in.read();
+        }
+        boolean minus = false;
+        if (c == '-') {
+            minus = true;
+            c = System.in.read();
+        }
+        do {
+            val = 10 * val + c - 48;
+        } while ((c = System.in.read()) >= 48 && c <= 57);
+        if (minus) return -val;
+        return val;
+    }
+	
+	public static boolean DFS(int now) {
 		visit[now] = true;
-		for(Node next=adNode[now]; next!=null; next=next.next) {
+		for(Node next=adNode[now]; next!=null; next=next.next)
+		{
 			if(!visit[next.node])
-				DFS(next.node);
-			else
 			{
-				flag = true;
-				break;
+				if(DFS(next.node))
+					return true;
 			}
+			else
+				return true;
 		}
+		
 		visit[now] = false;
+		
+		return false;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine());	// 노드 수(1<=100)
-		adNode	= new Node[N+1];
-		visit	= new boolean[N+1];
-		flag	= false;
+		N		= read();	// 노드 수(1<=100)
+		adNode	= new Node[N+10];
+		visit	= new boolean[N+10];
+		
 		for(int i=1; i<N; i++)
 		{
-			int T = Integer.parseInt(br.readLine());
-			StringTokenizer st = new StringTokenizer(br.readLine());
+			int T = read();
 			while(T-->0)
-				adNode[i] = new Node(Integer.parseInt(st.nextToken()), adNode[i]);
+				adNode[i] = new Node(read(), adNode[i]);
 		}
 		
-		DFS(1);
-		
-		if(flag)
+		if(DFS(1))
 			System.out.print("CYCLE");
 		else
 			System.out.print("NO CYCLE");
