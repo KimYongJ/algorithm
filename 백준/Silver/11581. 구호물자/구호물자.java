@@ -14,30 +14,29 @@ class Main{
 	
 	static Node[] adNode;
 	static int N;
-	static boolean flag, visit[], recStack[];
+	static boolean flag, visit[];
 	
 	public static void DFS(int now) {
 		if(flag)
 			return;
 		
-		recStack[now] = true;
+		visit[now] = true;
 		for(Node next=adNode[now]; next!=null; next=next.next) {
-			if(!visit[next.node]) {
-				visit[next.node] = true;
+			if(!visit[next.node])
 				DFS(next.node);
-			}else if(recStack[next.node]){
+			else
+			{
 				flag = true;
 				break;
 			}
 		}
-		recStack[now] = false;
+		visit[now] = false;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N		= Integer.parseInt(br.readLine());	// 노드 수(1<=100)
 		adNode	= new Node[N+1];
 		visit	= new boolean[N+1];
-		recStack= new boolean[N+1];
 		flag	= false;
 		for(int i=1; i<N; i++)
 		{
@@ -47,8 +46,6 @@ class Main{
 				adNode[i] = new Node(Integer.parseInt(st.nextToken()), adNode[i]);
 		}
 		
-		visit[1] = true;
-		recStack[1] = true;
 		DFS(1);
 		
 		if(flag)
