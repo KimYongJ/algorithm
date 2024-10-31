@@ -7,12 +7,14 @@ class Node{
 class Main{
 	
 	static Node adNode[];
-	static long read() throws Exception {
-        long c, N = System.in.read() - 48;
+	
+	static int read() throws Exception {
+        int c, N = System.in.read() - 48;
         while ((c = System.in.read()) > 32)
             N = 10 * N + c - 48;
         return N;
     }
+	
 	public static void add_DFS(int node, long k) {
 		int left = adNode[node].left;
 		int right= adNode[node].right;
@@ -28,13 +30,19 @@ class Main{
 		else
 			add_DFS(0 < left ? left : right, k);
 	}
+	
 	public static void main(String[] args)throws Exception{
-		int N	= (int)read();
+		int N	= read();
 		adNode	= new Node[N+1];
 		
 		for(int i=1; i<=N; i++)
-			adNode[i]	= new Node((int)read(), (int)read());
+			adNode[i]	= new Node(read(), read());
 		
-		add_DFS(1, read());
+		int c;
+        long K = System.in.read() - 48;
+        while ((c = System.in.read()) > 32)
+            K = 10 * K + c - 48;
+        
+		add_DFS(1, K);
 	}
 }
