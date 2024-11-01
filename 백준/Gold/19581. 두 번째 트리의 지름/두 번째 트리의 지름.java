@@ -13,7 +13,7 @@ class Main{
 	static int maxNode, maxDist;
 	static boolean visit[];
 
-	public static void findMaxNode_DFS(int node, int dist) {
+	public static void DFS(int node, int dist) {
 		if(maxDist < dist)
 		{
 			maxDist = dist;
@@ -23,7 +23,7 @@ class Main{
 			if(!visit[next.node])
 			{
 				visit[next.node] = true;
-				findMaxNode_DFS(next.node, dist + next.dist);
+				DFS(next.node, dist + next.dist);
 			}
 	}
 	public static void main(String[] args)throws Exception{
@@ -40,34 +40,34 @@ class Main{
 			adNode[a] = new Node(b, d, adNode[a]);
 			adNode[b] = new Node(a, d, adNode[b]);
 		}
-		
-		int start, end, dist1, dist2;
+		int node[] = new int[2];	// 가장 먼 노드 2개를 담을 배열
+		int dist[] = new int[2];	// 두번째 먼 노드의 거리를 담을 배열
 		
 		visit	 = new boolean[N+1];
 		visit[1] = true;
-		findMaxNode_DFS(1, 0);
+		
+		DFS(1, 0);
 		
 		maxDist			= 0;
-		start			= maxNode;
+		node[0]			= maxNode;
 		visit			= new boolean[N+1];
 		visit[maxNode]	= true;
-		findMaxNode_DFS(maxNode, 0);
-		end = maxNode;
+		
+		DFS(maxNode, 0);
+		
+		node[1]			= maxNode;
 		
 		// start에서 end를 제외하고 구하고
 		// end에서 start를 제외하고 구한다.
-		visit			= new boolean[N+1];
-		maxDist			= 0;
-		visit[start]	= visit[end] = true;
-		findMaxNode_DFS(start, 0);
-		dist1 = maxDist;
-		
-		visit			= new boolean[N+1];
-		maxDist			= 0;
-		visit[start]	= visit[end] = true;
-		findMaxNode_DFS(end, 0);
-		dist2 = maxDist;
-		
-		System.out.print(Math.max(dist1, dist2));
+		for(int i=0; i<2; i++)
+		{
+			visit			= new boolean[N+1];
+			maxDist			= 0;
+			visit[node[0]]	= visit[node[1]] = true;
+			DFS(node[i], 0);
+			dist[i] = maxDist;
+		}
+
+		System.out.print(Math.max(dist[0], dist[1]));
 	}
 }
