@@ -34,7 +34,7 @@ class Main{
 			
 			DFS(i);
 			
-			if(cnt == N-1)
+			if(cnt == N)
 			{
 				System.out.print(i);
 				return;
@@ -44,11 +44,11 @@ class Main{
 		System.out.print(-1);
 	}
 	public static void DFS(int now){
+		cnt++;
 		for(Node next=adNode[now]; next!=null; next=next.next)
 			if(!visit[next.node])
 			{
 				visit[next.node]= true;
-				cnt++;
 				DFS(next.node);
 			}
 	}
