@@ -10,16 +10,14 @@ class Node{
 class Main{
 	
 	static Node adNode[];
-	static int[] parent, groupKey;
 	static boolean findCycle;
+	static int[] parent, groupKey;
 	static boolean[] visit, isCycle;
 	
 	public static void check_cycle_DFS(int nowNode, int rootNode) {
+		isCycle[nowNode] = true;
 		if(nowNode != rootNode)
-		{
-			isCycle[nowNode] = true;
 			check_cycle_DFS(parent[nowNode],rootNode);
-		}
 	}
 	public static void find_cycle_DFS(int nowNode, int beforeNode) {
 		for(Node next=adNode[nowNode]; next!=null && !findCycle; next=next.next)
@@ -31,7 +29,6 @@ class Main{
 			}
 			else if(next.node != beforeNode){
 				findCycle = true;
-				isCycle[next.node] = true;
 				check_cycle_DFS(nowNode, next.node);
 			}
 	}
