@@ -18,13 +18,6 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
 	}
-	
-	public static void check_cycle_DFS(int nowNode, int rootNode) {
-		isCycle[nowNode] = true;
-		if(nowNode != rootNode)
-			check_cycle_DFS(parent[nowNode],rootNode);
-	}
-	
 	public static void find_cycle_DFS(int nowNode, int beforeNode) {
 		visit[nowNode] = true;
 		for(Node next=adNode[nowNode]; next!=null && !findCycle; next=next.next)
@@ -35,13 +28,16 @@ class Main{
 			}
 			else if(next.node != beforeNode){
 				findCycle = true;
-				check_cycle_DFS(nowNode, next.node);
+				// 사이클을 찾았으니 체크한다. 시작점(nowNode) / 종료점(next.node)
+				isCycle[next.node] = true; 
+				for(int v = nowNode; v != next.node; v = parent[v])
+					isCycle[v] = true;
 			}
 	}
 	
 	public static void grouping_DFS(int nowNode, int key) {
-		visit[nowNode] = true;
-		groupKey[nowNode] = key;
+		visit[nowNode]		= true;
+		groupKey[nowNode]	= key;
 		for(Node next=adNode[nowNode]; next!=null; next=next.next)
 			if(!visit[next.node] && !isCycle[next.node])
 				grouping_DFS(next.node, key);
