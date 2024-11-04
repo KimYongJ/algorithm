@@ -16,12 +16,14 @@ class Main{
 	
 	static int DFS(int node) {
 		int cnt = 1;
-		for(Node next=adNode[node]; next!=null; next=next.next) {
-			if(!visit[next.node]) {
+		
+		for(Node next=adNode[node]; next!=null; next=next.next)
+			if(!visit[next.node])
+			{
 				visit[next.node] = true;
 				cnt += DFS(next.node);
 			}
-		}
+
 		return cnt;
 	}
 	
@@ -30,13 +32,14 @@ class Main{
 		N		= Integer.parseInt(br.readLine());
 		adNode	= new Node[N];
 		
-		int map[][] = new int[N][3];
+		int map[][] = new int[N][4];
 		for(int i=0; i<N; i++)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			map[i][0] = Integer.parseInt(st.nextToken());
 			map[i][1] = Integer.parseInt(st.nextToken());
 			map[i][2] = Integer.parseInt(st.nextToken());
+			map[i][3] = map[i][2] * map[i][2];
 		}
 		
 		for(int i=0; i<N; i++)
@@ -44,7 +47,7 @@ class Main{
 			{
 				int ny = map[i][0] - map[j][0];
 				int nx = map[i][1] - map[j][1];
-				if(ny*ny + nx*nx <= map[i][2]*map[i][2])
+				if(ny*ny + nx*nx <= map[i][3])
 					adNode[i] = new Node(j,adNode[i]);
 			}
 		
