@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/15270
-class Edge{
-	int a,b;
-	Edge(int a, int b){this.a=a; this.b=b;}
-}
+class Edge{ int a,b; Edge(int a, int b){this.a=a; this.b=b;} }
 class Main{
 	
 	static int N, M, max;
