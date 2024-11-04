@@ -1,34 +1,26 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/24463
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-class Node{
-	int y, x;
-	Node(int y, int x){this.y=y; this.x=x;}
-}
 class Main{
 	
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-	static int Y, X, map[][];
-	static int pos[][];
+	static int Y, X;
+	static int[][] map, pos;
 	static boolean[][] visit, check;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y 		= Integer.parseInt(st.nextToken());	// 3<=N,M<=2001(홀수)
-		X		= Integer.parseInt(st.nextToken());	// 3<=N,M<=2001(홀수)
-		map		= new int[Y+2][X+2];
-		pos		= new int[2][2];
-		visit	= new boolean[Y+2][X+2];
-		check	= new boolean[Y+2][X+2];
+		Y 		= read();					// 3<=N,M<=2001(홀수)
+		X		= read();					// 3<=N,M<=2001(홀수)
+		map		= new int[Y+2][X+2];		// 지도
+		pos		= new int[2][2];			// 시작, 종료 위치를 담을 배열
+		visit	= new boolean[Y+2][X+2];	// DFS시 해당 위치를 방문 했는지 체크
+		check	= new boolean[Y+2][X+2];	// 최단경로에 true를 해준다.
+		
 		// 값을 입력 받는다.
 		for(int y=1; y<=Y; y++)
 		{
-			String str = br.readLine();
 			for(int x=1; x<=X; x++)
-				map[y][x] = str.charAt(x-1);
+				map[y][x] = System.in.read();
+			System.in.read();
 		}
 		// 시작 종료위치 확인
 		int idx = 0;
@@ -64,18 +56,17 @@ class Main{
 		for(int y=1; y<=Y; y++)
 		{
 			for(int x=1; x<=X; x++)
-			{
 				if(!check[y][x] && map[y][x] == '.')
 					sb.append('@');
 				else
 					sb.append((char)map[y][x]);
-			}
+			
 			sb.append('\n');
 		}
 		
 		System.out.print(sb.toString());
 	}
-	public static boolean DFS(int y, int x) {
+	static boolean DFS(int y, int x) {
 		if(y == pos[1][0] && x == pos[1][1])
 			return check[y][x] = true;
 		
@@ -91,5 +82,10 @@ class Main{
 			}
 		}
 		return false;
+	}
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
