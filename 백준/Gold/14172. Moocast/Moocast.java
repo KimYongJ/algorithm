@@ -1,0 +1,60 @@
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/14172
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+class Node{
+	int node; Node next;
+	Node(int node, Node next){this.node=node; this.next=next;}
+}
+
+class Main{
+	
+	static Node adNode[];
+	static int N;
+	static boolean visit[];
+	
+	static int DFS(int node) {
+		int cnt = 1;
+		for(Node next=adNode[node]; next!=null; next=next.next) {
+			if(!visit[next.node]) {
+				visit[next.node] = true;
+				cnt += DFS(next.node);
+			}
+		}
+		return cnt;
+	}
+	
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N		= Integer.parseInt(br.readLine());
+		adNode	= new Node[N];
+		
+		int map[][] = new int[N][3];
+		for(int i=0; i<N; i++)
+		{
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			map[i][0] = Integer.parseInt(st.nextToken());
+			map[i][1] = Integer.parseInt(st.nextToken());
+			map[i][2] = Integer.parseInt(st.nextToken());
+		}
+		
+		for(int i=0; i<N; i++)
+			for(int j=0; j<N; j++)
+			{
+				int ny = map[i][0] - map[j][0];
+				int nx = map[i][1] - map[j][1];
+				if(ny*ny + nx*nx <= map[i][2]*map[i][2])
+					adNode[i] = new Node(j,adNode[i]);
+			}
+		
+		int cnt = 0;
+		for(int i=0; i<N; i++)
+		{
+			visit		= new boolean[N];
+			visit[i]	= true;
+			cnt = Math.max(cnt, DFS(i));
+		}
+		System.out.print(cnt);
+	}
+}
