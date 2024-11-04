@@ -1,8 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/14172
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node; Node next;
 	Node(int node, Node next){this.node=node; this.next=next;}
@@ -13,6 +10,12 @@ class Main{
 	static Node adNode[];
 	static int N;
 	static boolean visit[];
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	static int DFS(int node) {
 		int cnt = 1;
@@ -28,17 +31,15 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		adNode	= new Node[N];
 		
 		int map[][] = new int[N][4];
 		for(int i=0; i<N; i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			map[i][0] = Integer.parseInt(st.nextToken());
-			map[i][1] = Integer.parseInt(st.nextToken());
-			map[i][2] = Integer.parseInt(st.nextToken());
+			map[i][0] = read();
+			map[i][1] = read();
+			map[i][2] = read();
 			map[i][3] = map[i][2] * map[i][2];
 		}
 		
