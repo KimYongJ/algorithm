@@ -3,12 +3,9 @@
 // 1) 0인 곳에 대해 특정 숫자로 마킹한다.
 // 2) 숫자가 1인 곳을 BFS로 돌면서 1이 아닌 숫자를 몇개나 만나는지 찾는다.
 // 3) 해당 숫자 만큼 알파벳을 결과에 추가한다.
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 class Main{
 	
 	static final String[] BINARY = {"0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111"};
@@ -19,6 +16,12 @@ class Main{
 	static boolean meetNum[];
 	static ArrayDeque<int[]> q;
 	static ArrayList<ArrayList<Character>> result = new ArrayList<>();
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void FILL_BFS(int y, int x) {
 		q			= new ArrayDeque<>();
@@ -75,13 +78,11 @@ class Main{
 		return cnt - 1;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
 			MARKING = 2;
-			Y		= Integer.parseInt(st.nextToken());	// 0<=200
-			X		= Integer.parseInt(st.nextToken());	// 0<50
+			Y		= read();	// 0<=200
+			X		= read();	// 0<50
 			map		= new int[Y+2][(X*4)+2];
 			
 			if(Y==0 || X==0)
@@ -89,15 +90,15 @@ class Main{
 			
 			for(int y=1; y<=Y; y++)
 			{
-				String str = br.readLine();
 				int idx = 1;
 				for(int x=1; x<=X; x++)
 				{
-					char c = str.charAt(x-1);
+					int c = System.in.read();
 					int num = c > '9' ? c - 'a' + 10 : c - '0';
 					for(int b : BINARY[num].toCharArray())
 						map[y][idx++] = b-'0';
 				}
+				System.in.read();
 			}
 			
 			X = (X*4);
