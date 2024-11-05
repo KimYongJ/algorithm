@@ -21,9 +21,11 @@ class Main{
 	static ArrayList<ArrayList<Character>> result = new ArrayList<>();
 	
 	public static void FILL_BFS(int y, int x) {
-		q = new ArrayDeque<>();
-		map[y][x] = MARKING;
+		q			= new ArrayDeque<>();
+		map[y][x]	= MARKING;
+		
 		q.add(new int[] {y, x});
+		
 		while(!q.isEmpty())
 		{
 			int[] now = q.poll();
@@ -43,11 +45,13 @@ class Main{
 		++MARKING;
 	}
 	public static int CHECK_BFS(int y, int x) {
-		int cnt = 0;
-		meetNum = new boolean[MARKING];
-		q = new ArrayDeque<>();
-		map[y][x] = 0;
+		int cnt		= 0;
+		meetNum		= new boolean[MARKING];
+		q			= new ArrayDeque<>();
+		map[y][x]	= 0;
+		
 		q.add(new int[] {y,x});
+		
 		while(!q.isEmpty())
 		{
 			int[] now = q.poll();
@@ -56,18 +60,15 @@ class Main{
 			{
 				int nextY = now[0] + xy[0];
 				int nextX = now[1] + xy[1];
-				if(0<=nextY && 0<=nextX && nextY<=Y && nextX<=X)
+				if(map[nextY][nextX] == 1)
 				{
-					if(map[nextY][nextX] == 1)
-					{
-						map[nextY][nextX] = 0;
-						q.add(new int[] {nextY, nextX});
-					}
-					else if(1 < map[nextY][nextX] && !meetNum[map[nextY][nextX]])
-					{
-						++cnt;
-						meetNum[map[nextY][nextX]] = true;
-					}
+					map[nextY][nextX] = 0;
+					q.add(new int[] {nextY, nextX});
+				}
+				else if(1 < map[nextY][nextX] && !meetNum[map[nextY][nextX]])
+				{
+					++cnt;
+					meetNum[map[nextY][nextX]] = true;
 				}
 			}
 		}
@@ -119,7 +120,6 @@ class Main{
 
 			result.add(res);
 		}
-		
 		
 		// 결과 출력
 		StringBuilder sb = new StringBuilder();
