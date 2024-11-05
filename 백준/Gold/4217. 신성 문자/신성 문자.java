@@ -1,86 +1,136 @@
-import java.util.Scanner;
-import java.util.Arrays;
-import java.util.HashMap;
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/4217
+// 1) 0인 곳에 대해 특정 숫자로 마킹한다.
+// 2) 숫자가 1인 곳을 BFS로 돌면서 1이 아닌 숫자를 몇개나 만나는지 찾는다.
+// 3) 해당 숫자 만큼 알파벳을 결과에 추가한다.
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+class Main{
+	
+	static final String[] BINARY = {"0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111"};
+	static final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
+	static char KEY[] = {'W','A','K','J','S','D'};
+	static int MARKING;
+	static int Y, X, map[][];
+	static boolean meetNum[];
+	static ArrayDeque<int[]> q;
+	static ArrayList<ArrayList<Character>> result = new ArrayList<>();
+	
+	public static void FILL_BFS(int y, int x) {
+		q = new ArrayDeque<>();
+		map[y][x] = MARKING;
+		q.add(new int[] {y, x});
+		while(!q.isEmpty())
+		{
+			int[] now = q.poll();
+			
+			for(int xy[] : dxy)
+			{
+				int nextY = now[0] + xy[0];
+				int nextX = now[1] + xy[1];
+				if(0<=nextY && 0<=nextX && nextY<Y+2 && nextX<X+2 && 
+					map[nextY][nextX] == 0)
+				{
+					map[nextY][nextX] = MARKING;
+					q.add(new int[] {nextY, nextX});
+				}
+			}
+		}
+		++MARKING;
+	}
+	public static int CHECK_BFS(int y, int x) {
+		int cnt = 0;
+		meetNum = new boolean[MARKING];
+		q = new ArrayDeque<>();
+		map[y][x] = 0;
+		q.add(new int[] {y,x});
+		while(!q.isEmpty())
+		{
+			int[] now = q.poll();
 
-public class Main {
-    static final int MAX_N = 400;
-    static final int MAX_M = 500;
-    static final int[][] hexa = new int[16][4];
-    static final int[] dr = {-1, 0, 1, 0};
-    static final int[] dc = {0, 1, 0, -1};
-    static int[][] arr = new int[MAX_N][MAX_M];
-    static int[][] check = new int[MAX_N][MAX_M];
-    static int n, m;
-    static char[] keys = {'W', 'A', 'K', 'J', 'S', 'D'};
+			for(int xy[] : dxy)
+			{
+				int nextY = now[0] + xy[0];
+				int nextX = now[1] + xy[1];
+				if(0<=nextY && 0<=nextX && nextY<=Y && nextX<=X)
+				{
+					if(map[nextY][nextX] == 1)
+					{
+						map[nextY][nextX] = 0;
+						q.add(new int[] {nextY, nextX});
+					}
+					else if(1 < map[nextY][nextX] && !meetNum[map[nextY][nextX]])
+					{
+						++cnt;
+						meetNum[map[nextY][nextX]] = true;
+					}
+				}
+			}
+		}
+		return cnt - 1;
+	}
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		while(true)
+		{
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			MARKING = 2;
+			Y		= Integer.parseInt(st.nextToken());	// 0<=200
+			X		= Integer.parseInt(st.nextToken());	// 0<50
+			map		= new int[Y+2][(X*4)+2];
+			
+			if(Y==0 || X==0)
+				break;
+			
+			for(int y=1; y<=Y; y++)
+			{
+				String str = br.readLine();
+				int idx = 1;
+				for(int x=1; x<=X; x++)
+				{
+					char c = str.charAt(x-1);
+					int num = c > '9' ? c - 'a' + 10 : c - '0';
+					for(int b : BINARY[num].toCharArray())
+						map[y][idx++] = b-'0';
+				}
+			}
+			
+			X = (X*4);
+			
+			// map에서 0인 곳에 MARKING_NUM을 칠한다.
+			for(int y=1; y<=Y; y++)
+				for(int x=1; x<=X; x++)
+					if(map[y][x] == 0)
+						FILL_BFS(y, x);	
+			
+			// map에서 1인 곳을 돌며 1초과인 숫자를 몇개나 만나는지 체크 한다.
+			ArrayList<Character> res = new ArrayList<>();
+			for(int y=1; y<=Y; y++)
+				for(int x=1; x<=X; x++)
+					if(map[y][x] == 1)
+					{
+						int cnt = CHECK_BFS(y, x);
+						res.add(KEY[cnt]);
+					}
 
-    public static void go(int r, int c, int col) {
-        check[r][c] = col;
-        for (int k = 0; k < 4; k++) {
-            int nr = r + dr[k], nc = c + dc[k];
-            if (0 <= nr && nr <= n + 1 && 0 <= nc && nc <= m * 4 + 2 && check[nr][nc] == 0 && arr[r][c] == arr[nr][nc])
-                go(nr, nc, col);
-        }
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int tc = 1;
-        // Initialize hexa array
-        for (int i = 0; i < 16; i++) {
-            int num = i, f = 3;
-            while (num != 0) {
-                hexa[i][f--] = num % 2;
-                num /= 2;
-            }
-        }
-        while (true) {
-            n = scanner.nextInt();
-            m = scanner.nextInt();
-            if (n == 0 && m == 0) break;
-            for (int[] row : arr)
-                Arrays.fill(row, 0);
-            for (int[] row : check)
-                Arrays.fill(row, 0);
-            int key = 1;
-            for (int i = 0; i < n; i++) {
-                char[] line = scanner.next().toCharArray();
-                for (int j = 0; j < m; j++) {
-                    int num = Character.isDigit(line[j]) ? line[j] - '0' : line[j] - 'a' + 10;
-                    for (int k = 0; k < 4; k++)
-                        arr[i + 1][j * 4 + k + 1] = hexa[num][k];
-                }
-            }
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j <= m * 4; j++) {
-                    if (check[i][j] == 0)
-                        go(i, j, key++);
-                }
-            }
-            ArrayList<HashMap<Integer, Integer>> v = new ArrayList<>();
-            for (int i = 0; i < key; i++)
-                v.add(new HashMap<>());
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j <= m * 4; j++) {
-                    if (arr[i][j] == 1) {
-                        for (int k = 0; k < 4; k++) {
-                            int nr = i + dr[k], nc = j + dc[k];
-                            if (0 <= nr && nr <= n + 1 && 0 <= nc && nc <= m * 4 + 1 && arr[nr][nc] == 0) {
-                                v.get(check[i][j]).put(check[nr][nc], 1);
-                            }
-                        }
-                    }
-                }
-            }
-            StringBuilder ans = new StringBuilder();
-            for (HashMap<Integer, Integer> map : v) {
-                if (map.size() >= 1)
-                    ans.append(keys[map.size() - 1]);
-            }
-            char[] sortedAns = ans.toString().toCharArray();
-            Arrays.sort(sortedAns);
-            System.out.printf("Case %d: %s\n", tc++, new String(sortedAns));
-        }
-        scanner.close();
-    }
+			result.add(res);
+		}
+		
+		
+		// 결과 출력
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<result.size(); i++)
+		{
+			Collections.sort(result.get(i));
+			sb.append("Case ").append(i+1).append(": ");
+			for(char c : result.get(i))
+				sb.append(c);
+			sb.append('\n');
+		}
+		System.out.print(sb.toString());
+	}
 }
