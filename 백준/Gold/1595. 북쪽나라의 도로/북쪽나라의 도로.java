@@ -11,10 +11,9 @@ class Main{
 	
 	static final int MAX = 10_001;
 	static Node adNode[];
-	static int maxNode;
-	static long maxDist;
+	static int maxNode, maxDist;
 	static boolean visit[];
-	public static void DFS(int node, long dist) {
+	public static void DFS(int node, int dist) {
 		if(maxDist < dist) {
 			maxDist = dist;
 			maxNode = node;
