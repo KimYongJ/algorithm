@@ -15,44 +15,29 @@ class Main{
 	static int N, M, dist[];
 	static Node adNode[];
 	static StringBuilder sb = new StringBuilder();
-	
-	public static void BFS() {
+
+	public static void BFS(int node, int startDist)
+	{
 		ArrayDeque<int[]> q = new ArrayDeque<>();
 		boolean visit[] = new boolean[N+1];
-		visit[1] = true;
-		dist[1] = 0;
-		q.add(new int[] {1,0});
+		visit[node] = true;
+		q.add(new int[] {node, startDist});
 		while(!q.isEmpty())
 		{
-			int[] now = q.poll();
+			int[] now		= q.poll();
+			int nextDist	= now[1] + 1;
 			
-			int nextDist = now[1] + 1;
 			for(Node next=adNode[now[0]]; next!=null; next=next.next)
-				if(!visit[next.node])
+				if(!visit[next.node] && nextDist < dist[next.node])
 				{
 					visit[next.node] = true;
 					dist[next.node] = nextDist;
 					q.add(new int[] {next.node, nextDist});
 				}
+
 		}
 	}
-	public static void BFS(int node, int startDist) {
-		ArrayDeque<int[]> q = new ArrayDeque<>();
-		boolean visit[] = new boolean[N+1];
-		visit[node] = true;
-		q.add(new int[] {node, startDist});
-		while(!q.isEmpty()) {
-			int[] now = q.poll();
-			int nextDist = now[1] + 1;
-			for(Node next=adNode[now[0]]; next!=null; next=next.next) {
-				if(!visit[next.node] && nextDist < dist[next.node]) {
-					visit[next.node] = true;
-					dist[next.node] = nextDist;
-					q.add(new int[] {next.node, nextDist});
-				}
-			}
-		}
-	}
+	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -68,8 +53,10 @@ class Main{
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
 		}
+		
 		Arrays.fill(dist, MAX);
-		BFS();	// 최초 dist 세팅
+		dist[1] = 0;
+		BFS(1, 0);	// 최초 dist 세팅
 		
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0)
