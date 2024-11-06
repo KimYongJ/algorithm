@@ -9,7 +9,7 @@ class Node{
 }
 class Main{
 	
-	static final int MAX = Integer.MAX_VALUE;
+	static final int MAX = 1<<30;
 	static int N, M, dist[];
 	static Node adNode[];
 	
