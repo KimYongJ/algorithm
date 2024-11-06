@@ -11,31 +11,47 @@ class Node{
 }
 class Main{
 	
+	static final int MAX = Integer.MAX_VALUE;
 	static int N, M, dist[];
 	static Node adNode[];
 	static StringBuilder sb = new StringBuilder();
 	
 	public static void BFS() {
-		Arrays.fill(dist, -1);
 		ArrayDeque<int[]> q = new ArrayDeque<>();
 		boolean visit[] = new boolean[N+1];
 		visit[1] = true;
 		dist[1] = 0;
 		q.add(new int[] {1,0});
-		while(!q.isEmpty()) {
+		while(!q.isEmpty())
+		{
 			int[] now = q.poll();
 			
-			for(Node next=adNode[now[0]]; next!=null; next=next.next) {
-				if(!visit[next.node]) {
+			int nextDist = now[1] + 1;
+			for(Node next=adNode[now[0]]; next!=null; next=next.next)
+				if(!visit[next.node])
+				{
 					visit[next.node] = true;
-					dist[next.node] = now[1] + 1;
-					q.add(new int[] {next.node, now[1] + 1});
+					dist[next.node] = nextDist;
+					q.add(new int[] {next.node, nextDist});
+				}
+		}
+	}
+	public static void BFS(int node, int startDist) {
+		ArrayDeque<int[]> q = new ArrayDeque<>();
+		boolean visit[] = new boolean[N+1];
+		visit[node] = true;
+		q.add(new int[] {node, startDist});
+		while(!q.isEmpty()) {
+			int[] now = q.poll();
+			int nextDist = now[1] + 1;
+			for(Node next=adNode[now[0]]; next!=null; next=next.next) {
+				if(!visit[next.node] && nextDist < dist[next.node]) {
+					visit[next.node] = true;
+					dist[next.node] = nextDist;
+					q.add(new int[] {next.node, nextDist});
 				}
 			}
 		}
-		for(int i=1; i<=N; i++)
-			sb.append(dist[i]).append(' ');
-		sb.append('\n');
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
@@ -52,6 +68,8 @@ class Main{
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
 		}
+		Arrays.fill(dist, MAX);
+		BFS();	// 최초 dist 세팅
 		
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0)
@@ -61,7 +79,27 @@ class Main{
 			int b = Integer.parseInt(st.nextToken());
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
-			BFS();
+			if(2 <= Math.abs(dist[a] - dist[b]))
+			{
+				if(dist[a] < dist[b])
+				{
+					dist[b] = dist[a] + 1;
+					BFS(b, dist[b]);
+				}
+				else
+				{
+					dist[a] = dist[b] + 1;
+					BFS(a, dist[a]);
+				}
+			}
+			for(int i=1; i<=N; i++)
+			{
+				int num = dist[i];
+				if(dist[i] == MAX)
+					num = -1;
+				sb.append(num).append(' ');
+			}
+			sb.append('\n');
 		}
 		System.out.print(sb.toString());
 	}
