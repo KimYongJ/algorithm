@@ -72,7 +72,10 @@ class Main{
 			if(visit[next.node])
 			{
 				visit[next.node] = false;// 첫번째 DFS에서 이미 다 true기 때문에 false로함
-				reverseCnt[next.node] = reverseCnt[node] + (next.isReverse == 0 ? 1 : -1);
+				if(next.isReverse == 0)
+					reverseCnt[next.node] = reverseCnt[node] + 1;
+				else
+					reverseCnt[next.node] = reverseCnt[node] - 1;
 				all_reverse_edge_DFS(next.node, reverseCnt[next.node]);
 			}
 	}
