@@ -1,10 +1,8 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/14218
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.StringTokenizer;
+
 class Node{
 	int node; Node next;
 	Node(int node, Node next){this.node=node;this.next=next;}
@@ -14,14 +12,21 @@ class Main{
 	static final int MAX = Integer.MAX_VALUE;
 	static int N, M, dist[];
 	static Node adNode[];
-	static StringBuilder sb = new StringBuilder();
-
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void BFS(int node, int startDist)
 	{
 		ArrayDeque<int[]> q = new ArrayDeque<>();
-		boolean visit[] = new boolean[N+1];
-		visit[node] = true;
+		boolean visit[]		= new boolean[N+1];
+		visit[node]			= true;
+		
 		q.add(new int[] {node, startDist});
+		
 		while(!q.isEmpty())
 		{
 			int[] now		= q.poll();
@@ -30,8 +35,8 @@ class Main{
 			for(Node next=adNode[now[0]]; next!=null; next=next.next)
 				if(!visit[next.node] && nextDist < dist[next.node])
 				{
-					visit[next.node] = true;
-					dist[next.node] = nextDist;
+					visit[next.node]= true;
+					dist[next.node]	= nextDist;
 					q.add(new int[] {next.node, nextDist});
 				}
 
@@ -39,36 +44,37 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());
-		M		= Integer.parseInt(st.nextToken());
+		StringBuilder sb = new StringBuilder();
+		N		= read();
+		M		= read();
 		adNode	= new Node[N+1];
 		dist	= new int[N+1];
+		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			adNode[a] = new Node(b, adNode[a]);
-			adNode[b] = new Node(a, adNode[b]);
+			int a		= read();
+			int b		= read();
+			adNode[a]	= new Node(b, adNode[a]);
+			adNode[b]	= new Node(a, adNode[b]);
 		}
 		
 		Arrays.fill(dist, MAX);
 		dist[1] = 0;
+		
 		BFS(1, 0);	// 최초 dist 세팅
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			adNode[a] = new Node(b, adNode[a]);
-			adNode[b] = new Node(a, adNode[b]);
-			if(2 <= Math.abs(dist[a] - dist[b]))
+			
+			int a		= read();
+			int b		= read();
+			adNode[a]	= new Node(b, adNode[a]);
+			adNode[b]	= new Node(a, adNode[b]);
+			
+			if(2 <= Math.abs(dist[a] - dist[b]))	// 절대값 차이가 2이상 나야 경로 갱신을 한다.
 			{
-				if(dist[a] < dist[b])
+				if(dist[a] < dist[b])				// 높은 값을 작은값 + 1로 수정하고 해당 위치부터 거리를 갱신
 				{
 					dist[b] = dist[a] + 1;
 					BFS(b, dist[b]);
@@ -79,14 +85,11 @@ class Main{
 					BFS(a, dist[a]);
 				}
 			}
+			
 			for(int i=1; i<=N; i++)
-			{
-				int num = dist[i];
-				if(dist[i] == MAX)
-					num = -1;
-				sb.append(num).append(' ');
-			}
+				sb.append(dist[i] == MAX ? -1 : dist[i]).append(' ');
 			sb.append('\n');
+			
 		}
 		System.out.print(sb.toString());
 	}
