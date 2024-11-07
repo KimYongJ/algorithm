@@ -6,8 +6,7 @@ class Node{
 }
 class Main{
 	
-	static Node[] forward, reverse;
-	static boolean[] visit, isReachableF, isReachableR;
+	static boolean[] visit;
 	
 	static int read() throws Exception {// 빠른 입력을 위한 함수
 		int c, n = System.in.read() & 15;
@@ -15,8 +14,10 @@ class Main{
 		return n;
 	}
 	
-	public static void DFS(int node, Node[] adNode, boolean[] isReach) {
+	public static void DFS(int node, Node[] adNode, boolean[] isReach)
+	{
 		visit[node] = isReach[node] = true;
+		
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			if(!visit[next.node])
 			{
@@ -26,13 +27,13 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		StringBuilder sb = new StringBuilder();
-		int N			= read();				// 노드 수 3<=십만
-		int M			= read();				// 간선수 1<=백만
-		forward			= new Node[N+1];		// 정방향 1번 노드에서 모든 노드로 갈 수 있는지
-		reverse			= new Node[N+1];		// 역방향 N번 노드에서 모든 노드로 갈 수 있는지
-		isReachableF	= new boolean[N+1];		// 1번에서 특정 노드로갈 수 있다면 true
-		isReachableR	= new boolean[N+1];		// N번에서 특정 노드로갈 수 있다면 true
+		StringBuilder sb 		= new StringBuilder();
+		int N					= read();				// 노드 수 3<=십만
+		int M					= read();				// 간선수 1<=백만
+		Node[] forward			= new Node[N+1];		// 정방향 1번 노드에서 모든 노드로 갈 수 있는지
+		Node[] reverse			= new Node[N+1];		// 역방향 N번 노드에서 모든 노드로 갈 수 있는지
+		boolean[] isReachableF	= new boolean[N+1];		// 1번에서 특정 노드로갈 수 있다면 true
+		boolean[] isReachableR	= new boolean[N+1];		// N번에서 특정 노드로갈 수 있다면 true
 		
 		while(M-->0)
 		{
