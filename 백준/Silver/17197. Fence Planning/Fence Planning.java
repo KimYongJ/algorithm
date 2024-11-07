@@ -1,9 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17197
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node; Node next;
 	Node(int n, Node t){node=n; next=t;}
@@ -15,6 +11,12 @@ class Main{
 	static boolean visit[];
 	static int position[][];
 	static int minX, maxX, minY, maxY, res;
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	
 	public static void DFS(int node) {
 		minX = Math.min(minX, position[node][0]);
@@ -29,32 +31,27 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 소들의 좌표 수 (2<=십만)
-		int M		= Integer.parseInt(st.nextToken());	// 소들의 연결관계 수 (2<=십만)
+		int N		= read();	// 소들의 좌표 수 (2<=십만)
+		int M		= read();	// 소들의 연결관계 수 (2<=십만)
 		adNode		= new Node[N+1];
 		position	= new int[N+1][2];
 		visit		= new boolean[N+1];
+		res 		= MAX;
 		
 		for(int i=1; i<=N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			position[i][0] = Integer.parseInt(st.nextToken());
-			position[i][1] = Integer.parseInt(st.nextToken());
+			position[i][0] = read();
+			position[i][1] = read();
 		}
 		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			adNode[a] = new Node(b, adNode[a]);
-			adNode[b] = new Node(a, adNode[b]);
+			int a		= read();
+			int b		= read();
+			adNode[a]	= new Node(b, adNode[a]);
+			adNode[b]	= new Node(a, adNode[b]);
 		}
-		
-		res = MAX;
-		
+
 		for(int i=1; i<=N; i++)
 			if(!visit[i])
 			{
