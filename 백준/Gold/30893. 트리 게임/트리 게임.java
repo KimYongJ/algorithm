@@ -16,7 +16,7 @@ class Main{
 		return n;
 	}
 	
-	public static boolean DFS(int node, int flag)
+	public static boolean DFS(int node, boolean player)
 	{
 		if(node == E)
 			return true;
@@ -29,12 +29,12 @@ class Main{
 			{
 				++childCnt;
 				visit[next.node] = true;
-				bool |= DFS(next.node, 1-flag);
+				bool |= DFS(next.node, !player);
 			}  
-		// 두번째 플레이어(flag가 1인)가 선택권이 많을수록(자식노드를 2개이상 방문)할 수 있다면 두번째 플레이어가 무조건 이긴다.
+		// 두번째 플레이어(flag가 false인)가 선택권이 많을수록(자식노드를 2개이상 방문)할 수 있다면 두번째 플레이어가 무조건 이긴다.
 		// 그 이유는 첫번째 플레이어가 반드시 가야만 하는 곳의 반대(다른곳)으로 가게 되면 첫번째 플레이어가 무조건 지기 때문이다. 
 		// 그러므로 두번 째 플레이어가 2개 이상의 자식을 갈 수 있다면 무조건 false를 반환해 두번째 플레이어가 이기게 만들어야 한다.
-		if(flag == 1 && childCnt > 1)
+		if(!player && childCnt > 1)
 			return false;
 
 		return bool;// 그외에는 DFS결과 리턴
@@ -56,6 +56,6 @@ class Main{
 		
 		visit[S] = true;
 
-		System.out.print(DFS(S,0) ? "First" : "Second");
+		System.out.print(DFS(S, true) ? "First" : "Second");
 	}
 }
