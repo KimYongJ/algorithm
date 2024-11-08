@@ -56,9 +56,6 @@ class Main{
 		
 		visit[S] = true;
 
-		if(DFS(S,0))
-			System.out.print("First");
-		else
-			System.out.print("Second");
+		System.out.print(DFS(S,0) ? "First" : "Second");
 	}
 }
