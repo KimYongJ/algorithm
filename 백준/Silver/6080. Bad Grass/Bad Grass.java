@@ -2,31 +2,16 @@
 //https://www.acmicpc.net/problem/6080
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 class Main{
-    
-	static final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
-	static int Y, X, map[][];
-	
-	public static void DFS(int y, int x) {
-		for(int xy[] : dxy)
-		{
-			int nextY = y + xy[0];
-			int nextX = x + xy[1];
-			if(map[nextY][nextX] != 0)
-			{
-				map[nextY][nextX] = 0;
-				DFS(nextY,nextX);
-			}
-		}
-	}
-	
 	public static void main(String[] args)throws Exception{
+		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y	= Integer.parseInt(st.nextToken());
-		X	= Integer.parseInt(st.nextToken());
-		map	= new int[Y+2][X+2];
+		int Y		= Integer.parseInt(st.nextToken());
+		int X		= Integer.parseInt(st.nextToken());
+		int[][]map	= new int[Y+2][X+2];
 		
 		for(int y=1; y<=Y; y++)
 		{
@@ -41,8 +26,23 @@ class Main{
 				if(map[y][x] != 0)
 				{
 					++cnt;
+					ArrayDeque<int[]> q = new ArrayDeque<>();
+					q.add(new int[] {y,x});
 					map[y][x] = 0;
-					DFS(y, x);
+					while(!q.isEmpty())
+					{
+						int[] now = q.poll();
+						for(int xy[] : dxy)
+						{
+							int nextY = now[0] + xy[0];
+							int nextX = now[1] + xy[1];
+							if(map[nextY][nextX] != 0) {
+								map[nextY][nextX] = 0;
+								q.add(new int[] {nextY, nextX});
+							}
+						}
+					}
+					
 				}
 
 		System.out.print(cnt);
