@@ -1,34 +1,34 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/6080
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 class Main{
+	
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
 		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int Y		= Integer.parseInt(st.nextToken());
-		int X		= Integer.parseInt(st.nextToken());
+		int Y		= read();
+		int X		= read();
 		int[][]map	= new int[Y+2][X+2];
 		
 		for(int y=1; y<=Y; y++)
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=X; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
+				map[y][x] = read();
 		
+		ArrayDeque<int[]> q = new ArrayDeque<>();
 		int cnt = 0;
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
 				if(map[y][x] != 0)
 				{
 					++cnt;
-					ArrayDeque<int[]> q = new ArrayDeque<>();
-					q.add(new int[] {y,x});
 					map[y][x] = 0;
+					
+					q.add(new int[] {y,x});
 					while(!q.isEmpty())
 					{
 						int[] now = q.poll();
@@ -36,7 +36,8 @@ class Main{
 						{
 							int nextY = now[0] + xy[0];
 							int nextX = now[1] + xy[1];
-							if(map[nextY][nextX] != 0) {
+							if(map[nextY][nextX] != 0)
+							{
 								map[nextY][nextX] = 0;
 								q.add(new int[] {nextY, nextX});
 							}
