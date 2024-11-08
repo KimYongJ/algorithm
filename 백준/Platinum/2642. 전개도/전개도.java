@@ -23,40 +23,38 @@ class Main{
 				if((map[y][x] = read()) != 0)
 					pos[posIdx++] = new Pos(y,x, map[y][x]);
 
-		// 0이상의 숫자가 6개가 아닌 경우 0 출력
-		if(posIdx != 6)
+		// 0이상의 숫자가 6개인 경우만 for문 작동, 아니면 face[1]출력을 바로해버려서 0출력되게함
+		if(posIdx == 6)
 		{
-			System.out.print(0);
-			return;
-		}
-
-		for(Pos p : pos)
-		{
-			int faceCnt = 0;// p.y,p.x 좌표와 마주보는 면의 개수
-			for(int i=0; i<4; i++)
+			for(Pos p : pos)
 			{
-				int nextY = p.y + dxy[i][0];
-				int nextX = p.x + dxy[i][1];
-				// 인접한 곳이 있는 경우만 해당 방향으로DFS탐색
-				if(map[nextY][nextX] == 0)	
-					continue;
-				
-				visit = new boolean[8][8];
-				visit[p.y][p.x] = true; 
-				int faceNumber = DFS(p.y, p.x, i, 0);
-				if(0<faceNumber)
+				int faceCnt = 0;// p.y,p.x 좌표와 마주보는 면의 개수
+				for(int i=0; i<4; i++)
 				{
-					face[p.num] = faceNumber;	// 자기와 마주보는 면을 입력
-					++faceCnt;					// 자기와 마주보는 면개수 + 1
+					int nextY = p.y + dxy[i][0];
+					int nextX = p.x + dxy[i][1];
+					// 인접한 곳이 있는 경우만 해당 방향으로DFS탐색
+					if(map[nextY][nextX] == 0)	
+						continue;
+					
+					visit = new boolean[8][8];
+					visit[p.y][p.x] = true; 
+					int faceNumber = DFS(p.y, p.x, i, 0);
+					if(0<faceNumber)
+					{
+						face[p.num] = faceNumber;	// 자기와 마주보는 면을 입력
+						++faceCnt;					// 자기와 마주보는 면개수 + 1
+					}
+				}
+				// 자기와 마주보는 면이 1개 미만이나 초과일 경우 0출력
+				if(faceCnt != 1)
+				{
+					System.out.print(0);
+					return;
 				}
 			}
-			// 자기와 마주보는 면이 1개 미만이나 초과일 경우 0출력
-			if(faceCnt != 1)
-			{
-				System.out.print(0);
-				return;
-			}
 		}
+		
 		System.out.print(face[1]);
 	}
 	public static int DFS(int y, int x, int dir, int depth) {
