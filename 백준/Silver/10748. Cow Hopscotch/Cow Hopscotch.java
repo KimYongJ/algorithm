@@ -2,7 +2,6 @@
 //https://www.acmicpc.net/problem/10748
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 class Main{
 	
@@ -11,9 +10,6 @@ class Main{
 	static int[][] map, dp;
 	
 	public static int solved(int y, int x) {
-		if(Y<=y || X<=x)
-			return 0;
-		
 		if(y==Y-1 && x==X-1)
 			return 1;
 		
@@ -41,15 +37,15 @@ class Main{
 		dp	= new int[Y][X];
 		
 		for(int y=0; y<Y; y++)
-			Arrays.fill(dp[y],-1);
-		
-		for(int y=0; y<Y; y++)
 		{
 			st = new StringTokenizer(br.readLine());
 			for(int x=0; x<X; x++)
+			{
 				map[y][x] = Integer.parseInt(st.nextToken());
+				dp[y][x] = -1;
+			}
 		}
 		
-		System.out.print(solved(0,0) % MOD);
+		System.out.print( solved(0,0) );
 	}
 }
