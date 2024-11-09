@@ -5,23 +5,32 @@ import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 class Main{
+	
+	static int Y, X;
+	static int sy, sx;
+	static char num, flag, map[][];
+	
 	public static void main(String[] args)throws Exception{
 		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int Y = Integer.parseInt(st.nextToken());
-		int X = Integer.parseInt(st.nextToken());
-		char map[][] = new char[Y][X];
-		for(int y=0; y<Y; y++) {
+		Y	= Integer.parseInt(st.nextToken());
+		X	= Integer.parseInt(st.nextToken());
+		map	= new char[Y][X];
+		
+		for(int y=0; y<Y; y++)
+		{
 			String str = br.readLine();
 			for(int x=0; x<X; x++)
 				map[y][x] = str.charAt(x);
 		}
+		
 		st = new StringTokenizer(br.readLine());
-		int sy = Integer.parseInt(st.nextToken());
-		int sx = Integer.parseInt(st.nextToken());
-		char num= st.nextToken().charAt(0);
-		char flag= map[sy][sx];
+		sy		= Integer.parseInt(st.nextToken());
+		sx		= Integer.parseInt(st.nextToken());
+		num		= st.nextToken().charAt(0);
+		flag	= map[sy][sx];
+		
 		if(num != flag)
 		{
 			map[sy][sx] = num;
@@ -43,13 +52,10 @@ class Main{
 				}
 			}
 		}
+		
 		StringBuilder sb = new StringBuilder();
 		for(int y=0; y<Y; y++)
-		{
-			for(int x=0; x<X; x++)
-				sb.append(map[y][x]);
-			sb.append('\n');
-		}
+			sb.append(map[y]).append('\n');
 		System.out.print(sb.toString());
 	}
 }
