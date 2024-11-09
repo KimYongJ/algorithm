@@ -6,17 +6,20 @@ import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
-		BufferedReader 	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder	sb = new StringBuilder();
+		final int dxy[][]	= {{1,0},{0,1},{-1,0},{0,-1}};
+		ArrayDeque<int[]> q	= new ArrayDeque<>();
+		BufferedReader 	br	= new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder	sb	= new StringBuilder();
 		StringTokenizer st;
-		ArrayDeque<int[]>q = new ArrayDeque<>();
+		
 		while(true)
 		{
 			st = new StringTokenizer(br.readLine());
-			int X = Integer.parseInt(st.nextToken());
-			int Y = Integer.parseInt(st.nextToken());
+			
+			int X			= Integer.parseInt(st.nextToken());
+			int Y			= Integer.parseInt(st.nextToken());
 			boolean map[][] = new boolean[Y+2][X+2];
+			
 			if(X == 0 && Y == 0)
 				break;
 			
