@@ -6,12 +6,12 @@ import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 class Main{
 	
+    static final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 	static int Y, X;
 	static int sy, sx;
 	static char num, flag, map[][];
 	
 	public static void main(String[] args)throws Exception{
-		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		Y	= Integer.parseInt(st.nextToken());
@@ -19,13 +19,9 @@ class Main{
 		map	= new char[Y][X];
 		
 		for(int y=0; y<Y; y++)
-		{
-			String str = br.readLine();
-			for(int x=0; x<X; x++)
-				map[y][x] = str.charAt(x);
-		}
+			map[y] = br.readLine().toCharArray();
 		
-		st = new StringTokenizer(br.readLine());
+		st      = new StringTokenizer(br.readLine());
 		sy		= Integer.parseInt(st.nextToken());
 		sx		= Integer.parseInt(st.nextToken());
 		num		= st.nextToken().charAt(0);
