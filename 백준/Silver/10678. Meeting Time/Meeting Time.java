@@ -2,8 +2,6 @@
 //https://www.acmicpc.net/problem/10678
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
 class Node{
 	int node, dist; Node next;
@@ -12,8 +10,8 @@ class Node{
 class Main{
 	
 	static int N, M;
+	static boolean time[][];
 	static Node[] adNode1, adNode2;
-	static ArrayList<Integer> list1, list2;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,8 +20,7 @@ class Main{
 		M		= Integer.parseInt(st.nextToken());
 		adNode1	= new Node[N+1];
 		adNode2	= new Node[N+1];
-		list1	= new ArrayList<>();
-		list2	= new ArrayList<>();
+		time	= new boolean[16_001][2];
 		
 		while(M-->0)
 		{
@@ -36,36 +33,27 @@ class Main{
 			adNode2[a]	= new Node(b, d, adNode2[a]);
 		}
 		
-		DFS(1, 0, adNode1, list1);
-		DFS(1, 0, adNode2, list2);
+		DFS(1, 0, adNode1, 0);
+		DFS(1, 0, adNode2, 1);
 		
-		Collections.sort(list1);
-		Collections.sort(list2);
-		
-		for(int l1 : list1)
-			for(int l2 : list2)
+		for(int i=1; i<16_000; i++)
+			if(time[i][0] && time[i][1])
 			{
-				if(l1 == l2)
-				{
-					System.out.print(l1);
-					return;
-				}
-				else if(l1 < l2)
-					break;
+				System.out.print(i);
+				return;
 			}
 		
 		System.out.print("IMPOSSIBLE");
 	}
-	public static void DFS(int node, int dist, Node adNode[], ArrayList<Integer> list) {
+	public static void DFS(int node, int dist, Node adNode[], int flag) {
 		if(node == N)
 		{
-			list.add(dist);
+			time[dist][flag] = true;
 			return;
 		}
 		
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			if(node < next.node)
-				DFS(next.node, dist + next.dist, adNode, list);
-
+				DFS(next.node, dist + next.dist, adNode, flag);
 	}
 }
