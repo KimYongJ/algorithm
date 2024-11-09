@@ -4,17 +4,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.StringTokenizer;
-
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int X = Integer.parseInt(st.nextToken());
-		int Y = Integer.parseInt(st.nextToken());
+		final int dxy[][]	= {{1,0},{0,1},{-1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
+		ArrayDeque<int[]> q	= new ArrayDeque<>();
+		BufferedReader	br	= new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st	= new StringTokenizer(br.readLine());
+		
+		int X			= Integer.parseInt(st.nextToken());
+		int Y			= Integer.parseInt(st.nextToken());
 		boolean map[][] = new boolean[Y+2][X+2];
-		ArrayDeque<int[]> q = new ArrayDeque<>();
+		
 		for(int y=1; y<=Y; y++)
 		{
 			String str = br.readLine();
