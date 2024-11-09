@@ -11,26 +11,27 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int Y = Integer.parseInt(st.nextToken());
 		int X = Integer.parseInt(st.nextToken());
-		int map[][] = new int[Y][X];
+		char map[][] = new char[Y][X];
 		for(int y=0; y<Y; y++) {
 			String str = br.readLine();
 			for(int x=0; x<X; x++)
-				map[y][x] = str.charAt(x) - '0';
+				map[y][x] = str.charAt(x);
 		}
 		st = new StringTokenizer(br.readLine());
 		int sy = Integer.parseInt(st.nextToken());
-		int se = Integer.parseInt(st.nextToken());
-		int num= Integer.parseInt(st.nextToken());
-		int flag= map[sy][se];
+		int sx = Integer.parseInt(st.nextToken());
+		char num= st.nextToken().charAt(0);
+		char flag= map[sy][sx];
 		if(num != flag)
 		{
-			map[sy][se] = num;
+			map[sy][sx] = num;
 			ArrayDeque<int[]> q = new ArrayDeque<>();
-			q.add(new int[] {sy, se});
+			q.add(new int[] {sy, sx});
 			while(!q.isEmpty())
 			{
 				int now[] = q.poll();
-				for(int xy[] : dxy) {
+				for(int xy[] : dxy)
+				{
 					int nextY = now[0] + xy[0];
 					int nextX = now[1] + xy[1];
 					if(0<=nextY && 0<=nextX && nextY<Y && nextX<X
