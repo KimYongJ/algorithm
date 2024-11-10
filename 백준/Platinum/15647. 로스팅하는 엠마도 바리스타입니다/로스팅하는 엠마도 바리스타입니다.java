@@ -32,7 +32,7 @@ class Main{
 			sb.append(distSum[i]).append('\n');
 		System.out.print(sb.toString());
 	}
-	public static long DFS1(int node, int dist, int prevNode) {
+	public static void DFS1(int node, int dist, int prevNode) {
 		distSum[node] = dist;
 		
 		nodeCnt[node] = 1;
@@ -40,11 +40,10 @@ class Main{
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			if(next.node != prevNode)
 			{
-				distSum[node] += DFS1(next.node, dist + next.dist, node);
+				DFS1(next.node, dist + next.dist, node);
 				nodeCnt[node] += nodeCnt[next.node];
+				distSum[node] += distSum[next.node];
 			}
-		
-		return distSum[node];
 	}
 	public static void DFS2(int node, int prevNode) {
 		for(Node next=adNode[node]; next!=null; next=next.next)
