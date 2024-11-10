@@ -1,11 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/18785
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
-
 class Node{int node; Node next; Node(int n, Node t){node=n; next=t;}}
 
 class Main{
@@ -13,6 +8,13 @@ class Main{
 	static int N;
 	static int[] time, origin;
 	static Node adNode[];
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void DFS(int node, int prevNode) {
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			if(next.node != prevNode)
@@ -27,20 +29,17 @@ class Main{
 		time[node] %= 12;
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		origin	= new int[N+1];
 		adNode	= new Node[N+1];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		for(int i=1; i<=N; i++)
-			origin[i] = Integer.parseInt(st.nextToken());
+			origin[i] = read();
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a		= Integer.parseInt(st.nextToken());
-			int b		= Integer.parseInt(st.nextToken());
+			int a		= read();
+			int b		= read();
 			adNode[a]	= new Node(b, adNode[a]);
 			adNode[b]	= new Node(a, adNode[b]);
 		}
