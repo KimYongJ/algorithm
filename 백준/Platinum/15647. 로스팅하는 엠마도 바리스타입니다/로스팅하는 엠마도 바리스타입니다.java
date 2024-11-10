@@ -6,17 +6,15 @@ class Node{
 class Main{
 	
 	static int N;
-	static long distSum;
+	static long distSum[];
 	static int nodeCnt[];
-	static long result[];
 	static Node adNode[];
 
 	public static void main(String[] args)throws Exception{
 		N		= read();
 		nodeCnt	= new int[N+1];
-		result	= new long[N+1];
 		adNode	= new Node[N+1];
-		
+		distSum = new long[N+1];
 		for(int i=1; i<N; i++)
 		{
 			int a		= read();
@@ -27,33 +25,36 @@ class Main{
 		}
 
 		DFS1(1, 0, 0);// 해당 DFS함수에서 1번에서 모든노드로의 총거리 합과, 각 노드당 갖는 자식 개수를 센다
-		DFS2(1, result[1] = distSum, 0);
+		DFS2(1, 0);
 
 		StringBuilder sb = new StringBuilder();
 		for(int i=1; i<=N; i++)
-			sb.append(result[i]).append('\n');
+			sb.append(distSum[i]).append('\n');
 		System.out.print(sb.toString());
 	}
 	public static long DFS1(int node, int dist, int prevNode) {
-		distSum += dist;
+		distSum[node] = dist;
 		
 		nodeCnt[node] = 1;
 		
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			if(next.node != prevNode)
-				nodeCnt[node] += DFS1(next.node, dist + next.dist, node);
+			{
+				distSum[node] += DFS1(next.node, dist + next.dist, node);
+				nodeCnt[node] += nodeCnt[next.node];
+			}
 		
-		return nodeCnt[node];
+		return distSum[node];
 	}
-	public static void DFS2(int node, long distSum, int prevNode) {
+	public static void DFS2(int node, int prevNode) {
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			if(next.node != prevNode)
 			{
 				long plus			= (N - nodeCnt[next.node]- 1) * next.dist;
 				long minus			= (nodeCnt[next.node] - 1)  * next.dist;
-				result[next.node]	= distSum + plus - minus;
+				distSum[next.node]	= distSum[node] + plus - minus;
 
-				DFS2(next.node, result[next.node], node);
+				DFS2(next.node, node);
 			}
 	}
 	static int read() throws Exception {// 빠른 입력을 위한 함수
