@@ -14,18 +14,17 @@ class Main{
 	static int[] time, origin;
 	static Node adNode[];
 	public static void DFS(int node, int prevNode) {
-
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			if(next.node != prevNode)
 			{
 				++time[next.node];
 				DFS(next.node, node);
-				time[node] +=(12 - time[next.node]);
+				time[node] += (12 - time[next.node]);
 			}
-		time[node] %= 12;
-		if(time[node] == 0)
-			time[node] = 12;
+		
 		++time[prevNode];
+		
+		time[node] %= 12;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -50,13 +49,10 @@ class Main{
 		for(int i=1; i<=N; i++)
 		{
 			time = Arrays.copyOf(origin, N+1);
+			
 			DFS(i,0);
 			
-			time[i] %= 12;
-			if(time[i] == 0)
-				time[i] = 12;
-			
-			if(time[i] == 1 || time[i] == 12)
+			if(time[i] == 0 || time[i] == 1)
 				cnt++;
 		}
 		System.out.print(cnt);
