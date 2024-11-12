@@ -1,14 +1,19 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1120
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static String read() throws Exception{
+		StringBuilder sb = new StringBuilder();
+		int c = System.in.read();
+		while(c <= 32) {c = System.in.read();}
+		while(c > 32) {
+			sb.append((char)c);
+			c = System.in.read();
+		}
+		return sb.toString();
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		String s1	= st.nextToken();
-		String s2	= st.nextToken();
+		String s1	= read();
+		String s2	= read();
 		int LEN		= s2.length() - s1.length();
 		int MIN		= Integer.MAX_VALUE;
 		
