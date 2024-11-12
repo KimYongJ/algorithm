@@ -1,29 +1,29 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2003
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 1<=만
-		int M		= Integer.parseInt(st.nextToken());	// 1<=억
+		int N		= read();	// 1<=만
+		int M		= read();	// 1<=억
 		int cnt		= 0;
 		int arr[]	= new int[N+1];
+		arr[1]		= read();
 		
-		st		= new StringTokenizer(br.readLine());
-		arr[1]	= Integer.parseInt(st.nextToken());
 		for(int i=2; i<=N; i++)
-			arr[i] = arr[i-1] + Integer.parseInt(st.nextToken());
+			arr[i] = arr[i-1] + read();
 		
-		int L = 1;
+		int L = 0;
 		int R = 1;
+		
 		while(R<= N)
 		{
-			int sum = arr[R]- arr[L-1];
+			int sum = arr[R]- arr[L];
 			if(sum == M)
 				++cnt;
 			
