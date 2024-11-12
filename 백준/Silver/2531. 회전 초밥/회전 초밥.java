@@ -34,20 +34,16 @@ class Main{
 		
 		res += cnt;
 		
-		int L = 0;
-		while(L+K < len)
+		int L = -1;
+		while(++L < N)
 		{
 			if(--visit[B[L]]==0)
 				--cnt;
 
 			if(++visit[B[L + K]] == 1)
 				++cnt;
-
-			if(visit[C] == 0)
-				res = Math.max(res, cnt + 1);
-			else
-				res = Math.max(res, cnt);
-			++L;
+			
+            res = Math.max(res, cnt + (visit[C] == 0 ? 1 : 0));
 		}
 		
 		System.out.print(res);
