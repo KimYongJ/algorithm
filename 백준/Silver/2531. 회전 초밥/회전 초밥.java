@@ -28,11 +28,8 @@ class Main{
 		for(int i=0; i<K; i++)
 			if(visit[B[i]]++ == 0)
 				++cnt;
-		
-		if(visit[C] == 0)
-			res = 1;
-		
-		res += cnt;
+
+		res = cnt + (visit[C] == 0 ? 1 : 0);
 		
 		int L = -1;
 		while(++L < N)
