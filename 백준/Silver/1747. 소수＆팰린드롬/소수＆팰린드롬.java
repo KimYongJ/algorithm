@@ -7,10 +7,8 @@ class Main{
 		prime[0] = prime[1] = true;
 		for(int i=2; i<MAX; i++)
 			if(!prime[i])
-			{
 				for(int j=i<<1; j<MAX; j+=i)
 					prime[j] = true;
-			}
 
 		for(int i=read(); i<MAX; i++)
 			if(!prime[i] && isPal(i))
@@ -19,14 +17,12 @@ class Main{
 				return;
 			}
 	}
-	public static boolean isPal(int num) {
-		String str = String.valueOf(num);
-		int L = -1;
-		int R = str.length();
-		while(++L<--R)
-			if(str.charAt(L) != str.charAt(R))
-				return false;
-		return true;
+	public static boolean isPal(int n) {
+		int tmp = n % 10;
+		int num = n;
+		while((num/=10) != 0)
+			tmp = tmp * 10 + num%10;
+		return tmp == n;
 	}
 	static int read() throws Exception {
 		int c, n = System.in.read() & 15;
