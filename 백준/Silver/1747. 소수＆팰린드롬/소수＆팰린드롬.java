@@ -21,8 +21,10 @@ class Main{
 	}
 	public static boolean isPal(int num) {
 		String str = String.valueOf(num);
-		for(int i=0, j=str.length()-1; i<str.length()/2; i++,j--)
-			if(str.charAt(i) != str.charAt(j))
+		int L = -1;
+		int R = str.length();
+		while(++L<--R)
+			if(str.charAt(L) != str.charAt(R))
 				return false;
 		return true;
 	}
