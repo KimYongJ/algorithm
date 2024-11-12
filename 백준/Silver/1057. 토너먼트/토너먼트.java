@@ -1,15 +1,15 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1057
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Integer.parseInt(st.nextToken());
-		int A	= Integer.parseInt(st.nextToken());
-		int B	= Integer.parseInt(st.nextToken());
+				  read();
+		int A	= read();
+		int B	= read();
 		int res	= 0;
 
 		while(A != B)
