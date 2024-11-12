@@ -1,27 +1,22 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1476
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int x1 = Integer.parseInt(st.nextToken());
-		int y1 = Integer.parseInt(st.nextToken());
-		int z1 = Integer.parseInt(st.nextToken());
-		int x = 1;
-		int y = 1;
-		int z = 1;
-		int year = 1;
+		int x1		= read();
+		int y1		= read();
+		int z1		= read();
+		int x		= 1;
+		int y		= 1;
+		int z		= 1;
+		int year	= 1;
 		
-		while(true) {
-			if(x == x1 && y == y1 && z == z1)
-			{
-				System.out.println(year);
-				return;
-			}
+		while(x != x1 || y != y1 || z != z1)
+		{
 			++x;
 			++y;
 			++z;
@@ -30,5 +25,6 @@ class Main{
 			if(y == 29) y = 1;
 			if(z == 20) z = 1;
 		}
+		System.out.println(year);
 	}
 }
