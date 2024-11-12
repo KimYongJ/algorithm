@@ -1,22 +1,23 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1977
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 class Main{
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int s	= Integer.parseInt(br.readLine())-1;
-		int e	= Integer.parseInt(br.readLine());
+		int s	= read()-1;
+		int e	= read();
 		int sum	= 0;
 		int min	= 0;
 		
 		boolean findMin = false;
 		while(++s <= e)
 		{
-			double num = Math.sqrt(s);
-			if(num == (int)num)
+			if(Math.sqrt(s) % 1 == 0)
 			{
 				sum += s;
 				if(!findMin)
@@ -26,10 +27,10 @@ class Main{
 				}
 			}
 		}
-		if(findMin) {
-			System.out.println(sum);
-			System.out.println(min);
-		}
+		if(findMin)
+			System.out.println(
+								new StringBuilder().append(sum).append('\n').append(min)
+								);
 		else
 			System.out.print(-1);
 	}
