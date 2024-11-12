@@ -21,15 +21,13 @@ class Main{
 		
 		int L = 1;
 		int R = 1;
-		while(L <= N && R<= N)
+		while(R<= N)
 		{
 			int sum = arr[R]- arr[L-1];
 			if(sum == M)
-			{
 				++cnt;
-				++R;
-			}
-			else if(sum < M)
+			
+			if(sum <= M)
 				++R;
 			else
 				++L;
