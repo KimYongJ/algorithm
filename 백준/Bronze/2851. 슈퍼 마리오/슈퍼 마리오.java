@@ -1,9 +1,7 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2851
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -14,9 +12,7 @@ class Main{
 			sum += Integer.parseInt(br.readLine());
 			if(100 <= sum)
 			{
-				int abs1 = 100 - before;
-				int abs2 = sum - 100;
-				if(abs1 < abs2)
+				if(100 - before < sum - 100)
 					sum = before;
 				break;
 			}
