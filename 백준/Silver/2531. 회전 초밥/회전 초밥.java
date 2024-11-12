@@ -1,17 +1,18 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2531
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
-
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 초밥 벨트에 놓인 접시의 수(2<=삼만)
-		int D		= Integer.parseInt(st.nextToken());	// 초밥의 적힌 최대 숫자(2<=삼천)
-		int K		= Integer.parseInt(st.nextToken());	// 연속해서 먹는 접시의 수(1<=C<=D)
-		int C		= Integer.parseInt(st.nextToken());	// 쿠폰번호(1<=C<=D)
+		int N		= read();	// 초밥 벨트에 놓인 접시의 수(2<=삼만)
+		int D		= read();	// 초밥의 적힌 최대 숫자(2<=삼천)
+		int K		= read();	// 연속해서 먹는 접시의 수(1<=C<=D)
+		int C		= read();	// 쿠폰번호(1<=C<=D)
 		int len		= N + K;
 		int B[]		= new int[len];
 		int cnt		= 0;
@@ -19,7 +20,8 @@ class Main{
 		int visit[]	= new int[D+1];
 		
 		for(int i=0; i<N; i++)
-			B[i] = Integer.parseInt(br.readLine());
+			B[i] = read();
+		
 		for(int i=N; i<len; i++)
 			B[i] = B[i-N];
 		
@@ -47,8 +49,7 @@ class Main{
 			
 			if(++visit[B[R]] == 1)
 				++cnt;
-			
-			
+
 			if(visit[C] == 0)
 				res = Math.max(res, cnt + 1);
 			else
