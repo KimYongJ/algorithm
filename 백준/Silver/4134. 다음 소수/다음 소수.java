@@ -1,16 +1,12 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/4134
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
-		final long MAX = 1_000_000_000_000L;
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder	sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		StringBuilder sb = new StringBuilder();
+		int T = (int)read();
 		while(T-->0)
 		{
-			long n = Long.parseLong(br.readLine());
+			long n = read();
 			while(!isPrime(n))
 				++n;
 			sb.append(n).append('\n');
@@ -25,5 +21,10 @@ class Main{
 			if(n % i == 0 || n % (i+2) == 0)
 				return false;
 		return true;
+	}
+	static long read() throws Exception {
+		long c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
