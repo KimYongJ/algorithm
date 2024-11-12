@@ -1,19 +1,20 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/3040
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 class Main{
 	
 	static int map[] = new int[9];
 	static int res[] = new int[7];
 	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static boolean Bruteforce(int idx, int depth, int sum) {
-		if(depth == 7 && sum == 100)
-			return true;
 		if(depth == 7)
-			return false;
+			return sum == 100;
+		
 		for(int i=idx; i<9; i++)
 		{
 			res[depth] = map[i];
@@ -24,10 +25,8 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
 		for(int i=0; i<9; i++)
-			map[i] = Integer.parseInt(br.readLine());
+			map[i] = read();
 		
 		Bruteforce(0, 0, 0);
 		
