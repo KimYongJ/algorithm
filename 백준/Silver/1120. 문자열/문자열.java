@@ -5,10 +5,8 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		int c = System.in.read();
 		while(c <= 32) {c = System.in.read();}
-		while(c > 32) {
-			sb.append((char)c);
-			c = System.in.read();
-		}
+		while(c > 32) {sb.append((char)c);
+			c = System.in.read();}
 		return sb.toString();
 	}
 	public static void main(String[] args)throws Exception{
