@@ -11,30 +11,19 @@ class Main{
 		while(T-->0)
 		{
 			long n = Long.parseLong(br.readLine());
-			if(n < 2)
-			{
-				sb.append(2).append('\n');
-				continue;
-			}
-			while(n <= MAX)
-			{
-				boolean flag = true;
-				for(long i=2; i*i<=n; i++)
-					if(n % i == 0)
-					{
-						flag = false;
-						break;
-					}
-
-				if(flag)
-				{
-					sb.append(n).append('\n');
-					break;
-				}
+			while(!isPrime(n))
 				++n;
-			}
-			
+			sb.append(n).append('\n');
 		}
 		System.out.print(sb.toString());
+	}
+	public static boolean isPrime(long n) {
+		if(n < 2 || n == 4) return false;
+		if(n < 4 || n == 5) return true;
+		if(n % 2 == 0 || n % 3 == 0) return false;
+		for(long i=5; i*i<=n; i+= 6)
+			if(n % i == 0 || n % (i+2) == 0)
+				return false;
+		return true;
 	}
 }
