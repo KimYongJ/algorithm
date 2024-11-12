@@ -13,17 +13,13 @@ class Main{
 				break;
 			
 			int N	= Integer.parseInt(str);
-			int cnt = 0;
+			int cnt = 1;
 			int num = 1;
 			
-			while(true)
+			while(num % N != 0)
 			{
 				++cnt;
-				if(num % N == 0)
-					break;
-				num *= 10;
-				num += 1;
-				num %= N;
+				num = (num *10 + 1) % N;
 			}
 			
 			sb.append(cnt).append('\n');
