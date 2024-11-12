@@ -20,10 +20,13 @@ class Main{
 		System.out.print(min);
 	}
 	public static void bruteforce(int idx, int depth, int lcm) {
-		if(depth == 3) {
+		if(depth == 3)
+		{
 			min = Math.min(min, lcm);
 			return;
 		}
+		if(min < lcm)
+			return;
 		for(int i=idx; i<5; i++)
 		{
 			int nextLcm = LCM(lcm, num[i]);
