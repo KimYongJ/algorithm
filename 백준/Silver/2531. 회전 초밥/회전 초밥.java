@@ -26,11 +26,8 @@ class Main{
 			B[i] = B[i-N];
 		
 		for(int i=0; i<K; i++)
-		{
-			if(visit[B[i]] == 0)
+			if(visit[B[i]]++ == 0)
 				++cnt;
-			++visit[B[i]];
-		}
 		
 		if(visit[C] == 0)
 			res = 1;
