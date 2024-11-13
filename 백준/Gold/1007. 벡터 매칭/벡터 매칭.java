@@ -2,18 +2,12 @@
 //https://www.acmicpc.net/problem/1007
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
-class Pair{
-	int x,y;
-	Pair(int x, int y){this.x=x; this.y=y;}
-}
+
 class Main{
 	
+	static int N, pair[][];
 	static double min;
-	static List<Pair> coor;
-	static List<Integer> picked;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,28 +15,27 @@ class Main{
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0)
 		{
+			N			= Integer.parseInt(br.readLine());
 			min			= Double.MAX_VALUE;
-			coor		= new ArrayList<>();
-			picked		= new ArrayList<>();
+			pair		= new int[N][2];
 			int sumX	= 0;
 			int sumY	= 0;
-			int N		= Integer.parseInt(br.readLine());
 			int x,y;
 			for(int i=0; i<N; i++)
 			{
 				StringTokenizer st = new StringTokenizer(br.readLine());
 				sumX += x = Integer.parseInt(st.nextToken());
 				sumY += y = Integer.parseInt(st.nextToken());
-				coor.add(new Pair(x,y));
+				pair[i] = new int[] {x,y};
 			}
 			
-			selectMinus(N, N/2, sumX, sumY);
+			selectMinus(N>>1, sumX, sumY, 0);
 			
 			sb.append(String.format("%.11f", min)).append('\n');
 		}
 		System.out.print(sb.toString());
 	}
-	static void selectMinus(int n, int toPick, int sumX, int sumY) {
+	static void selectMinus(int toPick, int sumX, int sumY, int idx) {
 		if(toPick == 0)
 		{
 			double result = Math.sqrt((long)sumX*sumX + (long)sumY*sumY);
@@ -51,14 +44,8 @@ class Main{
 			return;
 		}
 		
-		int smallest = picked.isEmpty() ? 0 : picked.get(picked.size() - 1) + 1;
-		
-		for(int i=smallest; i< n; i++)
-		{
-			picked.add(i);
-			selectMinus(n, toPick - 1, sumX - (coor.get(i).x<<1), sumY - (coor.get(i).y<<1));
-			picked.remove(picked.size() - 1);
-		}
-		
+		for(int i=idx; i< N; i++)
+			selectMinus(toPick - 1, sumX - (pair[i][0]<<1), sumY - (pair[i][1]<<1), i + 1);
+
 	}
 }
