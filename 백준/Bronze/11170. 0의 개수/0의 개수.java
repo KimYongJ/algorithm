@@ -1,15 +1,19 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/11170
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+	
 	public static void main(String[] args)throws Exception{
+		StringBuilder sb = new StringBuilder();
 		final int MAX	= 1_000_001;
 		int dp[]		= new int[MAX];
 		dp[0]			= 1;
+		
 		for(int i=1, c = 0; i<MAX; i++, c = 0)
 		{
 			int num = i;
@@ -22,22 +26,19 @@ class Main{
 			dp[i] = c + dp[i-1];
 		}
 		
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder	sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		
+		int T = read();
 		while(T-->0)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int n = Integer.parseInt(st.nextToken()) - 1;
-			int m = Integer.parseInt(st.nextToken());
-			int res = 0;
+			int n = read() - 1;
+			int m = read();
+			int p = 0;
 			if(n<0)
 			{
 				n = 0;
-				res = 1;
+				p = 1;
 			}
-			res += dp[m] - dp[n];
-			sb.append(res).append('\n');
+			sb.append(p + dp[m] - dp[n]).append('\n');
 		}
 		System.out.print(sb);
 	}
