@@ -1,20 +1,13 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2702
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder	sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int a	= Integer.parseInt(st.nextToken());
-			int b	= Integer.parseInt(st.nextToken());
+			int a	= read();
+			int b	= read();
 			int GCD = GCD(a, b);
 			int LCM	= a*b/GCD;
 			
@@ -22,7 +15,14 @@ class Main{
 		}
 		System.out.print(sb.toString());
 	}
+	
 	public static int GCD(int a, int b) {
 		return b == 0 ? a : GCD(b, a%b);
+	}
+	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
