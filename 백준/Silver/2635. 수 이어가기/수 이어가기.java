@@ -12,8 +12,8 @@ class Main{
 		{
 			if(maxLen < depth)
 			{
-				maxLen = depth;
-				sb = new StringBuilder();
+				maxLen	= depth;
+				sb		= new StringBuilder();
 				for(int i=0; i<depth; i++)
 					sb.append(arr[i]).append(' ');
 			}
