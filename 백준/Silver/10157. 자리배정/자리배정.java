@@ -19,7 +19,7 @@ class Main{
 			return;
 		}
 		
-		// 1,1 에서 아래(0)->오른쪽(1)->위(2)->왼쪽(3)->아래(0) // 출력 : x부터 
+		// 1,1 에서 아래(0)->오른쪽(1)->위(2)->왼쪽(3)->아래(0) // 출력 : x,y순
 		int downLimit	= Y;
 		int rightLimit	= X;
 		int upLimit		= 1;
@@ -27,37 +27,53 @@ class Main{
 		int dir	= 0;
 		int y	= 1;
 		int x	= 1;
-		int n	= 1;
-		while(n != K)
+		while(1 != K)
 		{
-			if(dir == 0) {
-				while(y < downLimit && n != K) {
-					++y;
-					++n;
+			int diff = 0;
+			if(dir == 0)
+			{
+				diff = downLimit - y;
+				if(K<=diff)
+				{
+					y += K - 1;
+                    break;
 				}
-				--downLimit;
+				else
+					y = downLimit--;
 			}
-			else if(dir == 1) {
-				while(x < rightLimit && n != K) {
-					x++;
-					++n;
+			else if(dir == 1)
+			{
+				diff = rightLimit - x;
+				if(K<=diff)
+				{
+					x += K - 1;
+					break;
 				}
-				--rightLimit;
+				else
+					x = rightLimit--;
 			}
 			else if(dir == 2) {
-				while(upLimit<y && n != K) {
-					--y;
-					++n;
+				diff = y - upLimit;
+				if(K<=diff)
+				{
+					y -= K -1;
+					break;
 				}
-				++upLimit;
+				else
+					y = upLimit++;
 			}
-			else if(dir == 3) {
-				while(leftLimit<x && n != K) {
-					--x;
-					++n;
+			else if(dir == 3)
+			{
+				diff = x - leftLimit;
+				if(K<=diff)
+				{
+					x -= K - 1;
+					break;
 				}
-				++leftLimit;
+				else
+					x = leftLimit++;
 			}
+			K -= diff;
 			dir = (dir + 1) % 4;
 		}
 		
