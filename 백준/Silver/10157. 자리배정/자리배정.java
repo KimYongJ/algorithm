@@ -62,7 +62,7 @@ class Main{
 				else
 					y = upLimit++;
 			}
-			else if(dir == 3)
+			else
 			{
 				diff = x - leftLimit;
 				if(K<=diff)
