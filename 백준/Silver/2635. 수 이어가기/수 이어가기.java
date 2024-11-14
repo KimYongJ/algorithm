@@ -2,32 +2,39 @@
 //https://www.acmicpc.net/problem/2635
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 class Main{
+	
+	static int N, maxLen, arr[];
+	static StringBuilder sb;
+	public static void DFS(int depth) {
+		int num = arr[depth-2] - arr[depth-1];
+		if(num < 0)
+		{
+			if(maxLen < depth)
+			{
+				maxLen = depth;
+				sb = new StringBuilder();
+				for(int i=0; i<depth; i++)
+					sb.append(arr[i]).append(' ');
+			}
+			return;
+		}
+		arr[depth] = num;
+		DFS(depth + 1);
+	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		List<Integer> result = new ArrayList<>();
-		int N = Integer.parseInt(br.readLine());	// 0<=30,000;
+		N		= Integer.parseInt(br.readLine());	// 0<=30,000;
+		arr		= new int[30_000];
+		arr[0]	= N;
+		
 		for(int i=0; i<=N; i++)
 		{
-			List<Integer> part = new ArrayList<>();
-			part.add(N);
-			part.add(i);
-			int s = part.get(0) - part.get(1);
-			while(0<=s)
-			{
-				part.add(s);
-				s = part.get(part.size()-2) - s;
-			}
-			if(result.size() < part.size())
-				result = part;
+			arr[1] = i;
+			DFS(2);
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append(result.size()).append('\n');
-		for(int l : result)
-			sb.append(l).append(' ');
+		System.out.println(maxLen);
 		System.out.print(sb);
 	}
 }
