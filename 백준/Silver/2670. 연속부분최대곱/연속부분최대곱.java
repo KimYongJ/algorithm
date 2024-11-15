@@ -4,14 +4,14 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		Reader in		= new Reader();
 		int T			= in.nextInt();
-		double arr[]	= new double[T+1];
+		double now		= 0;
 		double res		= 0;
-		arr[1]			= in.nextDouble();
+		double before	= in.nextDouble();
 		for(int i=2; i<=T; i++)
 		{
-			arr[i]	= in.nextDouble();
-			arr[i]	= Math.max(arr[i], arr[i] * arr[i-1]);
-			res		= Math.max(res, arr[i]);
+			now		= in.nextDouble();
+			before	= Math.max(now, now * before);
+			res		= Math.max(res, before);
 		}
 		System.out.print(String.format("%.3f", res));
 	}
