@@ -17,15 +17,15 @@ class Main{
 		
 		Arrays.sort(arr);
 		
-		int res = 0;
+		int res = 1;
 		
 		for(int i=0; i<N; i++)
 		{
-			if(res+1 < arr[i])
+			if(res < arr[i])
 				break;
 			res += arr[i];
 		}
 		
-		System.out.print(res+1);
+		System.out.print(res);
 	}
 }
