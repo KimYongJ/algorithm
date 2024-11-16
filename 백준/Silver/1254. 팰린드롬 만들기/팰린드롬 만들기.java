@@ -5,21 +5,22 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String str = br.readLine();
-		int ans = str.length();
-		for(int i=0; i<str.length(); i++) {
-			if(isPal(str.substring(i)))
+		char arr[]	= br.readLine().toCharArray();
+		int len		= arr.length-1;
+		int ans		= arr.length;
+		
+		for(int i=0; i<=len; ++i, ++ans)
+			if(isPal(arr, i, len))
 				break;
-			++ans;
-		}
+
 		System.out.print(ans);
 	}
-	public static boolean isPal(String str) {
-		int l = -1;
-		int r = str.length();
-		while(++l<=--r) {
-			if(str.charAt(l) != str.charAt(r))
+	public static boolean isPal(char arr[], int l, int r) {
+		while(l < r) {
+			if(arr[l] != arr[r])
 				return false;
+			++l;
+			--r;
 		}
 		return true;
 	}
