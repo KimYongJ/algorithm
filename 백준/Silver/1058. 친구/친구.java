@@ -4,60 +4,43 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-class Node{
-	int node; Node next;
-	Node(int node, Node next){this.node=node; this.next=next;}
-}
 class Main{
-	
-	static int N, cnt;
-	static Node adNode[];
-	static boolean visit[], isFriend[][];
-	
+
+	static int N;
+	static boolean map[][];
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine());
-		adNode	= new Node[N];
-		isFriend= new boolean[N][N];
+		N	= Integer.parseInt(br.readLine());
+		map = new boolean[N][N];
 		
 		for(int y=0; y<N; y++)
 		{
 			String str = br.readLine();
 			for(int x=0; x<N; x++)
-				if(str.charAt(x) == 'Y')
-				{
-					adNode[y] = new Node(x, adNode[y]);
-					adNode[x] = new Node(y, adNode[x]);
-				}
-			
+				map[y][x] = map[x][y] = str.charAt(x) == 'Y';
 		}
 		
 		int res = 0;
-		for(int i=0; i<N; i++)
+		for(int y=0; y<N; y++)
 		{
-			cnt = 0;
-			visit = new boolean[N];
-			visit[i] = true;
-			for(Node next=adNode[i]; next!=null; next=next.next)
-				if(!visit[next.node])
-				{
-					visit[next.node]= true;
+			int cnt = 0;
+			for(int x=0; x<N; x++)
+				if(y==x)
+					continue;
+				else if(map[y][x])
 					++cnt;
-				}
-			for(Node next=adNode[i]; next!=null; next=next.next)
-				if(visit[next.node])
-					DFS(next.node);
+				else if(isFriend(y, x))
+					++cnt;
 
 			res = Math.max(res, cnt);
 		}
 		System.out.print(res);
 	}
-	public static void DFS(int node) {
-		for(Node next=adNode[node]; next!=null; next=next.next)
-			if(!visit[next.node])
-			{
-				++cnt;
-				visit[next.node] = true;
-			}
+	public static boolean isFriend(int y, int x) {
+		for(int i=0; i<N; i++) {
+			if(map[i][x] && map[y][i])
+				return true;
+		}
+		return false;
 	}
 }
