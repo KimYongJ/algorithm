@@ -2,30 +2,24 @@
 //https://www.acmicpc.net/problem/2615
 // 검은색 이긴 경우 1, 아니면 2, 무승부 0
 // 둘째 줄에 해당라인의 가장 왼쪽위 출력
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		final int dxy[][] = {{1,0},{1,1},{0,1},{-1,1}};// 아래, 오른쪽아래대각선, 오른쪽, 오른쪽위 대각선
-		final int rxy[][] = {{-1,0},{-1,-1},{0,-1},{1,-1}};
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= 19;
-		int map[][] = new int[N + 2][N + 2];
+		final int dxy[][]	= {{1,0},{1,1},{0,1},{-1,1}};// 아래, 오른쪽아래대각선, 오른쪽, 오른쪽위 대각선
+		final int rxy[][]	= {{-1,0},{-1,-1},{0,-1},{1,-1}};
+		int N				= 19;
+		int map[][]			= new int[N + 2][N + 2];
 
 		for(int y=1; y<=N; y++)
-		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=N; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
+				map[y][x] = read();
 		
 		for(int y=1; y<=N; y++)
-		{
 			for(int x=1; x<=N; x++)
-			{
 				if(0<map[y][x])
 				{
 					int flag = map[y][x];
@@ -41,16 +35,8 @@ class Main{
 							nextY += dxy[i][0];
 							nextX += dxy[i][1];
 						}
-						
-						int s = y;
-						int e = x;
-						boolean isContinue = false;
-						while(map[s + rxy[i][0]][e + rxy[i][1]] == flag)
-						{
-							isContinue = true;
-							break;
-						}
-						if(cnt == 5 && !isContinue)
+
+						if(cnt == 5 && map[y + rxy[i][0]][x + rxy[i][1]] != flag)
 						{
 
 							
@@ -62,8 +48,7 @@ class Main{
 						}
 					}
 				}
-			}
-		}
+
 		System.out.print(0);
 		
 	}
