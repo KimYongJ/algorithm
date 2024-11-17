@@ -1,7 +1,6 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/1535
 class Main{
-	
 	public static void main(String[] args)throws Exception{
 		int N		= read();
 		int[]E		= new int[N+1];		// 잃는 체력
