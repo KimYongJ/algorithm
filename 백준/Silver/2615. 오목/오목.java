@@ -35,11 +35,9 @@ class Main{
 							nextY += dxy[i][0];
 							nextX += dxy[i][1];
 						}
-
+						// 6목인지 체크도 같이함 
 						if(cnt == 5 && map[y + rxy[i][0]][x + rxy[i][1]] != flag)
 						{
-
-							
 							StringBuilder sb = new StringBuilder();
 							sb.append(flag).append('\n');
 							sb.append(y).append(' ').append(x);
