@@ -5,40 +5,36 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	
-	static int N, L[], J[];
-	static int res;
-	
-	public static void bruteforce(int idx, int energy, int sum) {
-		if(energy < 1)
-			return;
-		
-		res = Math.max(sum, res);
-		
-		if(N<=idx)
-			return;
-		
-		bruteforce(idx+1, energy, sum);
-		bruteforce(idx+1, energy-L[idx], sum+J[idx]);
-		
-		
-	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N = Integer.parseInt(br.readLine());
-		L = new int[N];	// 잃는 체력
-		J = new int[N];	// 얻는 기쁨
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
+		int N		= Integer.parseInt(br.readLine());
+		int[]E		= new int[N+1];		// 잃는 체력
+		int[]P		= new int[N+1];		// 얻는 기쁨
+		int[][]dp	= new int[101][N+1];// 체력 당 얻는 기쁨을 담을 배열
+
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for(int i=1; i<=N; i++)
+			E[i] = Integer.parseInt(st.nextToken());
 		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			L[i] = Integer.parseInt(st.nextToken());
+		for(int i=1; i<=N; i++)
+			P[i] = Integer.parseInt(st.nextToken());
 		
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			J[i] = Integer.parseInt(st.nextToken());
-		
-		bruteforce(0, 100, 0);
-		
-		System.out.print(res);
+		for(int e=1; e<=100; e++) {
+			for(int n=1; n<=N; n++) {
+				if(E[n] < e)
+					dp[e][n] = Math.max(dp[e][n-1], dp[e-E[n]][n-1] + P[n]);
+				else
+					dp[e][n] = dp[e][n-1];
+
+			}
+		}
+		System.out.print(dp[100][N]);
+	}
+
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
