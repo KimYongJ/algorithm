@@ -1,25 +1,18 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17281
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 
 	static int max, N, order[], round[][];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine()); //  N(2 ≤ N ≤ 50)
+		N		= read(); //  N(2 ≤ N ≤ 50)
 		round	= new int[N+1][10];
 		order	= new int[10];
 		order[4]= 1;					// 1번 선수는 4번 타자이다.
 		
 		for(int y=1; y<=N; y++)
-		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=9; x++)
-				round[y][x] = Integer.parseInt(st.nextToken());
-		}
+				round[y][x] = read();
 		
 		bruteforce(1, 1<<1);
 		
@@ -71,5 +64,10 @@ class Main{
 			}
 		}
 		max = Math.max(max, sum);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
