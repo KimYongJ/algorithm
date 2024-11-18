@@ -1,26 +1,50 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/2075
 import java.util.PriorityQueue;
+class Node{
+	int cur, y, x;
+	Node(int c, int y, int x){this.y=y; this.x=x; cur=c;}
+}
 class Main{
     static int read() throws Exception {
-        int c, n = System.in.read() & 15;
-        boolean m = n == 13;
-        if (m)n = System.in.read() & 15;
-        while ((c = System.in.read()) >= 48) {
-        n = (n << 3) + (n << 1) + (c & 15);}
-        return m ? ~n + 1 : n;
+        int r = 0, c = System.in.read();
+        while (c <= ' ') c = System.in.read();
+        boolean negative = false;
+        if (c == '-') {
+            negative = true;
+            c = System.in.read();
+        }
+        while (c >= '0' && c <= '9') {
+            r *= 10;
+            r += c - '0';
+            c = System.in.read();
+        }
+        return negative ? -r : r;
     }
 	public static void main(String[] args)throws Exception{
-		PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->b-a);
-		int N = read();
+		PriorityQueue<Node> pq	= new PriorityQueue<>((a,b)->b.cur-a.cur);
+		int N		= read();
+		int map[][] = new int[N][N];
 		
-		for(int y=0; y<N; y++)
+		
+		for(int y=0; y<N-1; y++) 
 			for(int x=0; x<N; x++)
-				pq.add(read());
+				map[y][x] = read();
+
+		for(int x=0; x<N; x++)
+			pq.add(new Node(map[N-1][x] = read(),N-1, x));
 		
-		while(--N>0)
-			pq.poll();
+		int ans = 0;
 		
-		System.out.print(pq.poll());
+		while(--N>-1)
+		{
+			Node cur = pq.poll();
+			ans = cur.cur;
+			if(cur.y - 1 < 0)
+				continue;
+			pq.add(new Node(map[cur.y-1][cur.x],cur.y-1,cur.x));
+		}
+		
+		System.out.print(ans);
 	}
 }
