@@ -48,7 +48,7 @@ class Main{
 			arr[i] = str.charAt(i);
 			if(arr[i] == '(')		// 시작괄호를 만나면 배열에 담음
 				par[parIdx++] = i;
-			else if(arr[i] == ')')	// 닫는 괄호를 만나면 여는괄호와 홤께 배열에 담음
+			else if(arr[i] == ')')	// 닫는 괄호를 만나면 여는괄호와 홤께 리스트에 담음
 				list.add(new Point(par[--parIdx],i));
 		}
 		
