@@ -33,10 +33,11 @@ class Main{
 		for(int y=0; y<Y; y++)
 		{
 			int zeroCnt = zero.get(str[y]);
+			
 			if(zeroCnt <= K && (K-zeroCnt) % 2 == 0)
 				res = Math.max(res, map.get(str[y]));
+			
 		}
-		
 		System.out.print(res);
 	}
 }
