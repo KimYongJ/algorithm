@@ -16,8 +16,8 @@ class Main{
 	static char arr[];
 	static Set<String> result	= new HashSet<>();
 	static List<Point> list		= new ArrayList<>();
-	public static void bruteforce(int depth, int idx) {
-		if(depth == 0)
+	public static void bruteforce(int idx) {
+		if(idx == list.size())
 		{
 			StringBuilder sb = new StringBuilder();
 			for(char c : arr)
@@ -27,11 +27,11 @@ class Main{
 			return;
 		}
 		
-		bruteforce(depth - 1,idx + 1);	// 해당 괄호를 안지운다. 
+		bruteforce(idx + 1);	// 해당 괄호를 안지운다. 
 		Point p = list.get(idx);
 		arr[p.a]= '!';
 		arr[p.b]= '!';
-		bruteforce(depth - 1, idx + 1);	// 해당 괄호를 지운다.
+		bruteforce(idx + 1);	// 해당 괄호를 지운다.
 		arr[p.a]= '(';
 		arr[p.b]= ')';
 		
@@ -52,7 +52,7 @@ class Main{
 				list.add(new Point(par[--parIdx],i));
 		}
 		
-		bruteforce(list.size(), 0);
+		bruteforce(0);
 
 		result.remove(str);
 
