@@ -4,8 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
-	
-	static boolean visit[];
+
 	static int max, N, order[], round[][];
 	
 	public static void main(String[] args)throws Exception{
@@ -13,65 +12,20 @@ class Main{
 		N		= Integer.parseInt(br.readLine()); //  N(2 ≤ N ≤ 50)
 		round	= new int[N+1][10];
 		order	= new int[10];
-		visit	= new boolean[10];
 		order[4]= 1;					// 1번 선수는 4번 타자이다.
 		
 		for(int y=1; y<=N; y++)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			//각 선수가 각 이닝에서 얻는 결과가 1번 이닝부터 N번 이닝까지 순서대로 주어진다. 이닝에서 얻는 결과는 9개의 정수가 공백으로 구분되어져 있다. 각 결과가 의미하는 정수는 다음과 같다.
 			for(int x=1; x<=9; x++)
 				round[y][x] = Integer.parseInt(st.nextToken());
 		}
 		
-		bruteforce(1);
+		bruteforce(1, 1<<1);
 		
 		System.out.print(max);
 	}
-	public static void cal() {
-		int sum		= 0;
-		int r		= 0;
-		int i		= 1;
-		while(++r <= N)
-		{
-			int out = 0;
-			int ground[]= new int[4];
-			while(out != 3)
-			{
-				switch(round[r][order[i]])
-				{
-				case 0:// 아웃
-					++out;
-					break;
-				case 1:// 안타
-					sum += ground[3];
-					ground[3] = ground[2];
-					ground[2] = ground[1];
-					ground[1] = 1;
-					break;
-				case 2:// 2루타
-					sum += ground[3] + ground[2];
-					ground[3] = ground[1];
-					ground[2] = 1;
-					ground[1] = 0;
-					break;
-				case 3:// 3루타
-					sum += ground[3] + ground[2] + ground[1];
-					ground[2] = ground[1] = 0;
-					ground[3] = 1;
-					break;
-				case 4:// 홈런
-					sum += ground[3] + ground[2] + ground[1] + 1;
-					ground[3] = ground[2] = ground[1] = 0;
-					break;
-				}
-				if(++i == 10)
-					i = 1;
-			}
-		}
-		max = Math.max(max, sum);
-	}
-	public static void bruteforce(int depth) {
+	public static void bruteforce(int depth, int visit) {
 		if(depth == 10)
 		{
 			cal();
@@ -79,16 +33,43 @@ class Main{
 		}
 		if(depth == 4)			// 4번타자는 1번으로 정해져있음
 		{
-			bruteforce(depth + 1);
+			bruteforce(depth + 1, visit);
 			return;
 		}
 		for(int i=2; i<=9; i++)
-			if(!visit[i])
+		{
+			int bit = 1<<i;
+			if((visit & bit) == 0)
 			{
-				visit[i] = true;
+				visit |= bit;
 				order[depth] = i;
-				bruteforce(depth + 1);
-				visit[i] = false;
+				bruteforce(depth + 1, visit);
+				visit ^= bit;
 			}
+		}
+	}
+	public static void cal() {
+		int sum		= 0;
+		int r		= 0;
+		int i		= 1;
+		while(++r <= N)
+		{
+			int out		= 0;
+			int ground	= 0;
+			while(out != 3)
+			{
+				int shift = round[r][order[i]];
+				if(shift == 0)
+					++out;
+				else {
+					int next = (ground<<shift) + (1<<--shift);
+					ground = next % (1<<3);
+					sum += Integer.bitCount(next) - Integer.bitCount(ground);
+				}
+				if(++i == 10)
+					i = 1;
+			}
+		}
+		max = Math.max(max, sum);
 	}
 }
