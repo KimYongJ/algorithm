@@ -1,7 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/27172
-import java.util.Arrays;
-
 class Main{
 	static int read() throws Exception {
 		int c, n = System.in.read() & 15;
@@ -11,33 +9,25 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int N			= read();		// 플레이어 수 (2≤N<십만)
 		int origin[]	= new int[N];	// 각플레이어의 숫자 1~백만
-		int arr[]		= new int[N];
+		int arr[]		= new int[1_000_001];
 		int score[]		= new int[1_000_001];
-		boolean visit[] = new boolean[1_000_001];
+		int max			= 0;
 		
 		for(int i=0; i<N; i++)
 		{
-			origin[i] = arr[i] = read();
-			visit[arr[i]] = true;
+			arr[origin[i] = read()] = 1;
+			if(max < origin[i])
+				max = origin[i];
 		}
-		
-		Arrays.sort(arr);
-		
-		int max = arr[N-1];
-		
-		for(int i=0; i<N; i++)
-		{
-			int meetCnt = 0;
-			for(int n = arr[i]<<1; n <=max; n+=arr[i])
-			{
-				if(visit[n])
-				{
-					++meetCnt;
-					--score[n];
-				}
-			}
-			score[arr[i]] += meetCnt;
-		}
+
+		for(int i=1; i<=max; i++)
+			if(arr[i] != 0)
+				for(int j=i<<1; j<=max; j+=i)
+					if(arr[j] != 0)
+					{
+						++score[i];
+						--score[j];
+					}
 		
 		StringBuilder sb = new StringBuilder();
 		for(int o : origin)
