@@ -1,22 +1,23 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/27172
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N			= Integer.parseInt(br.readLine());// 플레이어 수 (2≤N<십만)
-		int origin[]	= new int[N];// 각플레이어의 숫자 1~백만
+		int N			= read();		// 플레이어 수 (2≤N<십만)
+		int origin[]	= new int[N];	// 각플레이어의 숫자 1~백만
 		int arr[]		= new int[N];
 		int score[]		= new int[1_000_001];
 		boolean visit[] = new boolean[1_000_001];
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		
 		for(int i=0; i<N; i++)
 		{
-			origin[i] = arr[i] = Integer.parseInt(st.nextToken());
+			origin[i] = arr[i] = read();
 			visit[arr[i]] = true;
 		}
 		
