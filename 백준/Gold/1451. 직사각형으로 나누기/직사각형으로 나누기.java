@@ -1,33 +1,25 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1451
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
 	static long max;
 	static int Y, X;
 	static int[][] map, prevSum;
-	
-	public static int getSum(int y1, int x1, int y2, int x2) {
-		return prevSum[y2][x2] - prevSum[y2][x1-1] - prevSum[y1-1][x2] + prevSum[y1-1][x1-1];
-	}
+
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y		= Integer.parseInt(st.nextToken());
-		X		= Integer.parseInt(st.nextToken());
+		Y		= read();
+		X		= read();
 		map		= new int[Y+2][X+2];
 		prevSum	= new int[Y+2][X+2];
 		
 		for(int y=1; y<=Y; y++)
 		{
-			String str = br.readLine();
 			for(int x=1; x<=X; x++)
 			{
-				map[y][x] = str.charAt(x-1) - '0';
+				map[y][x] = System.in.read() - '0';
 				prevSum[y][x] = map[y][x] + prevSum[y-1][x] + prevSum[y][x-1] - prevSum[y-1][x-1]; 
 			}
+			System.in.read();
 		}
 		
 		// 수평 분할
@@ -87,8 +79,14 @@ class Main{
 			}
 		}
 		
-		
-		
 		System.out.print(max);
+	}
+	public static int getSum(int y1, int x1, int y2, int x2) {
+		return prevSum[y2][x2] - prevSum[y2][x1-1] - prevSum[y1-1][x2] + prevSum[y1-1][x1-1];
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
