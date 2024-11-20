@@ -1,14 +1,17 @@
 // https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/17265
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 class Main{
+	
 	static final int 	dxy[][] = {{1,0},{0,1}};
 	static int 			N, MAX, MIN, nextY, nextX;
 	static char 		map[][];
-	public static int cal(int y, int x, int sum, char operator) {
-		int num = map[y][x]-'0';
+	
+	public static int cal(int num, int sum, char operator) {
 		switch(operator) 
 		{
 			case '*': return sum * num;
@@ -18,8 +21,9 @@ class Main{
 		return num;
 	}
 	public static void DFS(int y, int x, int sum, char operator,boolean flag) {
-		if(flag) {
-			sum = cal(y, x, sum, operator);
+		if(flag)
+		{
+			sum = cal(map[y][x] - '0', sum, operator);
 			if(y==N-1 && x==N-1) 
 			{
 				MAX = Math.max(MAX, sum);
@@ -27,12 +31,12 @@ class Main{
 				return;
 			}
 		}
-		for(int xy[] : dxy) {
+		for(int xy[] : dxy)
+		{
 			nextY = y + xy[0];
 			nextX = x + xy[1];
-			if(nextY<N && nextX<N) {
+			if(nextY<N && nextX<N)
 				DFS(nextY, nextX, sum, map[y][x] ,!flag);
-			}
 		}
 		
 	}
