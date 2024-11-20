@@ -6,72 +6,63 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int max, len, n[], map[][];
+	static int max, map[];
 	static int Y, X;
 	
-	public static int get() {
+	public static void cal(int bitmask) {
 		int result = 0;
-		for(int y=0; y<Y; y++)
+		// 가로 탐색
+		for(int y=0,i=0; y<Y; y++)
 		{
-			int sum = 0;
-			for(int x=X-1,x1=0; x>=0; x--,x1++)
+			int tmp = 0;
+			for(int x=0; x<X; x++,i++)
 			{
-				if((n[y] & (1<<x)) > 0)
-					sum = sum * 10 + map[y][x1];
+				if((bitmask & (1<<i)) > 0)
+					tmp = tmp * 10 + map[i];
 				else
 				{
-					result += sum;
-					sum = 0;
+					result += tmp;
+					tmp = 0;
 				}
 			}
-			result += sum;// 마지막 연산
+			result += tmp;
 		}
-		for(int x=X-1, x1=0; x>=0; x--,x1++)
-		{
-			int sum = 0;
-			for(int y=0; y<Y; y++)
+		// 세로 탐색
+		for(int x=0; x<X; x++) {
+			int tmp = 0;
+			for(int y=0,i=x; y<Y; y++,i+=X)
 			{
-				if((n[y] & (1<<x)) == 0)
-					sum = sum * 10 + map[y][x1];
+				if((bitmask &(1<<i)) == 0)
+					tmp = tmp * 10 + map[i];
 				else {
-					result += sum;
-					sum = 0;
+					result += tmp;
+					tmp = 0;
 				}
 			}
-			result += sum;
+			result += tmp;
 		}
 		
-		return result;
+		max = Math.max(max,  result);
 	}
-	
-	public static void bruteforce(int depth) {
-		if(depth == Y)
-		{
-			max = Math.max(max, get());
-			
-			return;
-		}
-		for(n[depth] = 0; n[depth]<=len; n[depth]++)
-			bruteforce(depth + 1);
-	}
-	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y	= Integer.parseInt(st.nextToken()); // 1<=4
-		X	= Integer.parseInt(st.nextToken()); // 1<=4
-		n	= new int[Y];
-		map	= new int[Y][X];
-		len	= (1<<X)-1;
+		Y		= Integer.parseInt(st.nextToken()); // 1<=4
+		X		= Integer.parseInt(st.nextToken()); // 1<=4
+		map		= new int[Y*X];
 		
-		for(int y=0; y<Y; y++)
+		
+		for(int y=0, i = 0; y<Y; y++)
 		{
 			String str = br.readLine();
 			for(int x=0; x<X; x++)
-				map[y][x] = str.charAt(x) - '0';
+				map[i++] = str.charAt(x) - '0';
 		}
 		
-		bruteforce(0);
+		int len = (1<<Y*X);
+		
+		for(int i=0; i<len; i++)
+			cal(i);
 		
 		System.out.print(max);
 	}
