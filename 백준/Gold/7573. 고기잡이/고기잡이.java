@@ -24,20 +24,24 @@ class Main{
 		
 		int max = 0;
 		int len = L / 2;
-		for(int p1[] : pos) {
-			for(int p2[] : pos) {
-				int y = p1[0];
-				int x = p2[1];
-				for(int i=1; i<len; i++) {
+		for(int width=1; width<len; width++)
+		{
+			for(int height = len - width; height>=0; height--)
+			{
+				for(int ps[] : pos)
+				{
+					int sy = ps[0] - height;
+					int sx = ps[1];
+					int ey = sy + len - width;
+					int ex = sx + width;
 					int cnt = 0;
-					for(int p[] : pos) {
-						if(y<=p[0] && p[0]<=y+i &&
-							x<=p[1] && p[1]<=x+len-i)
+					for(int p[] : pos)
+					{
+						if(sy<=p[0] && p[0]<=ey && sx<=p[1] && p[1]<=ex)
 							++cnt;
 					}
-					max = Math.max(cnt, max);
+					max = Math.max(max, cnt);
 				}
-				
 			}
 		}
 
