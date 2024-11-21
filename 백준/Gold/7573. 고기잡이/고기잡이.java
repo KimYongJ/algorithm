@@ -13,7 +13,10 @@ class Main{
 		int[][]pos	= new int[M][2];
 		
 		for(int i=0; i<M; i++)
-			pos[i] = new int[] {read(),read()};
+		{
+			pos[i][0] = read();
+			pos[i][1] = read();
+		}
 		
 		int max = 0;
 		int len = L / 2;
