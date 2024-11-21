@@ -1,0 +1,86 @@
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/18808
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+class Main{
+	
+	static int y, x, Y, X, K;
+	static int[][] map, arr;
+	
+	public static void main(String[] args)throws Exception{
+		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		Y	= Integer.parseInt(st.nextToken());	// 세로 1<=40
+		X	= Integer.parseInt(st.nextToken());	// 가로 1<=40
+		K	= Integer.parseInt(st.nextToken());	// 스티커의 개수 1<=100
+		map = new int[Y][X];
+		
+		while(K-->0)
+		{
+			st	= new StringTokenizer(br.readLine());
+			y	= Integer.parseInt(st.nextToken());
+			x	= Integer.parseInt(st.nextToken());
+			arr = new int[y][x];
+			
+			for(int y1=0; y1<y; y1++)
+			{
+				st = new StringTokenizer(br.readLine());
+				for(int x1=0; x1<x; x1++)
+					arr[y1][x1] = Integer.parseInt(st.nextToken());
+			}
+			
+			int n = 4;
+			while(n-->0)
+			{
+				if(scan())
+					break;
+				rotate();
+			}
+		}
+
+		int cnt = 0;
+		
+		for(int y=0; y<Y; y++)
+			for(int x=0; x<X; x++)
+				if(map[y][x] == 1)
+					++cnt;
+		
+		System.out.print(cnt);
+	}
+	public static void rotate() {
+		int nextY		= x;
+		int nextX		= y;
+		int nextArr[][] = new int[nextY][nextX];
+		for(int y1=0; y1<y; y1++)
+			for(int x1=0; x1<x; x1++)
+				nextArr[x1][y-y1-1] = arr[y1][x1];
+		
+		y	= nextY;
+		x	= nextX;
+		arr	= nextArr;
+	}
+	public static boolean scan() {
+		int ylen = Y - y;
+		int xlen = X - x;
+		for(int y1=0; y1<=ylen; y1++)
+		{
+			LOOP:
+			for(int x1=0; x1<=xlen; x1++)
+			{
+				for(int y2=0; y2<y; y2++)
+					for(int x2=0; x2<x; x2++)
+						if(arr[y2][x2] == 1 && map[y2+y1][x2+x1] == 1)
+							continue LOOP;
+
+				for(int y2=0; y2<y; y2++)
+					for(int x2=0; x2<x; x2++)
+						if(arr[y2][x2] == 1)
+							map[y2+y1][x2+x1] = 1;
+				
+				return true;
+			}
+		}
+		return false;
+	}
+}
