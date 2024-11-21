@@ -1,8 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/18808
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
 	static int cnt;
@@ -10,26 +7,20 @@ class Main{
 	static int[][] map, arr;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y	= Integer.parseInt(st.nextToken());	// 세로 1<=40
-		X	= Integer.parseInt(st.nextToken());	// 가로 1<=40
-		K	= Integer.parseInt(st.nextToken());	// 스티커의 개수 1<=100
+		Y	= read();	// 세로 1<=40
+		X	= read();	// 가로 1<=40
+		K	= read();	// 스티커의 개수 1<=100
 		map = new int[Y][X];
 		
 		while(K-->0)
 		{
-			st	= new StringTokenizer(br.readLine());
-			y	= Integer.parseInt(st.nextToken());
-			x	= Integer.parseInt(st.nextToken());
+			y	= read();
+			x	= read();
 			arr = new int[y][x];
 			
 			for(int y1=0; y1<y; y1++)
-			{
-				st = new StringTokenizer(br.readLine());
 				for(int x1=0; x1<x; x1++)
-					arr[y1][x1] = Integer.parseInt(st.nextToken());
-			}
+					arr[y1][x1] = read();
 			
 			int n = 4;
 			while(n-->0)
@@ -79,5 +70,10 @@ class Main{
 			}
 		}
 		return false;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
