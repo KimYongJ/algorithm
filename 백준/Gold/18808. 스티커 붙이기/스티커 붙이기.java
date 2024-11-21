@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	
+	static int cnt;
 	static int y, x, Y, X, K;
 	static int[][] map, arr;
 	
@@ -38,13 +39,6 @@ class Main{
 				rotate();
 			}
 		}
-
-		int cnt = 0;
-		
-		for(int y=0; y<Y; y++)
-			for(int x=0; x<X; x++)
-				if(map[y][x] == 1)
-					++cnt;
 		
 		System.out.print(cnt);
 	}
@@ -76,7 +70,10 @@ class Main{
 				for(int y2=0; y2<y; y2++)
 					for(int x2=0; x2<x; x2++)
 						if(arr[y2][x2] == 1)
+						{
 							map[y2+y1][x2+x1] = 1;
+							++cnt;
+						}
 				
 				return true;
 			}
