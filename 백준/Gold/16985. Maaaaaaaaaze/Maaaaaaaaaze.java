@@ -1,15 +1,10 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/16985
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
-
 class Node{
 	int z, y, x, cnt;
 	Node(int z, int y, int x, int c){
-		this.z=z; this.y=y; this.x=x;
-		cnt=c;
+		this.z=z; this.y=y; this.x=x;cnt=c;
 	}
 }
 class Main{
@@ -21,21 +16,34 @@ class Main{
 	static int min = 1<<30;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		map		= new int[6][7][7];
 		origin	= new int[6][7][7];
 		
 		for(int z=0; z<5; z++)
 			for(int y=1; y<=5; y++)
-			{
-				StringTokenizer st = new StringTokenizer(br.readLine());
 				for(int x=1; x<=5; x++)
-					origin[z][y][x] = Integer.parseInt(st.nextToken());
-			}
+					origin[z][y][x] = read();
 		
 		bruteforce(0);
 		
 		System.out.print(min == 1<<30 ? -1 : min);
+	}
+	public static void bruteforce(int h) {
+		if(h==5)
+		{
+			visit	= new boolean[5];
+			arr		= new int[5];
+			per(0);
+			return;
+		}
+		bruteforce(h + 1);
+		rotation(h);
+		bruteforce(h + 1);
+		rotation(h);
+		bruteforce(h + 1);
+		rotation(h);
+		bruteforce(h + 1);
+//		rotation(h); 안해도됨
 	}
 	public static void per(int depth) {
 		if(depth == 5)
@@ -54,23 +62,6 @@ class Main{
 				visit[i] = false;
 			}
 	}
-	public static void bruteforce(int h) {
-		if(h==5)
-		{
-			visit = new boolean[5];
-			arr = new int[5];
-			per(0);
-			return;
-		}
-		bruteforce(h + 1);
-		rotation(h);
-		bruteforce(h + 1);
-		rotation(h);
-		bruteforce(h + 1);
-		rotation(h);
-		bruteforce(h + 1);
-//		rotation(h); 안해도됨
-	}
 	public static void rotation(int h)
 	{
 		int arr[][] = new int[7][7];
@@ -85,8 +76,8 @@ class Main{
 		
 		boolean visit[][][] = new boolean[6][7][7];
 		ArrayDeque<Node> q	= new ArrayDeque<>();
+		visit[0][1][1]		= true;
 		q.add(new Node(0, 1, 1,0));
-		visit[0][1][1] = true;
 		
 		while(!q.isEmpty())
 		{
@@ -94,7 +85,8 @@ class Main{
 			if(map[now.z][now.y][now.x] == 1 && now.z == 4 && now.y == 5 && now.x == 5)
 			{
 				min = Math.min(min, now.cnt);
-				if(min == 12) {
+				if(min == 12)
+				{
 					System.out.print(12);
 					System.exit(0);
 				}
@@ -116,5 +108,10 @@ class Main{
 				}
 			}
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
