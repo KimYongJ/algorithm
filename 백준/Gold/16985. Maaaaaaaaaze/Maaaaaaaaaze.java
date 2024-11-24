@@ -69,7 +69,7 @@ class Main{
 		bruteforce(h + 1);
 		rotation(h);
 		bruteforce(h + 1);
-		rotation(h);
+//		rotation(h); 안해도됨
 	}
 	public static void rotation(int h)
 	{
@@ -94,6 +94,10 @@ class Main{
 			if(map[now.z][now.y][now.x] == 1 && now.z == 4 && now.y == 5 && now.x == 5)
 			{
 				min = Math.min(min, now.cnt);
+				if(min == 12) {
+					System.out.print(12);
+					System.exit(0);
+				}
 				return;
 			}
 			
