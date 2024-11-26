@@ -1,36 +1,26 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/13141
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
-	static final int MAX = 1<<30;
-	static int		N, M;
-	static double[][]dist;
-	static int[][]	adNode;
-	static double	MIN = MAX;
-	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());	// 2<=200
-		M		= Integer.parseInt(st.nextToken());	// N-1<=20000
-		adNode	= new int[N+1][N+1];
-		dist	= new double[N+1][N+1];
-
+		final int MAX	= 1<<30;
+		double MIN		= MAX;
+		int N			= read();	// 2<=200
+		int M			= read();	// N-1<=20000
+		int[][]adNode	= new int[N+1][N+1];
+		double[][]dist	= new double[N+1][N+1];
+		
 		// 플로이드워셜을 위한 기본 세팅
 		for(int y=1; y<=N; y++)
 			for(int x=1; x<=N; x++)
 				if(y!=x)
 					dist[y][x] = MAX;
-		// 기본 입력 받음과 동시에 플로이드워셜 실행할 배열 값 세팅
+		// 기본 입력 받음과 동시에 플로이드워셜 실행할 배열 값 세팅, 및 인접 노드까지의 거리 중 가장 큰 것을 담음(결과는 가장 긴시간이기 때문)
 		for(int i=0; i<M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a		= Integer.parseInt(st.nextToken());
-			int b		= Integer.parseInt(st.nextToken());
-			int l		= Integer.parseInt(st.nextToken());
+			int a		= read();
+			int b		= read();
+			int l		= read();
 			adNode[a][b]= Math.max(adNode[a][b], l);
 			adNode[b][a]= Math.max(adNode[b][a], l);
 			dist[a][b]	= Math.min(dist[a][b], l);
@@ -60,5 +50,10 @@ class Main{
 		}
 		
 		System.out.printf("%.1f",MIN);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
