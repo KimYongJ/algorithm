@@ -32,19 +32,18 @@ class Main{
 		for(Node n1 : node)
 			for(Node n2 : node)
 			{
-				int x = n1.x + K > N ? N - K : n1.x;
-				int y = n2.y + K > M ? M - K : n2.y;
-				
-				int cnt = 0;
-				for(Node n3 : node)
-					if(x<=n3.x && n3.x<=x+K && y<=n3.y && n3.y<=y+K)
+				int x	= n1.x + K > N ? N - K : n1.x;
+				int y	= n2.y + K > M ? M - K : n2.y;
+				int cnt	= 0;
+				for(Node n : node) 
+					if(x<=n.x && n.x<=x+K && y<=n.y && n.y<=y+K)
 						++cnt;
 				
 				if(CNT < cnt)
 				{
 					CNT = cnt;
+					Y = y + K;
 					X = x;
-					Y = Math.min(y + K,M);
 				}
 			}
 		
