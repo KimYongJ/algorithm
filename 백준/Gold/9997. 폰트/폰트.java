@@ -8,12 +8,14 @@ class Main{
 	static int N, arr[];
 	static int cnt;
 	public static void bruteforce(int idx, int bitmask) {
-		if(idx == N)
+		if((bitmask ^ TOTAL) == 0)
 		{
-			if((bitmask ^ TOTAL) == 0)
-				++cnt;
+			cnt += 1<<(N-idx);
 			return;
 		}
+		if(idx == N)
+			return;
+		
 		bruteforce(idx + 1, bitmask);
 		bruteforce(idx + 1, bitmask | arr[idx]);
 	}
@@ -23,12 +25,8 @@ class Main{
 		arr = new int[N];
 		
 		for(int i=0; i<N; i++)
-		{
-			int flag = 0;
 			for(char c : br.readLine().toCharArray())
-				flag |= 1<<(c-'a');
-			arr[i] = flag;
-		}
+				arr[i] |= 1<<(c-'a');
 		
 		bruteforce(0,0);
 		
