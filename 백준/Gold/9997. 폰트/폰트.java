@@ -24,11 +24,13 @@ class Main{
 		N	= Integer.parseInt(br.readLine());
 		arr = new int[N];
 		
+		int total = 0;
 		for(int i=0; i<N; i++)
 			for(char c : br.readLine().toCharArray())
-				arr[i] |= 1<<(c-'a');
+				total |= arr[i] |= 1<<(c-'a');
 		
-		bruteforce(0,0);
+		if(total == TOTAL)
+			bruteforce(0,0);
 		
 		System.out.print(cnt);
 	}
