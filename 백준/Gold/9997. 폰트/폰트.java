@@ -7,8 +7,9 @@ class Main{
 	static final int TOTAL = (1<<26)-1;
 	static int N, arr[];
 	static int cnt;
+	
 	public static void bruteforce(int idx, int bitmask) {
-		if((bitmask ^ TOTAL) == 0)
+		if(bitmask == TOTAL)
 		{
 			cnt += 1<<(N-idx);
 			return;
