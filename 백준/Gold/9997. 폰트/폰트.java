@@ -27,8 +27,12 @@ class Main{
 		
 		int total = 0;
 		for(int i=0; i<N; i++)
+		{
 			for(char c : br.readLine().toCharArray())
-				total |= arr[i] |= 1<<(c-'a');
+				arr[i] |= 1<<(c-'a');
+			
+			total |= arr[i];
+		}
 		
 		if(total == TOTAL)
 			bruteforce(0,0);
