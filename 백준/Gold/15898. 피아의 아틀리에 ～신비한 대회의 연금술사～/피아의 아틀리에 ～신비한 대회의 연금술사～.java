@@ -5,18 +5,19 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-class Node{	int value;char ch;Node(int v, char c){value=v; ch=c;} }
+class Node{	int value;char ch;Node(int v, char c){value=v; ch=c;} Node(){value=0;ch='W';} }
 
 class Main{
 	
 	static Node origin[][][];
+	static Node dummy[][];
 	static int N, max;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N			= Integer.parseInt(br.readLine());	// 재료 개수(3 ≤ n ≤ 10)
 		origin		= new Node[N][4][4];
-
+		dummy		= new Node[5][5];
 		for(int i=0; i<N; i++)
 		{
 			// 초기 효능 값(숫자)
@@ -38,7 +39,10 @@ class Main{
 		Node[][]param= new Node[5][5];
 		for(int y=0; y<5; y++)
 			for(int x=0; x<5; x++)
-				param[y][x] = new Node(0,'W');
+			{
+				param[y][x] = new Node();
+				dummy[y][x] = new Node();
+			}
 		
 		bruteforce(0, 0, param);		
 		
@@ -55,44 +59,45 @@ class Main{
 			int flag = 1<<i;
 			if((bitmask & flag) == 0)
 			{
-				for(int y=0; y<=1; y++)
-					for(int x=0; x<=1; x++)
-						for(int dir=0; dir<4; dir++)//현재(0),90도(1),180도(2),270(3)
+				for(int dir=0; dir<4; dir++)//현재(0),90도(1),180도(2),270(3)
+				{
+					rotate(origin[i]);
+					for(int y=0; y<=1; y++)
+					{
+						for(int x=0; x<=1; x++)
 						{
 							Node[][] nextResult = copy(result);
-							nextResult = INPUT( nextResult , i, y, x, dir); // 순서 : 최종결과배열, 넣을 재료 위치, 최종결과에넣을 시작y좌표, 최종결과에넣을 시작x좌표, 방향
+							nextResult = INPUT( nextResult , i, y, x); // 순서 : 최종결과배열, 넣을 재료 위치, 최종결과에넣을 시작y좌표, 최종결과에넣을 시작x좌표, 방향
 							bruteforce(depth + 1, bitmask | flag, nextResult);
 						}
+					}
+				}
 			}
 		}
 	}
-	public static Node[][] INPUT(Node[][] nextResult, int idx, int Y, int X, int dir){
+	public static void rotate(Node arr[][]) {
 		for(int y=0; y<4; y++)
 			for(int x=0; x<4; x++)
 			{
-				switch(dir)
-				{
-				case 0:	// 그대로일 때
-					nextResult[y+Y][x+X].value += origin[idx][y][x].value;
-					if(origin[idx][y][x].ch != 'W')
-						nextResult[y+Y][x+X].ch = origin[idx][y][x].ch;
-					break;
-				case 1: // 90도 회전일 때
-					nextResult[y+Y][x+X].value += origin[idx][3-x][y].value;
-					if(origin[idx][3-x][y].ch != 'W')
-						nextResult[y+Y][x+X].ch = origin[idx][3-x][y].ch;
-					break;
-				case 2: // 180도 회전일 때
-					nextResult[y+Y][x+X].value += origin[idx][3-y][3-x].value;
-					if(origin[idx][3-y][3-x].ch != 'W')
-						nextResult[y+Y][x+X].ch = origin[idx][3-y][3-x].ch;
-					break;
-				case 3:	// 270도 회전일 때
-					nextResult[y+Y][x+X].value += origin[idx][x][3-y].value;
-					if(origin[idx][x][3-y].ch != 'W')
-						nextResult[y+Y][x+X].ch = origin[idx][x][3-y].ch;
-					break;
-				}
+				dummy[y][x].value = arr[y][x].value;
+				dummy[y][x].ch = arr[y][x].ch;
+			}
+		for(int y=0; y<4; y++)
+			for(int x=0; x<4; x++)
+			{
+				arr[y][x].value = dummy[3-x][y].value;
+				arr[y][x].ch = dummy[3-x][y].ch;
+			}
+	}
+	
+	public static Node[][] INPUT(Node[][] nextResult, int idx, int Y, int X){
+		for(int y=0; y<4; y++)
+			for(int x=0; x<4; x++)
+			{
+				nextResult[y+Y][x+X].value += origin[idx][y][x].value;
+				if(origin[idx][y][x].ch != 'W')
+					nextResult[y+Y][x+X].ch = origin[idx][y][x].ch;
+				
 				if(nextResult[y+Y][x+X].value < 0)
 					nextResult[y+Y][x+X].value = 0;
 				else if(9 < nextResult[y+Y][x+X].value)
