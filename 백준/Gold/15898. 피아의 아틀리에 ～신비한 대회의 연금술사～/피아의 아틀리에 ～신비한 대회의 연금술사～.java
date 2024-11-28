@@ -112,20 +112,12 @@ class Main{
 	}
 	public static void cal(Node[][] result) {
 		// 폭탄의 품질 = 7R + 5B + 3G + 2Y
-		int R = 0;
-		int B = 0;
-		int G = 0;
-		int Y = 0;
+		int sum[] = new int['Z'];
+
 		for(int y=0; y<5; y++)
 			for(int x=0; x<5; x++)
-				switch(result[y][x].ch)
-				{
-					case 'R':R += result[y][x].value; break;
-					case 'B':B += result[y][x].value; break;
-					case 'G':G += result[y][x].value; break;
-					case 'Y':Y += result[y][x].value; break;
-				}
+				sum[result[y][x].ch] += result[y][x].value;
 		
-		max = Math.max(max, 7*R + 5*B + 3*G + 2*Y);
+		max = Math.max(max, 7*sum['R'] + 5*sum['B'] + 3*sum['G'] + 2*sum['Y']);
 	}
 }
