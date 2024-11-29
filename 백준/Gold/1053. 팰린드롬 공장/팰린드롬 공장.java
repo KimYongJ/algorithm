@@ -16,24 +16,25 @@ class Main{
 		len	= str.length();
 		dp	= new int[len][len];
 		
-		for(int[] d : dp)
+		for(int d[] : dp)
 			Arrays.fill(d, -1);
 		
 		int ans = solve(0, len-1, str);
 		
 		for(int i=0; i<len; i++)
 			for(int j=0; j<len; j++)
-			{
-				for(int[] d : dp)
-					Arrays.fill(d, -1);
-				
-				StringBuilder tmp = new StringBuilder(str);
-				char c = tmp.charAt(i);
-				tmp.setCharAt(i, tmp.charAt(j));
-				tmp.setCharAt(j, c);
-				
-				ans = Math.min(ans, solve(0, len-1, tmp.toString()) + 1);
-			}
+				if(i!=j)
+				{
+					for(int d[] : dp)
+						Arrays.fill(d, -1);
+					
+					StringBuilder tmp = new StringBuilder(str);
+					char c = tmp.charAt(i);
+					tmp.setCharAt(i, tmp.charAt(j));
+					tmp.setCharAt(j, c);
+					
+					ans = Math.min(ans, solve(0, len-1, tmp.toString()) + 1);
+				}
 		
 		System.out.print(ans);
 	}
@@ -43,8 +44,8 @@ class Main{
 		if(r <= l)
 			return 0;
 		
-		int a = solve(l + 1, r, s) + 1;
-		int b = solve(l, r - 1, s) + 1;
+		int a = solve(l + 1, r, s) + 1;	// 오른쪽 삽입 or 왼쪽 삭제
+		int b = solve(l, r - 1, s) + 1;	// 왼쪽 삽입 or 오른쪽 삭제
 		int c = solve(l + 1, r - 1, s) + (s.charAt(l) != s.charAt(r) ? 1 : 0);
 		
 		return dp[l][r] = Math.min(a, Math.min(b, c));
