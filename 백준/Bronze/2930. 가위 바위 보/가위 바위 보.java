@@ -8,29 +8,31 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int R			= Integer.parseInt(br.readLine());	// 라운드 수 R(1<=50)
-		char [] me		= br.readLine().toCharArray();
+		char[] me		= br.readLine().toCharArray();
 		int N			= Integer.parseInt(br.readLine());
-		char[][]friend	= new char[N][];
-		int[][]dp		= new int[R][3];
 		int score		= 0;
+		int max			= 0;
+		char[][] you	= new char[N][]; 
+		
 		for(int i=0; i<N; i++)
-		{
-			friend[i] = br.readLine().toCharArray();
-			for(int r=0; r<R; r++)
-			{
-				score += cal(me[r], friend[i][r]);
-				dp[r][0] += cal('S', friend[i][r]);	// r라운드 가위일 때 총점수 합
-				dp[r][1] += cal('R', friend[i][r]);	// r라운드 바위일 때 총점수 합
-				dp[r][2] += cal('P', friend[i][r]);	// r라운드 보일 때 총점수 합
-			}
-		}
+			you[i] = br.readLine().toCharArray();
 		
-		System.out.println(score);
-		
-		int max = 0;
 		for(int r=0; r<R; r++)
-			max += Math.max(Math.max(dp[r][0], dp[r][1]), dp[r][2]);
-		
+		{
+			int a = 0;
+			int b = 0;
+			int c = 0;
+			for(int i=0; i<N; i++)
+			{
+				score += cal(me[r], you[i][r]);
+				a += cal('S', you[i][r]);	// r라운드 가위일 때 총점수 합
+				b += cal('R', you[i][r]);	// r라운드 바위일 때 총점수 합
+				c += cal('P', you[i][r]);	// r라운드 보일 때 총점수 합
+			}
+			max += Math.max(a, Math.max(b, c));
+		}
+
+		System.out.println(score);
 		System.out.println(max);
 	}
 
