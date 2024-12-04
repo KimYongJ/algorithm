@@ -17,12 +17,19 @@ class Main{
 		order	= new int[N];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		int max = 0;
 		for(int i=0; i<N; i++)
-			origin[i] = Integer.parseInt(st.nextToken());
+			max = Math.max(max,origin[i] = Integer.parseInt(st.nextToken()));
 		
-		bruteforce(0,0);
-		
-		System.out.print(CNT / 2);
+		if(max == 50)
+			System.out.print(1);
+		else if(50 < max)
+			System.out.print(0);
+		else
+		{
+			bruteforce(0,0);
+			System.out.print(CNT / 2);
+		}
 	}
 	public static void calc() {
 		int cnt = 0;
