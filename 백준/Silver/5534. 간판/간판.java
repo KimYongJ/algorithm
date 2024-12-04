@@ -7,8 +7,8 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());
-		String base	= br.readLine();
-		int baselen = base.length();
+		char[] base	= br.readLine().toCharArray();
+		int baselen = base.length;
 		int ans		= 0;
 		
 		LOOP:
@@ -17,12 +17,11 @@ class Main{
 			char[] compare	= br.readLine().toCharArray();
 			int clen		= compare.length;
 			int diff		= clen - baselen;
-			if(clen < base.length())
+			if(clen < baselen)
 				continue;
 			
-			int maxInterval = clen - baselen + 1;
-			int interval = 0;
-			
+			int maxInterval = diff + 1;
+			int interval	= 0;
 			while(++interval <= maxInterval)
 			{
 				for(int start=0; start<=diff; start++)
@@ -31,7 +30,7 @@ class Main{
 					int s	= start;
 					int idx = -1;
 					int cnt = 0;
-					while(s<clen && ++idx < baselen && base.charAt(idx) == compare[s])
+					while(s<clen && ++idx < baselen && base[idx] == compare[s])
 					{
 						++cnt;
 						s+=interval;
