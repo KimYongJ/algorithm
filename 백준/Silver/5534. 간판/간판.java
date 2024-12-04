@@ -19,7 +19,7 @@ class Main{
 			if(compare.length() < base.length())
 				continue;
 			
-			int maxInterval = compare.length();
+			int maxInterval = compare.length() - base.length() + 1;
 			int interval = 0;
 			
 			while(++interval <= maxInterval)
