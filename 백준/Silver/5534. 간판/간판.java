@@ -9,6 +9,7 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		int N		= Integer.parseInt(br.readLine());
 		String base	= br.readLine();
+		int baselen = base.length();
 		int cnt		= 0;
 		
 		LOOP:
@@ -16,21 +17,22 @@ class Main{
 		{
 			char[] compare	= br.readLine().toCharArray();
 			int clen		= compare.length;
+			int diff		= clen - baselen;
 			if(clen < base.length())
 				continue;
 			
-			int maxInterval = clen - base.length() + 1;
+			int maxInterval = clen - baselen + 1;
 			int interval = 0;
 			
 			while(++interval <= maxInterval)
 			{
-				for(int start=0; start<compare.length; start++)
+				for(int start=0; start<=diff; start++)
 				{
 					sb.setLength(0);
 					
-					int s = start;
-					int len = base.length();
-					while(s<clen && --len >= 0)
+					int s	= start;
+					int idx = -1;
+					while(s<clen && ++idx < baselen && base.charAt(idx) == compare[s])
 					{
 						sb.append(compare[s]);
 						s+=interval;
