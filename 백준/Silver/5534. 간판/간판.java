@@ -6,11 +6,10 @@ class Main{
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
 		int N		= Integer.parseInt(br.readLine());
 		String base	= br.readLine();
 		int baselen = base.length();
-		int cnt		= 0;
+		int ans		= 0;
 		
 		LOOP:
 		for(int i=0; i<N; i++)
@@ -28,18 +27,18 @@ class Main{
 			{
 				for(int start=0; start<=diff; start++)
 				{
-					sb.setLength(0);
 					
 					int s	= start;
 					int idx = -1;
+					int cnt = 0;
 					while(s<clen && ++idx < baselen && base.charAt(idx) == compare[s])
 					{
-						sb.append(compare[s]);
+						++cnt;
 						s+=interval;
 					}
-					if(base.equals(sb.toString()))
+					if(cnt == baselen)
 					{
-						++cnt;
+						++ans;
 						continue LOOP;
 					}
 				}
@@ -47,6 +46,6 @@ class Main{
 			
 		}
 		
-		System.out.print(cnt);
+		System.out.print(ans);
 	}
 }
