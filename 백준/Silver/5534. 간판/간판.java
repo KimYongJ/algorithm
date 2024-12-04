@@ -15,6 +15,10 @@ class Main{
 		for(int i=0; i<N; i++)
 		{
 			String compare = br.readLine();
+			
+			if(compare.length() < base.length())
+				continue;
+			
 			int maxInterval = compare.length();
 			int interval = 0;
 			
