@@ -14,12 +14,12 @@ class Main{
 		LOOP:
 		for(int i=0; i<N; i++)
 		{
-			char[] compare = br.readLine().toCharArray();
-			
-			if(compare.length < base.length())
+			char[] compare	= br.readLine().toCharArray();
+			int clen		= compare.length;
+			if(clen < base.length())
 				continue;
 			
-			int maxInterval = compare.length - base.length() + 1;
+			int maxInterval = clen - base.length() + 1;
 			int interval = 0;
 			
 			while(++interval <= maxInterval)
@@ -29,7 +29,8 @@ class Main{
 					sb.setLength(0);
 					
 					int s = start;
-					while(s<compare.length && sb.length() != base.length())
+					int len = base.length();
+					while(s<clen && --len >= 0)
 					{
 						sb.append(compare[s]);
 						s+=interval;
