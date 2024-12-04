@@ -22,6 +22,7 @@ class Main{
 			
 			int maxInterval = diff + 1;
 			int interval	= 0;
+
 			while(++interval <= maxInterval)
 			{
 				for(int start=0; start<=diff; start++)
