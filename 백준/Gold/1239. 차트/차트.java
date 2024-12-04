@@ -1,9 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1239
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int CNT;
@@ -11,15 +7,13 @@ class Main{
 	static int [] origin, order;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		origin	= new int[N];
 		order	= new int[N];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		int max = 0;
 		for(int i=0; i<N; i++)
-			max = Math.max(max,origin[i] = Integer.parseInt(st.nextToken()));
+			max = Math.max(max, origin[i] = read());
 		
 		if(max == 50)
 			System.out.print(1);
@@ -37,16 +31,12 @@ class Main{
 		{
 			int sum = 0;
 			int idx = i;
-			while(true) {
-				sum += order[idx];
-				if(sum == 50) {
-					++cnt;
-					break;
-				}
-				if(50 < sum)
-					break;
-				
+			while(sum <= 50)
+			{
+				sum += order[idx];				
 				idx = (idx + 1) % N;
+				if(sum == 50)
+					++cnt;
 			}
 		}
 		CNT = Math.max(CNT, cnt);
@@ -63,5 +53,10 @@ class Main{
 				order[depth] = origin[i];
 				bruteforce(depth + 1, bitmask | (1<<i));
 			}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
