@@ -1,30 +1,25 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/7575
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N, K;
 	static int arr[][];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N	= Integer.parseInt(st.nextToken());	// 2<=100, 감염된 프로그램 개수
-		K	= Integer.parseInt(st.nextToken());	// 코드 최소 길이 4<=1000
+		N	= read();	// 2<=100, 감염된 프로그램 개수
+		K	= read();	// 코드 최소 길이 4<=1000
 		arr	= new int[N][];
 		
-		for(int i=0; i<N; i++)
+		for(int i=0, len; i<N; i++)
 		{
-			int len	= Integer.parseInt(br.readLine());
+			len		= read();
 			arr[i]	= new int[len];
-			st		= new StringTokenizer(br.readLine());
+			
 			for(int j=0; j<len; j++)
-				arr[i][j] = Integer.parseInt(st.nextToken());
+				arr[i][j] = read();
 		}
+		
 		int len = arr[0].length - K;
 		LOOP:
 		for(int idx=0; idx<=len; idx++)
@@ -37,7 +32,7 @@ class Main{
 			for(int i=0; i<N; i++)
 				if(!KMP(arr[i], forward,fail1) && !KMP(arr[i], reverse, fail2))
 					continue LOOP;
-			
+			// 여기오면 정답인거
 			System.out.print("YES");
 			return;
 		}
@@ -87,5 +82,10 @@ class Main{
 		for(int i=0; i<K; i++)
 			res[i] = arr[0][s++];
 		return res;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
