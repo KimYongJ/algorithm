@@ -8,23 +8,22 @@ import java.util.StringTokenizer;
 class Main{
 	
 	static int N;
-	static String text, pattern;
+	static char[] text, pattern;
+	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		N = Integer.parseInt(br.readLine());
+		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		N		= Integer.parseInt(br.readLine());
+		text	= new char[N];
+		pattern = new char[N];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			sb.append(st.nextToken());
-		
-		text = sb.toString();
-		text += text;
-		sb.setLength(0);
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			sb.append(st.nextToken());
-		pattern = sb.toString();
+			text[i] = st.nextToken().charAt(0);
+		
+		st = new StringTokenizer(br.readLine());
+		for(int i=0; i<N; i++)
+			pattern[i] = st.nextToken().charAt(0);
 		
 		int p = N;
 		int c = KMP();
@@ -35,7 +34,7 @@ class Main{
 		if(b < a)
 			a = b = 1;
 		
-		sb.setLength(0);
+		StringBuilder sb = new StringBuilder();
 		sb.append(a).append('/').append(b);
 		System.out.print(sb);
 	}
@@ -44,12 +43,13 @@ class Main{
 		int cnt		= 0;
 		int len		= (N<<1) - 1;
 		
-		for(int i=0, j=0; i<len; i++)
+		for(int k=0, j=0; k<len; k++)
 		{
-			while(0<j && text.charAt(i) != pattern.charAt(j))
+			int i = k % N;
+			while(0<j && text[i] != pattern[j])
 				j = fail[j - 1];
 			
-			if(text.charAt(i) == pattern.charAt(j))
+			if(text[i] == pattern[j])
 			{
 				if(j == N-1)
 				{
@@ -65,10 +65,10 @@ class Main{
 		int [] fail = new int[N];
 		for(int i=1,j=0; i<N; i++)
 		{
-			while(0<j && pattern.charAt(i) != pattern.charAt(j))
+			while(0<j && pattern[i] != pattern[j])
 				j = fail[j - 1];
 				
-			if(pattern.charAt(i) == pattern.charAt(j))
+			if(pattern[i] == pattern[j])
 				fail[i] = ++j;
 		}
 		return fail;
