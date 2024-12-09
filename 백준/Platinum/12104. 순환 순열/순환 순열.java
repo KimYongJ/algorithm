@@ -1,13 +1,16 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/12104
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 class Main{
+    public static String readString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        int c;
+        while ((c = System.in.read()) > 13) {
+            sb.append((char) c);
+        }
+        return sb.toString();
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		char pattern[]	= br.readLine().toCharArray();
+		char pattern[]	= readString().toCharArray();
 		int plen		= pattern.length;
 		int fail[]		= new int[plen];
 		int cnt			= 0;
@@ -21,7 +24,7 @@ class Main{
 				fail[i] = ++j;
 		}
 		
-		String str = br.readLine();
+		String str = readString();
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(str).append(str);
