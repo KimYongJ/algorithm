@@ -7,33 +7,36 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String pattern	= br.readLine();
-		String text		= br.readLine();
-
-		int fail[]	= new int[pattern.length()];
-		int cnt		= 0;
+		char pattern[]	= br.readLine().toCharArray();
+		int plen		= pattern.length;
+		int fail[]		= new int[plen];
+		int cnt			= 0;
 		
-		for(int i=1, j=0; i<pattern.length(); i++)
+		for(int i=1, j=0; i<plen; i++)
 		{
-			while(0<j && pattern.charAt(i) != pattern.charAt(j))
+			while(0<j && pattern[i] != pattern[j])
 				j = fail[j - 1];
 			
-			if(pattern.charAt(i) == pattern.charAt(j))
+			if(pattern[i] == pattern[j])
 				fail[i] = ++j;
 		}
 		
+		String str = br.readLine();
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(str).append(str);
+
+		char[] text = sb.toString().toCharArray();
+		int tlen	= text.length - 1;
 		
-		text += text;
-		
-		int len	= text.length();
-		for(int i=0,j=0; i<len-1; i++)
+		for(int i=0,j=0; i<tlen; i++)
 		{
-			while(0<j && text.charAt(i) != pattern.charAt(j))
+			while(0<j && text[i] != pattern[j])
 				j = fail[j - 1];
 			
-			if(text.charAt(i) == pattern.charAt(j))
+			if(text[i] == pattern[j])
 			{
-				if(j == pattern.length() - 1)
+				if(j == plen - 1)
 				{
 					j = fail[j];
 					++cnt;
