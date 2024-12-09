@@ -2,16 +2,16 @@
 //https://www.acmicpc.net/problem/1305
 class Main{
 	public static void main(String[] args)throws Exception{
-		int N				= read();
-		StringBuilder sb	= readString();
-		int len				= sb.length();
-		int []fail			= new int[len];
+		int N = read();
+		char[] str = readString().toCharArray();
+		int len = str.length;
+		int []fail = new int[len];
 		
 		for(int i=1,j=0; i<len; i++)
 		{
-			while(0<j && sb.charAt(i) != sb.charAt(j))
+			while(0<j && str[i] != str[j])
 				j = fail[j - 1];
-			if(sb.charAt(i) == sb.charAt(j))
+			if(str[i] == str[j])
 				fail[i] = ++j;
 		}
 		
@@ -22,10 +22,12 @@ class Main{
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
 	}
-    public static StringBuilder readString() throws Exception {
+    public static String readString() throws Exception {
         StringBuilder sb = new StringBuilder();
         int c;
-        while ((c = System.in.read()) > 13) {sb.append((char) c);}
-        return sb;
+        while ((c = System.in.read()) > 13) {
+            sb.append((char) c);
+        }
+        return sb.toString();
     }
 }
