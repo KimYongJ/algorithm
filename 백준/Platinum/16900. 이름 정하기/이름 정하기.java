@@ -8,8 +8,8 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		String text = st.nextToken();					// 오십만
-		long K		= Integer.parseInt(st.nextToken());	// 1<=백만
+		String text = st.nextToken();						// 오십만
+		long K		= Integer.parseInt(st.nextToken())-1;	// 1<=백만
 		int len		= text.length();
 		int fail[]	= new int[len];
 		
@@ -21,6 +21,6 @@ class Main{
 			if(text.charAt(i) == text.charAt(j))
 				fail[i] = ++j;
 		}
-		System.out.print(len + ( (K-1) * (len - fail[len-1]) ) );
+		System.out.print(len + ( K * (len - fail[len-1]) ) );
 	}
 }
