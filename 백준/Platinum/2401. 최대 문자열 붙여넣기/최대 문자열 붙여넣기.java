@@ -31,15 +31,16 @@ class Main{
 		}
 		
         // 바텀업 방식으로 DP 계산
-        for (int i = 0; i < tlen; i++) {
+        for (int i = 0; i < tlen; i++)
+        {
             DP[i + 1] = Math.max(DP[i + 1], DP[i]); // 현재 위치까지 최대값 유지
 
-            for (int n = 0; n < N; n++) {
-                if (match[n][i]) {
+            for (int n = 0; n < N; n++)
+            {
+                if (match[n][i])
+                {
                     int endIdx = i + len[n];
-                    if (endIdx <= tlen) { // 범위 초과 방지
-                        DP[endIdx] = Math.max(DP[endIdx], DP[i] + len[n]);
-                    }
+                    DP[endIdx] = Math.max(DP[endIdx], DP[i] + len[n]);
                 }
             }
         }
