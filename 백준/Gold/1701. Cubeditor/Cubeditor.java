@@ -1,28 +1,25 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1701
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 class Main{
-	
+    public static String readString() throws Exception {
+        StringBuilder sb = new StringBuilder(); int c;
+        while ((c = System.in.read()) > 13) {sb.append((char) c);}
+        return sb.toString();
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String text	= br.readLine();
-		int len		= text.length();
+		char[] text	= readString().toCharArray();
+		int len		= text.length;
 		int max		= 0;
-		for(int idx=0; idx<len; idx++)
+		for(int start=0; start<len; start++)
 		{
+			int fail[] = new int[len - start];
 			
-			String pattern = text.substring(idx, len);
-			int fail[] = new int[pattern.length()];
-			
-			for(int i=1, j=0; i<pattern.length(); i++)
+			for(int i=1, j=0; i<len - start; i++)
 			{
-				while(0<j && pattern.charAt(j) != pattern.charAt(i))
+				while(0<j && text[j + start] != text[i + start])
 					j = fail[j - 1];
-				
-				if(pattern.charAt(j) == pattern.charAt(i))
+						
+				if(text[j + start] == text[i + start])
 					max = Math.max(max,fail[i] = ++j);
 			}
 		}
