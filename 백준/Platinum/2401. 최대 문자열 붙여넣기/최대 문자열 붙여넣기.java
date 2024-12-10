@@ -1,7 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2401
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
 	
 	static String	text;
@@ -10,18 +8,16 @@ class Main{
 	static boolean	match[][];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		text	= br.readLine();					// 긴 문자열(1<=십만)
+		text	= readString();		// 긴 문자열(1<=십만)
 		tlen	= text.length();
-		N		= Integer.parseInt(br.readLine());	// 짧은 문자열의 개수(1<=500)
+		N		= read();			// 짧은 문자열의 개수(1<=500)
 		len		= new int[N];
 		match	= new boolean[N][text.length()];
 		DP		= new int[tlen+1];
-		
-		
+
 		for(int i=0; i<N; i++)
 		{
-			String pattern = br.readLine();			// 짧은 문자열을 배열에 저장
+			String pattern = readString();			// 짧은 문자열을 배열에 저장
 			len[i]		= pattern.length();			// 짧은 문자열의 길이를 저장
 			int[] fail	= getFail(pattern, len[i]);	// 짧은 문자열의 fail값 저장
 			KMP(pattern, i, fail);					// 구한 fail을 통해 바로 KMP알고리즘 실행
@@ -75,5 +71,18 @@ class Main{
 		
 		return fail;
 	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+    public static String readString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        int c;
+        while ((c = System.in.read()) > 13) {
+            sb.append((char) c);
+        }
+        return sb.toString();
+    }
 }
 
