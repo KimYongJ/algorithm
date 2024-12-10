@@ -54,27 +54,14 @@ class Main{
 			if(pattern.charAt(i) == pattern.charAt(j))
 				fail[i] = ++j;
 		}
-		// KMP알고리즘
-		int tlen = (pattern.length() * 2) - 1;
-		int cnt = 0;
-		for(int i=0, j=0; i<tlen; i++)
-		{
-			int idx = i % plen;
-			while(0<j && pattern.charAt(idx) != pattern.charAt(j))
-				j = fail[j - 1];
-			
-			if(pattern.charAt(idx) == pattern.charAt(j))
-			{
-				if(j+1 == plen)
-				{
-					++cnt;
-					j = fail[j];
-				}
-				else ++j;
-			}
-		}
 		
-		if(cnt == K)
+		int period = plen - fail[plen - 1];
+		if(fail[plen - 1] % period != 0)
+		{
+			if(K==1)
+				++ans;
+		}
+		else if(K - 1 == fail[plen - 1] / period)
 			++ans;
 	}
 }
