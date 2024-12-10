@@ -8,17 +8,17 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		String text = st.nextToken();						// 오십만
+		char[] text = st.nextToken().toCharArray();			// 오십만
 		long K		= Integer.parseInt(st.nextToken())-1;	// 1<=백만
-		int len		= text.length();
+		int len		= text.length;
 		int fail[]	= new int[len];
 		
 		for(int i=1,j=0; i<len; i++)
 		{
-			while(0<j && text.charAt(i) != text.charAt(j))
+			while(0<j && text[i] != text[j])
 				j = fail[j - 1];
 			
-			if(text.charAt(i) == text.charAt(j))
+			if(text[i] == text[j])
 				fail[i] = ++j;
 		}
 		System.out.print(len + ( K * (len - fail[len-1]) ) );
