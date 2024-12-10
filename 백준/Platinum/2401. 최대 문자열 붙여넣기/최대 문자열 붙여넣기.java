@@ -7,7 +7,6 @@ class Main{
 	static String	text;
 	static int		N, tlen;
 	static int[]	DP, len;
-	static int[][]	fail;
 	static boolean	match[][];
 	
 	public static void main(String[] args)throws Exception{
@@ -17,7 +16,6 @@ class Main{
 		N		= Integer.parseInt(br.readLine());	// 짧은 문자열의 개수(1<=500)
 		len		= new int[N];
 		match	= new boolean[N][text.length()];
-		fail	= new int[N][];
 		DP		= new int[tlen+1];
 		
 		
@@ -25,8 +23,8 @@ class Main{
 		{
 			String pattern = br.readLine();			// 짧은 문자열을 배열에 저장
 			len[i]		= pattern.length();			// 짧은 문자열의 길이를 저장
-			fail[i]		= getFail(pattern, len[i]);	// 짧은 문자열의 fail값 저장
-			KMP(pattern,i);							// 구한 fail을 통해 바로 KMP알고리즘 실행
+			int[] fail	= getFail(pattern, len[i]);	// 짧은 문자열의 fail값 저장
+			KMP(pattern, i, fail);					// 구한 fail을 통해 바로 KMP알고리즘 실행
 		}
 		
         // 바텀업 방식으로 DP 계산
@@ -46,18 +44,18 @@ class Main{
 		System.out.print(DP[tlen]);
 	}
 	
-	public static void KMP(String pattern, int idx) {
+	public static void KMP(String pattern, int idx, int fail[]) {
 		for(int i=0, j=0; i<tlen; i++)
 		{
 			while(0<j && text.charAt(i) != pattern.charAt(j))
-				j = fail[idx][j - 1];
+				j = fail[j - 1];
 			
 			if(text.charAt(i) == pattern.charAt(j))
 			{
 				if(j == len[idx] - 1)
 				{
 					match[idx][i - j] = true;			// 해당 문자의 시작점에 true로 마킹
-					j = fail[idx][j];
+					j = fail[j];
 				}
 				else ++j;
 			}
