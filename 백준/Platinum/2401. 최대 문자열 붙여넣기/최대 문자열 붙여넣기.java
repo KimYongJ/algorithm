@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 class Main{
 	
-	static String	text, pattern[];
+	static String	text;
 	static int		N, tlen;
 	static int[]	DP, len;
 	static int[][]	fail;
@@ -15,7 +15,6 @@ class Main{
 		text	= br.readLine();					// 긴 문자열(1<=십만)
 		tlen	= text.length();
 		N		= Integer.parseInt(br.readLine());	// 짧은 문자열의 개수(1<=500)
-		pattern = new String[N];					// 짧은 문자열을 담을 배열(1<=만)
 		len		= new int[N];
 		match	= new boolean[N][text.length()];
 		fail	= new int[N][];
@@ -24,10 +23,10 @@ class Main{
 		
 		for(int i=0; i<N; i++)
 		{
-			pattern[i]	= br.readLine();				// 짧은 문자열을 배열에 저장
-			len[i]		= pattern[i].length();			// 짧은 문자열의 길이를 저장
-			fail[i]		= getFail(pattern[i], len[i]);	// 짧은 문자열의 fail값 저장
-			KMP(pattern[i],i);							// 구한 fail을 통해 바로 KMP알고리즘 실행
+			String pattern = br.readLine();			// 짧은 문자열을 배열에 저장
+			len[i]		= pattern.length();			// 짧은 문자열의 길이를 저장
+			fail[i]		= getFail(pattern, len[i]);	// 짧은 문자열의 fail값 저장
+			KMP(pattern,i);							// 구한 fail을 통해 바로 KMP알고리즘 실행
 		}
 		
         // 바텀업 방식으로 DP 계산
