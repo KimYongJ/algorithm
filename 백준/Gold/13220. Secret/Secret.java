@@ -28,7 +28,7 @@ class Main{
 			if(pattern[i] == pattern[j])
 				fail[i] = ++j;
 		}
-		for(int i=0, j=0; i<len; i++)
+		for(int i=0, j=0; i<len - 1; i++)
 		{
 			while(0<j && text[i] != pattern[j])
 				j = fail[j - 1];
