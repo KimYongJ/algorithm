@@ -49,3 +49,4 @@ class Main{
 		System.out.print("impossible");
 	}
 }
+
