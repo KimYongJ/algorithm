@@ -1,12 +1,14 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/13506
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
-	
+    public static String readString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        int c;
+        while ((c = System.in.read()) > 13) {sb.append((char) c);}
+        return sb.toString();
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String text		= br.readLine();
+		String text		= readString();
 		int tlen		= text.length();
 		int textFail[]	= new int[tlen];
 		for(int i=1,j=0; i<tlen; i++)
@@ -22,13 +24,11 @@ class Main{
 		
 		while(len > 0)
 		{
-			for(int i=0; i<tlen - 1; i++)
-				if(len == textFail[i])
-				{
-					System.out.print(text.substring(0, len));
+			for(int i=0; i<tlen-1; i++)
+				if(textFail[i] == len) {
+					System.out.print(text.substring(0,len));
 					return;
 				}
-			
 			len = textFail[len - 1];
 		}
 		System.out.print(-1);
