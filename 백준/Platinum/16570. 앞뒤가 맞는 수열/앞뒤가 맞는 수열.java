@@ -22,7 +22,10 @@ class Main{
 				j = fail[j - 1];
 			
 			if(arr[i] == arr[j])
-				max = Math.max(max, fail[i] = ++j);
+				fail[i] = ++j;
+			
+			if(max < j)
+				max = j;
 		}
 		if(max == 0)
 		{
