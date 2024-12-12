@@ -1,0 +1,43 @@
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/14959
+// K(고유한 난수길이)와 P(패턴의 길이)출력, 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Main{
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int K		= 0;
+		int P		= 0;
+		int N		= Integer.parseInt(br.readLine());// 1<=백만
+		int arr1[]	= new int[N];
+		int fail[]	= new int[N];
+		
+
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for(int i=N-1; i>=0; i--)
+			arr1[i] = Integer.parseInt(st.nextToken());
+
+		for(int i=1,j=0; i<N; i++)
+		{
+			while(0<j && arr1[i] != arr1[j])
+				j = fail[j - 1];
+			
+			if(arr1[i] == arr1[j])
+				fail[i] = ++j;
+		}
+		int total = 1<<30;
+		for(int i=0; i<N; i++)
+		{
+			int kk = N - (i+1);
+			int pp = (i+1) - fail[i];
+			if(kk+pp < total) {
+				total = kk+pp;
+				K = kk;
+				P = pp;
+			}
+		}
+		System.out.printf("%d %d",K,P);
+	}
+}
