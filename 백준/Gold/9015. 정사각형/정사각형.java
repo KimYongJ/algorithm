@@ -1,10 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/9015
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.StringTokenizer;
-
 class Pos{
 	int x, y;
 	Pos(int x,int y){
@@ -23,23 +19,28 @@ class Pos{
 }
 
 class Main{
-
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder	sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
 			HashSet<Pos> set = new HashSet<>();
-			int N		= Integer.parseInt(br.readLine());//4 ≤ n ≤ 3,000
+			int N		= read();//4 ≤ n ≤ 3,000
 			int area	= 0;
 			Pos[] pos	= new Pos[N];
 			
 			for(int i=0; i<N; i++)
 			{
 				//-10000 이상 +10000이하의 정수, 동일 위치는 주어지지 않음
-				StringTokenizer st = new StringTokenizer(br.readLine());
-				pos[i] = new Pos(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
+				pos[i] = new Pos(read(),read());
 				set.add(pos[i]);
 			}
 			
