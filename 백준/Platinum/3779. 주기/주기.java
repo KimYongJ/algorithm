@@ -1,20 +1,17 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/3779
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder	sb = new StringBuilder();
 		int CASE = 0;
 		while(true)
 		{
-			int N = Integer.parseInt(br.readLine());
+			int N = read();
 			
 			if(N == 0)
 				break;
 			
-			String text = br.readLine();
+			String text = readString();
 			int len		= text.length();
 			int fail[]	= new int[len];
 			
@@ -43,4 +40,15 @@ class Main{
 		}
 		System.out.print(sb);
 	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
+    public static String readString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        int c;
+        while ((c = System.in.read()) > 13) {sb.append((char) c);}
+        return sb.toString();
+    }
 }
