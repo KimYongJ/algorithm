@@ -18,7 +18,7 @@ class Pos{
 	}
 	@Override
 	public int hashCode() {
-		return x * 100_000 + y;
+		return x * 31 + y;
 	}
 }
 
@@ -52,9 +52,7 @@ class Main{
 						Pos p1 = new Pos(pos[i].x + plusY, pos[i].y - plusX);
 						Pos p2 = new Pos(pos[j].x + plusY, pos[j].y - plusX);
 						if(set.contains(p1) && set.contains(p2))
-						{
 							area = Math.max(area, plusY*plusY + plusX*plusX);
-						}
 					}
 			
 			sb.append(area).append('\n');
