@@ -11,24 +11,22 @@ class Main{
 		String text = br.readLine();
 		int len		= text.length();
 		
-		while(len>=0)
+		while(--len>=0)
 		{
 			int diff = 0;
-			for(int i=0; i<len; i++){
-				if(text.charAt(i) != text.charAt(text.length() - len + i))
+			for(int i=0; i<len; i++)
+				if(text.charAt(i) != text.charAt(N - len + i))
 				{
 					++diff;
 					if(1 < diff)
 						break;
 				}
-			}
 			
 			if(diff == 1)
 			{
 				System.out.print("YES");
 				return;
 			}
-			--len;
 		}
 		
 		System.out.print("NO");
