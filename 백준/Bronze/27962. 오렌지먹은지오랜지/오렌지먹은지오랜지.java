@@ -15,12 +15,8 @@ class Main{
 		{
 			int diff = 0;
 			for(int i=0; i<len; i++)
-				if(text.charAt(i) != text.charAt(N - len + i))
-				{
-					++diff;
-					if(1 < diff)
-						break;
-				}
+				if(text.charAt(i) != text.charAt(N - len + i) && 1 < ++diff)
+					break;
 			
 			if(diff == 1)
 			{
