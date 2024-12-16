@@ -13,12 +13,10 @@ class Main{
 		{
 			char[] pattern	= br.readLine().toCharArray();
 			char[] text		= br.readLine().toCharArray();
-			int plen		= pattern.length;
-			int tlen		= text.length;
-			int fail[]		= new int[plen];
+			int fail[]		= new int[pattern.length];
 			int res			= 0;
 			
-			for(int i=1,j=0; i<plen; i++)
+			for(int i=1,j=0; i<pattern.length; i++)
 			{
 				while(0<j && pattern[i] != pattern[j])
 					j = fail[j - 1];
@@ -26,14 +24,14 @@ class Main{
 					fail[i] = ++j;
 			}
 			
-			for(int i=0,j=0; i<tlen; i++)
+			for(int i=0,j=0; i<text.length; i++)
 			{
 				while(0<j && text[i] != pattern[j])
 					j = fail[j - 1];
 				
 				if(text[i] == pattern[j])
 				{
-					if(j == plen - 1)
+					if(j == pattern.length - 1)
 					{
 						j = fail[j];
 						++res;
