@@ -11,26 +11,27 @@ class Main{
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0)
 		{
-			String pattern	= br.readLine();
-			String text		= br.readLine();
-			int plen		= pattern.length();
-			int tlen		= text.length();
+			char[] pattern	= br.readLine().toCharArray();
+			char[] text		= br.readLine().toCharArray();
+			int plen		= pattern.length;
+			int tlen		= text.length;
 			int fail[]		= new int[plen];
 			int res			= 0;
+			
 			for(int i=1,j=0; i<plen; i++)
 			{
-				while(0<j && pattern.charAt(i) != pattern.charAt(j))
+				while(0<j && pattern[i] != pattern[j])
 					j = fail[j - 1];
-				if(pattern.charAt(i) == pattern.charAt(j))
+				if(pattern[i] == pattern[j])
 					fail[i] = ++j;
 			}
 			
 			for(int i=0,j=0; i<tlen; i++)
 			{
-				while(0<j && text.charAt(i) != pattern.charAt(j))
+				while(0<j && text[i] != pattern[j])
 					j = fail[j - 1];
 				
-				if(text.charAt(i) == pattern.charAt(j))
+				if(text[i] == pattern[j])
 				{
 					if(j == plen - 1)
 					{
