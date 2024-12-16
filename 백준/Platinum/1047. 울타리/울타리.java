@@ -15,8 +15,8 @@ class Main{
 		return n;
 	}
 	public static void main(String[] args)throws Exception{
-		int result	= 1<<30;
 		int N		= read();	// 2<=40
+		int result	= N-1;		// 최악의 경우 모든 나무를 자른다.
 		Point[] arr = new Point[N];
 		int x[]		= new int[N];
 		int y[]		= new int[N];
@@ -29,17 +29,18 @@ class Main{
 		}
 		
 		Arrays.sort(arr, (a,b)-> b.len - a.len);
-		
-		for(int x1 : x)
-			for(int y1 : y)
-				for(int x2 : x)
-					for(int y2 : y)
+		Arrays.sort(x);
+		Arrays.sort(y);
+		for(int x1=0; x1<N-1; x1++)
+			for(int y1=0; y1<N-1; y1++)
+				for(int x2=x1+1; x2<N; x2++)
+					for(int y2=y1+1; y2<N; y2++)
 					{
 						boolean visit[] = new boolean[N];
-						int maxX	= Math.max(x1, x2);
-						int maxY	= Math.max(y1, y2);
-						int minX	= Math.min(x1, x2);
-						int minY	= Math.min(y1, y2);
+						int maxX	= x[x2];
+						int maxY	= y[y2];
+						int minX	= x[x1];
+						int minY	= y[y1];
 						int squre	= (maxX - minX + maxY - minY) << 1;
 						int cnt		= 0;
 						for(int i=0; i<N; i++)
