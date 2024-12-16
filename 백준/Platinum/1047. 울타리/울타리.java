@@ -49,7 +49,8 @@ class Main{
 							{
 								visit[i] = true;
 								squre -= arr[i].len;
-								++cnt;
+								if(result < ++cnt)
+									break;
 							}
 						}
 						// 범위 벗어나는것만 자르면 울타리를 두를 수 있을 때 바로 result에 결과 대입
@@ -61,7 +62,8 @@ class Main{
 							for(int i=0; i<N; i++)
 								if(!visit[i])
 								{
-									++cnt;
+									if(result < ++cnt)
+										break;
 									squre -= arr[i].len;
 									if(squre<=0)
 									{
