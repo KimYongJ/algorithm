@@ -1,17 +1,21 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/16163
 class Main{
+	
     public static String readString() throws Exception {
         StringBuilder sb = new StringBuilder(" ");
         int c;
         while ((c = System.in.read()) > 13) {sb.append((char) c).append(' ');}
         return sb.toString();
     }
+    
 	public static void main(String args[])throws Exception{
-		char str[] = readString().toCharArray();
-		int len = str.length;
-		int A[] = new int[len];
-		long cnt = 0;
+		
+		char str[]	= readString().toCharArray();
+		int len		= str.length;
+		int A[]		= new int[len];
+		long cnt	= 0;
+		
 		for(int i=0,r=0,p=0; i<len; i++)
 		{
 			
@@ -29,6 +33,7 @@ class Main{
 
 			cnt +=(A[i]+1)/2;
 		}
+		
 		System.out.print(cnt);
 	}
 }
