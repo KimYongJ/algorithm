@@ -5,10 +5,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 class Main{
 	
-	public static void manachers(int A[], char[] str, int len) {
-		int r = 0;
-		int p = 0;
-		for(int i=0; i<len; i++)
+	public static int manachers(char[] str, int len) {
+		int A[]	= new int[len];
+		int max = 0;
+		
+		for(int i=0,r = 0, p = 0; i<len; i++)
 		{
 			if(i <= r)
 				A[i] = Math.min(A[2*p - i], r - i);
@@ -23,7 +24,9 @@ class Main{
 				r = i + A[i];
 				p = i;
 			}
+			max = Math.max(max, A[i]);
 		}
+		return max;
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -32,17 +35,7 @@ class Main{
 		for(char c : br.readLine().toCharArray())
 			sb.append('#').append(c);
 		sb.append('#');
-		
-		int len = sb.length();
-		int A[]	= new int[len];
-		
-		manachers(A, sb.toString().toCharArray(), len);
-		
-		int ans = -1;
-		
-		for(int i=0; i<len; i++)
-			ans = Math.max(ans, A[i]);
-		
-		System.out.print(ans);
+
+		System.out.print(manachers(sb.toString().toCharArray(), sb.length()));
 	}
 }
