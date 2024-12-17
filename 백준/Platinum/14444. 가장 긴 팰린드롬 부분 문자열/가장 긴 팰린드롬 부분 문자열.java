@@ -5,16 +5,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 class Main{
 	
-	static int len, A[];
-	
-	public static void manachers(char[] str, int len) {
+	public static void manachers(int A[], char[] str, int len) {
 		int r = 0;
 		int p = 0;
 		for(int i=0; i<len; i++)
 		{
 			if(i <= r)
 				A[i] = Math.min(A[2*p - i], r - i);
-
+			else
+				A[i] = 0;
+			
 			while(0 <= i - A[i] - 1 && i + A[i] + 1 < len && str[i - A[i] - 1] == str[i + A[i] + 1])
 				++A[i];
 			
@@ -33,10 +33,10 @@ class Main{
 			sb.append('#').append(c);
 		sb.append('#');
 		
-		len = sb.length();
-		A	= new int[len*2 + 2];
+		int len = sb.length();
+		int A[]	= new int[len];
 		
-		manachers(sb.toString().toCharArray(), len);
+		manachers(A, sb.toString().toCharArray(), len);
 		
 		int ans = -1;
 		
