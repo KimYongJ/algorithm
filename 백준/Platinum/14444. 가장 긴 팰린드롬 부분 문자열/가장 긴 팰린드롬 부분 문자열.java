@@ -14,9 +14,7 @@ class Main{
 		{
 			if(i <= r)
 				A[i] = Math.min(A[2*p - i], r - i);
-			else
-				A[i] = 0;
-			
+
 			while(0 <= i - A[i] - 1 && i + A[i] + 1 < len && str[i - A[i] - 1] == str[i + A[i] + 1])
 				++A[i];
 			
