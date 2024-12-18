@@ -43,12 +43,6 @@ class Main{
 			int s = read();
 			int e = read();
 			int r = e - s + 1;
-			if(e < s)
-			{
-				int tmp = e;
-				e = s;
-				s = tmp;
-			}
 			res.append(A[s + e - 1] >= r ? 1 : 0).append('\n');
 		}
 		System.out.print(res.toString());
