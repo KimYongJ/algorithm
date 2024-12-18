@@ -1,22 +1,22 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/11046
 //1초, 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
+		int N		= read();
 		int len		= (N<<1) + 1;
 		int arr[]	= new int[len];
 		int A[]		= new int[len];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0,j = 0; i<N; i++,j += 2)
 		{
 			arr[j]	= -1;
-			arr[j+1]= Integer.parseInt(st.nextToken());
+			arr[j+1]= read();
 		}
 		arr[len-1] = -1;
 		
@@ -37,20 +37,19 @@ class Main{
 		}
 		
 		StringBuilder res = new StringBuilder();
-		N = Integer.parseInt(br.readLine());
+		N = read();
 		for(int i=0; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
+			int s = read();
+			int e = read();
+			int r = e - s + 1;
 			if(e < s)
 			{
 				int tmp = e;
 				e = s;
 				s = tmp;
 			}
-			int r = e - s + 1;
-			res.append(A[(s*2-1 + e*2-1)/2] >= r ? 1 : 0).append('\n');
+			res.append(A[s + e - 1] >= r ? 1 : 0).append('\n');
 		}
 		System.out.print(res.toString());
 	}
