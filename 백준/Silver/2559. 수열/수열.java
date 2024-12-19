@@ -1,21 +1,23 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2559
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 2<=십만
-		int K		= Integer.parseInt(st.nextToken());	// 일자
+		int N		= read();	// 2<=십만
+		int K		= read();	// 일자
 		int arr[]	= new int[N];
 		int sum		= 0;
 		int max		= 0;
-		
-		st = new StringTokenizer(br.readLine());
+
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		for(int i=0; i<K; i++)
 			sum += arr[i];
