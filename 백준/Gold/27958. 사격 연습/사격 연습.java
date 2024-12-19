@@ -1,8 +1,5 @@
 //https://github.com/kimyongj/algorithm
-//https://www.acmicpc.net/problem/31794
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+//https://www.acmicpc.net/problem/27958
 
 class Target{
 	int origin, energy;
@@ -17,23 +14,17 @@ class Main{
 	static int attack[];
 
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N		= Integer.parseInt(br.readLine());	// 보드판크기 (2<=8)
-		K		= Integer.parseInt(br.readLine());	// 사격 횟수 (1<=5)
+		N		= read();	// 보드판크기 (2<=8)
+		K		= read();	// 사격 횟수 (1<=5)
 		map		= new Target[N+2][N+2];
 		attack	= new int[K];
 		
 		for(int y=1; y<=N; y++)
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=N; x++)
-				map[y][x] = new Target(Integer.parseInt(st.nextToken()));
-		}
+				map[y][x] = new Target(read());
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<K; i++)
-			attack[i] = Integer.parseInt(st.nextToken());
+			attack[i] = read();
 		
 		back(0, 0);
 		
@@ -105,5 +96,9 @@ class Main{
 					break;
 				}
 	}
-
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 }
