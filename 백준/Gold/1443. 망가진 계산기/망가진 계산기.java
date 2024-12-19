@@ -28,7 +28,7 @@ class Main{
 			return;
 		}
 		
-		for(int i=Math.max(2,idx); i<=9; i++)
+		for(int i=idx; i<=9; i++)
 		{
 			int next = num*i;
 			if(next < limit)
