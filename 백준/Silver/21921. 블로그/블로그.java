@@ -4,9 +4,9 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int N		= read();	// 총일수(1<=25만)
 		int X		= read();	// 기간(1<=25만)
-		int sum		= 0;								// K기간동안 합계
-		int max		= 0;								// 최대방문자 수
-		int cnt		= 1;								// 최대 방문자 수와 같은 날들의 수
+		int sum		= 0;		// K기간동안 합계
+		int max		= 0;		// 최대방문자 수
+		int cnt		= 1;		// 최대 방문자 수와 같은 날들의 수
 		int arr[]	= new int[N];
 
 		for(int i=0; i<N; i++)
