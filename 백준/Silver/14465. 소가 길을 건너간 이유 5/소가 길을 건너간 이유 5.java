@@ -1,21 +1,21 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/14465
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 횡단보도(1<=십만)
-		int K		= Integer.parseInt(st.nextToken());	// 연속한 신호등개수
-		int B		= Integer.parseInt(st.nextToken());	// 고장난 신호등 개수
+		int N		= read();	// 횡단보도(1<=십만)
+		int K		= read();	// 연속한 신호등개수
+		int B		= read();	// 고장난 신호등 개수
 		int arr[]	= new int[N+1];
 		int ksum	= 0;
 		
 		
 		for(int i=1; i<=B; i++)
-			arr[Integer.parseInt(br.readLine())] = 1;
+			arr[read()] = 1;
 		
 		for(int i=1; i<=K; i++)
 			ksum += arr[i];
