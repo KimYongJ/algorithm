@@ -24,8 +24,8 @@ class Main{
 		for(int i=K+1,j=1; i<=N; i++)
 		{
 			ksum += arr[i] - arr[j++];
-			if(ksum < min)
-				min = ksum;
+			if(ksum < min && (min = ksum) == 0)
+				break;
 		}
 		
 		System.out.print(min);
