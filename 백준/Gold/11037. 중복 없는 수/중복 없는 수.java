@@ -4,7 +4,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 
 class Main{
 	
@@ -12,8 +11,8 @@ class Main{
 	static ArrayList<Integer> list	= new ArrayList<>();
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
+		BufferedReader br	= new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb	= new StringBuilder();
 		
 		for(int i=1; i<10; i++)
 			back(i, 0);
@@ -22,7 +21,7 @@ class Main{
 		while((str = br.readLine()) != null && str.length() != 0)
 		{
 			int num = Integer.parseInt(str);
-			sb.append(num >= 987654321 ? 0 :  binarySearch(Integer.parseInt(str)) ).append('\n');
+			sb.append(num >= 987654321 ? 0 :  binarySearch(num) ).append('\n');
 		}
 
 		System.out.print(sb);
