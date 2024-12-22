@@ -15,18 +15,20 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		
-		back(0, 0);
-		
-		Collections.sort(list);
+		for(int i=1; i<10; i++)
+			back(i, 0);
 		
 		String str;
 		while((str = br.readLine()) != null && str.length() != 0)
-			sb.append( binarySearch(Integer.parseInt(str)) ).append('\n');
+		{
+			int num = Integer.parseInt(str);
+			sb.append(num >= 987654321 ? 0 :  binarySearch(Integer.parseInt(str)) ).append('\n');
+		}
 
 		System.out.print(sb);
 	}
 	public static int binarySearch(int target) {
-		int s	= 1;
+		int s	= 0;
 		int e	= list.size() - 1;
 		int res	= 0;
 		
@@ -41,20 +43,20 @@ class Main{
 			}
 			else s = mid + 1;
 		}
-		
-		
 		return res;
 	}
 	public static void back(int depth, int num) {
-		list.add(num);
-		if(9 <= depth)
+		if(0 == depth)
+		{
+			list.add(num);
 			return;
+		}
 		
 		for(int i=1; i<=9; i++)
 			if(!visit[i])
 			{
 				visit[i] = true;
-				back(depth + 1, num*10 + i);
+				back(depth - 1, num*10 + i);
 				visit[i] = false;
 			}
 	}
