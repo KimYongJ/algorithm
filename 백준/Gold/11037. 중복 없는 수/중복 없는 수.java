@@ -54,7 +54,7 @@ class Main{
 			if(!visit[i])
 			{
 				visit[i] = true;
-				back(depth + 1, num + i * (int)Math.pow(10, depth));
+				back(depth + 1, num*10 + i);
 				visit[i] = false;
 			}
 	}
