@@ -1,21 +1,16 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2435
 class Main{
-    static int read() throws Exception{
-        int val = 0;
-        int c = System.in.read();
-        while (c <= ' ') {c = System.in.read();}
-        boolean minus = false;
-        if (c == '-') {
-            minus = true;
-            c = System.in.read();
-        }
-        do {
-            val = 10 * val + c - 48;
-        } while ((c = System.in.read()) >= 48 && c <= 57);
-        if (minus) return -val;
-        return val;
-    }
+
+    static int read() throws Exception {
+	    int c, n = System.in.read();
+	    while (n <= ' ') {n = System.in.read();}
+	    boolean minus = true;
+	    if (n > 47) {minus = false;
+	    n &= 15;} else n = 0;
+	    while ((c = System.in.read()) > 47) n = (n << 3) + (n << 1) + (c & 15);
+	    return minus? -1 * n: n;
+}
 	public static void main(String[] args)throws Exception{
 		int N		= read();	// 전체 날짜(2<=100)
 		int K		= read();	// 합을 구하기 위한 연속적 날자 수(1<=N)
