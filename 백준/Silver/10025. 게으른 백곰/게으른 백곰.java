@@ -1,51 +1,43 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/10025
-import java.util.Arrays;
-class Pos{
-	int val, idx;
-	Pos(int v, int i){val=v; idx=i;}
-}
 class Main{
-	static int read() throws Exception {
-		int c, n = System.in.read() & 15;
-		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
-		return n;
-	}
+    private static int read() throws Exception {
+        int val = 0;
+        int c = System.in.read();
+        while (c <= ' ') {
+            c = System.in.read();
+        }
+        do {
+            val = 10 * val + c - 48;
+        } while ((c = System.in.read()) >= 48 && c <= 57);
+        return val;
+    }
 	public static void main(String[] args)throws Exception{
-		int N		= read();		// 양동이개수(1<=십만)
+		final int MAX = 1_000_000;
+		int N		= read();	// 양동이개수(1<=십만)
 		int K		= read()*2;	// 이동가능거리(1<=이백만)
-		Pos arr[]	= new Pos[N];
+		int arr[]	= new int[MAX+1];
 		
 		for(int i=0; i<N; i++)
-			arr[i] = new Pos(read(), read());
+		{
+			int val = read();
+			int idx = read();
+			arr[idx]= val;
+		}
 		
-		int max = 0;
+		int len = Math.min(MAX, K);
+		int sum = 0;
+		for(int i=0; i<=len; i++)
+			sum += arr[i];
 		
-		Arrays.sort(arr,(a,b)-> a.idx - b.idx);
-		max = Math.max(cal(arr, N , K), max);
+		int max = sum;
+		for(int i=K+1; i<=MAX; i++)
+		{
+			sum += arr[i];
+			sum -= arr[i-K-1];
+			max = Math.max(sum, max);
+		}
 		
 		System.out.print(max);
-	}
-	public static int cal(Pos arr[], int N, int K) {
-		int s	= 0;
-		int e	= 0;
-		int max = 0;
-		int sum = 0;
-		
-		while(e<N)
-		{
-			while(e<N && arr[e].idx - arr[s].idx<= K)
-			{
-				sum += arr[e].val;
-				++e;
-			}
-			
-			max = Math.max(sum, max);
-			
-			sum -= arr[s].val;
-			++s;
-			
-		}
-		return max;
 	}
 }
