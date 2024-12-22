@@ -1,10 +1,5 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/26153
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};
@@ -13,25 +8,21 @@ class Main{
 	static boolean visit[][];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y		= Integer.parseInt(st.nextToken());
-		X		= Integer.parseInt(st.nextToken());
+		Y		= read();
+		X		= read();
 		map		= new int[Y][X];
 		visit	= new boolean[Y][X];
 		
 		for(int y=0; y<Y; y++)
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=0; x<X; x++)
-				map[y][x] = Integer.parseInt(st.nextToken());
-		}
-		st = new StringTokenizer(br.readLine());
-		int sy = Integer.parseInt(st.nextToken());
-		int se = Integer.parseInt(st.nextToken());
-		int cnt= Integer.parseInt(st.nextToken());
+				map[y][x] = read();
+
+		int sy = read();
+		int se = read();
+		int cnt= read();
 		
 		MAX = map[sy][se];
+		
 		if(cnt != 0)
 		{
 			visit[sy][se] = true;
@@ -67,5 +58,10 @@ class Main{
 				}
 			}
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
