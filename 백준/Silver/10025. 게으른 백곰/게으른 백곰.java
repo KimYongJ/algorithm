@@ -4,9 +4,6 @@ class Main{
     private static int read() throws Exception {
         int val = 0;
         int c = System.in.read();
-        while (c <= ' ') {
-            c = System.in.read();
-        }
         do {
             val = 10 * val + c - 48;
         } while ((c = System.in.read()) >= 48 && c <= 57);
@@ -33,8 +30,7 @@ class Main{
 		int max = sum;
 		for(int i=K+1; i<=MAX; i++)
 		{
-			sum += arr[i];
-			sum -= arr[i-K-1];
+			sum += arr[i] - arr[i-K-1];
 			max = Math.max(sum, max);
 		}
 		
