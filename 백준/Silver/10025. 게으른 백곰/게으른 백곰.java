@@ -1,26 +1,23 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/10025
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Pos{
 	int val, idx;
 	Pos(int v, int i){val=v; idx=i;}
 }
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());		// 양동이개수(1<=십만)
-		int K		= Integer.parseInt(st.nextToken())*2;	// 이동가능거리(1<=이백만)
+		int N		= read();		// 양동이개수(1<=십만)
+		int K		= read()*2;	// 이동가능거리(1<=이백만)
 		Pos arr[]	= new Pos[N];
+		
 		for(int i=0; i<N; i++)
-		{
-			st = new StringTokenizer(br.readLine());
-			arr[i] = new Pos(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
-		}
+			arr[i] = new Pos(read(), read());
 		
 		int max = 0;
 		
