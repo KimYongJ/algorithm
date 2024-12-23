@@ -1,32 +1,25 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/13751
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 class Main{
 	
-	static Set<Integer> set = new TreeSet<>();
+	static TreeSet<Integer> set = new TreeSet<>();
 	static int[] bar, plates;
 	static int b, p, nowBar;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		b		= Integer.parseInt(st.nextToken());	// 바개수 1<=14
-		p		= Integer.parseInt(st.nextToken());	// 플렛개수 1<=14
+
+		b		= read();	// 바개수 1<=14
+		p		= read();	// 플렛개수 1<=14
 		bar		= new int[b];
 		plates	= new int[p];
 		
 		for(int i=0; i<b; i++)
-			bar[i] = Integer.parseInt(br.readLine());
+			bar[i] = read();
 		
 		for(int i=0; i<p; i++)
-			plates[i] = Integer.parseInt(br.readLine());
+			plates[i] = read();
 		
 		for(int w : bar)
 		{
@@ -49,5 +42,10 @@ class Main{
 		bruteforce(left + plates[idx], right, idx + 1);
 		bruteforce(left, right + plates[idx], idx + 1);
 		bruteforce(left, right, idx + 1);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
