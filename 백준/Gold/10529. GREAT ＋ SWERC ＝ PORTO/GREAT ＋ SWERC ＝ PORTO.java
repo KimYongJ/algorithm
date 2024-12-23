@@ -9,23 +9,28 @@ import java.util.Set;
 
 class Main{
 	
-	static ArrayList<Character> list = new ArrayList<>();
-	static char[][] arr;
+	static ArrayList<Integer> list = new ArrayList<>();
+	static int[][] arr;
 	static int[] order;
 	static int N, cnt, len;
 	static boolean[] visit;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		Set<Character> set = new HashSet<>();
+		Set<Integer> set = new HashSet<>();
 		N		= Integer.parseInt(br.readLine());
-		arr		= new char[N][];
+		arr		= new int[N][];
 		
 		for(int i=0; i<N; i++)
 		{
-			arr[i] = br.readLine().toCharArray();
-			for(char a : arr[i])
-				set.add(a);
+			String str = br.readLine();
+			int len = str.length();
+			arr[i] = new int[len];
+			for(int j=0; j<len; j++)
+			{
+				arr[i][j] = str.charAt(j) - 'A';
+				set.add(arr[i][j]);
+			}
 		}
 		
 		list.addAll(set);
@@ -48,7 +53,7 @@ class Main{
 			if(!visit[i])
 			{
 				visit[i] = true;
-				order[list.get(depth)-'A'] = i;
+				order[list.get(depth)] = i;
 				comb(depth + 1);
 				visit[i] = false;
 			}
@@ -63,24 +68,20 @@ class Main{
 				return;
 			number[i] = num;
 		}
-		long sum = 0;
+		int sum = 0;
 		for(int i=0; i<N-1; i++)
 			sum += number[i];
 		if(sum == number[N-1])
 			++cnt;
 	}
 	
-	public static int changeNum(char arr[]) {
-		StringBuilder sb = new StringBuilder();
-		for(char a : arr)
-			sb.append(order[a - 'A']);
-		
-		if(sb.charAt(0) == '0')
+	public static int changeNum(int arr[]) {
+		if(order[arr[0]] == 0)
 			return -1;
-		try {
-		return Integer.parseInt(sb.toString());
-		}catch(Exception e) {
-			return -1;
+		int num = 0;
+		for(int i=0; i<arr.length; i++) {
+			num = num * 10 + order[arr[i]];
 		}
+		return num;
 	}
 }
