@@ -28,9 +28,10 @@ class Main{
 		for(int i=0; i<p; i++)
 			plates[i] = Integer.parseInt(br.readLine());
 		
-		for(int w : bar) {
+		for(int w : bar)
+		{
 			nowBar = w;
-			back(0, 0, 0);
+			bruteforce(0, 0, 0);
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -38,15 +39,15 @@ class Main{
 			sb.append(s).append('\n');
 		System.out.print(sb);
 	}
-	public static void back(int left, int right, int idx) {
+	public static void bruteforce(int left, int right, int idx) {
 		if(left == right)
 			set.add(nowBar + left + right);
 		
 		if(idx == p)
 			return;
 		
-		back(left + plates[idx], right, idx + 1);
-		back(left, right + plates[idx], idx + 1);
-		back(left, right, idx + 1);
+		bruteforce(left + plates[idx], right, idx + 1);
+		bruteforce(left, right + plates[idx], idx + 1);
+		bruteforce(left, right, idx + 1);
 	}
 }
