@@ -27,7 +27,7 @@ class Main{
 			N		= Integer.parseInt(br.readLine());
 			arr		= new Str[N];
 			order	= new int[N];
-			result	= "zzzzzzzzzz";
+			result	= "z";
 			
 			for(int i=0; i<N; i++)
 			{
