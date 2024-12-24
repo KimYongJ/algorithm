@@ -3,7 +3,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.StringTokenizer;
 
 class Sub{
@@ -15,7 +14,6 @@ class Main{
 	
 	static int N, cnt;
 	static Sub[] order;
-	static HashSet<Long> set;
 	static ArrayList<Sub>[] list;
 	
 	public static void main(String[] args)throws Exception{
@@ -23,7 +21,6 @@ class Main{
 		N		= Integer.parseInt(br.readLine()); // 그룹의 개수 N(1<=15)
 		list	= new ArrayList[N];
 		order	= new Sub[N];
-		set		= new HashSet<>();
 		
 		for(int i=0; i<N; i++)
 		{
@@ -41,41 +38,38 @@ class Main{
 				list[i].add(new Sub(j+1,credit, day, s, e));
 			}
 		}
-		DFS(0, 0, 0);
+		DFS(0, 0);
 		
 		System.out.print(cnt);
 	}
-	public static void DFS(int depth, int sum, long flag) {
+	public static void DFS(int depth, int sum) {
 		if(22 < sum) return;
 		if(depth == N)
 		{
-			if(sum == 22 && !set.contains(flag))
+			if(sum == 22)
 			{
-				set.add(flag);
 				++cnt;
 			}
 			return;
 		}
 		
 		order[depth] = null;
-		DFS(depth + 1, sum, flag * 10 + 0); //선택하지 않고 넘어간다
-		Loop : 
+		DFS(depth + 1, sum); //선택하지 않고 넘어간다
+
 		for(Sub now : list[depth])
 		{
+			boolean isContinue = true;
 			for(int i=0; i<depth; i++)
-			{
-				if(order[i] != null)
+				if(order[i] != null && order[i].day == now.day && !((now.end <= order[i].start || order[i].end <= now.start)))
 				{
-					if(order[i].day != now.day)
-						continue;
-					if(
-							!(order[i].day == now.day && (now.end <= order[i].start || order[i].end <= now.start)) 
-						)
-						continue Loop;
+					isContinue = false;
+					break;
 				}
+			if(isContinue)
+			{
+				order[depth] = now;
+				DFS(depth + 1, sum + now.credit);
 			}
-			order[depth] = now;
-			DFS(depth + 1, sum + now.credit, flag* 10 + now.idx);
 		}
 	}
 }
