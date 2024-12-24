@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 class Sub{
-	int idx, credit, day, start, end;
-	Sub(int i, int c, int d, int s, int e){idx=i;credit=c; day=d; start=s; end=e;}
+	int credit, day, start, end;
+	Sub(int c, int d, int s, int e){credit=c; day=d; start=s; end=e;}
 }
 
 class Main{
@@ -35,7 +35,7 @@ class Main{
 				String end[]	= st.nextToken().split(":");		//종료시간(00<=23 : 00<=59)
 				int s			= Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
 				int e			= Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
-				list[i].add(new Sub(j+1,credit, day, s, e));
+				list[i].add(new Sub(credit, day, s, e));
 			}
 		}
 		DFS(0, 0);
