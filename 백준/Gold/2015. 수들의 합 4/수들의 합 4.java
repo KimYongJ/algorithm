@@ -19,14 +19,10 @@ class Main{
 		long ans = 0;
 		HashMap<Long, Long> hm = new HashMap<>();
 		
-		for(int i=1; i<=N; i++) {
-			if(psum[i] == K)
-				++ans;
-			
-			long need = psum[i] - K;
-			
-			ans += hm.getOrDefault(need, 0L);
-			
+		for(int i=1; i<=N; i++)
+		{
+			if(psum[i] == K) ++ ans;
+			ans += hm.getOrDefault(psum[i] - K, 0L);
 			hm.put(psum[i], hm.getOrDefault(psum[i],0L) + 1);
 		}
 		System.out.print(ans);
