@@ -9,15 +9,14 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int T	= read();	// 1<=1000
 		int o[] = new int[T];
-		int max = 0;
 		
 		for(int i=0; i<T; i++)
-			max = Math.max(max,o[i] = read());	// 1<=1000
+			o[i] = read();	// 1<=1000
 		
-		int psum[] = new int[max+1];
+		int psum[] = new int[1001];
 		psum[1] = 3;
 		
-		for(int i=2; i<=max; i++)
+		for(int i=2; i<=1000; i++)
 		{
 			int cnt = 0;
 			for(int j=1; j<i; j++)
