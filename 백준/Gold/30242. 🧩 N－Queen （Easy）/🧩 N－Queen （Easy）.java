@@ -26,7 +26,7 @@ class Main{
 			if(order[i] != 0)
 			{
 				pass[i] = true;
-				dig1[i - order[i] + N + 1] = dig2[i + order[i]] = true;
+				dig1[i - order[i] + N] = dig2[i + order[i]] = true;
 			}
 		}
 		StringBuilder sb = new StringBuilder();
@@ -44,14 +44,14 @@ class Main{
 			return back(depth + 1);
 
 		for(int i=1; i<=N; i++)
-			if(!visit[i] && !dig1[depth - i + N + 1] && !dig2[depth + i])	// 열과 대각선체크를 동시에
+			if(!visit[i] && !dig1[depth - i + N] && !dig2[depth + i])	// 열과 대각선체크를 동시에
 			{
 				visit[i] = true;
-				dig1[depth - i + N + 1] = dig2[depth + i] = true;
+				dig1[depth - i + N] = dig2[depth + i] = true;
 				order[depth] = i;
 				if(back(depth + 1))
 					return true;
-				dig1[depth - i + N + 1] = dig2[depth + i] = false;
+				dig1[depth - i + N] = dig2[depth + i] = false;
 				visit[i] = false;
 			}
 		
