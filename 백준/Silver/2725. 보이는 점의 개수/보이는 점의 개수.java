@@ -1,22 +1,22 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2725
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int T = Integer.parseInt(br.readLine());	// 1<=1000
+		int T	= read();	// 1<=1000
 		int o[] = new int[T];
 		int max = 0;
+		
 		for(int i=0; i<T; i++)
-		{
-			o[i] = Integer.parseInt(br.readLine());	// 1<=1000
-			if(max < o[i])
-				max = o[i];
-		}
+			max = Math.max(max,o[i] = read());	// 1<=1000
 		
 		int psum[] = new int[max+1];
 		psum[1] = 3;
+		
 		for(int i=2; i<=max; i++)
 		{
 			int cnt = 0;
@@ -33,7 +33,6 @@ class Main{
 		System.out.print(sb);
 	}
 	public static int gcd(int a, int b) {
-		if(b == 0) return a;
-		return gcd(b, a%b);
+		return b == 0 ? a : gcd(b, a%b);
 	}
 }
