@@ -7,7 +7,7 @@ class Main{
 	
 	static int N;
 	static int[] order;
-	static boolean[] visit, pass;
+	static boolean[] visit, pass, dig1, dig2;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,6 +15,8 @@ class Main{
 		order	= new int[N+1];
 		visit	= new boolean[21];
 		pass	= new boolean[N+1];
+		dig1	= new boolean[2*N+2];
+		dig2	= new boolean[2*N+2];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
@@ -22,7 +24,10 @@ class Main{
 			order[i] = Integer.parseInt(st.nextToken());
 			visit[order[i]] = true;
 			if(order[i] != 0)
+			{
 				pass[i] = true;
+				dig1[i - order[i] + N + 1] = dig2[i + order[i]] = true;
+			}
 		}
 		StringBuilder sb = new StringBuilder();
 		if(back(1))
@@ -32,28 +37,21 @@ class Main{
 		
 		System.out.print(sb.toString());
 	}
-	public static boolean check(int row, int col) {
-		for(int i=1; i<row; i++)
-			if(Math.abs(row - i) == Math.abs(col - order[i]))
-				return false;
-		return true;
-	}
 	public static boolean back(int depth) {
 		if(N < depth)
 			return true;
-		if(pass[depth]) {
-			if(check(depth, order[depth]))
-				return back(depth + 1);
-			return false;
-		}
+		if(pass[depth])
+			return back(depth + 1);
 
 		for(int i=1; i<=N; i++)
-			if(!visit[i] && check(depth, i))
+			if(!visit[i] && !dig1[depth - i + N + 1] && !dig2[depth + i])	// 열과 대각선체크를 동시에
 			{
 				visit[i] = true;
+				dig1[depth - i + N + 1] = dig2[depth + i] = true;
 				order[depth] = i;
 				if(back(depth + 1))
 					return true;
+				dig1[depth - i + N + 1] = dig2[depth + i] = false;
 				visit[i] = false;
 			}
 		
