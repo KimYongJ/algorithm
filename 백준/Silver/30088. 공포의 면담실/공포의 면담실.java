@@ -8,7 +8,7 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());
-		int psum[]	= new int[N];
+		long psum[]	= new long[N];
 		
 		for(int i=0; i<N; i++)
 		{
@@ -20,7 +20,7 @@ class Main{
 		
 		Arrays.sort(psum);
 		
-		int sum = psum[0];
+		long sum = psum[0];
 		for(int i=1; i<N; i++)
 			sum += psum[i] += psum[i-1];
 		
