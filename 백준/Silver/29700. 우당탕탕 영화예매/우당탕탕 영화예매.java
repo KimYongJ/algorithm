@@ -10,8 +10,7 @@ class Main{
 		int Y		= Integer.parseInt(st.nextToken());	// 세로1<=천
 		int X		= Integer.parseInt(st.nextToken());	// 가로1<=오천
 		int K		= Integer.parseInt(st.nextToken());	// 인원수 1<=10
-		int map[][]	= new int[Y][X];
-		
+		int res		= 0;
 		for(int y=0; y<Y; y++)
 		{
 			String str = br.readLine();
@@ -21,19 +20,12 @@ class Main{
 				if(str.charAt(x) == '0')
 				{
 					if(K<= ++cnt)
-						map[y][x] = 1;
+						++res;
 				}
 				else cnt = 0;
 			}
 		}
 		
-		int res = 0;
-		for(int y=0; y<Y; y++)
-		{
-			for(int x=1; x<X; x++)
-				map[y][x] += map[y][x-1];
-			res += map[y][X-1];
-		}
 		System.out.print(res);
 	}
 }
