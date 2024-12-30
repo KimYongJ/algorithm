@@ -6,11 +6,12 @@ class Main{
 		long a[] = new long[MAX+1];
 		
 		for(int n=1; n<=MAX; n++)
+		{
 			for(int i=1; i*n<=MAX; i++)
 				a[n*i] += n;
-		
-		for(int i=1; i<=MAX; i++)
-			a[i] += a[i-1];
+			
+			a[n] += a[n-1];	// 누적합을 바로 함
+		}
 		
 		StringBuilder sb = new StringBuilder();
 		int T = read();
