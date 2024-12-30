@@ -4,19 +4,18 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		final int MAX = 1_000_000;
 		long a[] = new long[MAX+1];
-		long g[] = new long[MAX+1];
 		
 		for(int n=1; n<=MAX; n++)
 			for(int i=1; i*n<=MAX; i++)
 				a[n*i] += n;
 		
 		for(int i=1; i<=MAX; i++)
-			g[i] = g[i-1] + a[i];
+			a[i] += a[i-1];
 		
 		StringBuilder sb = new StringBuilder();
 		int T = read();
 		while(T-->0)
-			sb.append(g[read()]).append('\n');
+			sb.append(a[read()]).append('\n');
 
 		System.out.print(sb);
 	}
