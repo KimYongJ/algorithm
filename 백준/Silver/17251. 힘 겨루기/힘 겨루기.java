@@ -5,6 +5,7 @@ class Main{
 		int N		= read();	// 2<=백만
 		int left[] 	= new int[N];
 		int right[]	= new int[N];
+		
 		for(int i=0; i<N; i++)
 			left[i] = right[i] = read();
 		
