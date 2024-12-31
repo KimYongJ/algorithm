@@ -16,11 +16,10 @@ class Main{
 		{
 			arr[i] = Integer.parseInt(st.nextToken());// 난이도(1<=십억)
 			if(arr[i] < arr[i-1])
-				psum[i-1] = 1;
-		}
-		
-		for(int i=2; i<=N; i++)
+				++psum[i-1];
+			
 			psum[i] += psum[i-1];
+		}
 		
 		int Q = Integer.parseInt(br.readLine());// 질문개수(1<=십만)
 		while(Q-->0)
