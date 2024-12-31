@@ -4,13 +4,13 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		int N		= read();	//원소개수(1<=10의6승)
 		int M		= read();	//나눌값(2<=천)
-		long psum[]	= new long[N+1];
 		long C[]	= new long[M];
+		long sum	= 0;
 		
 		for(int i=1; i<=N; i++)
 		{
-			psum[i] += psum[i-1] + read();
-			++C[(int)(psum[i] % M)];
+			sum += read();
+			++C[(int)(sum % M)];
 		}
 		
 		long res = C[0];
