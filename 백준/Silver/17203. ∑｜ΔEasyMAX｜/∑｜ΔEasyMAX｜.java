@@ -8,10 +8,10 @@ class Main{
 		int diff[]	= new int[N+1];
 		
 		for(int i=1; i<=N; i++)
+		{
 			arr[i] = read();
-		
-		for(int i=2; i<=N; i++)
 			diff[i] = Math.abs((arr[i] - arr[i-1])) + diff[i-1];
+		}
 		
 		StringBuilder sb = new StringBuilder();
 		while(Q-->0)
