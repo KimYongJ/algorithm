@@ -25,7 +25,6 @@ class Main{
 		
 		int max = 0;
 		for(int i=1; i<=N; i++)
-		{
 			max = Math.max(max, getMax(
 										H[i] + S[N] - S[i]
 										,H[i] + P[N] - P[i]
@@ -34,7 +33,7 @@ class Main{
 										,P[i] + S[N] - S[i]
 										,P[i] + H[N] - H[i]
 								));
-		}
+			
 		System.out.print(max);
 	}
 	public static int getMax(int... arr) {
