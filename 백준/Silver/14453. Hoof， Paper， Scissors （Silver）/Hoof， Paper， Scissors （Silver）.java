@@ -26,13 +26,22 @@ class Main{
 		int max = 0;
 		for(int i=1; i<=N; i++)
 		{
-			max = Math.max(max, H[i] + S[N] - S[i]);
-			max = Math.max(max, H[i] + P[N] - P[i]);
-			max = Math.max(max, S[i] + P[N] - P[i]);
-			max = Math.max(max, S[i] + H[N] - H[i]);
-			max = Math.max(max, P[i] + S[N] - S[i]);
-			max = Math.max(max, P[i] + H[N] - H[i]);
+			max = Math.max(max, getMax(
+										H[i] + S[N] - S[i]
+										,H[i] + P[N] - P[i]
+										,S[i] + P[N] - P[i]
+										,S[i] + H[N] - H[i]
+										,P[i] + S[N] - S[i]
+										,P[i] + H[N] - H[i]
+								));
 		}
 		System.out.print(max);
+	}
+	public static int getMax(int... arr) {
+		int max = 0;
+		for(int a : arr)
+			if(max < a)
+				max = a;
+		return max;
 	}
 }
