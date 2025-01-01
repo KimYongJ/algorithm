@@ -1,21 +1,15 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/27496
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 남은시간 1<=백만
-		int L		= Integer.parseInt(st.nextToken());	// 지속시간 1<=만<=N
+		int N		= read();	// 남은시간 1<=백만
+		int L		= read();	// 지속시간 1<=만<=N
 		int arr[]	= new int[N+1];
 		int psum[]	= new int[N+1];
 		int cnt		= 0;
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		for(int i=1; i<=L; i++)
 		{
@@ -32,5 +26,10 @@ class Main{
 		}
 		
 		System.out.print(cnt);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
