@@ -6,35 +6,33 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());
-		int len		= N<<1;
-		int arr[]	= new int[len+1];
-		int distSum = 0;
-		int curdist = 0;
+		int arr[]	= new int[N+1];
 		int max		= 0;
-		int s		= 1;
+		int s		= 0;
 		int e		= 1;
 		
 		for(int i=1; i<=N; i++)
-			distSum += arr[i] = arr[i+N] = Integer.parseInt(br.readLine());
+			arr[i] =Integer.parseInt(br.readLine()) + arr[i-1];
 
-		while(s<=N)
+		int half = arr[N]>>1;
+		int full = arr[N];
+		while(s<e && e<=N)
 		{
-			while(true)
+			int diff = arr[e] - arr[s];
+			if(diff < half)
 			{
-				curdist += arr[e];
-				if(curdist > distSum / 2)
-				{
-					curdist -= arr[e];
-					break;
-				}
-				e++;
+				max = Math.max(max, diff);
+				++e;
 			}
-			
-			if(max < curdist)
-				max = curdist;
-			
-			curdist -= arr[s];
-			++s;
+			else if(half < diff)
+			{
+				max = Math.max(max, full - diff);
+				++s;
+			}
+			else {
+				max = half;
+				break;
+			}
 		}
 		System.out.print(max);
 	}
