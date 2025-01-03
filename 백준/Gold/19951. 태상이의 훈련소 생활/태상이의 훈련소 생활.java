@@ -25,13 +25,10 @@ class Main{
 			psum[a] += k;
 			psum[b+1] += -k;
 		}
-		
-		for(int i=0; i<=N; i++)
-			arr[i+1] += psum[i+1] += psum[i];
-		
 		StringBuilder sb = new StringBuilder();
 		for(int i=1; i<=N; i++)
-			sb.append(arr[i]).append(' ');
+			sb.append(arr[i] + (psum[i] += psum[i-1])).append(' ');
+
 		System.out.print(sb);
 	}
 }
