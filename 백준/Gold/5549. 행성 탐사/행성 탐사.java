@@ -14,9 +14,8 @@ class Main{
 				int idx = 0;
 				switch(System.in.read())
 				{
-				case 'J': idx = 0; break;
 				case 'O': idx = 1; break;
-				case 'I': idx = 2; break;
+				case 'I': idx = 2;
 				}
 				
 				psum[idx][y][x] = 1;
