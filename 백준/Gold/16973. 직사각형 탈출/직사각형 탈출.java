@@ -14,8 +14,7 @@ class Main{
 	
 	static final int dxy[][] = {{1,0},{0,1},{-1,0},{0,-1}};// 하, 우, 상, 좌
 	static int res = -1;
-	static int Y, X, map[][];
-	static int H, W, sy, sx, ey, ex;
+	static int Y, X, H, W, sy, sx, ey, ex, map[][];
 	static boolean visit[][];
 	
 	public static void main(String[] args)throws Exception{
@@ -25,6 +24,11 @@ class Main{
 		X		= Integer.parseInt(st.nextToken());
 		map		= new int[Y+2][X+2];
 		visit	= new boolean[Y+2][X+2];
+		
+		for(int y=0; y<Y+2; y++)
+			visit[y][0] = visit[y][X+1] = true;
+		for(int x=0; x<X+2; x++)
+			visit[0][x] = visit[Y+1][x] = true;
 		
 		for(int y=1; y<=Y; y++)
 		{
@@ -56,7 +60,7 @@ class Main{
 			{
 				int nextY = now.y + dxy[i][0];
 				int nextX = now.x + dxy[i][1];
-				if(1<=nextY && 1<=nextX && nextY <= Y && nextX <= X && !visit[nextY][nextX])
+				if(!visit[nextY][nextX])
 				{
 					int ny = nextY + H;
 					int nx = nextX + W;
