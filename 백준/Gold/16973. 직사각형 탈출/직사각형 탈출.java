@@ -56,10 +56,10 @@ class Main{
 				res = now.cnt;
 				break;
 			}
-			for(int i=0; i<4; i++)
+			for(int xy[] : dxy)
 			{
-				int nextY = now.y + dxy[i][0];
-				int nextX = now.x + dxy[i][1];
+				int nextY = now.y + xy[0];
+				int nextX = now.x + xy[1];
 				if(!visit[nextY][nextX])
 				{
 					int ny = nextY + H;
