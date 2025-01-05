@@ -2,6 +2,7 @@
 //https://www.acmicpc.net/problem/14846
 class Main{
 	public static void main(String[] args)throws Exception{
+		StringBuilder sb = new StringBuilder();
 		int N			= read();
 		int map[][][]	= new int[11][N+2][N+2];
 		
@@ -13,16 +14,15 @@ class Main{
 				for(int i=1; i<=10; i++)
 					map[i][y][x] += map[i][y-1][x] + map[i][y][x-1] - map[i][y-1][x-1];
 			}
-		
-		StringBuilder sb = new StringBuilder();
+
 		int Q = read();
 		while(Q-->0)
 		{
-			int y1 = read();
-			int x1 = read();
-			int y2 = read();
-			int x2 = read();
-			int cnt = 0;
+			int y1	= read();
+			int x1	= read();
+			int y2	= read();
+			int x2	= read();
+			int cnt	= 0;
 			
 			for(int i=1; i<=10; i++)
 				if(0<map[i][y2][x2] - map[i][y2][x1-1] - map[i][y1-1][x2] + map[i][y1-1][x1-1])
