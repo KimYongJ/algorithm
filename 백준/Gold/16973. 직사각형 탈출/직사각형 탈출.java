@@ -1,10 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/16973
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 
 class Point{
 	int y, x, cnt;
@@ -18,10 +14,8 @@ class Main{
 	static boolean visit[][];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y		= Integer.parseInt(st.nextToken());
-		X		= Integer.parseInt(st.nextToken());
+		Y		= read();
+		X		= read();
 		map		= new int[Y+2][X+2];
 		visit	= new boolean[Y+2][X+2];
 		
@@ -31,19 +25,15 @@ class Main{
 			visit[0][x] = visit[Y+1][x] = true;
 		
 		for(int y=1; y<=Y; y++)
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=X; x++)
-				map[y][x] = Integer.parseInt(st.nextToken()) + map[y][x-1] + map[y-1][x] - map[y-1][x-1];
-		}
+				map[y][x] = read() + map[y][x-1] + map[y-1][x] - map[y-1][x-1];
 
-		st	= new StringTokenizer(br.readLine());
-		H	= Integer.parseInt(st.nextToken()) - 1;
-		W	= Integer.parseInt(st.nextToken()) - 1;
-		sy	= Integer.parseInt(st.nextToken());
-		sx	= Integer.parseInt(st.nextToken());
-		ey	= Integer.parseInt(st.nextToken());
-		ex	= Integer.parseInt(st.nextToken());
+		H	= read() - 1;
+		W	= read() - 1;
+		sy	= read();
+		sx	= read();
+		ey	= read();
+		ex	= read();
 		
 		ArrayDeque<Point> q = new ArrayDeque<>();
 		visit[sy][sx] = true;
@@ -78,5 +68,10 @@ class Main{
 			}
 		}
 		System.out.print(res);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
