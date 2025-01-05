@@ -1,28 +1,22 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/25682
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int Y, X, K;
-	static char board[][];
+	static int board[][];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Y		= Integer.parseInt(st.nextToken());
-		X		= Integer.parseInt(st.nextToken());
-		K		= Integer.parseInt(st.nextToken());
-		board	= new char[Y+1][X+1];
+		Y		= read();
+		X		= read();
+		K		= read();
+		board	= new int[Y+1][X+1];
 		
-		for(int y=1; y<=Y; y++)
-		{
-			String str = br.readLine();
-			for(int x=1; x<=X; x++)
-				board[y][x] = str.charAt(x-1);
+		for(int y=1; y<=Y; y++) {
+			for(int x=1; x<=X; x++) {
+				board[y][x] = System.in.read();
+			}
+			System.in.read();
 		}
 		
 		System.out.print(Math.min(find('B'), find('W')));
@@ -58,4 +52,9 @@ class Main{
 
 		return count;
 	}
+    static int read() throws Exception {
+        int c, n = 0;
+        while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
 }
