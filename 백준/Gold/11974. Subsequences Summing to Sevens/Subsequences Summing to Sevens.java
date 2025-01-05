@@ -8,21 +8,23 @@ class Main{
 		HashMap<Long, Integer> hm = new HashMap<>();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());
-		long arr[]	= new long[N+1];
-		long mod[]	= new long[N+1];
+		long sum	= 0;
+		long mod	= 0;
 		long max	= 0;
+		
 		hm.put(0L, 0);
+		
 		for(int i=1; i<=N; i++)
 		{
-			arr[i] += arr[i-1] + Integer.parseInt(br.readLine());
-			mod[i] = arr[i] %7;
+			sum += Integer.parseInt(br.readLine());
+			mod = sum %7;
 			
-			if(hm.containsKey(mod[i]))
+			if(hm.containsKey(mod))
 			{
-				int s = hm.get(mod[i]);
+				int s = hm.get(mod);
 				max = Math.max(max, i - s);
 			}
-			else hm.put(mod[i], i);
+			else hm.put(mod, i);
 		}
 		System.out.print(max);
 	}
