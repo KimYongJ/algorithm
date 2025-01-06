@@ -1,30 +1,22 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2096
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
+		int N = read();
 		int a,b,c;
 		int a1,b1,c1;
 		int a2,b2,c2;
 		int a3,b3,c3;
 		int x,y,z;
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		a = a1 = Integer.parseInt(st.nextToken());
-		b = b1 = Integer.parseInt(st.nextToken());
-		c = c1 = Integer.parseInt(st.nextToken());
+		a = a1 = read();
+		b = b1 = read();
+		c = c1 = read();
 		
-		for(int j=1; j<N; j++)
+		while(N-->1)
 		{
-			st = new StringTokenizer(br.readLine());
-			x = Integer.parseInt(st.nextToken());
-			y = Integer.parseInt(st.nextToken());
-			z = Integer.parseInt(st.nextToken());
+			x = read();
+			y = read();
+			z = read();
 			
 			a2 = Math.max(a, b) + x;
 			b2 = Math.max(a, Math.max(b, c)) + y;
@@ -46,5 +38,10 @@ class Main{
 		sb.append(Math.max(a, Math.max(b, c))).append(' ')
 			.append(Math.min(a1, Math.min(b1, c1)));
 		System.out.print(sb);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
