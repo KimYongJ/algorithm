@@ -8,26 +8,44 @@ import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
-		int arr[][] = new int[N][3];
-		int brr[][] = new int[N][3];
-		for(int i=0; i<N; i++)
+		int N = Integer.parseInt(br.readLine());
+		int a,b,c;
+		int a1,b1,c1;
+		int a2,b2,c2;
+		int a3,b3,c3;
+		int x,y,z;
+		int x1,y1,z1;
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		a = a1 = Integer.parseInt(st.nextToken());
+		b = b1 = Integer.parseInt(st.nextToken());
+		c = c1 = Integer.parseInt(st.nextToken());
+		
+		for(int j=1; j<N; j++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			brr[i][0] = arr[i][0] = Integer.parseInt(st.nextToken());
-			brr[i][1] = arr[i][1] = Integer.parseInt(st.nextToken());
-			brr[i][2] = arr[i][2] = Integer.parseInt(st.nextToken());
+			st = new StringTokenizer(br.readLine());
+			x = x1 = Integer.parseInt(st.nextToken());
+			y = y1 = Integer.parseInt(st.nextToken());
+			z = z1 = Integer.parseInt(st.nextToken());
+			
+			a2 = Math.max(a, b) + x;
+			b2 = Math.max(a, Math.max(b, c)) + y;
+			c2 = Math.max(b, c) + z;
+			
+			a3 = Math.min(a1, b1) + x1;
+			b3 = Math.min(a1, Math.min(b1, c1)) + y1;
+			c3 = Math.min(b1, c1) + z1;
+			
+			a = a2;
+			b = b2;
+			c = c2;
+			a1= a3;
+			b1= b3;
+			c1= c3;
 		}
 		
-		for(int i=1; i<N; i++) {
-			arr[i][0] += Math.max(arr[i-1][0], arr[i-1][1]);
-			arr[i][2] += Math.max(arr[i-1][1], arr[i-1][2]);
-			arr[i][1] += Math.max(arr[i-1][2],Math.max(arr[i-1][0], arr[i-1][1]));
-			brr[i][0] += Math.min(brr[i-1][0], brr[i-1][1]);
-			brr[i][2] += Math.min(brr[i-1][1], brr[i-1][2]);
-			brr[i][1] += Math.min(brr[i-1][2],Math.min(brr[i-1][0], brr[i-1][1]));
-		}
-		System.out.printf("%d %d",Math.max(Math.max(arr[N-1][0], arr[N-1][1]),arr[N-1][2]),
-				Math.min(Math.min(brr[N-1][0], brr[N-1][1]),brr[N-1][2]));
+		StringBuilder sb = new StringBuilder();
+		sb.append(Math.max(a, Math.max(b, c))).append(' ')
+			.append(Math.min(a1, Math.min(b1, c1)));
+		System.out.print(sb);
 	}
 }
