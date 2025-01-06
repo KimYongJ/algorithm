@@ -22,13 +22,10 @@ class Main{
 		int l = 0;
 		int r = 1;
 		int min = ~(1<<31);
-		while(r<N) {
+		while(r<N && min != M)
+		{
 			int diff = arr[r] - arr[l];
-			
-			if(diff == M)
-			{
-				min = M; break;
-			}
+
 			if(diff < M)
 				++r;
 			else
