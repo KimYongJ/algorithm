@@ -8,15 +8,25 @@ class Main{
 		
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
-				map[y][x] = read() + map[y-1][x] + map[y][x-1] - map[y-1][x-1];
+				map[y][x] = read() + map[y][x-1];
 
 		int ans = ~(1<<30);
-		for(int y=1; y<=Y; y++)
-			for(int x=1; x<=X; x++)
-				for(int y1=0; y1<y; y1++)
-					for(int x1=0; x1<x; x1++)
-						ans = Math.max(ans, map[y][x] - map[y][x1] - map[y1][x] + map[y1][x1]);
-
+		for(int x=1; x<=X; x++)
+			for(int x1=x; x1<=X; x1++)
+			{
+				int sum = 0;
+				for(int y=1; y<=Y; y++)
+				{
+					int row = map[y][x1] - map[y][x-1];
+					
+					sum += row;
+					if(sum < row)
+						sum = row;
+					
+					ans = Math.max(ans, sum);
+				}
+			}
+		
 		System.out.print(ans);
 	}
     static int read() throws Exception {
