@@ -10,7 +10,7 @@ class Main{
 		long s	= 1;
 		long e	= 2;
 		
-		while(e <= 100_000)
+		while(e <= 50_001)
 		{
 			long diff = e*e-s*s;
 			
