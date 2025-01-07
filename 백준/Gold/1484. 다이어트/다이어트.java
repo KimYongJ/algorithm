@@ -12,14 +12,15 @@ class Main{
 		
 		while(e <= 100_000)
 		{
-			long ss		= s*s;
-			long ee		= e*e;
-			long diff	= ee-ss;
+			long diff = e*e-s*s;
 			
 			if(diff == G)
+			{
 				sb.append(e).append('\n');
-
-			if(diff<=G)
+				++e;
+				++s;
+			}
+			else if(diff<=G)
 				++e;
 			else
 				++s;
