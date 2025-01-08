@@ -8,13 +8,13 @@ class Main{
 		{
 			int M		= read(); // 나눌 수(1<=백만)
 			int N		= read(); // 수열의크기(1<=오만)
-			long arr[]	= new long[N+1];
+			long sum	= 0;
 			long mod[]	= new long[M];
 			
 			for(int i=1; i<=N; i++)
 			{
-				arr[i] = read() + arr[i-1];
-				mod[(int)(arr[i] % M)]++;
+				sum += read();
+				mod[(int)(sum % M)]++;
 			}
 			
 			long res = mod[0];
