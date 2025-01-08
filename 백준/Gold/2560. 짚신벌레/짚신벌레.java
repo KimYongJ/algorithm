@@ -18,10 +18,9 @@ class Main{
 		for(int i=1; i<=N; i++)
 		{
 			dp[i] = dp[i-1];
-			if(0 <= i-a)
-				dp[i] += dp[i-a];
-			if(0 <= i-b)
-				dp[i] -= dp[i-b] - 1000;
+			
+			if(0 <= i-a) dp[i] += dp[i-a];
+			if(0 <= i-b) dp[i] -= dp[i-b] - 1000;
 			
 			dp[i] %= 1000;
 		}
