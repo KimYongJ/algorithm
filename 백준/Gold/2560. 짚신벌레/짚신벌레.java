@@ -1,17 +1,12 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2560
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int a = Integer.parseInt(st.nextToken());	// 성체가 되는 날
-		int b = Integer.parseInt(st.nextToken());	// 더이상 새로운 객체를 만들지 않는 날
-		int d = Integer.parseInt(st.nextToken());	// 없어지는날
-		int N = Integer.parseInt(st.nextToken());	// 총 일수
-		int dp[] = new int[N+1];					// i일자에 있는 개체수
+		int a		= read();		// 성체가 되는 날
+		int b		= read();		// 더이상 새로운 객체를 만들지 않는 날
+		int d		= read();		// 없어지는날
+		int N		= read();		// 총 일수
+		int dp[]	= new int[N+1];	// i일자에 있는 개체수
 		
 		dp[0] = 1;	// 0일째 1마리를 넣는다.
 		
@@ -30,5 +25,10 @@ class Main{
 			dp[N] -= dp[N-d] - 1000;
 		
 		System.out.print(dp[N] % 1000);				// 최종결과
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
