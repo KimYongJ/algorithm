@@ -20,27 +20,25 @@ class Main{
 					visit[j] = true;
 			}
 		
-		if(list.size() > 0)
+		if(2<=N)
 		{
 			int l	= 0;
 			int r	= 0;
-			int sum = list.get(0);
+			int sum = 2;
 			int len = list.size();
-			while(l<=r && r<len)
+			while(r<len)
 			{
 				if(sum <= N)
 				{
 					if(sum==N)
 						++cnt;
-					++r;
-					if(r==len)
+					
+					if(++r==len)
 						break;
 					sum += list.get(r);
 				}
 				else
-				{
 					sum -= list.get(l++);
-				}
 			}
 		}
 		System.out.print(cnt);
