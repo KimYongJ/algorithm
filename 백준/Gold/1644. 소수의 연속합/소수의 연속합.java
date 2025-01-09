@@ -2,20 +2,19 @@
 //https://www.acmicpc.net/problem/1644
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		ArrayList<Integer> list	= new ArrayList<>();
 		int N			= Integer.parseInt(br.readLine());
 		int cnt			= 0;
+		int len			= 0;
+		int list[]		= new int[283_147];
 		boolean visit[] = new boolean[N+1];
 		
 		for(int i=2; i<=N; i++)
 			if(!visit[i])
 			{
-				list.add(i);
+				list[len++] = i;			// 소수를 list에 담는다. len은  list의최대길이가됨
 				for(int j=i; j<=N; j+=i)
 					visit[j] = true;
 			}
@@ -25,20 +24,17 @@ class Main{
 			int l	= 0;
 			int r	= 0;
 			int sum = 2;
-			int len = list.size();
 			while(r<len)
 			{
 				if(sum <= N)
 				{
 					if(sum==N)
 						++cnt;
-					
-					if(++r==len)
-						break;
-					sum += list.get(r);
+
+					sum += list[++r];
 				}
 				else
-					sum -= list.get(l++);
+					sum -= list[l++];
 			}
 		}
 		System.out.print(cnt);
