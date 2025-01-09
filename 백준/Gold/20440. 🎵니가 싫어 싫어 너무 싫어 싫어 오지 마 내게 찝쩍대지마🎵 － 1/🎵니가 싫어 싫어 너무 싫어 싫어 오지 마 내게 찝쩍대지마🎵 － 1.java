@@ -1,41 +1,35 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/20440
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeSet;
 
 class Pos{int s,e;Pos(int s, int e){this.s=s;this.e=e;}}
 
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		TreeSet<Integer> set = new TreeSet<>();
-		int N		= Integer.parseInt(br.readLine());
+		int N		= read();
 		Pos[] pos	= new Pos[N];
 		
 		for(int i=0; i<N; i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
+			int s = read();
+			int e = read();
 			pos[i] = new Pos(s,e);
 			set.add(s);
 			set.add(e);
 		}
-		int idx[] = new int[set.size()];
-		int index = 0;
-		for(int s : set)
-			idx[index++] = s;
 		
+		ArrayList<Integer> idx = new ArrayList<>(set);
 		int len		= set.size();
 		int psum[]	= new int[len+1];
 		
 		for(Pos p : pos)
 		{
-			int s = binarySearch(idx, p.s);
-			int e = binarySearch(idx, p.e);
+			int s = Collections.binarySearch(idx, p.s);
+			int e = Collections.binarySearch(idx, p.e);
 			psum[s]++;
 			if(p.s != p.e)
 				psum[e]--;
@@ -59,24 +53,13 @@ class Main{
 				end = i;
 
 		
-		sb.append(max).append('\n').append(idx[start]).append(' ').append(idx[end+1]);
+		sb.append(max).append('\n').append(idx.get(start)).append(' ').append(idx.get(end+1));
 
 		System.out.print(sb);
 	}
-	public static int binarySearch(int arr[], int target) {
-		int s = 0;
-		int e = arr.length-1;
-		int r = 0;
-		while(s<=e)
-		{
-			int mid = (s + e) >> 1;
-			if(target <= arr[mid])
-			{
-				r = mid;
-				e = mid - 1;
-			}
-			else s = mid + 1;
-		}
-		return r;
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
