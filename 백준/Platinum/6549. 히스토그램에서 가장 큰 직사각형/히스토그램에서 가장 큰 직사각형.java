@@ -1,23 +1,18 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/6549
 // 1초 / 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int N = Integer.parseInt(st.nextToken());	// 직사각형의 수(1<=십만)
+			int N = read();	// 직사각형의 수(1<=십만)
 			if(N == 0)
 				break;
 			
 			int height[] = new int[N];
 			for(int i=0; i<N; i++)
-				height[i] = Integer.parseInt(st.nextToken());// 0<=십억
+				height[i] = read();// 0<=십억
 
 			sb.append(getArea(height)).append('\n');
 		}
@@ -43,5 +38,10 @@ class Main{
 			stack[++stackIdx] = i;
 		}
 		return max;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
