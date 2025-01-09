@@ -1,22 +1,18 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1725
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
+		int N		= read();
 		int max		= 0;
 		int height[]= new int[N+1];
 		int stack[]	= new int[N+1];
 		int stIdx	= -1;
 		
 		for(int i=0; i<N; i++)
-			height[i] = Integer.parseInt(br.readLine());
+			height[i] = read();
 		
   		for(int i=0; i<=N; i++)
 		{
-  			
    			while(0<=stIdx && height[stack[stIdx]] > height[i])
 			{
 				int H = height[stack[stIdx--]];
@@ -29,5 +25,10 @@ class Main{
 			stack[++stIdx] = i;
 		}
 		System.out.print(max);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
