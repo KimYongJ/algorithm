@@ -1,43 +1,44 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1644
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N			= Integer.parseInt(br.readLine());
+		int N			= read();
 		int cnt			= 0;
 		int len			= 0;
-		int list[]		= new int[283_147];
+		int list[]		= new int[283_147];	// 4백만까지 소수 개수는 283,146개임..
 		boolean visit[] = new boolean[N+1];
 		
 		for(int i=2; i<=N; i++)
 			if(!visit[i])
 			{
-				list[len++] = i;			// 소수를 list에 담는다. len은  list의최대길이가됨
+				list[len++] = i;			// 소수를 list에 담는다. len은  list의 최대 길이가 됨
 				for(int j=i; j<=N; j+=i)
 					visit[j] = true;
 			}
 		
-		if(2<=N)
-		{
-			int l	= 0;
-			int r	= 0;
-			int sum = 2;
-			while(r<len)
-			{
-				if(sum <= N)
-				{
-					if(sum==N)
-						++cnt;
 
-					sum += list[++r];
-				}
-				else
-					sum -= list[l++];
+		int l	= 0;
+		int r	= 0;
+		int sum = 2;
+		while(r<len)
+		{
+			if(sum <= N)
+			{
+				if(sum==N)
+					++cnt;
+
+				sum += list[++r];
 			}
+			else
+				sum -= list[l++];
 		}
+
 		System.out.print(cnt);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
 /////////////// 이하 누적합 풀이
