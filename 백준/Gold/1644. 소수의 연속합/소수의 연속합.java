@@ -20,7 +20,7 @@ class Main{
 		int l	= 0;
 		int r	= 0;
 		int sum = 2;
-		while(r<len)
+		while(l<=r && r<len)
 		{
 			if(sum <= N)
 			{
