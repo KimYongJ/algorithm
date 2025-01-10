@@ -1,17 +1,12 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/11873
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int Y = Integer.parseInt(st.nextToken());//1<=천
-			int X = Integer.parseInt(st.nextToken());//1<=천
+			int Y = read();//1<=천
+			int X = read();//1<=천
 			int M = 0;
 			if(Y == 0 && X == 0)
 				break;
@@ -19,10 +14,9 @@ class Main{
 			int height[] = new int[X+1];
 			for(int y=0; y<Y; y++)
 			{
-				st = new StringTokenizer(br.readLine());
 				for(int x=0; x<X; x++)
 				{
-					int n = Integer.parseInt(st.nextToken());//1<=천
+					int n = read();//1<=천
 					if(n == 0)
 						height[x] = 0;
 					else
@@ -53,5 +47,10 @@ class Main{
 			stack[++stIdx] = i;
 		}
 		return max;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
