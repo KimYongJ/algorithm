@@ -1,19 +1,15 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/14476
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N			= Integer.parseInt(br.readLine());
+		int N			= read();
 		int arr[]		= new int[N];
 		int forward[]	= new int[N];
 		int backward[]	= new int[N];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
+		
 		forward[0] = arr[0];
 		backward[N-1] = arr[N-1];
 		
@@ -24,25 +20,24 @@ class Main{
 		
 		int idx = -1, maxGcd = 0;
 		
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<N; i++)
+		{
 			int curGcd = 0;
+			
 			if(i == 0)
-			{
 				curGcd = backward[i+1];
-			}
 			else if(i == N -1)
-			{
 				curGcd = forward[N-2];
-			}
 			else
-			{
 				curGcd = gcd(forward[i-1], backward[i+1]);
-			}
-			if(maxGcd < curGcd) {
+				
+			if(maxGcd < curGcd)
+			{
 				maxGcd = curGcd;
 				idx = i;
 			}
 		}
+		
 		if(arr[idx] % maxGcd == 0)
 			System.out.print(-1);
 		else
@@ -57,5 +52,10 @@ class Main{
 			a = tmp;
 		}
 		return a;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
