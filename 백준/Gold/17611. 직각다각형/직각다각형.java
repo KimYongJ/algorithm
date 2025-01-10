@@ -1,21 +1,16 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17611
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 4<=십만
+		int N		= read();	// 4<=십만
 		int psumX[]	= new int[1_000_001];
 		int psumY[]	= new int[1_000_001];
 		int arr[][]	= new int[N][2];
 		
 		for(int i=0; i<N; i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			arr[i][0]	= Integer.parseInt(st.nextToken()) + 500_000;	// x좌표 (절대값 오십만)
-			arr[i][1]	= Integer.parseInt(st.nextToken()) + 500_000;	// y좌표 (절대값 오십만)
+			arr[i][0]	= read() + 500_000;	// x좌표 (절대값 오십만)
+			arr[i][1]	= read() + 500_000;	// y좌표 (절대값 오십만)
 		}
 		
 		for(int i=0; i<N; i++)
@@ -47,4 +42,12 @@ class Main{
 		}
 		System.out.print(max);
 	}
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 }
