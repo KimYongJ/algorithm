@@ -1,6 +1,9 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/14476
 class Main{
+	
+	static int maxGcd, idx;
+	
 	public static void main(String[] args)throws Exception{
 		int N			= read();
 		int arr[]		= new int[N];
@@ -18,30 +21,23 @@ class Main{
 		for(int i=N-2; i>=0; i--)
 			backward[i] = gcd(backward[i+1], arr[i]);
 		
-		int idx = -1, maxGcd = 0;
+		setMax(backward[1], 0);		// 없애는 숫자가 가장 앞 숫자인 경우
+		setMax(forward[N-2], N-1);	// 없애는 숫자가 가장 뒤 숫자인 경우
 		
-		for(int i=0; i<N; i++)
-		{
-			int curGcd = 0;
-			
-			if(i == 0)
-				curGcd = backward[i+1];
-			else if(i == N -1)
-				curGcd = forward[N-2];
-			else
-				curGcd = gcd(forward[i-1], backward[i+1]);
-				
-			if(maxGcd < curGcd)
-			{
-				maxGcd = curGcd;
-				idx = i;
-			}
-		}
+		for(int i=1; i<N - 1; i++)	// 없애는 숫자 범위는 1부터 N-2까지만 탐색함
+			setMax(gcd(forward[i-1], backward[i+1]), i);
 		
 		if(arr[idx] % maxGcd == 0)
 			System.out.print(-1);
 		else
 			System.out.print(new StringBuilder().append(maxGcd).append(' ').append(arr[idx]));
+	}
+	public static void setMax(int gcd, int i) {
+		if(maxGcd < gcd)
+		{
+			maxGcd = gcd;
+			idx = i;
+		}
 	}
 	public static int gcd(int a, int b) {
 		int tmp;
