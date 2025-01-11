@@ -19,18 +19,21 @@ class Main{
 		for(int i=0; i<P; i++)
 			ACGT[str[i]]--;
 		
-		if(0 >= ACGT['A'] && 0 >= ACGT['C'] && 0 >= ACGT['G'] && 0 >= ACGT['T'])
+		if(validate())
 			++result;
 		
 		for(int i=P; i<len; i++)
 		{
 			ACGT[str[i - P]]++;
 			ACGT[str[i]]--;
-			if(0 >= ACGT['A'] && 0 >= ACGT['C'] && 0 >= ACGT['G'] && 0 >= ACGT['T'])
+			if(validate())
 				++result;
 		}
 		
 		System.out.print(result);
+	}
+	public static boolean validate() {
+		return 0 >= ACGT['A'] && 0 >= ACGT['C'] && 0 >= ACGT['G'] && 0 >= ACGT['T'];
 	}
 	static int read() throws Exception {
 		int c, n = System.in.read() & 15;
