@@ -1,22 +1,16 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/12891
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
 		char C[] = {'A','C','G','T'};
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int len		= Integer.parseInt(st.nextToken());
-		int P		= Integer.parseInt(st.nextToken());
-		char str[]	= br.readLine().toCharArray();
+		int len		= read();
+		int P		= read();
+		char str[]	= readString().toCharArray();
 		int ACGT[]	= new int[90];
 		int CNT[]	= new int[90];
-		
-		st = new StringTokenizer(br.readLine());
+
 		for(int i=0; i<4; i++)
-			ACGT[C[i]] = Integer.parseInt(st.nextToken());
+			ACGT[C[i]] = read();
 		
 		for(int i=0; i<P; i++)
 			CNT[str[i]]++;
@@ -37,7 +31,16 @@ class Main{
 			if(ACGT[c] > CNT[c])
 				return 0;
 		return 1;
-	}
-	
-	
+	}	
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	} 
+    public static String readString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        int c;
+        while ((c = System.in.read()) > 13) {sb.append((char) c);}
+        return sb.toString();
+    }
 }
