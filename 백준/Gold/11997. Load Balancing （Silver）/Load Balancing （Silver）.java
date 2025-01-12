@@ -15,6 +15,8 @@ class Main{
 		int pos[][] = new int[N][2];
 		int yIdx	= 0;
 		int xIdx	= 0;
+		int min		= 1<<30;
+		
 		for(int i=0; i<N; i++)
 		{
 			pos[i][0] = read();
@@ -35,7 +37,6 @@ class Main{
 			for(int x=1; x<=xIdx; x++)
 				map[y][x] += map[y-1][x] + map[y][x-1] - map[y-1][x-1];
 		
-		int min = 1<<30;
 		for(int y=1; y<=yIdx; y++)
 			for(int x=1; x<=xIdx; x++)
 			{
