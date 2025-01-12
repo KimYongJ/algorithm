@@ -1,23 +1,17 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2283
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
 		final int MAX = 1_000_001;
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());
-		int K		= Integer.parseInt(st.nextToken());
+		int N		= read();
+		int K		= read();
 		int psum[]	= new int[MAX+1];
 		
 		while(N-->0)
 		
 		{
-			st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
+			int s = read();
+			int e = read();
 			psum[s]++;
 			psum[e]--;
 		}
@@ -41,5 +35,10 @@ class Main{
 				sum -=psum[s++];
 		}
 		System.out.print("0 0");
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
