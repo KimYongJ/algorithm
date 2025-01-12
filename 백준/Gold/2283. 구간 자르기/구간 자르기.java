@@ -10,7 +10,7 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N		= Integer.parseInt(st.nextToken());
 		int K		= Integer.parseInt(st.nextToken());
-		int psum[]	= new int[MAX];
+		int psum[]	= new int[MAX+1];
 		
 		while(N-->0)
 		
@@ -26,21 +26,19 @@ class Main{
 			psum[i] += psum[i-1];
 		
 		int sum = psum[0];
-		int s = 0;
-		int e = 0;
-		while(e<MAX) {
-			if(sum == K) {
-				System.out.printf("%d %d",s,e+1);
+		int s	= 0;
+		int e	= 0;
+		while(e<MAX)
+		{
+			if(sum == K)
+			{
+				System.out.print(new StringBuilder().append(s).append(' ').append(e + 1));
 				return;
 			}
-			if(sum < K) {
-				if(e+1 == MAX)
-					break;
+			if(sum < K)
 				sum += psum[++e];
-			}
-			else {
+			else
 				sum -=psum[s++];
-			}
 		}
 		System.out.print("0 0");
 	}
