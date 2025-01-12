@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/11997
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 class Main{
 	
@@ -14,16 +11,14 @@ class Main{
 	static int map[][];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
+		int N		= read();
 		int pos[][] = new int[N][2];
 		int yIdx	= 0;
 		int xIdx	= 0;
 		for(int i=0; i<N; i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			pos[i][0] = Integer.parseInt(st.nextToken());
-			pos[i][1] = Integer.parseInt(st.nextToken());
+			pos[i][0] = read();
+			pos[i][1] = read();
 			setY.add(pos[i][0]);
 			setX.add(pos[i][1]);
 		}
@@ -59,5 +54,10 @@ class Main{
 	}
 	public static int getSum(int y1, int x1, int y2, int x2) {
 		return map[y2][x2] - map[y2][x1-1] - map[y1-1][x2] + map[y1-1][x1-1];
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
