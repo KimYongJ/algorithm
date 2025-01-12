@@ -32,9 +32,9 @@ class Main{
 	}
 	public static int cal(int max) {
 
-		while(isContinue())	// sum배열에 같은 값이 모두 들어가있는지 체크
+		while(isContinue())	// sum배열에 같은 값이 모두 들어가있는지 체크 및 무한반복
 		{
-			for(int i=0; i<len; i++)
+			for(int i=0; i<len; i++)		// sum배열을 돌면서 max보다 작거나, 소수가 아니면 계속 증가시킨다
 			{
 				if(sum[i] < max || !isPrime[sum[i]])
 				{
@@ -54,7 +54,7 @@ class Main{
 	public static boolean isContinue(){
 		int base = sum[0];
 		for(int s: sum)
-			if(base != s || !isPrime[s])
+			if(base != s || !isPrime[s])	// sum배열 값이 다 같지 않거나 하나라도 소수가 아니면 계속반복
 				return true;
 		return false;
 	}
@@ -70,21 +70,21 @@ class Main{
 		
 		for(int i=1; i<=T; i++)
 		{
+			int max = 0;
+			
 			len		= Integer.parseInt(br.readLine());
-			eIdx	= new int[len];
-			sIdx	= new int[len];
-			sum		= new int[len];
+			eIdx	= new int[len];	// 각 배열의 종료인덱스
+			sIdx	= new int[len];	// 각 배열의 시작인덱스
+			sum		= new int[len];	// 각 배열마다의 총 합
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int j=0; j<len; j++)
 			{
-				eIdx[j] = Integer.parseInt(st.nextToken());
+				eIdx[j] = Integer.parseInt(st.nextToken());	// 종료인덱스를 입력받음, ex)3입력시 0~2까지 범위가되는것
 				for(int z=0; z<eIdx[j]; z++)
-					sum[j] += prime[z];		// sum[j] 에 그 숫자만큼 소수의 합을 담는다.
+					sum[j] += prime[z];	// sum[j] 에 종료인덱스 만큼 더한다. ex)3입력시 0~2번째 소수를 더함
+				
+				max = Math.max(max, sum[j]);
 			}
-			
-			int max = 0;
-			for(int s : sum)
-				max = Math.max(max, s);
 			
 			sb.append("Scenario ").append(i).append(":\n")
 				.append(cal(max)).append("\n\n");
