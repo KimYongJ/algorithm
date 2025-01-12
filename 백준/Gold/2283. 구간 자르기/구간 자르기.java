@@ -8,12 +8,9 @@ class Main{
 		int psum[]	= new int[MAX+1];
 		
 		while(N-->0)
-		
 		{
-			int s = read();
-			int e = read();
-			psum[s]++;
-			psum[e]--;
+			psum[read()]++;
+			psum[read()]--;
 		}
 		
 		for(int i=1; i<MAX; i++)
