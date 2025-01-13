@@ -21,17 +21,15 @@ class Main{
 		
 		int u = 0, d = 0;
 		
-		while(u < N || d < M)
-		{
-			if(u < N && d < M)
-				sb.append(arr1[u] < arr2[d] ? arr1[u++] : arr2[d++]).append(' ');
-			else if(u < N)
-				while(u < N)
-					sb.append(arr1[u++]).append(' ');
-			else if(d < M)
-				while(d < M)
-					sb.append(arr2[d++]).append(' ');
-		}
+		while(u < N && d < M)
+			sb.append(arr1[u] < arr2[d] ? arr1[u++] : arr2[d++]).append(' ');
+		
+		if(u < N)
+			while(u < N)
+				sb.append(arr1[u++]).append(' ');
+		if(d < M)
+			while(d < M)
+				sb.append(arr2[d++]).append(' ');
 		System.out.print(sb);
 	}
 }
