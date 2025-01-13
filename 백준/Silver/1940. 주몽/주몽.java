@@ -1,32 +1,28 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1940
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 1<=만오천
-		int M		= Integer.parseInt(br.readLine());	// 1<=천만
+		int N		= read();	// 1<=만오천
+		int M		= read();	// 1<=천만
 		int cnt		= 0;
-		boolean v[] = new boolean[10_000_001];
 		int arr[]	= new int[N];
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		boolean v[] = new boolean[100_001];
+
 		for(int i=0; i<N; i++)
-			v[arr[i] = Integer.parseInt(st.nextToken())] = true;
+			v[arr[i] = read()] = true;
 		
 		for(int a : arr)
 		{
 			int target = M - a;
-			if(0 <= target && target <= 10_000_001)
-			{
-				if(v[target])
+			if(0 <= target && target <= 100_001 && v[target])
 					++cnt;
-			}
 		}
 		
 		System.out.print(cnt / 2);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
