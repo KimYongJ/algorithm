@@ -20,16 +20,17 @@ class Main{
 		
 		Arrays.sort(arr);
 		
-		for(int s=0; s<N-1; s++)
-		{
-			for(int e=s+1; e<N; e++)
-			{
-				int sum = arr[s] + arr[e];
-				if(sum <= S)
-				{
-					++res;
-				}else break;
+		int s = 0;
+		int e = N - 1;
+		while(s<e) {
+			int sum = arr[s] + arr[e];
+			if(sum <= S) {
+				res += e - s;
 			}
+			if(sum <= S)
+				++s;
+			if(S < sum)
+				--e;
 		}
 		System.out.print(res);
 	}
