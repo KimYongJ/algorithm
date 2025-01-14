@@ -1,19 +1,18 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/4902
-//1초 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+//1초 256MB / test case
+//5 -100 -100 -100 -100 -100 -100 -100 -100 -100 -100 -100 -100 100 100 100 -100 -100 -100 -100 -100 -100 100 -100 -100 -100
+//0
+//답 : 1. 400
+
 class Main{
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		int t = 0;
 		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int Y	= Integer.parseInt(st.nextToken());
+			int Y	= read();
 			int X	= (Y-1)*2 + 1 + 1;	// 누적합을 위해 x좌표는 필요한 양의 +1을 추가
 			int max	= -1000;
 			int[][] map	= new int[Y+1][X];
@@ -27,7 +26,7 @@ class Main{
 				for(int x=1; x<=len; x++)
 				{
 					// 절대값 |천|의 값이 들어옴, 입력과 동시에 행별로 누적합 계산
-					int n = Integer.parseInt(st.nextToken());
+					int n = read();
 					map[y][x] = n + map[y][x-1];
 					max = Math.max(max, n);
 				}
@@ -67,4 +66,12 @@ class Main{
 		}
 		System.out.print(sb);
 	}
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 }
