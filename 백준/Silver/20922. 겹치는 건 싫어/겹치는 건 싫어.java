@@ -1,28 +1,14 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/20922
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 수열개수(1<=이십만)
-		int K		= Integer.parseInt(st.nextToken());	// 기준값(1<=백)
-		
-		if(N==K)
-		{
-			System.out.print(N);
-			return;
-		}
-		
-		int arr[]	= new int[N];						// 1<=십만
+		int N		= read();			// 수열개수(1<=이십만)
+		int K		= read();			// 기준값(1<=백)
+		int arr[]	= new int[N];		// 1<=십만
 		int dp[]	= new int[100_001];
 		
-		
-		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		int s = 0;
 		int e = 0;
@@ -45,5 +31,10 @@ class Main{
 			}
 		}
 		System.out.print(M);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
