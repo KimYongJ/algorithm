@@ -53,13 +53,13 @@ class Main{
 				for(int x=2; x<=len; x+=2)
 				{
 					int sum = 0;
-					for(int plus = 0,y1=y; y1>=1 && (y1-1)*2>=x; plus +=2, y1--)
-					{
-						if(x - plus - 1 < 0)
-							break;
-						sum += map[y1][x] - map[y1][x - plus - 1];
-						max = Math.max(max, sum);
-					}
+					for(int plus = 0,y1=y;1<=y1 ; plus +=2, y1--)
+						// y1가 범위 안에있고, x가 해당y좌표의 최대를 초과하지 않으며, 역방향일 때 가장 오른쪽값(x-plus-1)이 양수일 때
+						if(x<=(y1-1)*2 && 0 <= x - plus - 1)
+						{
+							sum += map[y1][x] - map[y1][x - plus - 1];
+							max = Math.max(max, sum);
+						}
 				}
 			}
 			
