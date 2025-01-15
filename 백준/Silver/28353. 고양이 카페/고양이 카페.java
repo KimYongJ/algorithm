@@ -17,16 +17,12 @@ class Main{
 		Arrays.sort(arr);
 		
 		while(s < e)
-		{
-			if(arr[e] + arr[s] <= K)
+			if(arr[e--] + arr[s] <= K)
 			{
-				--e;
 				++s;
 				++C;
 			}
-			else
-				--e;
-		}
+		
 		System.out.print(C);
 	}
 	static int read() throws Exception {
