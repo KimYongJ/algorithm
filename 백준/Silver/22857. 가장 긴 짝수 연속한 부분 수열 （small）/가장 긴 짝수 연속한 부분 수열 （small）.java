@@ -3,9 +3,9 @@
 //1초 / 1024MB
 class Main{
 	public static void main(String[] args)throws Exception{
-		int N = read();	// 수열길이(1≤오만)
-		int K = read();	// 삭제최대횟수(1≤K≤백)
-		int arr[] = new int[N+1];
+		int N		= read();	// 수열길이(1≤오만)
+		int K		= read();	// 삭제최대횟수(1≤K≤백)
+		int arr[]	= new int[N+1];
 		
 		for(int i=0; i<N; i++)
 			arr[i] = read() % 2;
