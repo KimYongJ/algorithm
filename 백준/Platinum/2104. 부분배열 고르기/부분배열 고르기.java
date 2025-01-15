@@ -15,20 +15,18 @@ class Main{
 			psum[i] += psum[i-1];
 		}
 		
-		Stack stack = new Stack();
-		stack.push(0);
+		int stack[] = new int[N+3];
+		int stIdx	= 1;
 		for(int i=1; i<=N+1; i++)
 		{
-			while(!stack.isEmpty() && arr[stack.peek()] > arr[i])
+			while(1<=stIdx && arr[stack[stIdx]] > arr[i])
 			{
-				long H = arr[stack.pop()];
-				int idx = stack.peek();
-				
-				long W = psum[i-1] - psum[idx];
+				long H = arr[stack[stIdx--]];				
+				long W = psum[i-1] - psum[stack[stIdx]];
 				
 				res = Math.max(res, H*W);
 			}
-			stack.push(i);
+			stack[++stIdx] = i;
 		}
 		System.out.print(res);
 	}
@@ -38,18 +36,3 @@ class Main{
 		return n;
 	}
 }
-class Stack{
-	Node node;
-	int size = 0;
-	public boolean isEmpty() {return size == 0;}
-	public int peek() {return node.value;}
-	public void push(int value) {++size;node = new Node(value, node);}
-	public int pop() {
-		int value = node.value;
-		node = node.next;
-		--size;
-		return value;
-	}
-}
-
-class Node{int value;Node next;Node(int v, Node n){value=v; next=n;}}
