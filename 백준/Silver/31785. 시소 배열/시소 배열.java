@@ -1,44 +1,46 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/31785
 //1초 / 1024MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T		= Integer.parseInt(br.readLine());
+		int T		= read();
 		int arr[]	= new int[500_001];
 		int s		= 0;
 		int e		= 0;
-		
+		int total	= 0;
 		while(T-->0)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int type = Integer.parseInt(st.nextToken());
+			int type = read();
+			
 			if(type == 1)
-				arr[e++] = Integer.parseInt(st.nextToken());
+			{
+				total += arr[e++] = read();
+			}
 			else
 			{
 				int mid = s + (e - s)/2;
 				
 				int sum1 = getSum(arr, s, mid);
-				int sum2 = getSum(arr, mid, e);
+				int sum2 = total - sum1;
 				if(sum1 <= sum2)
 				{
 					sb.append(sum1).append('\n');
 					s = mid;
+					total -= sum1;
 				}
 				else
 				{
 					sb.append(sum2).append('\n');
 					e = mid;
+					total -= sum2;
 				}
 			}
 		}
+		
 		while(s<e)
 			sb.append(arr[s++]).append(' ');
+		
 		System.out.print(sb);
 	}
 	public static int getSum(int arr[], int s, int e) {
@@ -46,5 +48,10 @@ class Main{
 		while(s<e)
 			sum += arr[s++];
 		return sum;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
