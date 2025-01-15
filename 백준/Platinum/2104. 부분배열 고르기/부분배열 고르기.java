@@ -3,7 +3,6 @@
 //2초 / 128MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 class Main{
@@ -20,7 +19,7 @@ class Main{
 			psum[i] += psum[i-1];
 		}
 		
-		Stack<Integer> stack = new Stack<>();
+		Stack stack = new Stack();
 		for(int i=1; i<=N+1; i++)
 		{
 			while(!stack.isEmpty() && arr[stack.peek()] > arr[i])
@@ -39,3 +38,18 @@ class Main{
 		System.out.print(res);
 	}
 }
+class Stack{
+	Node node;
+	int size = 0;
+	public boolean isEmpty() {return size == 0;}
+	public int peek() {return node.value;}
+	public void push(int value) {++size;node = new Node(value, node);}
+	public int pop() {
+		int value = node.value;
+		node = node.next;
+		--size;
+		return value;
+	}
+}
+
+class Node{int value;Node next;Node(int v, Node n){value=v; next=n;}}
