@@ -2,18 +2,14 @@
 //https://www.acmicpc.net/problem/21967
 //1초 / 512MB
 //연속하는 부분 수열 중 최솟값과 최댓값 차이가 2이하인 가장 긴 부분수열의 길이를 구하라
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());//1<=백만
+		int N		= read();//1<=백만
 		int[] arr	= new int[N+1];
 		int[] cnt	= new int[11];
-		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());//1<=10
+			arr[i] = read();//1<=10
 		
 		int len = 1;
 		int s = 0;
@@ -39,6 +35,11 @@ class Main{
 		int i=11;
 		while(0>=cnt[--i]);
 		return i;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
 // 이하 세그먼트 트리 방법(느림)
