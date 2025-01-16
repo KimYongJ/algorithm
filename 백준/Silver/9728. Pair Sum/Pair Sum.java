@@ -1,7 +1,7 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/9728
 // 1초 / 128MB
-// 요약 : 두 원소의 합이 정확히 M과 같은 것의 숫자를 센다, 배열은 오름차순정렬되있음
+// 요약 : 두 원소의 합이 정확히 M과 같은 것의 숫자를 센다, 배열은 오름차순정렬되있음, 모두다름
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,12 +28,14 @@ class Main{
 			while(s<e)
 			{
 				int sum = arr[s] + arr[e];
-				if(sum <= M)
+				if(sum == M)// 원소가 모두 다르기 때문에 값이 같다면 s,e를 모두 변경
 				{
+					++c;
 					++s;
-					if(sum==M)
-						++c;
+					--e; 
 				}
+				else if(sum < M)
+					++s;
 				else
 					--e;
 			}
