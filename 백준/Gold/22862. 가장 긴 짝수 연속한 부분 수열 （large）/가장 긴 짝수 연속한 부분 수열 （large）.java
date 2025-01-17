@@ -33,7 +33,6 @@ class Main{
 	}
 }
 
-
 class Reader {
     final int SIZE = 1 << 13;
     byte[] buffer = new byte[SIZE];
@@ -48,10 +47,7 @@ class Reader {
         while (isNumber(c = read()));
         return  n;
     }
-
-
     boolean isNumber(byte c) {return 47 < c && c < 58;}
-
     byte read() throws Exception {
         if (index == size) {
             size = System.in.read(buffer, index = 0, SIZE);
