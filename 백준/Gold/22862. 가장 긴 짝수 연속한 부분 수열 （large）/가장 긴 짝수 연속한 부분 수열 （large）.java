@@ -1,7 +1,7 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/22862
 // 1초 / 1024MB
-// 수열에서 읨의로 K번 수를 삭제한 후 짝수로 이뤄진 연속한 부분 수열 중 가장 긴 길이 출력
+// 수열에서 임의로 K개 수를 삭제한 후 짝수로 이뤄진 연속한 부분 수열 중 가장 긴 길이 출력
 // 비슷한 백준 문제 : 22857
 class Main{
 	public static void main(String[] args)throws Exception{
