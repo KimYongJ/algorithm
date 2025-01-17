@@ -3,22 +3,17 @@
 // 0.5초 / 256MB
 // 요약 : 수열의 부분 수열중 최댓값과 최솟값의 차이가 최대가되는 부분 수열 중 길이가 가장 짧은 것의 길이를 구하라
 // 해설 : 두 배열에서의 차이가 가장 짧은 것을 찾는 문제의 응용(백준 : 27931)
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 1<=십만
+		int N		= read();		// 1<=십만
 		int arr[]	= new int[N];	// 원소 : 1<=십만
 		int min		= 1<<30;
 		int max		= 0;
 		// 값을 입력할 때 배열의 최솟값과 최댓값을 찾아놓는다.
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
 		{
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 			min = Math.min(min, arr[i]);
 			max = Math.max(max, arr[i]);
 		}
@@ -52,5 +47,10 @@ class Main{
 		}
 
 		System.out.print(res);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
