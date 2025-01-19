@@ -2,19 +2,14 @@
 //https://www.acmicpc.net/problem/13144
 //1초 / 32MB
 //요약 : 수열에서 연속한 1개 이상 수를 뽑을 때 같은 수가 여러번 등장하지 않는 모든 경우의 수 출력
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 1<=십만 
-		int arr[]	= new int[N];						// 1<=십만
+		int N		= read();		// 1<=십만 
+		int arr[]	= new int[N];	// 1<=십만
 		int cnt[]	= new int[100_001];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		long result	= 0;
 		int s		= 0;
@@ -36,5 +31,10 @@ class Main{
 			
 		}
 		System.out.print(result);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
