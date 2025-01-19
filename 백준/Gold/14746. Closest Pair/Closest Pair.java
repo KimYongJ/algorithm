@@ -31,7 +31,7 @@ class Main{
 		
 		Arrays.sort(P);
 		Arrays.sort(Q);
-		// P와Q의 가장 가까운 점 쌍 간의 거리, 두번째는 그러한 점의 수 
+		
 		int idx1 = 0;
 		int idx2 = 0;
 		int minDist = 1<<30;
@@ -39,14 +39,15 @@ class Main{
 		while(idx1<N && idx2<M)
 		{
 			int diff = Math.abs(P[idx1] - Q[idx2]);
-			if(diff <= minDist) {
-				if(diff == minDist)
-					++pairCnt;
-				else {
-					minDist = diff;
-					pairCnt	= 1;
-				}
+			
+			if(diff == minDist)
+				++pairCnt;
+			else if(diff < minDist)
+			{
+				minDist = diff;
+				pairCnt	= 1;
 			}
+			
 			if(P[idx1] < Q[idx2])
 				++idx1;
 			else
