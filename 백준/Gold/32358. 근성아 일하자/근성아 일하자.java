@@ -16,7 +16,6 @@ class Main{
 		int N		= Integer.parseInt(br.readLine());
 		int now		= 0;
 		long res	= 0;
-		Map<Integer, Integer> map = new HashMap<>();
 		ArrayList<Integer> list = new ArrayList<>();
 		
 		while(N-->0)
@@ -26,7 +25,7 @@ class Main{
 			if(type == 1)
 			{
 				int value = Integer.parseInt(st.nextToken());
-				map.put(value, map.getOrDefault(value, 0));
+				
 				list.add(value);
 			}
 			else
@@ -35,10 +34,8 @@ class Main{
 				while(!list.isEmpty())
 				{
 					int idx = binarySearch(list, now);
-					int cnt = map.get(list.get(idx));
-					if(cnt > 1)
-						idx = 0;
-					else if(idx + 1 != list.size())
+					
+					if(idx + 1 != list.size())
 					{
 						int diff1 = Math.abs(now - list.get(idx));
 						int diff2 = Math.abs(now - list.get(idx+1));
@@ -47,7 +44,7 @@ class Main{
 					}
 					res += Math.abs(now - list.get(idx));
 					now = list.get(idx);
-					map.put(now, cnt - 1);
+					
 					list.remove(idx);
 				}
 			}
