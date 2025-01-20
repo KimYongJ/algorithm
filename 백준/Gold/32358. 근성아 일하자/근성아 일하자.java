@@ -4,20 +4,17 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		TreeSet<Integer> set = new TreeSet<>();
 		int N		= Integer.parseInt(br.readLine());
 		int now		= 0;
 		long res	= 0;
-		ArrayList<Integer> list = new ArrayList<>();
-		
+
 		while(N-->0)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
@@ -25,49 +22,34 @@ class Main{
 			if(type == 1)
 			{
 				int value = Integer.parseInt(st.nextToken());
-				
-				list.add(value);
+				if(value != now)
+					set.add(value);
 			}
 			else
 			{
-				Collections.sort(list);
-				while(!list.isEmpty())
+				while(!set.isEmpty())
 				{
-					int idx = binarySearch(list, now);
-					
-					if(idx + 1 != list.size())
+					Integer l = set.lower(now);	// floor는 now값 포함, heigher는 미포함
+					Integer r = set.higher(now);// ceiling은 now 값 포함, lower는 미포함
+					int value = 0;
+					if(l == null)
+						value = r;
+					else if(r == null)
+						value = l;
+					else
 					{
-						int diff1 = Math.abs(now - list.get(idx));
-						int diff2 = Math.abs(now - list.get(idx+1));
-						if(diff2 < diff1)
-							idx++;
+						int diff1 = Math.abs(l - now);
+						int diff2 = Math.abs(r - now);
+						value = diff1 <= diff2 ? l : r;
 					}
-					res += Math.abs(now - list.get(idx));
-					now = list.get(idx);
 					
-					list.remove(idx);
+					res += Math.abs(now - value);
+					now = value;
+					set.remove(now);
 				}
 			}
 		}
 		System.out.print(res);
 	}
-	public static int binarySearch(ArrayList<Integer> list, int target) {
-		int s	= 0;
-		int e	= list.size()-1;
-		int idx = -1;
-		while(s <= e)
-		{
-			int mid = (s + e) >> 1;
-			if(list.get(mid) <= target)
-			{
-				
-				idx = mid;
-				s = mid + 1;
-			}
-			else
-				e = mid - 1;
-		}
-		
-		return idx < 0 ? 0 : idx;
-	}
+
 }
