@@ -15,26 +15,21 @@ class Main{
 				break;
 			
 			char arr[]	= br.readLine().toCharArray();
-			int len		= arr.length;
 			int cnt[]	= new int[128];
 			int size	= 0;
 			int s		= 0;
 			int e		= 0;
 			int max		= 0;
 			
-			while(e < len)
+			while(e < arr.length)
 			{
 				if(cnt[arr[e++]]++ == 0)
 					size++;
 				
 				while(N < size)
-				{
 					if(--cnt[arr[s++]] == 0)
-					{
 						--size;
-						break;
-					}
-				}
+
 				max = Math.max(e - s, max);
 			}
 			sb.append(max).append('\n');
