@@ -24,10 +24,8 @@ class Main{
 			
 			while(e < len)
 			{
-				if(cnt[arr[e]] == 0)
+				if(cnt[arr[e++]]++ == 0)
 					size++;
-				
-				cnt[arr[e++]]++;
 				
 				while(N < size)
 				{
@@ -44,4 +42,3 @@ class Main{
 		System.out.print(sb);
 	}
 }
-
