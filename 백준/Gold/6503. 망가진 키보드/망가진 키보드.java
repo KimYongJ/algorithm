@@ -4,7 +4,6 @@
 //요약 : 최대 m개의 서로 다른 문자로 이루어진 가장 긴 부분 문자열 길이 출력
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,23 +16,26 @@ class Main{
 			
 			char arr[]	= br.readLine().toCharArray();
 			int len		= arr.length;
-			HashMap<Character, Integer> map = new HashMap<>();
+			int cnt[]	= new int[128];
+			int charCnt = 0;
+			int s		= 0;
+			int e		= 0;
+			int max		= 0;
 			
-			int s = 0;
-			int e = 0;
-			int max = 0;
 			while(e < len)
 			{
-				map.put(arr[e], map.getOrDefault(arr[e++], 0) + 1);
+				if(cnt[arr[e]] == 0)
+					charCnt++;
 				
-				while(N < map.size())
+				cnt[arr[e++]]++;
+				
+				while(N < charCnt)
 				{
-					int value = map.getOrDefault(arr[s], 0);
-					if(value == 1)
-						map.remove(arr[s]);
-					else
-						map.put(arr[s],value - 1);
-					++s;
+					if(--cnt[arr[s++]] == 0)
+					{
+						--charCnt;
+						break;
+					}
 				}
 				
 				max = Math.max(e - s, max);
