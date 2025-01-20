@@ -17,7 +17,7 @@ class Main{
 			char arr[]	= br.readLine().toCharArray();
 			int len		= arr.length;
 			int cnt[]	= new int[128];
-			int charCnt = 0;
+			int size	= 0;
 			int s		= 0;
 			int e		= 0;
 			int max		= 0;
@@ -25,19 +25,18 @@ class Main{
 			while(e < len)
 			{
 				if(cnt[arr[e]] == 0)
-					charCnt++;
+					size++;
 				
 				cnt[arr[e++]]++;
 				
-				while(N < charCnt)
+				while(N < size)
 				{
 					if(--cnt[arr[s++]] == 0)
 					{
-						--charCnt;
+						--size;
 						break;
 					}
 				}
-				
 				max = Math.max(e - s, max);
 			}
 			sb.append(max).append('\n');
@@ -45,3 +44,4 @@ class Main{
 		System.out.print(sb);
 	}
 }
+
