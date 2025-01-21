@@ -2,10 +2,8 @@
 //https://www.acmicpc.net/problem/24453
 //0.6초 / 512MB
 //요약 : 연속된 숫자를 X개 이상 만들기 위해 필요한 최소 개수
-
 class Main{
 	public static void main(String[] args)throws Exception{
-
 		int N		= read();		// 총 코드줄수(1<=이천만)
 		int M		= read();		// 오류가 있는 줄 수(1<=min(N,오십만))
 		int ans		= Integer.MAX_VALUE;
@@ -55,4 +53,3 @@ class Main{
 		return n;
 	}
 }
-
