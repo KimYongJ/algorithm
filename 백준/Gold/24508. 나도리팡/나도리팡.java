@@ -2,24 +2,17 @@
 //https://www.acmicpc.net/problem/24508
 //1초 / 512MB
 //요약 : 배열에서 두수를 더해서 모두다 K를 만들 수 있는지 and K를 만들 때 T번 이하로 숫자를 옮기며 할 수 있는지 체크
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());// 바구니(2<=십만)
-		int K		= Integer.parseInt(st.nextToken());// 모이면 터지는 수 (0<=십억)
-		int T		= Integer.parseInt(st.nextToken());// 반복가능한 횟수
+		int N		= read();// 바구니(2<=십만)
+		int K		= read();// 모이면 터지는 수 (0<=십억)
+		int T		= read();// 반복가능한 횟수
 		int arr[]	= new int[N];
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
 
-		
+		for(int i=0; i<N; i++)
+			arr[i] = read();
+
 		Arrays.sort(arr);
 		
 		int s = 0;
@@ -55,5 +48,9 @@ class Main{
 
 		System.out.print("YES");
 	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	}
 }
-
