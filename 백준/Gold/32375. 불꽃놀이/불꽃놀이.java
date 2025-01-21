@@ -14,24 +14,25 @@ class Main{
 		int N		= Integer.parseInt(st.nextToken());	// 폭죽개수(1<=이십만)
 		int K		= Integer.parseInt(st.nextToken());	// 시작 화려한 점수(1<=십억)
 		int arr[]	= new int[N];
+		int idx		= 0;
+		int ans		= 0;
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());	// 화려한 정도(1<=십억)
+		{
+			int n = Integer.parseInt(st.nextToken());	// 화려한 정도(1<=십억)
+			if(n < K)
+				arr[idx++] = n;
+			else ++ans;
+		}
 		
 		Arrays.sort(arr);
 		
-		int s = 0;
-		int e = N-1;
-		int ans = 0;
-		while(s <= e)
+		int s = N - idx;
+		int e = N - 1;
+		while(s < e)
 		{
-			if(K <= arr[e])
-			{
-				++ans;
-				--e;
-			}
-			else if(K <= arr[s] + arr[e] && s != e)
+			if(K <= arr[s] + arr[e])
 			{
 				++ans;
 				++s;
