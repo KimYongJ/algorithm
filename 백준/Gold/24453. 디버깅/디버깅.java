@@ -1,56 +1,56 @@
-import java.util.*;
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/24453
+//0.6초 / 512MB
+//요약 : 연속된 숫자를 X개 이상 만들기 위해 필요한 최소 개수
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+class Main{
+	public static void main(String[] args)throws Exception{
+		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N		= Integer.parseInt(st.nextToken());	// 총 코드줄수(1<=이천만)
+		int M		= Integer.parseInt(st.nextToken());	// 오류가 있는 줄 수(1<=min(N,오십만))
+		int ans		= Integer.MAX_VALUE;
+		int errCnt	= 0;// 고친에러 개수
+		int connect = 0;// 연속된 숫자 개수
+		boolean v[]	= new boolean[N+1];
+		
+		st = new StringTokenizer(br.readLine());
+		for(int i=0; i<M; i++)
+			v[Integer.parseInt(st.nextToken())] = true;// 고쳐야되는 것은 true
 
-public class Main {
-    static boolean[] error = new boolean[20000001];
-    static int N, M, X, Y;
-
-    public static void input(Scanner sc) {
-        N = sc.nextInt();
-        M = sc.nextInt();
-
-        for (int i = 0; i < M; i++) {
-            int x = sc.nextInt();
-            error[x] = true;
-        }
-
-        X = sc.nextInt();
-        Y = sc.nextInt();
-    }
-
-    public static void solution() {
-        int start = 1, end = 1;
-        int er_cnt = 0; // start~end까지 에러의 개수
-        int su_cnt = 0; // start~end까지 연속된 줄의 개수
-        int ans = Integer.MAX_VALUE; // 최소 에러 개수
-
-        if (N == 1) {
-            System.out.println(M - Y); // N이 1일 때는 에러의 개수 - 인규가 찾아야 하는 에러 개수 출력
-            return;
-        }
-
-        while (true) {
-            if (start == N) break;
-
-            if ((er_cnt < Y || su_cnt < X) && end <= N) {
-                // 모든 조건을 만족하지 않은 경우 end를 증가
-                if (error[end++]) er_cnt++; // 현재 줄에 에러가 있다면 에러 개수를 증가
-                su_cnt++;
-            } else {
-                // 모든 조건을 만족하면 최소값 갱신
-                if (er_cnt >= Y && su_cnt >= X) ans = Math.min(ans, er_cnt);
-                if (error[start++]) er_cnt--; // 현재 줄에 에러가 있다면 에러 개수를 감소
-                su_cnt--;
-            }
-        }
-
-        // 전체 에러의 개수 - 최소로 인규가 지워야 하는 에러의 개수가 답
-        System.out.println(M - ans);
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        input(sc);
-        solution();
-        sc.close();
-    }
+		st = new StringTokenizer(br.readLine());
+		int X = Integer.parseInt(st.nextToken());// 오류가 없는 X줄이상 존재시 나머지 해결(0≤N)
+		int Y = Integer.parseInt(st.nextToken());// 최소로 찾을 오류 개수 Y(0<=M)
+		
+		if(N == 1)
+		{
+			System.out.print(M - Y);
+			return;
+		}
+		int s = 1;
+		int e = 1;
+		while(true)
+		{
+			if(s == N)
+				break;
+			
+			if(!(X <= connect && Y<= errCnt) && e <= N)	// 고쳐야 되는 경우
+			{
+				if(v[e++])
+					errCnt++;
+				connect++;
+			}
+			else
+			{
+				if(X <= connect && Y<= errCnt)
+					ans = Math.min(ans, errCnt);
+				if(v[s++])
+					--errCnt;
+				--connect;
+			}
+		}
+		System.out.print(M - ans);
+	}
 }
