@@ -7,17 +7,9 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	
-	static int N, tree[];
-	public static int init(int treeNode, int s, int e) {
-		if(s == e)
-			return tree[treeNode] = 1;
-		
-		int nextNode= treeNode << 1;
-		int mid		= (s + e) >> 1;
-		
-		return tree[treeNode] 
-				= init(nextNode, s, mid) + init(nextNode | 1, mid + 1, e);
-	}
+	static int N;
+	static int[] arr, tree;
+
 	public static int query(int treeNode, int s, int e, int left, int right) {
 		if(e < left || right < s)
 			return 0;
@@ -30,11 +22,12 @@ class Main{
 		return query(nextNode, s, mid, left, right)
 				+ query(nextNode | 1, mid + 1, e, left, right);
 	}
+	
 	public static void update(int treeNode, int s, int e, int idx) {
 		if(idx < s || e < idx)
 			return;
 		
-		tree[treeNode] -= 1;
+		tree[treeNode] += 1;
 		
 		if(s != e)
 		{
@@ -48,16 +41,17 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N	= Integer.parseInt(br.readLine());
 		tree= new int[N<<2];
+		arr	= new int[N];
 		
-		init(1, 1, N);
-		
-		long sum = 0;
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
+			arr[i] = Integer.parseInt(st.nextToken());
+		
+		long sum = 0;
+		for(int i=N-1; i>=0; i--)
 		{
-			int target = Integer.parseInt(st.nextToken());
-			sum += query(1, 1, N, 1, target - 1);
-			update(1, 1, N, target);
+			sum += query(1, 1, N, 1, arr[i] - 1);
+			update(1, 1, N, arr[i]);
 		}
 		System.out.print(sum);
 	}
