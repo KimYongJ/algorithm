@@ -20,7 +20,7 @@ class Main{
 		
 		int min = Integer.MAX_VALUE;
 		for(int l=0; l<N; l++)
-			for(int r=l+3; r<N; r++)
+			for(int r=l+3; r<N && min != 0; r++)
 			{
 				int sum1 = arr[l] + arr[r];
 				int s = l+1;
