@@ -16,27 +16,23 @@ class Main{
 		int e = N-1;
 		while(--K>=0)
 		{
-			s = get(s,arr,1,'C');
-			e = get(e,arr,-1,'P');
+			while(s<N && arr[s] != 'C')++s;
+			while(0<=e && arr[e] != 'P')--e;
+
 			if(e<=s || arr[s] !='C' || arr[e] !='P')
 				break;
 			arr[s] = 'P';
 			arr[e] = 'C';
 		}
 		
-
         long a = 0;
         long b = 0;
         long c = 0;
-        for (char cur : arr) {
+        for (char cur : arr)
+        {
             if (cur == 'P') b += a++;
             else c += b;
         }
         System.out.println(c);
-	}
-	public static int get(int idx, char[] arr, int plus, char target) {
-		while(0<=idx && idx<arr.length && arr[idx] != target)
-			idx += plus;
-		return idx;
 	}
 }
