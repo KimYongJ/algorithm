@@ -5,15 +5,14 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-
+import java.util.HashMap;
+import java.util.PriorityQueue;
 class Main{
-	
 	
 	static int N;
 	static int[] arr, tree;
-	static ArrayList<Integer> list = new ArrayList<>();
+	static HashMap<Integer, Integer> map = new HashMap<>();
+	static PriorityQueue<Integer> pq = new PriorityQueue<>();
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,16 +20,16 @@ class Main{
 		N	= Integer.parseInt(br.readLine());	// 3<=오십이하
 		arr	= new int[N];
 		tree= new int[N<<2];
-		
-		list.add(0);
 		for(int i=0; i<N; i++)
-			list.add(arr[i] = Integer.parseInt(br.readLine()));
+			pq.add(arr[i] = Integer.parseInt(br.readLine()));
 		
-		Collections.sort(list);
+		int rank = 0;
+		while(!pq.isEmpty())
+			map.put(pq.poll(), ++rank);
 		
 		for(int a : arr)
 		{
-			int idx = binarySearch(a);
+			int idx = map.get(a);
 			
 			sb.append(query(1, 1, N, idx+1, N)+ 1).append('\n');
 			
@@ -62,20 +61,5 @@ class Main{
 		int mid = (s + e) >> 1;
 		return query(nextNode, s, mid, left, right) 
 				+ query(nextNode | 1, mid + 1, e, left, right);
-	}
-	public static int binarySearch(int target) {
-		int s = 1;
-		int e = N;
-		while(s <= e)
-		{
-			int mid = (s + e) >> 1;
-			int num = list.get(mid);
-			if(num == target)
-				return mid;
-			if(num < target)
-				s = mid + 1;
-			else e = mid - 1;
-		}
-		return 0;
 	}
 }
