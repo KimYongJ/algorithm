@@ -1,25 +1,19 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/25395
 //2초 / 1024MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+//요약 : 특정 위치에서 시작해서, 모든 방법을 다써서 최대한 연결할 수 있는 자동차 번호 오름차순 출력
 import java.util.ArrayDeque;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
 		ArrayDeque<Integer> q = new ArrayDeque<>();
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 자동차수(1<=백만)
-		int S		= Integer.parseInt(st.nextToken());	// 시작노드(1<=N)
+		int N		= read();	// 자동차수(1<=백만)
+		int S		= read();	// 시작노드(1<=N)
 		int pos[]	= new int[N+1];		// 현재 위치
 		int fuel[]	= new int[N+1];		// 갈 수 있는 거리
 		boolean v[]	= new boolean[N+1];	// 해당 위치 방문 유무
 		
-		st = new StringTokenizer(br.readLine());
-		for(int i=1; i<=N; i++)pos[i]  = Integer.parseInt(st.nextToken());
-		st = new StringTokenizer(br.readLine());
-		for(int i=1; i<=N; i++)fuel[i] = Integer.parseInt(st.nextToken());
+		for(int i=1; i<=N; i++)pos[i]  = read();
+		for(int i=1; i<=N; i++)fuel[i] = read();
 		
 		v[S] = true;
 		q.add(S);
@@ -62,5 +56,10 @@ class Main{
 			if(v[i])
 				sb.append(i).append(' ');
 		System.out.print(sb);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
