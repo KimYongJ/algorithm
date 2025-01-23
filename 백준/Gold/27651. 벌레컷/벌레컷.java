@@ -22,7 +22,7 @@ class Main{
 		long res = 0;
 		int s = 1;
 		int e = getE(N, psum[s]);
-		while(true)
+		while(psum[N] - psum[e-1] <= psum[e-1] - psum[s])
 		{
 			// 배보다 큰 가장 작은 인덱스
 			int idx = binarySearch(s, e-1);
@@ -31,10 +31,6 @@ class Main{
 			res += e - idx;
 			
 			e = getE(e, psum[++s]);//다음 s와 e를 구한다.
-			long mid = psum[e-1] - psum[s];
-			long last= psum[N] - psum[e-1];
-			if(last > mid)
-				break;
 		}
 		System.out.print(res);
 	}
