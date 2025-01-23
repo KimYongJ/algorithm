@@ -6,8 +6,8 @@ import java.util.ArrayDeque;
 class Main{
 	public static void main(String[] args)throws Exception{
 		ArrayDeque<Integer> q = new ArrayDeque<>();
-		int N		= read();	// 자동차수(1<=백만)
-		int S		= read();	// 시작노드(1<=N)
+		int N		= read();			// 자동차수(1<=백만)
+		int S		= read();			// 시작노드(1<=N)
 		int pos[]	= new int[N+1];		// 현재 위치
 		int fuel[]	= new int[N+1];		// 갈 수 있는 거리
 		boolean v[]	= new boolean[N+1];	// 해당 위치 방문 유무
