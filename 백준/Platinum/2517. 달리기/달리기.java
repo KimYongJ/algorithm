@@ -2,9 +2,6 @@
 //https://www.acmicpc.net/problem/2517
 //1초 / 256MB
 //요약 : 입력되는 순서대로 자기 앞에 자기보다 큰수가 몇개 나왔는지 세고, 그 숫자에 + 1을 출력
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 class Main{
@@ -15,13 +12,12 @@ class Main{
 	static PriorityQueue<Integer> pq = new PriorityQueue<>();
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder	sb = new StringBuilder();
-		N	= Integer.parseInt(br.readLine());	// 3<=오십이하
+		StringBuilder sb = new StringBuilder();
+		N	= read();	// 3<=오십이하
 		arr	= new int[N];
 		tree= new int[N<<2];
 		for(int i=0; i<N; i++)
-			pq.add(arr[i] = Integer.parseInt(br.readLine()));
+			pq.add(arr[i] = read());	// 십억이하
 		
 		int rank = 0;
 		while(!pq.isEmpty())
@@ -61,5 +57,10 @@ class Main{
 		int mid = (s + e) >> 1;
 		return query(nextNode, s, mid, left, right) 
 				+ query(nextNode | 1, mid + 1, e, left, right);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
