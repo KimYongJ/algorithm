@@ -1,6 +1,7 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/27085
 //1초 1024MB
+//요약 : 특정점에서 시작해서 왼쪽 ,오른쪽을 탐색해 얻을 수 있는 최대점수
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
@@ -27,13 +28,15 @@ class Main{
 		while(isChanged)
 		{
 			isChanged = false;
-			while(0 < leftIdx && leftSum + rightMax + arr[leftIdx] >= 0) {
+			while(0 < leftIdx && leftSum + rightMax + arr[leftIdx] >= 0)
+			{
 				isChanged = true;
 				leftSum += arr[leftIdx--];
 				if(leftMax < leftSum)
 					leftMax = leftSum;
 			}
-			while(rightIdx<=N && rightSum + leftMax + arr[rightIdx] >= 0) {
+			while(rightIdx<=N && rightSum + leftMax + arr[rightIdx] >= 0)
+			{
 				isChanged = true;
 				rightSum += arr[rightIdx++];
 				if(rightMax < rightSum)
