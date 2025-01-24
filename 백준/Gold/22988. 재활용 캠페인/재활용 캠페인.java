@@ -1,25 +1,19 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/22988
 //1초 / 1024mb
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N	= Integer.parseInt(st.nextToken());	// 용기 수 1<=십만
-		long X	= Long.parseLong(st.nextToken());	// 10의18승
+		long N	= read();	// 용기 수 1<=십만
+		long X	= read();	// 10의18승
 		long P	= (X + 1) / 2;
 		int res = 0;
 		
 		ArrayList<Long> list = new ArrayList<>();
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
+		while(N-->0)
 		{
-			long num = Long.parseLong(st.nextToken());
+			long num = read();
 			if(num == X)
 				++res;
 			else
@@ -47,5 +41,10 @@ class Main{
 			}
 		}
 		System.out.print(res + remain / 3);
+	}
+	static long read() throws Exception {
+		long c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
