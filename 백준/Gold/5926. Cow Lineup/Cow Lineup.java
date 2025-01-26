@@ -1,28 +1,24 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/5926
 //1초 / 128MB
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 class Node{int xpos, id;Node(int x, int i){xpos=x; id=i;}}
+
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
+		int N		= read();
 		Node node[] = new Node[N];
 		
 		TreeSet<Integer> set		= new TreeSet<>();	// id의 종류를 담을 배열
 		HashMap<Integer,Integer> hm = new HashMap<>();	// id 압축을 위한 map
 		for(int i=0; i<N; i++)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int xpos	= Integer.parseInt(st.nextToken());
-			int id		= Integer.parseInt(st.nextToken());
+			int xpos	= read();
+			int id		= read();
 			node[i]		= new Node(xpos, id);
 			set.add(node[i].id);
 		}
@@ -30,8 +26,8 @@ class Main{
 		Arrays.sort(node, (a,b)->a.xpos - b.xpos);
 		
 		int rnk = 0;
-		for(int s : set)
-			hm.put(s, rnk++);
+		for(Iterator<Integer> ite = set.iterator(); ite.hasNext();)
+			hm.put(ite.next(), rnk++);
 		
 		for(int i=0; i<N; i++)
 			node[i].id = hm.get(node[i].id);
@@ -43,24 +39,23 @@ class Main{
 		int min 	= Integer.MAX_VALUE;
 		while(e<N)
 		{
-			if(count[node[e].id] == 0)
-			{
+			if(count[node[e].id]++ == 0)
 				cnt++;
-			}
-			count[node[e].id]++;
 			
-			if(cnt == rnk)
+			while(cnt == rnk)
 			{
-				while(cnt == rnk)
-				{
-					min = Math.min(min, node[e].xpos - node[s].xpos);
-					if(--count[node[s++].id] == 0)
-						--cnt;
-				}
+				min = Math.min(min, node[e].xpos - node[s].xpos);
+				if(--count[node[s++].id] == 0)
+					--cnt;
 			}
 			
 			++e;			
 		}
 		System.out.print(min);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
