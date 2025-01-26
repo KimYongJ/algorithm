@@ -18,33 +18,22 @@ class Main{
 			for(int i=0; i<3; i++)A[i] = str.charAt(i)-'0';
 			for(int i=0; i<3; i++)B[i] = str.charAt(i+4)-'0';
 			
-			for(int i=10; i<=15_000; i++)
+			int x = 10;
+			int y = 10;
+			while(x<=15_000 && y<=15_000)
 			{
-				int dec = decimal(A, i);	// num1을 모든 진법을 사용해 10진수로 변경
-				// dec을, 이진탐색으로 num2로 만들 수 있는지 탐색
+				int dec1 = decimal(A, x);
+				int dec2 = decimal(B, y);
 				
-				int s	= 10;
-				int e	= 15_000;
-				int res = 0;
-				while(s <= e)
+				if(dec1 == dec2)
 				{
-					int mid = (s + e) >> 1;
-					int dec2= decimal(B, mid);
-					if(dec == dec2)
-					{
-						res = mid;
-						break;
-					}
-					if(dec < dec2)
-						e = mid - 1;
-					else s = mid + 1;
+					sb.append(x).append(' ').append(y).append('\n');
+					break;
 				}
-				
-				
-				if(res != 0)
-				{
-					sb.append(i).append(' ').append(res).append('\n');
-				}
+				if(dec1 < dec2)
+					++x;
+				else
+					++y;
 			}
 			
 		}
