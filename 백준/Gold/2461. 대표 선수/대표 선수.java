@@ -2,33 +2,34 @@
 //https://www.acmicpc.net/problem/2461
 //2초 / 256MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
-class Node{
+
+class Node
+{
 	int idx, value;
-	Node(int i, int v){
+	Node(int i, int v)
+	{
 		idx = i;
 		value = v;
 	}
 }
+
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());	// 학급수1<=1000
-		int M = Integer.parseInt(st.nextToken());	// 학생수1<=1000
-		int min = Integer.MAX_VALUE;
-		int max = 0;
+		int N	= read();	// 학급수1<=1000
+		int M	= read();	// 학생수1<=1000
+		int min	= Integer.MAX_VALUE;
+		int max	= 0;
+		
 		PriorityQueue<Integer>[] pq = new PriorityQueue[N];
-		PriorityQueue<Node> comp = new PriorityQueue<>((a,b)->a.value-b.value);
+		PriorityQueue<Node> comp	= new PriorityQueue<>((a,b)->a.value-b.value);
+		
 		for(int i=0; i<N; i++)
 		{
 			pq[i] = new PriorityQueue<>();
-			st = new StringTokenizer(br.readLine());
+			
 			for(int j=0; j<M; j++)
-				pq[i].add(Integer.parseInt(st.nextToken()));
+				pq[i].add(read());
 			
 			int value = pq[i].poll();
 			comp.add(new Node(i, value));
@@ -55,5 +56,10 @@ class Main{
 		}
 		
 		System.out.print(diff);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
