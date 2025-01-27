@@ -34,8 +34,13 @@ class Main{
 		{
 			m = Math.max(m, cow[s].time + cow[e].time);
 			
-			if(--cow[s].cnt == 0)++s;
-			if(--cow[e].cnt == 0)--e;
+			int min = Math.min(cow[s].cnt, cow[e].cnt);
+			
+			cow[s].cnt -= min;
+			cow[e].cnt -= min;
+			
+			if(cow[s].cnt <= 0)++s;
+			if(cow[e].cnt <= 0)--e;
 		}
 		System.out.print(m);
 	}
