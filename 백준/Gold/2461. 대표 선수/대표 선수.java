@@ -49,9 +49,8 @@ class Main{
 			
 			comp.add(new Node(now.idx, value));
 			
-			min = comp.peek().value;
-			max = Math.max(max, value);
-			
+			min	 = comp.peek().value;
+			max	 = Math.max(max, value);
 			diff = Math.min(diff, max - min);
 		}
 		
