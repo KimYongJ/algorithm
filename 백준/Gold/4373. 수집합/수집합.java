@@ -48,7 +48,8 @@ class Main{
 			int idx1 = 0;
 			int idx2 = 0;
 			int max = Integer.MIN_VALUE;
-			while(idx1<sum.size() && idx2<diff.size()) {
+			while(idx1<sum.size() && idx2<diff.size())
+			{
 				Node s = sum.get(idx1);
 				Node d = diff.get(idx2);
 				if(s.sum <= d.sum)
