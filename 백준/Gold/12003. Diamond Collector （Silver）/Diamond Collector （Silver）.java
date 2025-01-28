@@ -2,24 +2,19 @@
 //https://www.acmicpc.net/problem/12003
 //2초 / 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());	// 배열
-		int K		= Integer.parseInt(st.nextToken());	// 최대 차이
+		int N		= read();		// 배열
+		int K		= read();		// 최대 차이
 		int arr[]	= new int[N];
 		int count[]	= new int[N];	// i번째 인덱스에서 시작해서 K차이 이하인 가장 큰 개수
 		int dp[]	= new int[N+1];	// i번째를 포함한 이후 가장 큰 개수
 		
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(br.readLine());
+			arr[i] = read();
 		
 		Arrays.sort(arr);
 		
@@ -50,5 +45,10 @@ class Main{
 				e = mid - 1;
 		}
 		return res;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
