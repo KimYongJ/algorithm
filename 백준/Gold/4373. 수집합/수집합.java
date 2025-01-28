@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 class Node{
-	int sum, a, b;
+	int sum, max, min;
 	Node(int s, int a, int b){
 		sum=s;
-		this.a=a;
-		this.b=b;
+		max=a;
+		min=b;
 	}
 }
 class Main{
@@ -32,24 +32,44 @@ class Main{
 			
 			Arrays.sort(arr);
 			
-			ArrayList<Node> list1 = new ArrayList<>();
-			ArrayList<Node> list2 = new ArrayList<>();
+			ArrayList<Node> sum = new ArrayList<>();
+			ArrayList<Node> dif = new ArrayList<>();
 			
 			for(int i=0; i<N-1; i++)
 				for(int j=i+1; j<N; j++)
 				{
-					list1.add(new Node(arr[i] + arr[j], i, j));
-					list2.add(new Node(arr[j] - arr[i], j, i));
+					sum.add(new Node(arr[i] + arr[j], arr[j], arr[i]));
+					dif.add(new Node(arr[j] - arr[i], arr[j], arr[i]));
 				}
 			
-			Collections.sort(list1, (a,b)->a.sum - b.sum);
-			Collections.sort(list2, (a,b)->b.sum - a.sum);
+			Collections.sort(sum, (a,b)->a.sum - b.sum);
+			Collections.sort(dif, (a,b)->a.sum - b.sum);
 			
 			int max = Integer.MIN_VALUE;
-			for(Node now : list2)
-				if(binarySearch(list1, now))
-					max = Math.max(max, arr[now.a]);
 
+			int idx1 = 0;
+			int idx2 = 0;
+			
+			while(idx1<sum.size() && idx2<dif.size())
+			{
+				Node node1 = sum.get(idx1);
+				Node node2 = dif.get(idx2);
+				if(node1.sum < node2.sum)
+					++idx1;
+				else if(node1.sum > node2.sum)
+					++idx2;
+				else
+				{
+					if(node1.max != node2.max && node1.max != node2.min && 
+							node1.min != node2.max && node1.min != node2.min)
+					{
+						max = Math.max(max, node2.max);
+					}
+					++idx2;
+				}
+				
+			}
+			
 			if(max == Integer.MIN_VALUE)
 				sb.append("no solution");
 			else
@@ -58,39 +78,5 @@ class Main{
 			sb.append('\n');
 		}
 		System.out.print(sb);
-	}
-	public static boolean binarySearch(ArrayList<Node> list, Node target) {
-		int s = 0;
-		int e = list.size()-1;
-		int end = 0;
-		while(s<=e)
-		{
-			int mid = (s + e) >> 1;
-			int sum = list.get(mid).sum;
-			if(sum <= target.sum)
-			{
-				end = mid;
-				s = mid + 1;
-			}
-			else
-				e = mid - 1;
-		}
-		
-		if(list.get(end).sum != target.sum)
-			return false;
-		
-		int start = end;
-		while(0<= start - 1 &&list.get(start-1).sum == target.sum)
-			--start;
-		
-		while(start <= end)
-		{
-			Node cur = list.get(start);
-
-			if(cur.a != target.a && cur.a != target.b && cur.b != target.a && cur.b !=target.b)
-				return true;
-			++start;			
-		}
-		return false;
 	}
 }
