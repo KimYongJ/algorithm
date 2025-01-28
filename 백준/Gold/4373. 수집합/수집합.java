@@ -38,8 +38,8 @@ class Main{
 			for(int i=0; i<N-1; i++)
 				for(int j=i+1; j<N; j++)
 				{
-					list1.add(new Node(arr[i] + arr[j], arr[i], arr[j]));
-					list2.add(new Node(arr[j] - arr[i], arr[j], arr[i]));
+					list1.add(new Node(arr[i] + arr[j], i, j));
+					list2.add(new Node(arr[j] - arr[i], j, i));
 				}
 			
 			Collections.sort(list1, (a,b)->a.sum - b.sum);
@@ -48,7 +48,7 @@ class Main{
 			int max = Integer.MIN_VALUE;
 			for(Node now : list2)
 				if(binarySearch(list1, now))
-					max = Math.max(max, now.a);
+					max = Math.max(max, arr[now.a]);
 
 			if(max == Integer.MIN_VALUE)
 				sb.append("no solution");
@@ -83,10 +83,11 @@ class Main{
 		while(0<= start - 1 &&list.get(start-1).sum == target.sum)
 			--start;
 		
-		while(start <= end) {
-			int a = list.get(start).a;
-			int b = list.get(start).b;
-			if(a != target.a && a != target.b && b != target.a && b !=target.b)
+		while(start <= end)
+		{
+			Node cur = list.get(start);
+
+			if(cur.a != target.a && cur.a != target.b && cur.b != target.a && cur.b !=target.b)
 				return true;
 			++start;			
 		}
