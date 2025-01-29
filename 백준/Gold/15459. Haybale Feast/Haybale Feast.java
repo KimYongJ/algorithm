@@ -31,8 +31,8 @@ class Main{
 
 			while(M <= sum)
 			{
-				int max = query(1, 1, N, s, e);
-				result = Math.min(result, max);
+				result = Math.min(result, query(1, 1, N, s, e));
+				
 				sum -= arr[s++];
 			}
 			
