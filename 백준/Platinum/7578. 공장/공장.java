@@ -4,40 +4,27 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.StringTokenizer;
-class Node implements Comparable<Node>{
-	int idx, value;
-	Node(int i, int v){
-		idx=i; value=v;
-	}
-	@Override
-	public int compareTo(Node o) {
-		return value - o.value;
-	}
-}
 class Main{
 	
 	static int N, arr[], tree[];
-	static ArrayList<Node> list;
+	static HashMap<Integer, Integer> map;
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N	= Integer.parseInt(br.readLine());	// 1<=오십만
 		tree= new int[N<<2];
-		list= new ArrayList<>();
+		map	= new HashMap<>();
 		arr	= new int[N+1];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			list.add(new Node(i, Integer.parseInt(st.nextToken())));
-		
-		Collections.sort(list);
+			map.put(Integer.parseInt(st.nextToken()),i);
 		
 		st = new StringTokenizer(br.readLine());
 		
 		for(int i=1; i<=N; i++)
-			arr[i] = binarySearch(Integer.parseInt(st.nextToken()));
+			arr[i] = map.get(Integer.parseInt(st.nextToken()));
 		
 		long res = 0;
 		for(int i=N; i>0; i--)
@@ -71,21 +58,5 @@ class Main{
 		int mid = (s + e) >> 1;
 		return query(nextNode, s, mid, left, right) +
 				query(nextNode | 1, mid + 1, e, left, right);
-	}
-	public static int binarySearch(int target) {
-		int s = 0;
-		int e = N-1;
-		while(s <= e)
-		{
-			int mid = (s + e) >> 1;
-			int value = list.get(mid).value;
-			if(value == target)
-				return list.get(mid).idx;
-			if(value < target)
-				s = mid + 1;
-			else
-				e = mid - 1;
-		}
-		return 0;
 	}
 }
