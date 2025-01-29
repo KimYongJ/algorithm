@@ -4,27 +4,28 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.StringTokenizer;
+
 class Main{
 	
-	static int N, arr[], tree[];
-	static HashMap<Integer, Integer> map;
+	static int N;
+	static int[] arr, tree, counting;
+	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		N	= Integer.parseInt(br.readLine());	// 1<=오십만
-		tree= new int[N<<2];
-		map	= new HashMap<>();
-		arr	= new int[N+1];
+		N			= Integer.parseInt(br.readLine());	// 1<=오십만
+		tree		= new int[N<<2];
+		counting	= new int[1_000_001];				// 입력수 0<=백만
+		arr			= new int[N+1];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			map.put(Integer.parseInt(st.nextToken()),i);
+			counting[Integer.parseInt(st.nextToken())] = i;
 		
 		st = new StringTokenizer(br.readLine());
 		
 		for(int i=1; i<=N; i++)
-			arr[i] = map.get(Integer.parseInt(st.nextToken()));
+			arr[i] = counting[Integer.parseInt(st.nextToken())];
 		
 		long res = 0;
 		for(int i=N; i>0; i--)
