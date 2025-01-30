@@ -3,15 +3,14 @@
 //2초 / 128MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());	// 1<=십만
-		long arr[] = new long[N+2];
-		long psum[]= new long[N+2];
+		int N		= Integer.parseInt(br.readLine());	// 1<=십만
+		long arr[]	= new long[N+2];
+		long psum[]	= new long[N+2];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
@@ -23,7 +22,7 @@ class Main{
 		int s	= 1;
 		int e	= 1;
 		
-		Stack<Integer> stack = new Stack<>();
+		Stack stack = new Stack(N+2);
 		
 		for(int i=1; i<=N+1; i++)
 		{
@@ -49,4 +48,17 @@ class Main{
 		sb.append(max).append('\n').append(s).append(' ').append(e);
 		System.out.print(sb);
 	}
+}
+class Stack{
+	int N, stackIdx;
+	int arr[];
+	Stack(int N){
+		this.N = N;
+		this.stackIdx = -1;
+		this.arr = new int[N];
+	}
+	boolean isEmpty() {return stackIdx < 0;}
+	int peek() {return arr[stackIdx];}
+	int add(int i) {return arr[++stackIdx] = i;}
+	int pop() {return arr[stackIdx--];}
 }
