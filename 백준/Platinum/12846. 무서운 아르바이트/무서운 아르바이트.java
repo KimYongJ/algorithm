@@ -3,8 +3,8 @@
 //1초 / 512MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Stack;
 import java.util.StringTokenizer;
+
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,18 +16,19 @@ class Main{
 		for(int i=0; i<N; i++)
 			arr[i] = Integer.parseInt(st.nextToken());
 		
-		Stack<Integer> stack = new Stack<>();
+		int stack[]	 = new int[N+1];
+		int stackIdx = -1;
 		for(int i=0; i<=N; i++)
 		{
-			while(!stack.isEmpty() && arr[i] < arr[stack.peek()])
+			while(0<=stackIdx && arr[i] < arr[stack[stackIdx]])
 			{
-				long H = arr[stack.pop()];
+				long H = arr[stack[stackIdx--]];
 				long W = i;
-				if(!stack.isEmpty())
-					W = i - stack.peek() - 1;
+				if(0<=stackIdx)
+					W = i - stack[stackIdx] - 1;
 				max = Math.max(max, H * W);
 			}
-			stack.add(i);
+			stack[++stackIdx] = i;
 		}
 		
 		System.out.print(max);
