@@ -1,40 +1,36 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/9426
 //1초 / 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
+//슬라이딩 윈도우로 특정 범위안에서 숫자를 넣고 빼며 중앙 값을 구한다.
 class Main{
 	
-	static final int len = 65536;
-	static int N, K;
+	static final int LEN = 65535;
 	static int[] arr, tree;
+	static int N, K;
 	static long result;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());	// 1<=이십오만
-		K		= Integer.parseInt(st.nextToken());	// 1<=오천
-		tree	= new int[len << 2];
-		arr		= new int[N];
+		N	= read();	// 1<=이십오만
+		K	= read();	// 0<=65535
+		arr	= new int[N];
+		tree= new int[LEN<<2];
 		
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(br.readLine());	// 0<=65535
-		
-		for(int i=0; i<K; i++)
-			update(1, 0, len, arr[i], 1);
-		
-		int k = (K+1) >> 1;
-		
-		result += query(1, 0, len, k);
-		
-		for(int i=K,j=0; i<N; i++,j++)
 		{
-			update(1, 0, len, arr[j], -1);
-			update(1, 0, len, arr[i], 1);
-			result += query(1, 0, len, k);
+			arr[i] = read();
+			if(i < K)
+				update(1, 0, LEN, arr[i], 1);
+		}
+		
+		int k = (K + 1) / 2;
+		
+		result += query(1, 0, LEN, k);
+		
+		for(int i=K; i<N; i++)
+		{
+			update(1, 0, LEN, arr[i-K], -1);
+			update(1, 0, LEN, arr[i], 1);
+			result += query(1, 0, LEN, k);
 		}
 		
 		System.out.print(result);
@@ -43,26 +39,29 @@ class Main{
 		if(s == e)
 			return s;
 		
-		int nextNode	= treeNode << 1;
-		int mid			= (s + e) >> 1;
-
+		int mid = (s + e) >> 1;
+		int nextNode = treeNode << 1;
 		if(tree[nextNode] >= target)
 			return query(nextNode, s, mid, target);
 		else
 			return query(nextNode | 1, mid + 1, e, target - tree[nextNode]);
 	}
 	public static void update(int treeNode, int s, int e, int idx, int value) {
-		if(e<idx || idx < s)
+		if(e < idx || idx < s)
 			return;
 		
 		tree[treeNode] += value;
 		
 		if(s != e)
 		{
-			int nextNode	= treeNode << 1;
-			int mid			= (s + e) >> 1;
-			update(nextNode, s, mid, idx, value);
-			update(nextNode | 1, mid + 1, e, idx, value);
+			int mid = (s + e) >> 1;
+			update(treeNode<<1, s, mid, idx, value);
+			update(treeNode<<1 | 1, mid + 1, e, idx, value);
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
