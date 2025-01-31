@@ -1,7 +1,18 @@
-// https://github.com/kimyongj/algorithm
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/1374
+//2초 / 128mb
 import java.util.PriorityQueue;
-class Node{
-	int s,e; Node(int s,int e){this.s=s;this.e=e;}
+
+class Node implements Comparable<Node>{
+	int s,e;
+	Node(int s,int e){
+		this.s=s;
+		this.e=e;
+	}
+	@Override
+	public int compareTo(Node o) {
+		return s - o.s;
+	}
 }
 class Main{
 	static int read() throws Exception {// 빠른 입력을 위한 함수
@@ -11,9 +22,11 @@ class Main{
 	}
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Integer> rooms	= new PriorityQueue<>();
-		PriorityQueue<Node> list		= new PriorityQueue<Node>((a,b)->a.s-b.s);
+		PriorityQueue<Node> list		= new PriorityQueue<>();
+		
 		int res = 0;
-		int T = read();
+		int T	= read();
+		
 		while(T-->0)
 		{
 			read();
@@ -25,7 +38,8 @@ class Main{
 			Node now = list.poll();
 			if(!rooms.isEmpty() && rooms.peek() <= now.s) 
 				rooms.poll();
-			else res++;
+			else
+				res++;
 			
 			rooms.add(now.e);
 		}
