@@ -19,10 +19,10 @@ class Main{
 		{
 			arr[i] = (int)(arr[i-1] * 1.05);
 			
-			if(0 <= i-3)
+			if(3 <= i)
 				arr[i] = Math.max(arr[i], (int)(arr[i-3] * 1.2));
 		
-			if(0 <= i-5)
+			if(5 <= i)
 				arr[i] = Math.max(arr[i], (int)(arr[i-5] * 1.35));
 		}
 		
