@@ -50,28 +50,15 @@ class Main{
 		init(treeNode << 1, s, mid);
 		init(treeNode << 1 | 1, mid + 1, e);
 	}
-	public static void propagate(int treeNode, int s, int e) {
-		if(lazy[treeNode] != 0)
-		{
-			tree[treeNode] += (e - s + 1) * lazy[treeNode];
-			if(s != e)
-			{
-				lazy[treeNode << 1]		+= lazy[treeNode];
-				lazy[treeNode << 1 | 1] += lazy[treeNode];
-			}
-			lazy[treeNode] = 0;
-		}
-	}
+
 	public static void update(int treeNode, int s, int e, int left, int right, int diff) {
-		propagate(treeNode, s, e);
-		
+
 		if(e < left || right < s)
 			return;
 		
 		if(left <= s && e <= right)
 		{
-			lazy[treeNode] += diff;
-			propagate(treeNode, s, e);
+			tree[treeNode] += diff;
 			return;
 		}
 
@@ -81,7 +68,6 @@ class Main{
 		update(treeNode << 1 | 1, mid + 1, e, left, right, diff);
 	}
 	public static long query(int treeNode, int s, int e, int idx) {
-		propagate(treeNode, s, e);
 		
 		if(e < idx || idx < s)
 			return 0;
@@ -89,6 +75,10 @@ class Main{
 			return tree[treeNode];
 
 		int mid 	= (s + e) >> 1;
+		
+		tree[treeNode << 1]		+= tree[treeNode];
+		tree[treeNode << 1 | 1] += tree[treeNode];
+		tree[treeNode] = 0;
 		
 		return query(treeNode << 1, s, mid, idx) 
 				+ query(treeNode << 1 | 1, mid + 1, e, idx);
