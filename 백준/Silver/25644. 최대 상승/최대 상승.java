@@ -10,24 +10,16 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());
-		int arr[]	= new int[N];
-		int min[]	= new int[N];
-		int max[]	= new int[N];
+		int min		= 1<<30;
+		int result	= 0;
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
-		
-		min[0] = arr[0];
-		for(int i=1; i<N; i++)
-			min[i] = Math.min(arr[i], min[i-1]);
-		max[N-1] = arr[N-1];
-		for(int i=N-2; i>=0; i--)
-			max[i] = Math.max(max[i+1], arr[i]);
-		
-		int result = 0;
-		for(int i=0; i<N; i++)
-			result = Math.max(result, max[i] - min[i]);
+		{
+			int n = Integer.parseInt(st.nextToken());
+			result = Math.max(result, n - min);
+			min = Math.min(min, n);
+		}
 
 		System.out.print(result);
 	}
