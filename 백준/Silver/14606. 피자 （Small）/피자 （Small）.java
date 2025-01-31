@@ -9,11 +9,8 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N	= Integer.parseInt(br.readLine());
-		if(N < 3) {
-			System.out.print(N == 1 ? 0 : 1);
-			return;
-		}
-		int dp[]= new int[N+1];
+		int dp[]= new int[11];
+		
 		dp[2]	= 1;
 		dp[3]	= 3;
 		
