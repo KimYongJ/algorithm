@@ -2,14 +2,13 @@
 //https://www.acmicpc.net/problem/9655
 //1초 / 128mb
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
-
-		System.out.print(N % 2 == 1 ? "SK" : "CY");
+		System.out.print(read() % 2 == 1 ? "SK" : "CY");
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
