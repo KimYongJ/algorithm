@@ -2,31 +2,22 @@
 //https://www.acmicpc.net/problem/2491
 //1초 / 128mb
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
-		int arr[]	= new int[N];
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
-		
-		int res = 0;
-		int inc = 0;
-		int dec = 0;
-		
+		int N	= read();
+		int res = 1;
+		int inc = 1;
+		int dec = 1;
+		int prv = read();
 		for(int i=1; i<N; i++)
 		{
-			if(arr[i-1] < arr[i])
+			int now = read();
+			if(prv < now)
 			{
 				inc++;
-				dec = 0;
+				dec = 1;
 			}
-			else if(arr[i-1] == arr[i])
+			else if(prv == now)
 			{
 				++inc;
 				++dec;
@@ -34,10 +25,16 @@ class Main{
 			else
 			{
 				++dec;
-				inc = 0;
+				inc = 1;
 			}
 			res = Math.max(res, Math.max(inc, dec));
+			prv = now;
 		}
-		System.out.print(res+1);
+		System.out.print(res);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
