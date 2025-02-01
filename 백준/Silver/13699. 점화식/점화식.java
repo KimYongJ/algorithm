@@ -11,17 +11,17 @@ class Main{
 		long dp[] = new long[36];
 		dp[0] = dp[1] = 1;
 		
-		for(int i=2; i<=35; i++)
+		boolean f = false;
+		for(int i=2; i<=35; i++, f = !f)
 		{
-			int s		= 0;
-			int e		= i - 1;
-			long sum	= 0;
+			int s = 0;
+			int e = i - 1;
 			while(s < e)
-				sum += dp[s++] * dp[e--];
+				dp[i] += dp[s++] * dp[e--];
 			
-			dp[i] = sum * 2;
+			dp[i] <<= 1;
 			
-			if(i % 2 == 1)
+			if(f)
 				dp[i] += dp[i/2] * dp[i/2];
 		}
 		System.out.print(dp[Integer.parseInt(br.readLine())]);
