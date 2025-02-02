@@ -17,7 +17,10 @@ class Main{
 		{
 			a = b + c;
 			b = c;
-			c = a % 1_000_000_007;
+			c = a;
+			
+			if(c > 1_000_000_006)
+				c -= 1_000_000_007;
 		}
 		
 		System.out.print(new StringBuilder().append(c).append(' ').append(N-2));
