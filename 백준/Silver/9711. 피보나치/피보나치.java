@@ -4,30 +4,30 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
 
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		long dp[] = new long[10_001];
-
+		BigInteger dp[] = new BigInteger[10_001];
+		dp[1] = BigInteger.ONE;
+		dp[2] = BigInteger.ONE;
+		
+		for(int i=3; i<10_001; i++)
+			dp[i] = dp[i-1].add(dp[i-2]);
+		
+		
 		StringBuilder sb = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
 		for(int i=1; i<=T; i++)
 		{
-			Arrays.fill(dp, 0);
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int P = Integer.parseInt(st.nextToken());
-			int Q = Integer.parseInt(st.nextToken());
-			
-			dp[1] = dp[2] = 1;
-			
-			for(int j=3; j<=P; j++)
-				dp[j] = (dp[j-1] + dp[j-2]) % Q;
+			BigInteger Q = new BigInteger(st.nextToken());
 			
 			sb.append("Case #").append(i).append(": ")
-				.append(dp[P] % Q).append('\n');
+				.append(dp[P].mod(Q)).append('\n');
 		}
 		System.out.print(sb);
 	}
