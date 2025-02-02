@@ -1,14 +1,9 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17212
 //1초 / 256mb
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N	= Integer.parseInt(br.readLine());	// 0<=십만
+		int N	= read();	// 0<=십만
 		int dp[]= new int[N+8];
 		
 		dp[1] = dp[2] = dp[5] = dp[7] = 1;
@@ -21,5 +16,10 @@ class Main{
 			dp[i] = Math.min(min1, min2) + 1;
 		}
 		System.out.print(dp[N]);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
