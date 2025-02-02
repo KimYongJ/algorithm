@@ -17,7 +17,8 @@ class Main{
 		{
 			dp[i] = dp[i-1] + dp[i-2];
 			
-			dp[i] %= 1_000_000_000;
+			if(dp[i] >= 1_000_000_000)
+				dp[i] -= 1_000_000_000;
 		}
 		
 		StringBuilder sb = new StringBuilder();
