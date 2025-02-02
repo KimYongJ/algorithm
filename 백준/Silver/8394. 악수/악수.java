@@ -13,8 +13,13 @@ class Main{
 		
 		dp[2] = 2;
 		dp[3] = 3;
+		
 		for(int i=4; i<=N; i++)
-			dp[i] = (dp[i-1] + dp[i-2]) % 10;
+		{
+			dp[i] = dp[i-1] + dp[i-2];
+			if(dp[i] >= 10)
+				dp[i] -= 10;
+		}
 		
 		System.out.print(dp[N]);
 	}
