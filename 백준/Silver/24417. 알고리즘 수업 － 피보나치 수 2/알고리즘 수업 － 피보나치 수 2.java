@@ -8,14 +8,19 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
-		int dp[]	= new int[N+2];
+		int N = Integer.parseInt(br.readLine());
+		int a = 1;
+		int b = 1;
+		int c = 2;
 		
-		dp[1] = dp[2] = 1;
-		for(int i=3; i<=N; i++)
-			dp[i] = (dp[i-1] + dp[i-2]) % 1_000_000_007;
+		for(int i=3; i<N; i++)
+		{
+			a = b + c;
+			b = c;
+			c = a % 1_000_000_007;
+		}
 		
-		System.out.print(new StringBuilder().append(dp[N]).append(' ').append(N-2));
+		System.out.print(new StringBuilder().append(c).append(' ').append(N-2));
 		
 	}
 }
