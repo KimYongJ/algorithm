@@ -2,18 +2,12 @@
 //https://www.acmicpc.net/problem/15489
 //1초 / 512mb
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int R = Integer.parseInt(st.nextToken());	// y 좌표
-		int C = Integer.parseInt(st.nextToken());	// x 좌표
-		int W = Integer.parseInt(st.nextToken());	// 변길이
-		int len = R + W;
+		int R		= read();	// y 좌표
+		int C		= read();	// x 좌표
+		int W		= read();	// 변길이
+		int len		= R + W;
 		int arr[][] = new int[len][len];
 		
 		arr[0][0] = 1;
@@ -22,12 +16,17 @@ class Main{
 			for(int x=1; x<=y; x++)
 				arr[y][x] = arr[y-1][x] + arr[y-1][x-1];
 
-		
 		long sum = 0;
-		for(int y=R, limit = 0; y<len; y++, limit++)
-			for(int x=C; x<=C + limit; x++)
+		
+		for(int y=R, limit = C; y<len; y++, limit++)
+			for(int x=C; x<=limit; x++)
 				sum += arr[y][x];
 
 		System.out.print(sum);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
