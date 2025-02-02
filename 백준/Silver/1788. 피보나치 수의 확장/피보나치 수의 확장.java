@@ -10,7 +10,7 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		int len = Math.abs(N);
-		long dp[] = new long[len+2];	// 양수
+		int dp[] = new int[len+2];	// 양수
 		dp[1] = 1;
 		
 		for(int i=2; i<=len; i++)
