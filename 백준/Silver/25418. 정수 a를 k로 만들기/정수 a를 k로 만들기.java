@@ -2,16 +2,10 @@
 //https://www.acmicpc.net/problem/25418
 //1초 / 512mb
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int A	= Integer.parseInt(st.nextToken());
-		int B	= Integer.parseInt(st.nextToken());
+		int A	= read();
+		int B	= read();
 		int dp[]= new int[B+1];
 		
 		for(int i=A+1; i<=B; i++)
@@ -22,5 +16,10 @@ class Main{
 		}
 		
 		System.out.print(dp[B]);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
