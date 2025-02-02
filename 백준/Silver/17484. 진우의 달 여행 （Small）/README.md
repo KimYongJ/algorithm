@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 14268 KB, 시간: 104 ms
+메모리: 14160 KB, 시간: 104 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2025년 2월 2일 18:46:49
+2025년 2월 2일 19:29:19
 
 ### 문제 설명
 
@@ -20,13 +20,13 @@
 
 <p style="text-align: center;">[예시]</p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 150px; height: 353px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/9e155c65-43ea-492b-af73-d3f9f9c9dc44/-/preview/" style="width: 150px; height: 353px;"></p>
 
 <p>진우는 여행경비를 아끼기 위해 조금 특이한 우주선을 선택하였다. 진우가 선택한 우주선의 특징은 아래와 같다.</p>
 
 <p><strong>1. 지구 -> 달로 가는 경우 우주선이 움직일 수 있는 방향은 아래와 같다.</strong></p>
 
-<p style="text-align: center;"><img alt="" src="" style="height: 200px; width: 200px;"><img alt="" src="" style="height: 200px; width: 200px;"><img alt="" src="" style="height: 200px; width: 200px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/8f6fc516-9870-4ef6-8474-b5d82f7b6f21/-/preview/" style="height: 200px; width: 200px;"><img alt="" src="https://upload.acmicpc.net/eb6f87f0-f4d0-43cc-8e9d-5d94bfc41936/-/preview/" style="height: 200px; width: 200px;"><img alt="" src="https://upload.acmicpc.net/e7b501aa-c92c-4a17-aed7-c7868b89af7a/-/preview/" style="height: 200px; width: 200px;"></p>
 
 <p><strong>2. 우주선은 전에 움직인 방향으로 움직일 수 없다. 즉, 같은 방향으로 두번 연속으로 움직일 수 없다.</strong></p>
 
