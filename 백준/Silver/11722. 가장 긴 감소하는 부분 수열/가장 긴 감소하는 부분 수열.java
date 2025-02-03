@@ -18,11 +18,11 @@ class Main{
 		
 		for(int i=2; i<=N; i++)
 		{
-			int idx = binarySearch(desc, arr[i]); // arr[i]보다 작은 숫자의 인덱스를 가져온다.
-			if(idx < 0)					// 자기보다 작은 수를 찾을 수 없는 경우 뒤에 값 삽입
+			if(desc[len] > arr[i])		// 자기보다 작은 수를 찾을 수 없는 경우 뒤에 값 삽입
 				desc[++len] = arr[i];
-			else						// 자기보다 작은 수를 찾으면 그 수는 자기로 대체
-				desc[idx] = arr[i];
+			else
+				// arr[i]보다 작은 숫자의 인덱스를 가져온다.
+				desc[binarySearch(desc, arr[i])] = arr[i];
 		}
 		System.out.print(len);
 	}
