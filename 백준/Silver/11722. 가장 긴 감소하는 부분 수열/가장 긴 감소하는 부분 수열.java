@@ -2,22 +2,17 @@
 //https://www.acmicpc.net/problem/11722
 //1초 / 256MB
 //가장 긴 감소하는 부분수열의 길이 출력
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 
 	static int len = 1;
 	
 	public static void main(String[]args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());
+		int N		= read();
 		int arr[]	= new int[N+1];// 1<=천
 		int desc[]	= new int[N+1];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());// 1<=천
+			arr[i] = read();// 1<=천
 
 		desc[1] = arr[1];
 		
@@ -48,5 +43,10 @@ class Main{
 			}
 		}
 		return res;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
