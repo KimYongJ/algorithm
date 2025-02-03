@@ -1,70 +1,66 @@
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/17216
+//1초 / 256MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-import java.util.HashMap;
-import java.util.Arrays;
-
-class Main {
-    static int N;
-    static int[] arr, dp, tree;
-    static HashMap<Integer, Integer> map;
-
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N = Integer.parseInt(br.readLine());
-        arr = new int[N + 1];
-        dp = new int[N + 1];
-        tree = new int[4 * N];
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 1; i <= N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-            dp[i] = arr[i];
-        }
-
-        // 좌표 압축
-        int[] sortedArr = Arrays.copyOfRange(arr, 1, N + 1);
-        Arrays.sort(sortedArr);
-        map = new HashMap<>();
-        for (int i = 0; i < N; i++) {
-            if (!map.containsKey(sortedArr[i])) {
-                map.put(sortedArr[i], map.size() + 1);
-            }
-        }
-
-        int max = 0;
-        for (int i = 1; i <= N; i++) {
-            int compressed = map.get(arr[i]);
-            int prevMax = query(1, 1, N, compressed + 1, N);
-            dp[i] = arr[i] + prevMax;
-            update(1, 1, N, compressed, dp[i]);
-            max = Math.max(max, dp[i]);
-        }
-        System.out.print(max);
-    }
-
-    public static int query(int node, int start, int end, int left, int right) {
-        if (end < left || right < start) return 0;
-        if (left <= start && end <= right) return tree[node];
-
-        int mid = (start + end) / 2;
-        int leftChild = query(node * 2, start, mid, left, right);
-        int rightChild = query(node * 2 + 1, mid + 1, end, left, right);
-        return Math.max(leftChild, rightChild);
-    }
-
-    public static void update(int node, int start, int end, int idx, int value) {
-        if (start == end) {
-            tree[node] = value;
-            return;
-        }
-
-        int mid = (start + end) / 2;
-        if (idx <= mid) {
-            update(node * 2, start, mid, idx, value);
-        } else {
-            update(node * 2 + 1, mid + 1, end, idx, value);
-        }
-        tree[node] = Math.max(tree[node * 2], tree[node * 2 + 1]);
-    }
+class Main{
+	
+	static int N;
+	static int[] arr, dp, tree;
+	
+	public static void main(String[]args)throws Exception{
+		final int MAX = 1000;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N	= Integer.parseInt(br.readLine());	// 1<=천
+		arr	= new int[N+1];
+		dp	= new int[N+1];
+		tree= new int[MAX<<2];
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for(int i=1; i<=N; i++)
+			dp[i] = arr[i] = Integer.parseInt(st.nextToken());	// 1<=천
+		
+		int max = 0;
+		
+		for(int i=1; i<=N; i++)
+		{ 
+			// arr[i]+1번째 인덱스부터 MAX까지 저장된 값 중 가장 큰 값을 들고온다. 이 때 저장된 큰 값은 dp[0]~dp[i-1]값이다.
+			int maxNum = query(1, 1, MAX, arr[i] + 1, MAX);
+			
+			dp[i] += maxNum;
+			
+			update(1, 1, MAX, arr[i], dp[i]);
+			
+			max = Math.max(max, dp[i]);
+		}
+		System.out.print(max);
+	}
+	public static void update(int treeNode, int s, int e, int idx, int value) {
+		if(e < idx || idx < s)
+			return;
+		if(s == e)
+		{
+			tree[treeNode] = Math.max(tree[treeNode], value);
+			return;
+		}
+		int nextNode = treeNode << 1;
+		int mid = (s + e) >> 1;
+		update(nextNode, s, mid, idx, value);
+		update(nextNode | 1, mid + 1, e, idx, value);
+		
+		tree[treeNode] = Math.max(tree[nextNode], tree[nextNode | 1]);
+	}
+	public static int query(int treeNode, int s, int e, int left, int right) {
+		if(e < left || right < s)
+			return 0;
+		if(left <= s && e<= right)
+			return tree[treeNode];
+		
+		int nextNode= treeNode << 1;
+		int mid		= (s + e) >> 1;
+		return Math.max(query(nextNode, s, mid, left, right),
+						query(nextNode | 1, mid + 1, e, left, right));
+		
+	}
 }
