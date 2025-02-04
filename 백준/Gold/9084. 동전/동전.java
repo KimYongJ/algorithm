@@ -2,43 +2,38 @@
 //https://www.acmicpc.net/problem/9084
 //1초 / 128mb
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{ 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());//1<=10
+		int T = read();//1<=10
 		while(T-->0)
 		{
-			int N		= Integer.parseInt(br.readLine());// 동전 가지 수 1<=20
+			int N		= read();// 동전 가지 수 1<=20
 			int arr[]	= new int[N+1];
 			
-			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int i=1; i<=N; i++)
-				arr[i] = Integer.parseInt(st.nextToken());
+				arr[i] = read();
 			
-			int M = Integer.parseInt(br.readLine());	// 목표 값 1<=만
+			int M = read();	// 목표 값 1<=만
 			
-			int dp[][] = new int[N+1][M+1];
+			int dp[] = new int[M+1];
 			
-			for(int i=0; i<=N; i++)
-				dp[i][0] = 1;
+			dp[0] = 1;
 			
-			for(int i=1; i<=N; i++)
-			{
-				for(int j=1; j<=M; j++)
-				{
-					dp[i][j] = dp[i-1][j];
-					if(0<=j-arr[i])
-						dp[i][j] += dp[i][j-arr[i]];
-				}
-			}
+			// 동전 가지수
+			for(int coin : arr)
+				// 금액
+				for(int money=1; money<=M; money++)
+					if(0 <= money-coin)
+						dp[money] += dp[money-coin];
 			
-			sb.append(dp[N][M]).append('\n');
+			sb.append(dp[M]).append('\n');
 		}
 		System.out.print(sb);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
