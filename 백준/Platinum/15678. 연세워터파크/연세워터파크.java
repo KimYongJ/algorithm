@@ -1,7 +1,7 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/15678
 //1초 / 128mb
-//요약 : DP문제의 최장 감소or증가 하는 부분수열의 최대합을 구하는 문제랑 똑같다. 다만 범위가 커서 세그먼트로품
+//요약 : DP문제의 최장 감소or증가 하는 부분수열의 최대합을 구하는 문제랑 똑같다. 다만 범위가 커서 세그먼트로함
 //비슷한 문제 : 11055 + 17216
 class Main{
 	
@@ -19,8 +19,8 @@ class Main{
 		for(int i=1; i<=N; i++)
 			arr[i] = read();
 		
-		
 		long max = MIN;
+        
 		for(int i=1; i<=N; i++)
 		{
 			dp[i] = arr[i];
