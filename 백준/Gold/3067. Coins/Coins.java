@@ -2,34 +2,35 @@
 //https://www.acmicpc.net/problem/3067
 //1초 / 128mb
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{ 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			int N = Integer.parseInt(br.readLine());
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int C[] = new int[N+1];
-			for(int i=1; i<=N; i++)
-				C[i] = Integer.parseInt(st.nextToken());
+			int N	= read();
+			int C[]	= new int[N+1];
 			
-			int M = Integer.parseInt(br.readLine());
-			int dp[] = new int[M+1];
+			for(int i=1; i<=N; i++)
+				C[i] = read();
+			
+			int M	= read();
+			int dp[]= new int[M+1];
+			
 			dp[0] = 1;
 			
-			for(int n=1; n<=N; n++)
+			for(int c : C)
 				for(int i=1; i<=M; i++)
-					if(0<=i-C[n])
-						dp[i] += dp[i-C[n]];
+					if(0<=i-c)
+						dp[i] += dp[i-c];
 			
 			sb.append(dp[M]).append('\n');
 		}
 		System.out.print(sb);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
