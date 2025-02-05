@@ -1,9 +1,8 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/15678
 //1초 / 128mb
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+//요약 : DP문제의 최장 감소or증가 하는 부분수열의 최대합을 구하는 문제랑 똑같다. 다만 범위가 커서 세그먼트로품
+//비슷한 문제 : 11055 + 17216
 class Main{
 	
 	static final long MIN = Long.MIN_VALUE;
@@ -11,16 +10,14 @@ class Main{
 	static long[] arr, tree, dp;
 	
 	public static void main(String[] args)throws Exception{ 
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());	// 2<=십만
-		D		= Integer.parseInt(st.nextToken());	// 2<=N-1
+		N		= read();	// 2<=십만
+		D		= read();	// 2<=N-1
 		tree	= new long[N<<2];
 		arr		= new long[N+1];
 		dp		= new long[N+1];
-		st = new StringTokenizer(br.readLine());
+
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		
 		long max = MIN;
@@ -67,4 +64,12 @@ class Main{
 		
 		return Math.max(max1, max2);
 	}
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 }
