@@ -5,27 +5,67 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
+	
+	static final int MAX = 1000;
+	static int N;
+	static int[] dp, arr, tree;
+	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	// 1<=천
-		int arr[]	= new int[N+1];
-		int dp[]	= new int[N+1];
+		
+		N	= Integer.parseInt(br.readLine());	// 1<=천
+		arr	= new int[N+1];
+		dp	= new int[N+1];
+		tree= new int[MAX<<2];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			dp[i] = arr[i] = Integer.parseInt(st.nextToken());
+			dp[i] = arr[i] = Integer.parseInt(st.nextToken());//1<=천
 
 		int max = 0;
 		
 		for(int i=1; i<=N; i++)
 		{
-			for(int j=1; j<i; j++)
-			{
-				if(arr[j] < arr[i])
-					dp[i] = Math.max(dp[i], dp[j] + arr[i]);
-			}
+			// 1부터 arr[i]-1 값 범위에  가장큰 dp값을 갖고온다. 
+			// 즉, arr[i]보다 작은 범위면서 이전에 나온 dp값 중 가장 큰 것을 가져온다.
+			int maxDP = query(1, 1, MAX, 1, arr[i]-1);
+			
+			dp[i] = Math.max(dp[i],maxDP + arr[i]);
+			// arr[i] 데이터 위치에 dp[i]값을 저장한다.
+			update(1, 1, MAX, arr[i], dp[i]);
+			
 			max = Math.max(max, dp[i]);
 		}
 		System.out.print(max);
+	}
+	public static int query(int treeNode, int s, int e, int left, int right) {
+		if(e<left || right < s)
+			return 0;
+		if(left<=s && e<=right)
+			return tree[treeNode];
+		
+		int nextNode= treeNode << 1;
+		int mid		= (s + e) >> 1;
+		int max1	= query(nextNode, s, mid, left, right);
+		int max2	= query(nextNode | 1, mid + 1, e, left, right);
+		
+		return Math.max(max1, max2);
+	}
+	public static void update(int treeNode, int s, int e, int idx, int value) {
+		if(e < idx || idx < s)
+			return;
+		if(s==e)
+		{
+			tree[treeNode] = value;
+			return;
+		}
+		
+		int nextNode= treeNode << 1;
+		int mid		= (s + e) >> 1;
+		
+		update(nextNode, s, mid, idx, value);
+		update(nextNode | 1, mid + 1, e, idx, value);
+		
+		tree[treeNode] = Math.max(tree[nextNode], tree[nextNode | 1]);
 	}
 }
