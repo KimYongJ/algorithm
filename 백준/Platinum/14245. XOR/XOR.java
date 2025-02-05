@@ -2,44 +2,36 @@
 //https://www.acmicpc.net/problem/14245
 //2초 / 512mb
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N;
 	static int[] arr, tree, lazy;
 	
 	public static void main(String[] args)throws Exception{ 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		N = Integer.parseInt(br.readLine());
+		N	= read();
 		arr = new int[N+1];
 		tree= new int[N<<2];
 		lazy= new int[N<<2];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		init(1, 1, N);
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int t = Integer.parseInt(st.nextToken());
+			int t = read();
 			if(t == 1)
 			{
-				int s = Integer.parseInt(st.nextToken())+1;
-				int e = Integer.parseInt(st.nextToken())+1;
-				int v = Integer.parseInt(st.nextToken());
+				int s = read()+1;
+				int e = read()+1;
+				int v = read();
 				update(1, 1, N, s, e, v);
 			}
 			else
-				sb.append(query(1, 1, N, Integer.parseInt(st.nextToken())+1))
+				sb.append(query(1, 1, N, read()+1))
 					.append('\n');
 		}
 		System.out.print(sb);
@@ -99,5 +91,10 @@ class Main{
 		int mid		= (s + e) >> 1;
 		init(nextNode, s, mid);
 		init(nextNode | 1, mid + 1, e);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
