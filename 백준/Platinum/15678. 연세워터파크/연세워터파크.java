@@ -7,28 +7,24 @@ class Main{
 	
 	static final long MIN = Long.MIN_VALUE;
 	static int N, D;
-	static long[] arr, tree, dp;
+	static long[] tree, dp;
 	
 	public static void main(String[] args)throws Exception{ 
 		N		= read();	// 2<=십만
 		D		= read();	// 2<=N-1
 		tree	= new long[N<<2];
-		arr		= new long[N+1];
 		dp		= new long[N+1];
 
-		for(int i=1; i<=N; i++)
-			arr[i] = read();
-		
 		long max = MIN;
         
 		for(int i=1; i<=N; i++)
 		{
-			dp[i] = arr[i];
+			dp[i] = read();
 			
 			long maxValue = query(1, 1, N, i-D, i-1);
 			
 			if(maxValue != MIN)
-				dp[i] = Math.max(arr[i], arr[i] + maxValue);
+				dp[i] = Math.max(dp[i], dp[i] + maxValue);
 			
 			update(1, 1, N, i, dp[i]);
 			
