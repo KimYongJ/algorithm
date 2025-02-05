@@ -14,8 +14,7 @@ class Main{
 		
 		for(int i=2; i<=N; i++)
 			for(int j=2; j*j<=i; j++)
-				if(1<=j*j)
-					dp[i] = Math.min(dp[i], dp[i-j*j] + 1);
+				dp[i] = Math.min(dp[i], dp[i-j*j] + 1);
 
 		System.out.print(dp[N]);
 	}
