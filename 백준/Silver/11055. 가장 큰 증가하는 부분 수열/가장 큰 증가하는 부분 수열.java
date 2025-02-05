@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/11055
 //1초 / 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
 	static final int MAX = 1000;
@@ -11,16 +8,13 @@ class Main{
 	static int[] dp, arr, tree;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		N	= Integer.parseInt(br.readLine());	// 1<=천
+		N	= read();	// 1<=천
 		arr	= new int[N+1];
 		dp	= new int[N+1];
 		tree= new int[MAX<<2];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			dp[i] = arr[i] = Integer.parseInt(st.nextToken());//1<=천
+			dp[i] = arr[i] = read();//1<=천
 
 		int max = 0;
 		
@@ -67,5 +61,10 @@ class Main{
 		update(nextNode | 1, mid + 1, e, idx, value);
 		
 		tree[treeNode] = Math.max(tree[nextNode], tree[nextNode | 1]);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
