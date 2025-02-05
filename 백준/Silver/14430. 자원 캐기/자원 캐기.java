@@ -18,14 +18,10 @@ class Main{
 			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=X; x++)
 			{
-				dp[y][x] = Integer.parseInt(st.nextToken());
+				dp[y][x] = Integer.parseInt(st.nextToken()) + Math.max(dp[y-1][x], dp[y][x-1]);
 			}
 		}
-		for(int y=1; y<=Y; y++) {
-			for(int x=1; x<=X; x++) {
-				dp[y][x] += Math.max(dp[y-1][x], dp[y][x-1]);
-			}
-		}
+		
 		System.out.print(dp[Y][X]);
 	}
 }
