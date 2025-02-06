@@ -3,10 +3,11 @@
 //1초 / 256MB
 class Main{
 	public static void main(String[] args)throws Exception{
-		Reader in = new Reader();
-		int Y = in.nextInt();// 1<=천
-		int X = in.nextInt();// 1<=천
+		Reader in	= new Reader();
+		int Y		= in.nextInt();// 1<=천
+		int X		= in.nextInt();// 1<=천
 		int map[][] = new int[Y+1][X+1];
+		
 		for(int y=1; y<=Y; y++)
 			for(int x=1; x<=X; x++)
 				map[y][x] = in.nextInt()
