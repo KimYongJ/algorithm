@@ -26,13 +26,17 @@ class Main{
 			
 			while(M-->0)
 			{
-				int target = read();
+				int target	= read();
+				int cnt		= query(1, 1, LEN, pos[target] + 1, maxIdx);
 				
-				sb.append(query(1, 1, LEN, pos[target] + 1, maxIdx)).append(' ');
+				sb.append(cnt).append(' ');
 				
-				update(1, 1, LEN, pos[target], 0);
-				
-				pos[target] = ++maxIdx;
+				if(cnt != 0)
+				{
+					update(1, 1, LEN, pos[target], 0);
+					
+					pos[target] = ++maxIdx;
+				}
 			}
 			sb.append('\n');
 		}
