@@ -8,20 +8,26 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		final long MOD = 1_000_000_009;
-		int T = Integer.parseInt(br.readLine());
-		while(T-->0)
-		{
-			int N = Integer.parseInt(br.readLine());	// 1<=백만
-			long dp[] = new long[N+4];
-			dp[1] = 1;
-			dp[2] = 2;
-			dp[3] = 4;
-			
-			for(int i=4; i<=N; i++)
-				dp[i] = (dp[i-1] + dp[i-2] + dp[i-3]) % MOD;
-			
+		int T		= Integer.parseInt(br.readLine());
+		int num[]	= new int[T];
+		int max		= 0;
+		
+		for(int i=0; i<T; i++)
+			// 1<=백만
+			max = Math.max(max, num[i] = Integer.parseInt(br.readLine()));
+		
+		long dp[] = new long[max+4];
+		
+		dp[1] = 1;
+		dp[2] = 2;
+		dp[3] = 4;
+		
+		for(int i=4; i<=max; i++)
+			dp[i] = (dp[i-1] + dp[i-2] + dp[i-3]) % MOD;
+		
+		for(int N : num)
 			sb.append(dp[N]).append('\n');
-		}
+		
 		System.out.print(sb);
 	}
 }
