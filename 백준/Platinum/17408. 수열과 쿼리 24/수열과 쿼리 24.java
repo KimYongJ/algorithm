@@ -29,17 +29,11 @@ class Main{
 			else
 			{
 				int idx = query(1, 1, N, a, b);
-				int max1 = arr[idx];
-				// 기존 최대 값을 0으로 업데이트
-				update(1, 1, N, idx, 0);
+				int idx1= query(1, 1, N, a, idx-1);
+				int idx2= query(1, 1, N, idx+1, b);
 				
-				int max2 = arr[query(1, 1, N, a, b)];
-				// 0으로 바꿨던 최대 값을 원래대로 업데이트
-				update(1, 1, N, idx, max1);
-				
-				sb.append(max1 + max2).append('\n');
+				sb.append(arr[idx] + Math.max(arr[idx1], arr[idx2])).append('\n');
 			}
-			
 		}
 		System.out.print(sb);
 	}
