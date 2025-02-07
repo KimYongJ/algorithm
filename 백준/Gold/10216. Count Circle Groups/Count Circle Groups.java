@@ -1,26 +1,21 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/10216
 //8초 / 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			int N = Integer.parseInt(br.readLine());	// 진영 숫자 1<=3000
-			int pos[][] = new int[N][3];	// x,y좌표 및 지름(0<=5000)
-			int parent[] = new int[N];
+			int N			= read();		// 진영 숫자 1<=3000
+			int pos[][]		= new int[N][3];// x,y좌표 및 지름(0<=5000)
+			int parent[]	= new int[N];
 			
 			for(int i=0; i<N; i++)
 			{
-				StringTokenizer st = new StringTokenizer(br.readLine());
-				pos[i][0] = Integer.parseInt(st.nextToken());
-				pos[i][1] = Integer.parseInt(st.nextToken());
-				pos[i][2] = Integer.parseInt(st.nextToken());
+				pos[i][0] = read();
+				pos[i][1] = read();
+				pos[i][2] = read();
 				parent[i] = i;
 			}
 			
@@ -47,7 +42,9 @@ class Main{
 			}
 			
 			boolean visit[] = new boolean[N+1];
+			
 			int group = 0;
+			
 			for(int i=0; i<N; i++)
 			{
 				int parentNode = getParent(i,parent);
@@ -65,5 +62,10 @@ class Main{
 	public static int getParent(int node, int[] parent) {
 		if(parent[node] == node) return node;
 		return parent[node] = getParent(parent[node], parent);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
