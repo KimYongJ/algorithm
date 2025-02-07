@@ -1,35 +1,28 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17408
 //1초 / 512MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	
 	static int N, M;
 	static int[] arr, tree;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		
-		N		= Integer.parseInt(br.readLine());//수열의 크기 N(2<=십만)
+		N		= read();//수열의 크기 N(2<=십만)
 		tree	= new int[N<<2];
 		arr		= new int[N+1];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());//1<=십억
+			arr[i] = read();//1<=십억
 		
 		init(1, 1, N);
 		
-		M = Integer.parseInt(br.readLine());// 쿼리 수 1<=십만
+		M = read();// 쿼리 수 1<=십만
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int f = read();
+			int a = read();
+			int b = read();
 			
 			if(f==1)
 				update(1, 1, N, a, b);
@@ -37,11 +30,11 @@ class Main{
 			{
 				int idx = query(1, 1, N, a, b);
 				int max1 = arr[idx];
-				
+				// 기존 최대 값을 0으로 업데이트
 				update(1, 1, N, idx, 0);
 				
 				int max2 = arr[query(1, 1, N, a, b)];
-				
+				// 0으로 바꿨던 최대 값을 원래대로 업데이트
 				update(1, 1, N, idx, max1);
 				
 				sb.append(max1 + max2).append('\n');
@@ -101,5 +94,10 @@ class Main{
 			tree[treeNode] = tree[node | 1];
 		else
 			tree[treeNode] = tree[node];
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
