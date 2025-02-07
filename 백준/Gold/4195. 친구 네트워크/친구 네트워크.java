@@ -1,10 +1,7 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/4195
 //3초 / 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 class Main{
 	
 	static HashMap<String, Integer> map = new HashMap<>();
@@ -12,12 +9,11 @@ class Main{
 	static int[] parent, cnt;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		T = Integer.parseInt(br.readLine());
+		T = read();
 		while(T-->0)
 		{
-			N		= Integer.parseInt(br.readLine());//1<=십만
+			N		= read();//1<=십만
 			parent	= new int[N<<1];
 			cnt		= new int[N<<1];
 			idx		= 0;
@@ -26,9 +22,8 @@ class Main{
 			
 			for(int i=0; i<N; i++)
 			{
-				StringTokenizer st = new StringTokenizer(br.readLine());
-				int parent1 = getParent( getNumber(st.nextToken()) );
-				int parent2 = getParent( getNumber(st.nextToken()) );
+				int parent1 = getParent( getNumber(readString()) );
+				int parent2 = getParent( getNumber(readString()) );
 				
 				if(parent2 < parent1)
 				{
@@ -60,5 +55,20 @@ class Main{
 	public static int getParent(int node) {
 		if(parent[node] == node) return node;
 		return parent[node] = getParent(parent[node]);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
+	} 
+	static String readString() throws Exception{
+		StringBuilder sb = new StringBuilder();
+		int c = System.in.read();
+		while(c <= 32) {c = System.in.read();}
+		while(c > 32) {
+			sb.append((char)c);
+			c = System.in.read();
+		}
+		return sb.toString();
 	}
 }
