@@ -2,10 +2,7 @@
 //https://www.acmicpc.net/problem/13537
 //1초 / 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -13,29 +10,21 @@ class Main{
 	static ArrayList[] tree;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder	sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		
-		N = Integer.parseInt(br.readLine());
+		N = read();
 		arr = new int[N + 1];
 		tree= new ArrayList[N << 2];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		init(1, 1, N);
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
-		{
-			st = new StringTokenizer(br.readLine());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
-			int v = Integer.parseInt(st.nextToken());
-			
-			sb.append(query(1, 1, N, l, r, v)).append('\n');
-		}
+			sb.append(query(1, 1, N, read(), read(), read())).append('\n');
+		
 		System.out.print(sb);
 	}
 	public static int query(int treeNode, int s, int e, int left, int right, int target) {
@@ -95,5 +84,10 @@ class Main{
 		}
 		while(l<left.size())list.add(left.get(l++));
 		while(r<right.size())list.add(right.get(r++));
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
