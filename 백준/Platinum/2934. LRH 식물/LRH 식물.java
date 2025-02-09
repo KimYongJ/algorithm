@@ -24,12 +24,8 @@ class Main{
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int l = Integer.parseInt(st.nextToken());
 			int r = Integer.parseInt(st.nextToken());
-			int cnt1 = query(1, 1, MAX, l);
-			int cnt2 = query(1, 1, MAX, r);
-			if(cnt1 > 0)
-				update(1, 1, MAX, l, l, -cnt1);
-			if(cnt2 > 0)
-				update(1, 1, MAX, r, r, -cnt2);
+			int cnt1 = query(1, 1, MAX, l);	// 인덱스의 값을 가져오면서 0으로 변경해버림
+			int cnt2 = query(1, 1, MAX, r); // 인덱스의 값을 가져오면서 0으로 변경해버림
 			
 			sb.append(cnt1 + cnt2).append('\n');
 			
@@ -58,10 +54,16 @@ class Main{
 	}
 	public static int query(int treeNode, int s, int e, int idx) {
 		propagate(treeNode, s, e);
+		
 		if(e < idx || idx < s)
 			return 0;
+		
 		if(s == e)
-			return tree[treeNode];
+		{
+			int value = tree[treeNode];
+			tree[treeNode] = 0;
+			return value;
+		}
 		
 		int mid = (s + e) >> 1;
 		return query(treeNode << 1, s, mid, idx) + 
