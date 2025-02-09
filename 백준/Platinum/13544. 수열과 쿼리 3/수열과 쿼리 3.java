@@ -2,10 +2,6 @@
 //https://www.acmicpc.net/problem/13544
 //1초 / 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N;
@@ -14,26 +10,24 @@ class Main{
 	
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		N	= Integer.parseInt(br.readLine());
+		N	= read();
 		arr = new int[N + 1];
 		tree= new int[N<<2][];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
+
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		init(1, 1, N);
 		
 		int last_ans = 0;
-		int T = Integer.parseInt(br.readLine());
+		
+		int T = read();
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken()) ^ last_ans;
-			int b = Integer.parseInt(st.nextToken()) ^ last_ans;
-			int c = Integer.parseInt(st.nextToken()) ^ last_ans;
+			int a = read() ^ last_ans;
+			int b = read() ^ last_ans;
+			int c = read() ^ last_ans;
 			
 			last_ans = query(1, 1, N, a, b, c);
 			
@@ -91,5 +85,10 @@ class Main{
 		while(r < right.length)result[i++]= right[r++];
 		
 		return result;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
