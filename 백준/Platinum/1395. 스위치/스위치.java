@@ -2,31 +2,24 @@
 //https://www.acmicpc.net/problem/1395
 //1초 / 128MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N, T;
 	static int[] arr, tree, lazy;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		T = Integer.parseInt(st.nextToken());
+		N	= read();
+		T	= read();
 		arr = new int[N + 1];
 		tree= new int[N<<2];
 		lazy= new int[N<<2];
 		
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
+			int f = read();
+			int l = read();
+			int r = read();
 			if(f == 0)	// 스위치 반전
 				update(1, 1, N, l, r);
 			else		// 출력
@@ -81,5 +74,10 @@ class Main{
 			}
 			lazy[treeNode] = 0;
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
