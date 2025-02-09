@@ -2,12 +2,9 @@
 //https://www.acmicpc.net/problem/5419
 //1초 / 256MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 class Node implements Comparable<Node>{
 	int y, x;
@@ -30,23 +27,21 @@ class Main{
 	static HashMap<Integer, Integer> map;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		
 		while(T-->0)
 		{
-			N	= Integer.parseInt(br.readLine());
+			N	= read();
 			pos	= new ArrayList<>();
 			set	= new TreeSet<>();
 			map	= new HashMap<>();
 			
 			for(int i=0; i<N; i++)
 			{
-				StringTokenizer st = new StringTokenizer(br.readLine());
-				int x = Integer.parseInt(st.nextToken());
-				int y = Integer.parseInt(st.nextToken());
+				int x = read();
+				int y = read();
 				pos.add(new Node(y, x));
 				set.add(y);
 			}
@@ -98,5 +93,12 @@ class Main{
 		return query(treeNode << 1, s, mid, left, right) + 
 				query(treeNode << 1 | 1, mid + 1, e, left, right);
 	}
-	
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 }
