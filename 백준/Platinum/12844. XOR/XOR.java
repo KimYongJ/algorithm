@@ -2,39 +2,32 @@
 //https://www.acmicpc.net/problem/12844
 //2초 / 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N;
 	static int[] tree, arr, lazy;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		N	= Integer.parseInt(br.readLine());
+		N	= read();
 		arr = new int[N + 1];
 		tree= new int[N<<2];
 		lazy= new int[N<<2];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		init(1, 1, N);
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
-			int l = Integer.parseInt(st.nextToken())+1;
-			int r = Integer.parseInt(st.nextToken())+1;
+			int f = read();
+			int l = read()+1;
+			int r = read()+1;
 			if(f == 1)
 			{
-				int v = Integer.parseInt(st.nextToken());
+				int v = read();
 				update(1, 1, N, l, r, v);
 			}
 			else
@@ -102,5 +95,10 @@ class Main{
 			}
 			lazy[treeNode] = 0;
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
