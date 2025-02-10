@@ -16,14 +16,12 @@ class Main{
 	static int[] tree, lazy;
 	static int[][] range;
 	static Node adNode[];
-	static boolean visit[];
 	
 	public static void main(String[] args)throws Exception{
 		StringBuilder sb = new StringBuilder();
 		N		= read();//1<=십만
 		M		= read();//1<=십만
 		adNode	= new Node[N+1];
-		visit	= new boolean[N+1];
 		range	= new int[N+1][2];
 		tree	= new int[N<<2];
 		lazy	= new int[N<<2];
@@ -35,14 +33,7 @@ class Main{
 			adNode[parent] = new Node(i, adNode[parent]);
 		}
 		
-		for(int i=1; i<=N; i++)
-		{
-			if(!visit[i])
-			{
-				visit[i] = true;
-				DFS(i);
-			}
-		}
+		DFS(1);
 		
 		while(M-->0)
 		{
@@ -108,13 +99,7 @@ class Main{
 	{
 		range[node][0] = ++cnt;
 		for(Node next = adNode[node]; next!=null; next=next.next)
-		{
-			if(!visit[next.node])
-			{
-				visit[next.node] = true;
-				DFS(next.node);
-			}
-		}
+			DFS(next.node);
 		range[node][1] = cnt;
 	}
     static int read() throws Exception {
