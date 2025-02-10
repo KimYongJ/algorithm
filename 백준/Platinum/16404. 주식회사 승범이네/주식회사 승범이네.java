@@ -2,10 +2,6 @@
 //https://www.acmicpc.net/problem/16404
 //1초 / 256MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Node{
 	int node;
 	Node next;
@@ -23,22 +19,19 @@ class Main{
 	static boolean visit[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());//1<=십만
-		M		= Integer.parseInt(st.nextToken());//1<=십만
+		N		= read();//1<=십만
+		M		= read();//1<=십만
 		adNode	= new Node[N+1];
 		visit	= new boolean[N+1];
 		range	= new int[N+1][2];
 		tree	= new int[N<<2];
 		lazy	= new int[N<<2];
 		
-		st = new StringTokenizer(br.readLine());
-		st.nextToken();
+		read();
 		for(int i=2; i<=N; i++)
 		{
-			int parent = Integer.parseInt(st.nextToken());
+			int parent = read();
 			adNode[parent] = new Node(i, adNode[parent]);
 		}
 		
@@ -53,17 +46,16 @@ class Main{
 		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
+			int f = read();
 			if(f == 1)	// 이익/손해
 			{
-				int i = Integer.parseInt(st.nextToken()); // 1<=N
-				int w = Integer.parseInt(st.nextToken()); // |만|
+				int i = read(); // 1<=N
+				int w = read(); // |만|
 				update(1, 1, N, range[i][0], range[i][1], w);
 			}
 			else		// 잔액 출력
 			{
-				sb.append(query(1, 1, N, range[Integer.parseInt(st.nextToken())][0]))
+				sb.append(query(1, 1, N, range[read()][0]))
 					.append('\n');
 			}
 		}
@@ -71,14 +63,19 @@ class Main{
 	}
 	public static void update(int treeNode, int s, int e, int left, int right, int value) {
 		propagate(treeNode, s, e);
+		
 		if(e < left || right < s)
 			return;
-		if(left<=s && e<=right) {
+		
+		if(left<=s && e<=right)
+		{
 			lazy[treeNode] += value;
 			propagate(treeNode, s, e);
 			return;
 		}
+		
 		int mid = (s + e) >> 1;
+		
 		update(treeNode << 1, s, mid, left, right, value);
 		update(treeNode << 1 | 1, mid + 1, e, left, right, value);
 		tree[treeNode] = tree[treeNode << 1] + tree[treeNode << 1 | 1];
@@ -120,4 +117,12 @@ class Main{
 		}
 		range[node][1] = cnt;
 	}
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        boolean m = n == 13;
+        if (m)n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48) {
+        n = (n << 3) + (n << 1) + (c & 15);}
+        return m ? ~n + 1 : n;
+    }
 }
