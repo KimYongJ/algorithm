@@ -2,9 +2,6 @@
 //https://www.acmicpc.net/problem/9345
 //2초 / 256MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int min, max;
 	Node(int min, int max){
@@ -19,15 +16,12 @@ class Main{
 	static Node node[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			
-			N = Integer.parseInt(st.nextToken());// 노드 수
-			K = Integer.parseInt(st.nextToken());// 쿼리 수
+			N	= read();// 노드 수 1<=십만
+			K	= read();// 쿼리 수 1<=오만
 			arr = new int[N];
 			LEN = N << 2;
 			node= new Node[LEN];
@@ -39,10 +33,9 @@ class Main{
 			
 			while(K-->0)
 			{
-				st = new StringTokenizer(br.readLine());
-				int f = Integer.parseInt(st.nextToken());
-				int l = Integer.parseInt(st.nextToken());
-				int r = Integer.parseInt(st.nextToken());
+				int f = read();
+				int l = read();
+				int r = read();
 				if(f == 0)
 				{
 					update(1, 0, N-1, l, arr[r]);
@@ -62,10 +55,12 @@ class Main{
 	}
 	public static Node query(int treeNode, int s, int e, int left, int right) {
 		if(e < left || right < s)
-			return new Node(1000000, -1000000);
+			return new Node(100_001, 0);
+		
 		if(left <= s && e<= right)
 			return node[treeNode];
 		int mid = (s + e) >> 1;
+		
 		Node l = query(treeNode << 1, s, mid, left, right);
 		Node r = query(treeNode << 1 | 1, mid + 1, e, left, right);
 
@@ -101,5 +96,10 @@ class Main{
 				 Math.min(node[treeNode << 1].min, node[treeNode<<1|1].min),
 				Math.max(node[treeNode << 1].max, node[treeNode<<1|1].max)
 		);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
