@@ -4,24 +4,37 @@
 class Main{
 	public static void main(String[] args)throws Exception{
 		int N		= read();// 1<=천
-		int arr[]	= new int[N + 1];
-		int dp[]	= new int[N + 1];
-		int result	= 0;
+		int LIS[]	= new int[N + 1];
+		int idx		= 0;
 
 		for(int i=1; i<=N; i++)
-			arr[i] = read();
-		
-		for(int i=1; i<=N; i++)
 		{
-			dp[i] = 1;
-			for(int j=0; j<i; j++)
+			int n = read();
+			if(LIS[idx] < n)
+				LIS[++idx] = n;
+			else
 			{
-				if(arr[i] > arr[j])
-					dp[i] = Math.max(dp[i], dp[j] + 1); 
+				// target보다 큰것 중 제일 작은것
+				int j = binarySearch(LIS, n,1, idx);
+				LIS[j] = n;
 			}
-			result = Math.max(result, dp[i]);
 		}
-		System.out.print(result);
+		System.out.print(idx);
+	}
+	public static int binarySearch(int[] arr, int target,int s, int e) {
+		int result = -1;
+		while(s <= e)
+		{
+			int mid = (s + e) >> 1;
+			if(arr[mid] >= target)
+			{
+				result = mid;
+				e = mid - 1;
+			}
+			else
+				s = mid + 1;
+		}
+		return result;
 	}
 	static int read() throws Exception {
 		int c, n = System.in.read() & 15;
