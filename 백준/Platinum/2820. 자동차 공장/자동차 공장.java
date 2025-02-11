@@ -1,17 +1,7 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/2820
 //1초 / 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-class Node{
-	int now;
-	Node next;
-	Node(int now, Node next){
-		this.now = now;
-		this.next = next;
-	}
-}
+
 class Main{
 	
 	static int cnt;
@@ -22,11 +12,11 @@ class Main{
 	static Node[] adNode;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		Reader in = new Reader();
+
 		StringBuilder sb = new StringBuilder();
-		N		= Integer.parseInt(st.nextToken());
-		M		= Integer.parseInt(st.nextToken());
+		N		= in.nextInt();
+		M		= in.nextInt();
 		cost	= new int[N + 1];
 		adNode	= new Node[N+1];
 		range	= new int[N + 1][2];
@@ -34,30 +24,27 @@ class Main{
 		lazy	= new int[N<<2];
 		
 		
-		cost[1] = Integer.parseInt(br.readLine());
+		cost[1] = in.nextInt();
 		for(int i=2; i<=N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			cost[i] = Integer.parseInt(st.nextToken());
-			int parent = Integer.parseInt(st.nextToken());
+			cost[i] = in.nextInt();
+			int parent = in.nextInt();
+			// 빠른 연산을 위해 자료구조를 직접 정의함
 			adNode[parent] = new Node(i, adNode[parent]);
-			
 		}
 		
 		DFS(1);
 
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			char flag = st.nextToken().charAt(0);
-			if(flag == 'p')
+			if(in.nextChar() == 'p')
 			{
-				int l = Integer.parseInt(st.nextToken());
-				int x = Integer.parseInt(st.nextToken());
+				int l = in.nextInt();
+				int x = in.nextInt();
 				update(1, 1, N, range[l][0]+1, range[l][1], x);
 			}
 			else {
-				int idx = Integer.parseInt(st.nextToken());
+				int idx = in.nextInt();
 				sb.append(cost[idx] + query(1, 1, N, range[idx][0])).append('\n');
 			}
 		}
@@ -114,5 +101,49 @@ class Main{
 
 		range[node][1] = cnt;
 	}
-	
 }
+
+class Node{
+	int now;
+	Node next;
+	Node(int now, Node next){
+		this.now = now;
+		this.next = next;
+	}
+}
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    char nextChar() throws Exception {
+        byte c;
+        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+        return (char)c;
+    }
+    
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
+}
+
