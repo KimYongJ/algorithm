@@ -20,7 +20,6 @@ class Main{
 	static int[][] range;
 	static int[] tree, lazy;
 	static Node[] adNode;
-	static boolean[] visit;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,7 +30,6 @@ class Main{
 		cost	= new int[N + 1];
 		adNode	= new Node[N+1];
 		range	= new int[N + 1][2];
-		visit	= new boolean[N + 1];
 		tree	= new int[N<<2];
 		lazy	= new int[N<<2];
 		
@@ -46,14 +44,7 @@ class Main{
 			
 		}
 		
-		for(int i=1; i<=N; i++)
-		{
-			if(!visit[i])
-			{
-				visit[i] = true;
-				DFS(i);
-			}
-		}
+		DFS(1);
 
 		while(M-->0)
 		{
@@ -117,14 +108,10 @@ class Main{
 	}
 	public static void DFS(int node) {
 		range[node][0] = ++cnt;
+		
 		for(Node next=adNode[node]; next!=null; next=next.next)
-		{
-			if(!visit[next.now])
-			{
-				visit[next.now] = true;
 				DFS(next.now);
-			}
-		}
+
 		range[node][1] = cnt;
 	}
 	
