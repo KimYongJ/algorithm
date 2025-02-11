@@ -33,20 +33,16 @@ class Main{
 		for(int i=1; i<=N; i++)
 		{
 			double dam = damage[i];
-			long dp[][] = new long[K + 1][901];
+			long dp[] = new long[901];
 			
 			for(int k=1; k<=K; k++)
 			{
 				int time = (int)Math.ceil(energy[k] / dam);
-				for(int t=1; t<=900; t++)
-				{
-					dp[k][t] = dp[k-1][t];
-					if(0<=t-time)
-						dp[k][t] = Math.max(dp[k][t], dp[k-1][t-time] + money[k]);
-				}
+				for(int t=900; t>=time; t--)
+					dp[t] = Math.max(dp[t], dp[t-time] + money[k]);
 			}
 			
-			pq.add(dp[K][900]);
+			pq.add(dp[900]);
 		}
 		
 		
