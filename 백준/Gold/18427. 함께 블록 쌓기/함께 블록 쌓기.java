@@ -22,25 +22,23 @@ class Main{
 				list[i].add(Integer.parseInt(st.nextToken()));
 		}
 		
-		int dp[][] = new int[N + 1][H + 1];
+		int prev[] = new int[H + 1];
 		
 		for(int i=1; i<=N; i++)
 		{
+			int dp[] = new int[H + 1];
 			for(int myH : list[i])
 			{
-				dp[i][myH]++;
+				dp[myH]++;
 				for(int h=0; h<=H; h++)
-				{
-					if(h >= myH && dp[i-1][h-myH] != 0)
-					{
-						dp[i][h] += dp[i-1][h-myH];
-					}
-				}
+					if(h >= myH && prev[h-myH] != 0)
+						dp[h] += prev[h-myH];
 			}
+			
 			for(int h=0; h<=H; h++)
-				dp[i][h] = (dp[i][h] + dp[i-1][h]) % MOD;
+				prev[h] = (dp[h] + prev[h]) % MOD;
 		}
 		
-		System.out.print(dp[N][H]);
+		System.out.print(prev[H]);
 	}
 }
