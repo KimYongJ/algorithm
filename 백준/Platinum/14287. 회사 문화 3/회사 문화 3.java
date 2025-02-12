@@ -2,10 +2,6 @@
 //https://www.acmicpc.net/problem/14287
 //2초 / 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Node{
 	int node;
 	Node next;
@@ -22,20 +18,17 @@ class Main{
 	static Node[] adNode;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		N		= Integer.parseInt(st.nextToken());
-		M		= Integer.parseInt(st.nextToken());
+		N		= read();
+		M		= read();
 		tree	= new int[N<<2];
 		range	= new int[N + 1][2];
 		adNode	= new Node[N + 1];
 		
-		st = new StringTokenizer(br.readLine());
-		st.nextToken();
+		read();
 		for(int i=2; i<=N; i++)
 		{
-			int parent = Integer.parseInt(st.nextToken());
+			int parent = read();
 			adNode[parent] = new Node(i, adNode[parent]);
 		}
 		
@@ -43,19 +36,15 @@ class Main{
 		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
-			int node = Integer.parseInt(st.nextToken());
+
+			int f	= read();
+			int node= read();
+			
 			if(f == 1)
-			{
-				int w = Integer.parseInt(st.nextToken());
-				update(1, 1, N, range[node][0], w);
-			}
+				update(1, 1, N, range[node][0], read());
 			else
-			{
 				sb.append(query(1, 1, N, range[node][0], range[node][1]))
 					.append('\n');
-			}
 		}
 		System.out.print(sb);
 	}
@@ -88,5 +77,10 @@ class Main{
 			DFS(next.node);
 		
 		range[node][1] = cnt;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
