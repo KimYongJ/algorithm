@@ -32,14 +32,8 @@ class Main{
 						dp[j] = Math.max(dp[j], dp[j-P] + C);
 			}
 			
-			int max = 0;
-			
-			for(int j=1; j<=M; j++)
-				max = Math.max(max, dp[j]);
-			
-			sb.append(max).append('\n');
+			sb.append(dp[M]).append('\n');
 		}
 		System.out.print(sb);
 	}
 }
-
