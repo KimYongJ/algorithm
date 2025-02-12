@@ -1,6 +1,9 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/1106
 //2초 / 128MB
+
+import java.util.Arrays;
+
 class Main{
 	public static void main(String[] args)throws Exception{
 		int C		= read();// 늘려야할 고객 수1<=천
@@ -11,8 +14,9 @@ class Main{
 		int dp[]	= new int[L + 1];	// 해당 고객을 만들기 위해 드는 최소 비용
 		int min = 1_000_000_000;
 
-		for(int c=1; c<=L; c++)
-			dp[c] = min;
+		Arrays.fill(dp, min);
+		
+		dp[0] = 0;
 		
 		for(int i=1; i<=N; i++)
 		{
