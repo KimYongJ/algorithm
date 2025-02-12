@@ -24,10 +24,7 @@ class Main{
 		
 		int dp[][] = new int[N + 1][H + 1];
 		
-		for(int myH : list[1])
-			dp[1][myH]++;
-		
-		for(int i=2; i<=N; i++)
+		for(int i=1; i<=N; i++)
 		{
 			for(int myH : list[i])
 			{
