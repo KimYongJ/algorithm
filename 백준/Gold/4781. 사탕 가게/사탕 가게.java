@@ -9,7 +9,7 @@ class Main{
 		while(true)
 		{
 			int N	= in.nextInt();//사탕의 종류 수(1<=오천)
-			int M	= (int)Math.round((in.nextDouble() * 100));//돈의 양(0.01 <= 100.00)
+			int M	= (int)((in.nextDouble() * 100) + 0.5);//돈의 양(0.01 <= 100.00)
 			int C	= 0;				//칼로리(1<=오천)
 			int P	= 0;				//가격(0.01<=100.00)
 			int dp[]= new int[M + 1];	// 최대 칼로리를 담음
@@ -20,7 +20,7 @@ class Main{
 			for(int i=1; i<=N; i++)
 			{
 				C = in.nextInt();//칼로리(1<=오천)
-				P = (int)Math.round(in.nextDouble() * 100);//가격(0.01<=100.00)
+				P = (int)((in.nextDouble() * 100)+0.5);//가격(0.01<=100.00)
 				
 				for(int j=P; j<=M; j++)
 					dp[j] = Math.max(dp[j], dp[j-P] + C);
@@ -72,4 +72,3 @@ class Reader {
         return buffer[index++];
     }
 }
-
