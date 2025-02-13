@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/14268
 //5초 / 512MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node;
 	Node next;
@@ -20,20 +17,17 @@ class Main{
 	static Node[] adNode;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine().trim());
 		StringBuilder sb = new StringBuilder();
-		N		= Integer.parseInt(st.nextToken());//직원수n(2≤100,000)
-		M		= Integer.parseInt(st.nextToken());//직원수n(2≤100,000)
+		N		= read();//직원수n(2≤100,000)
+		M		= read();//직원수n(2≤100,000)
 		tree	= new int[N<<2];
 		lazy	= new int[N<<2];
 		range	= new int[N + 1][2];
 		adNode	= new Node[N + 1];
-		st = new StringTokenizer(br.readLine().trim());
-		st.nextToken();
+		read();
 		for(int i=2; i<=N; i++)
 		{
-			int parent = Integer.parseInt(st.nextToken());
+			int parent = read();
 			adNode[parent] = new Node(i, adNode[parent]);
 		}
 		
@@ -41,12 +35,11 @@ class Main{
 		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine().trim());
-			int f = Integer.parseInt(st.nextToken());
-			int n = Integer.parseInt(st.nextToken());
+			int f = read();
+			int n = read();
 			if(f == 1)
 			{
-				int w = Integer.parseInt(st.nextToken());//1≤1,000
+				int w = read();//1≤1,000
 				update(1, 1, N, range[n][0], range[n][1], w);
 			}
 			else
@@ -104,4 +97,17 @@ class Main{
 			DFS(next.node);
 		range[node][1] = cnt;
 	}
+    static int read() throws Exception{
+        int val = 0;
+        int c = System.in.read();
+        while (c <= ' ') {
+            c = System.in.read();
+        }
+
+        do {
+            val = 10 * val + c - 48;
+        } while ((c = System.in.read()) >= 48 && c <= 57);
+
+        return val;
+    }
 }
