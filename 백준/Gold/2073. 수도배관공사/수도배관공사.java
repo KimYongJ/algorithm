@@ -1,24 +1,20 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/2073
 //2초 / 128MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int D = Integer.parseInt(st.nextToken());//목표 거리(7<=십만)
-		int P = Integer.parseInt(st.nextToken());//파이프개수(1<=350)
+		int D = read();//목표 거리(7<=십만)
+		int P = read();//파이프개수(1<=350)
 		int dp[] = new int[D + 1];
 		int l[] = new int[P + 1];
 		int c[] = new int[P + 1];
 		
-		for(int i=1; i<=P; i++) {
-			st = new StringTokenizer(br.readLine());
-			l[i] = Integer.parseInt(st.nextToken());
-			c[i] = Integer.parseInt(st.nextToken());
+		for(int i=1; i<=P; i++)
+		{
+			l[i] = read();
+			c[i] = read();
 		}
+		
 		dp[0] = 1<<30;
 		
 		for(int i=1; i<=P; i++)
@@ -26,5 +22,10 @@ class Main{
 				dp[j] = Math.max(dp[j], Math.min(dp[j-l[i]], c[i]));
 		
 		System.out.print(dp[D]);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
