@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/18437
 //2초 512MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node;
 	Node next;
@@ -20,19 +17,17 @@ class Main{
 	static Node[] adNode;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		N = Integer.parseInt(br.readLine());
-		lazy = new int[N << 2];
-		tree = new int[N << 2];
-		range = new int[N + 2][2];
-		adNode = new Node[N + 1];
+		N		= read();
+		lazy	= new int[N << 2];
+		tree	= new int[N << 2];
+		range	= new int[N + 2][2];
+		adNode	= new Node[N + 1];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		st.nextToken();
+		read();
 		for(int i=2; i<=N; i++)
 		{
-			int parent = Integer.parseInt(st.nextToken());
+			int parent = read();
 			adNode[parent] = new Node(i, adNode[parent]);
 		}
 		
@@ -40,42 +35,42 @@ class Main{
 		
 		update(1, 1, N, 1, N, 1);
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
-			int i = Integer.parseInt(st.nextToken());
-			if(f==1)
-			{
-				update(1, 1, N, range[i][0] + 1, range[i][1], 1);
-			}
-			else if(f==2)
-			{
-				update(1, 1, N, range[i][0] + 1, range[i][1], 2);
-			}
-			else
-			{
+			int f = read();
+			int i = read();
+			
+			if(f==3)
 				sb.append(query(1, 1, N, range[i][0] + 1, range[i][1]))
-					.append('\n');
-			}
+				.append('\n');
+			else	
+				update(1, 1, N, range[i][0] + 1, range[i][1], f);
 		}
 		System.out.print(sb);
 	}
 	public static int query(int treeNode, int s, int e, int left, int right) {
+		
 		propagate(treeNode, s, e);
+		
 		if(e < left || right < s)
 			return 0;
+		
 		if(left<=s && e<= right)
 			return tree[treeNode];
+		
 		int mid = (s + e) >> 1;
+		
 		return query(treeNode << 1, s, mid, left, right) + 
 				query(treeNode << 1 | 1, mid + 1, e, left, right);
 	}
 	public static void update(int treeNode, int s, int e, int left, int right, int value) {
+		
 		propagate(treeNode, s, e);
+		
 		if(e < left || right < s)
 			return;
+		
 		if(left <= s && e <= right)
 		{
 			lazy[treeNode] = value;
@@ -93,24 +88,14 @@ class Main{
 	public static void propagate(int treeNode, int s, int e) {
 		if(lazy[treeNode] != 0)
 		{
-			if(lazy[treeNode] == 1)
+			tree[treeNode] = lazy[treeNode] == 1 ? (e - s + 1) : 0;
+
+			if(s != e)
 			{
-				tree[treeNode] = (e - s + 1);
-				if(s != e)
-				{
-					lazy[treeNode << 1] = 1;
-					lazy[treeNode << 1 | 1] = 1;
-				}
+				lazy[treeNode << 1]		= lazy[treeNode];
+				lazy[treeNode << 1 | 1] = lazy[treeNode];
 			}
-			else
-			{
-				tree[treeNode] = 0;
-				if(s != e)
-				{
-					lazy[treeNode << 1] = 2;
-					lazy[treeNode << 1 | 1] = 2;
-				}
-			}
+			
 			lazy[treeNode] = 0;
 		}
 	}
@@ -119,5 +104,10 @@ class Main{
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			DFS(next.node);
 		range[node][1] = idx;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
