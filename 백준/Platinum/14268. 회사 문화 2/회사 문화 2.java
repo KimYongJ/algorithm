@@ -100,14 +100,9 @@ class Main{
     static int read() throws Exception{
         int val = 0;
         int c = System.in.read();
-        while (c <= ' ') {
-            c = System.in.read();
-        }
-
-        do {
-            val = 10 * val + c - 48;
+        while (c <= ' ') {c = System.in.read();}
+        do {val = 10 * val + c - 48;
         } while ((c = System.in.read()) >= 48 && c <= 57);
-
         return val;
     }
 }
