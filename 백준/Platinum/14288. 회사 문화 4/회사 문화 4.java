@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/14288
 //2초 512MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node;
 	Node next;
@@ -21,11 +18,9 @@ class Main{
 	static boolean down;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		N		= Integer.parseInt(st.nextToken());// 직원수 2<=십만
-		M		= Integer.parseInt(st.nextToken());// 쿼리수 2<=십만
+		N		= read();// 직원수 2<=십만
+		M		= read();// 쿼리수 2<=십만
 		lazy	= new int[N<<2];
 		treeDown= new int[N<<2];	// 특정 부분까지 느리게 갱신되는 세그트리
 		treeUp	= new int[N<<2];	// 특정범위까지 누적합
@@ -33,11 +28,10 @@ class Main{
 		adNode	= new Node[N + 1];
 		down	= true;// 초기는 위에서 아래로 칭찬
 		
-		st = new StringTokenizer(br.readLine());
-		st.nextToken();
+		read();
 		for(int i=2; i<=N; i++)
 		{
-			int parent = Integer.parseInt(st.nextToken());
+			int parent = read();
 			adNode[parent] = new Node(i, adNode[parent]);
 		}
 		
@@ -45,22 +39,21 @@ class Main{
 		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
+			int f = read();
 			if(f == 1)
 			{
-				int nd = Integer.parseInt(st.nextToken());
-				int v = Integer.parseInt(st.nextToken());
-				if(down)// 아래 방향일 때는 자기 제외 자기 부하들 다 플러스
+				int nd	= read();
+				int v	= read();
+				if(down)// 아래 방향일 때는 자기 포함 부하들 다 플러스 , 문제에 제대로 명시하지 않네..;;
 					update_down(1, 1, N, range[nd][0], range[nd][1], v);
 				else	// 위방향 일 때는 해당 노드 까지 누적합 갱신
 					update_up(1, 1, N, range[nd][0], v);
 			}
 			else if(f == 2)
 			{
-				int nd = Integer.parseInt(st.nextToken());
-				int down = query_down(1, 1, N, range[nd][0]);
-				int up = query_up(1, 1, N, range[nd][0], range[nd][1]);
+				int nd	= read();
+				int down= query_down(1, 1, N, range[nd][0]);
+				int up	= query_up(1, 1, N, range[nd][0], range[nd][1]);
 				
 				sb.append(down + up)
 					.append('\n');
@@ -141,5 +134,10 @@ class Main{
 		for(Node next=adNode[node]; next!=null; next=next.next)
 			DFS(next.node);
 		range[node][1] = idx;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
