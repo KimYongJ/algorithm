@@ -24,19 +24,12 @@ class Main{
 		{
 			int dp[] = new int[C + 1];
 			for(int i=0; i<=C; i++)
-			{
-				for(int c=1; c<=C; c++)
-				{
-					if(i>=c)
-						dp[i] = Math.max(dp[i],Math.max(prv[i], prv[i-c] + cost[m][c]));
-				}
-			}
+				for(int c=0; c<=i; c++)
+					dp[i] = Math.max(dp[i],Math.max(prv[i], prv[i-c] + cost[m][c]));
+				
 			prv = dp;
 		}
-		
-		int max = 0;
-		for(int i=1; i<=C; i++)
-			max = Math.max(max, prv[i]);
-		System.out.print(max);
+
+		System.out.print(prv[C]);
 	}
 }
