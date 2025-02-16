@@ -12,22 +12,24 @@ class Main{
 		int H		= Integer.parseInt(st.nextToken());
 		int N		= Integer.parseInt(st.nextToken());
 		int dp[]	= new int[H + 1];
+		
 		dp[0] = 1;
+		
 		for(int i=1; i<=N; i++)
 		{
 			int w = Integer.parseInt(br.readLine());
 			
 			for(int j=H; j>=w; j--)
-			{
 				dp[j] += dp[j-w];
-			}
 		}
-		for(int i=H; i>=0; i--) {
-			if(dp[i] != 0) {
+		
+		for(int i=H; i>=0; i--)
+		{
+			if(dp[i] != 0)
+			{
 				System.out.print(i);
 				return;
 			}
 		}
-		
 	}
 }
