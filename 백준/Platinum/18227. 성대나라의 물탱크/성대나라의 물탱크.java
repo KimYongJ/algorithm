@@ -1,9 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/18227
 //1초 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 class Node{
 	int node;
 	Node next;
@@ -22,11 +19,9 @@ class Main{
 	static boolean[] visit;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		N		= Integer.parseInt(st.nextToken());// 도시 수(1<=이십만)
-		S		= Integer.parseInt(st.nextToken());// 수도의 번호(1<=N)
+		N		= read();// 도시 수(1<=이십만)
+		S		= read();// 수도의 번호(1<=N)
 		adNode	= new Node[N + 1];
 		range	= new int[N + 1][2];
 		depth	= new int[N + 1];
@@ -35,22 +30,20 @@ class Main{
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = read();
+			int b = read();
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
 		}
 		visit[S] = true;
 		DFS(S, 1);
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
-			int i = Integer.parseInt(st.nextToken());
+			int f = read();
+			int i = read();
 			if(f == 1) {
 				update(1, 1, N, range[i][0]);
 			}
@@ -95,6 +88,11 @@ class Main{
 			}
 		}
 		range[node][1] = cnt;
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
 
