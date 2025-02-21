@@ -24,7 +24,7 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		tree	= new int[N * 4];
 		lazy	= new int[N * 4];
 		depth	= new int[N + 1];
@@ -34,9 +34,8 @@ class Main{
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = read();
+			int b = read();
 			adNode[a] = new Node(b, adNode[a]);
 		}
 		
@@ -44,7 +43,7 @@ class Main{
 		
 		init(1, 1, N);
 		
-		int T = N + Integer.parseInt(br.readLine()) - 1;
+		int T = N + read() - 1;
 		while(T-->0)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -95,7 +94,8 @@ class Main{
 	public static void init(int treeNode, int s, int e) {
 		if(s == e)
 		{
-			tree[treeNode] = depth[find[s]];
+			// s는 트리에서의 노드번호 이기 때문에 깊이를 가져오려면, 깊이를 담을 때 넣은 노드번호를 갖고와야 한다.
+			tree[treeNode] = depth[find[s]]; 
 			return;
 		}
 		
@@ -105,8 +105,8 @@ class Main{
 		init(treeNode << 1 | 1, mid + 1, e);
 	}
 	public static void DFS(int node, int dep) {
-		range[node][0] = ++cnt;
-		find[cnt] = node;
+		range[node][0] = ++cnt; // node에 트리에서 사용할 번호(cnt)를 맵핑
+		find[cnt] = node;		// 트리에서 사용할번호(cnt)에 node번호 매핑(init함수를 위해)
 		depth[node] = dep;
 		
 		for(Node next=adNode[node]; next!=null; next=next.next)
@@ -125,5 +125,10 @@ class Main{
 			}
 			lazy[treeNode] = 0;
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
