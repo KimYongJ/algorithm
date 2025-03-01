@@ -29,13 +29,8 @@ class Main{
 			
 			st = new StringTokenizer(br.readLine());
 			for(int i=1; i<=N;i++)
-			{
-				arr[i] = Integer.parseInt(st.nextToken());
-				if(arr[i]<0)
-					arr[i] = -1;
-				else if(0<arr[i])
-					arr[i] = 1;
-			}
+				arr[i] = Integer.compare(Integer.parseInt(st.nextToken()),0);
+			
 			
 			init(1, 1, N);
 			
@@ -47,11 +42,7 @@ class Main{
 				int j = Integer.parseInt(st.nextToken());
 				if(cmd == 'C')
 				{
-					if(j<0)
-						j = -1;
-					else if(0<j)
-						j = 1;
-					update(1, 1, N, i, j);
+					update(1, 1, N, i, Integer.compare(j,0));
 				}
 				else
 				{
