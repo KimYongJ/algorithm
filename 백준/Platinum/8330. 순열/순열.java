@@ -2,10 +2,6 @@
 //https://www.acmicpc.net/problem/8330
 //1초 128MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N;
@@ -13,41 +9,39 @@ class Main{
 	static int[] tree, lazy, M;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		N		= Integer.parseInt(br.readLine());
+		N		= read();
 		arr		= new int[N + 1];
 		freq	= new int[N + 1];
 		tree	= new int[N * 4];
 		lazy	= new int[N * 4];
 		M		= new int[N + 1];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
 		{
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 			freq[arr[i]]++;// 해당 숫자가 몇번 나왔는지 체크한다.
 		}
 		
 		int psum = 0;
 		for(int i=1; i<=N; i++)
 		{
-			psum += freq[i];	// 나온숫자의 합을 누적합한다.
-			M[i] = psum - i;	// 나온수자의 합을 누적합한 것의 자기자신을 마이너스 한다.
-			// 위와 같이 하면 수열을 만들 수 있을때는 무조건 0이하값이 되고, 만들지 못하는 경우는 1이상이 된다.
+			psum += freq[i];	// 1부터 i까지 나온 숫자들의 총 개수를 누적한다.
+			M[i] = psum - i;	// 총개수에 자기자신을 마이너스 한다.
+		    // 모든 i에 대해 M[i] <= 0 이면 '접두사 합 <= i' 조건이 만족되어 순열이 가능하다.
+		    // 어느 지점에서라도 M[i]가 양수가 되면(> 0) 접두사 합이 i보다 커서 순열 불가능.
 		}
 		
 		init(1, 1, N);
 		
 		sb.append(query(1, 1, N, 1, N)<=0 ? "TAK\n" : "NIE\n");
 		
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int i	= Integer.parseInt(st.nextToken());
+			int i	= read();
 			int old = arr[i];
-			arr[i]	= Integer.parseInt(st.nextToken());
+			arr[i]	= read();
 			
 			update(1, 1, N, old, N, -1);
 			update(1, 1, N, arr[i], N, 1);
@@ -76,19 +70,19 @@ class Main{
 		
 		tree[treeNode] = Math.max(tree[treeNode*2], tree[treeNode*2+1]);
 	}
-	public static long query(int treeNode, int s, int e, int left, int right) {
+	public static int query(int treeNode, int s, int e, int left, int right) {
 		
 		propagate(treeNode, s, e);
 		
 		if(e < left || right < s)
-			return Long.MIN_VALUE;
+			return 0;
 		if(left<=s && e<=right)
 			return tree[treeNode];
 		
 		int mid = (s + e) >> 1;
 		
-		long l = query(treeNode*2, s, mid, left, right);
-		long r = query(treeNode*2+1, mid + 1, e, left, right);
+		int l = query(treeNode*2, s, mid, left, right);
+		int r = query(treeNode*2+1, mid + 1, e, left, right);
 		
 		return Math.max(l, r);
 	}
@@ -117,5 +111,10 @@ class Main{
 			}
 			lazy[treeNode] = 0;
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
