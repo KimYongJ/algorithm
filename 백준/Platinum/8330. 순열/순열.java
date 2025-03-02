@@ -10,7 +10,7 @@ class Main{
 	
 	static int N;
 	static int[] freq, arr;
-	static long[] tree, lazy, M;
+	static int[] tree, lazy, M;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,32 +18,29 @@ class Main{
 		N		= Integer.parseInt(br.readLine());
 		arr		= new int[N + 1];
 		freq	= new int[N + 1];
-		tree	= new long[N * 4];
-		lazy	= new long[N * 4];
-		M		= new long[N + 1];
+		tree	= new int[N * 4];
+		lazy	= new int[N * 4];
+		M		= new int[N + 1];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
 		{
 			arr[i] = Integer.parseInt(st.nextToken());
-			freq[arr[i]]++;
+			freq[arr[i]]++;// 해당 숫자가 몇번 나왔는지 체크한다.
 		}
 		
-		long psum = 0;
+		int psum = 0;
 		for(int i=1; i<=N; i++)
 		{
-			psum += freq[i];
-			M[i] = psum - i;
+			psum += freq[i];	// 나온숫자의 합을 누적합한다.
+			M[i] = psum - i;	// 나온수자의 합을 누적합한 것의 자기자신을 마이너스 한다.
+			// 위와 같이 하면 수열을 만들 수 있을때는 무조건 0이하값이 되고, 만들지 못하는 경우는 1이상이 된다.
 		}
-		
-		Runnable check = () ->{
-			long max = query(1, 1, N, 1, N);
-			sb.append(max<=0 ? "TAK\n" : "NIE\n");
-		};
 		
 		init(1, 1, N);
 		
-		check.run();
+		sb.append(query(1, 1, N, 1, N)<=0 ? "TAK\n" : "NIE\n");
+		
 		int T = Integer.parseInt(br.readLine());
 		while(T-->0)
 		{
@@ -55,7 +52,7 @@ class Main{
 			update(1, 1, N, old, N, -1);
 			update(1, 1, N, arr[i], N, 1);
 			
-			check.run();
+			sb.append(query(1, 1, N, 1, N)<=0 ? "TAK\n" : "NIE\n");
 		}
 		System.out.print(sb);
 	}
