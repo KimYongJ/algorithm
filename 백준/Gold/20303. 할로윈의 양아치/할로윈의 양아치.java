@@ -1,8 +1,6 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/20303
 //1초 1024MB
-
-import java.util.ArrayList;
 class Node{
 	int node;
 	Node next;
@@ -14,17 +12,17 @@ class Node{
 class Main{
 	
 	static int N, M, K, cnt, candysum;
-	static int[] candy;
+	static int[] candy, childCnt, candyCnt;
 	static Node[] adNode;
 	static boolean[] visit;
-	static ArrayList<Integer> childCnt = new ArrayList<>();
-	static ArrayList<Integer> candyCnt = new ArrayList<>();
 	
 	public static void main(String[] args)throws Exception{
 		N		= read();// 거리에 있는 아이들 수(1<=삼만)
 		M		= read();// 아이들의 친구 관계수(0<=십만)
 		K		= read()-1;// 뺏을 수 있는 아이수(1<=삼천)
 		candy	= new int[N + 1];
+		childCnt= new int[N + 1];
+		candyCnt= new int[N + 1];
 		adNode	= new Node[N + 1];
 		visit	= new boolean[N + 1];
 		
@@ -39,28 +37,26 @@ class Main{
 			adNode[b] = new Node(a, adNode[b]);
 		}
 		
+		int len = 0;
 		for(int i=1; i<=N; i++)
 		{
 			if(!visit[i])
 			{
+				
 				cnt = 0;
 				candysum = 0;
 				visit[i] = true;
 				DFS(i);
-				childCnt.add(cnt);
-				candyCnt.add(candysum);
+				childCnt[len] = cnt;
+				candyCnt[len] = candysum;
+				len++;
 			}
 		}
-		int len = childCnt.size();
 		int dp[] = new int[K + 1];
 		
 		for(int i=0; i<len; i++)
-		{
-			int child = childCnt.get(i);
-			int candy = candyCnt.get(i);
-			for(int j=K; j>=child; j--)
-				dp[j] = Math.max(dp[j], dp[j-child] + candy);
-		}
+			for(int j=K; j>=childCnt[i]; j--)
+				dp[j] = Math.max(dp[j], dp[j-childCnt[i]] + candyCnt[i]);
 		
 		System.out.print(dp[K]);
 	}
