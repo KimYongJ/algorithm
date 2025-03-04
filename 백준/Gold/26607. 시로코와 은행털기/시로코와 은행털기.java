@@ -27,6 +27,8 @@ class Main{
 		for(int s : S)
 			for(int k=K-1; k>=0; k--)
 				for(int l=L; l>=s; l--)
+					// k명을 선택한 상태에서, l-s를 만들 수 있다면,
+		            // 현재 사람 s를 추가하여 k+1명을 선택한 상태에서 l을 만들 수 있다.
 					dp[k+1][l] |= dp[k][l-s];
 
 		
@@ -36,7 +38,7 @@ class Main{
 			if(dp[K][l])
 			{
 				int A = l;
-				int B = K*T - A;
+				int B = L - A;
 				result = Math.max(result, A*B);
 			}
 		}
