@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String str = br.readLine();
-		
+
 		int res = 0;
 		int prv = 0;
 		
-		for(char c : str.toCharArray()) {
+		for(char c : br.readLine().toCharArray())
+		{
 			int now = c - 'A';
 			
 			int max = Math.max(now, prv);
@@ -19,12 +19,7 @@ class Main{
 			
 			int diff = max - min;
 			
-			if(diff <= 13)
-				res += diff;
-			else
-			{
-				res += min +  26 - max;
-			}
+			res += diff <= 13 ? diff : min +  26 - max;
 			
 			prv = now;
 		}
