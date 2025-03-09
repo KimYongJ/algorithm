@@ -1,49 +1,36 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/17353
 //1초 512MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+//update시 시작값의 합을 담는 startLazy와 몇번 업데이트를 하는지에 대해 합을 담는 countLazy를 준비
+//특정 idx를 구할 때 공식 : (현재구하자고자하는노드 * 몇번 업데이트를했는지의합) + 몇번 업데이트를했는지의 합 - 시작노드들의 합
 class Main{
 	
 	static int N, Q;
 	static long[] arr, tree, startLazy, countLazy;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		N			= Integer.parseInt(br.readLine());// 1<=십만
+		N			= read();// 1<=십만
 		arr			= new long[N + 1];
 		tree		= new long[N * 4];
 		startLazy	= new long[N * 4];
 		countLazy	= new long[N * 4];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());// 0<=백만
+			arr[i] = read();// 0<=백만
 		
 		init(1, 1, N);
 		
-		Q = Integer.parseInt(br.readLine());// 1<=십만
+		Q = read();// 1<=십만
 		
 		while(Q-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int flag = Integer.parseInt(st.nextToken());
-			if(flag == 1)
-			{
-				int s = Integer.parseInt(st.nextToken());
-				int e = Integer.parseInt(st.nextToken());
-				
-				update(1, 1, N, s, e);
-			}
+			if(read() == 1)
+				update(1, 1, N, read(), read());
 			else
-			{
-				int idx = Integer.parseInt(st.nextToken());
-				long cnt = query(1, 1, N, idx);
-				sb.append(cnt)
+				sb.append( query(1, 1, N, read()) )
 					.append('\n');
-			}
+			
 		}
 		System.out.print(sb);
 	}
@@ -109,5 +96,10 @@ class Main{
 		
 		init(treeNode << 1, s, mid);
 		init(treeNode << 1 | 1, mid + 1, e);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
