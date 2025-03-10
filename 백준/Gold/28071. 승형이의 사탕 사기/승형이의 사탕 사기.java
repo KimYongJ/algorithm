@@ -23,7 +23,7 @@ class Main{
 		
 		int dp[] = new int[candyMax + 1]; // dp[x]안에는 x개의 사탕을 만들기 위한 최소 상자 개수가 들어감
 		
-		Arrays.fill(dp, Integer.MAX_VALUE);
+		Arrays.fill(dp, 90_001);
 		
 		dp[0] = 0;
 		// 상자를 하나씩 순회
@@ -31,8 +31,7 @@ class Main{
 			// 가능한 사탱개수 부터 최대 사탕개수까지 순회
 			for(int j=candy[i]; j<=candyMax; j++)
 				// (현재 가능한 사탕 - 탐색중인 사탕개수)가 도달 가능하면, 최솟값 갱신
-				if(dp[j - candy[i]] != Integer.MAX_VALUE)
-					dp[j] = Math.min(dp[j], dp[j - candy[i]] + 1);
+				dp[j] = Math.min(dp[j], dp[j - candy[i]] + 1);
 
 		int result = 0;
 		
