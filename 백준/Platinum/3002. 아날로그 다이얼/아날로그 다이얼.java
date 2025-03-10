@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 class Main{
 	
 	static int N, M;
-	static int[] arr;
+	static int[] arr, tmp;
 	static int[] tree[], lazy;
 	
 	public static void main(String[] args)throws Exception{
@@ -17,6 +17,7 @@ class Main{
 		N		= Integer.parseInt(st.nextToken());	// 1<=이십오만
 		M		= Integer.parseInt(st.nextToken());	// 1<=이십오만
 		arr		= new int[N + 1];
+		tmp		= new int[10];
 		tree	= new int[N * 4][10];
 		lazy	= new int[N * 4];
 		
@@ -88,17 +89,12 @@ class Main{
 	public static void propagate(int treeNode, int s, int e) {
 		if(lazy[treeNode] != 0)
 		{
+//			for(int i=0; i<10; i++)
+//				tmp[i] = tree[treeNode][i];
+			System.arraycopy(tree[treeNode], 0, tmp, 0, 10);
 
-			int arr[] = new int[10];
-			
 			for(int i=0; i<10; i++)
-			{
-				int idx = i + lazy[treeNode];
-				idx %= 10;
-				arr[idx] = tree[treeNode][i];
-			}
-			
-			tree[treeNode] = arr;
+				tree[treeNode][(i + lazy[treeNode]) % 10] = tmp[i];
 			
 			if(s!=e)
 			{
