@@ -14,7 +14,7 @@ class Main{
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int N		= Integer.parseInt(st.nextToken());
 			int W		= Integer.parseInt(st.nextToken());
-			int dp[][]	= new int[N + 1][W + 1];
+			int dp[]	= new int[W + 1];
 			
 			for(int i=1; i<=N; i++)
 			{
@@ -22,12 +22,11 @@ class Main{
 				int v = Integer.parseInt(st.nextToken());
 				int w = Integer.parseInt(st.nextToken());
 				
-				for(int j=1; j<=W; j++)
-					if(j>=w)
-						dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-w] + v);
+				for(int j=W; j>=w; j--)
+					dp[j] = Math.max(dp[j], dp[j-w] + v);
 			}
 			
-			sb.append(dp[N][W]).append('\n');
+			sb.append(dp[W]).append('\n');
 		}
 		System.out.print(sb);
 	}
