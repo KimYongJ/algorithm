@@ -45,21 +45,15 @@ class Main{
 		for(int key : map.keySet())
 			arr[len++] = map.get(key);
 		
-		boolean dp[][] = new boolean[len][K + 1];
+		boolean dp[] = new boolean[K + 1];
 		
-		for(int i=0; i<len; i++)
-			dp[i][0] = true;
+		dp[0] = true;
 		
 		for(int i=1; i<len; i++)
-		{
-			for(int j=1; j<=K; j++)
-			{
-				dp[i][j] |= dp[i-1][j];
-				if(j >= arr[i])
-					dp[i][j] |= dp[i-1][j-arr[i]];
-			}
-		}
-		System.out.print(dp[len-1][K] ? "SAFE" : "DOOMED");
+			for(int j=K; j>=arr[i]; j--)
+				dp[j] |= dp[j - arr[i]];
+		
+		System.out.print(dp[K] ? "SAFE" : "DOOMED");
 	}
 	public static int getParent(int[] parent, int node) {
 		return parent[node] = parent[node] == node ? 
