@@ -5,9 +5,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
+	
 	static final long MAX = 1L<<62;
-	static long[] arr, lazy;
-	static long[][] tree;
+	static long[] arr, lazy, sum, min;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,14 +19,15 @@ class Main{
 		
 		arr		= new long[N + 1];
 		lazy	= new long[len];
-		tree	= new long[len][2];// [0] = sum, [1] = min
+		sum		= new long[len];
+		min		= new long[len];
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
 			arr[i] = Integer.parseInt(st.nextToken());
 		
 		for(int i=0; i<len; i++)
-			tree[i][1] = MAX;
+			min[i] = MAX;
 		
 		init(1, 1, N);
 		
@@ -44,31 +45,46 @@ class Main{
 				
 				continue;
 			}
+			else if(flag == 'S')
+				sb.append(sumQuery(1, 1, N, A, B));
+			else
+				sb.append(minQuery(1, 1, N, A, B));
 			
-			long res[] = query(1, 1, N, A, B);
-			
-			sb.append(flag == 'S' ? res[0] : res[1])
-				.append('\n');
+			sb.append('\n');
 		}
 		System.out.print(sb);
 	}
-	public static long[] query(int treeNode, int s, int e, int left, int right) {
+	public static long minQuery(int treeNode, int s, int e, int left, int right) {
 		
 		propagate(treeNode, s, e);
 		
 		if(right < s || e < left)
-			return new long[] {0, MAX};
+			return MAX;
 		
 		if(left <=s && e <= right)
-			return tree[treeNode];
+			return min[treeNode];
 		
 		int mid = (s + e) >> 1;
 		int next= treeNode << 1;
+
+		return Math.min(minQuery(next, s, mid, left, right) ,
+						minQuery(next | 1, mid + 1, e, left, right));
+	}
+	public static long sumQuery(int treeNode, int s, int e, int left, int right) {
 		
-		long[] res1 = query(next, s, mid, left, right);
-		long[] res2 = query(next | 1, mid + 1, e, left, right);
+		propagate(treeNode, s, e);
 		
-		return new long[] {res1[0] + res2[0], Math.min(res1[1], res2[1])};
+		if(right < s || e < left)
+			return 0;
+		
+		if(left <=s && e <= right)
+			return sum[treeNode];
+		
+		int mid = (s + e) >> 1;
+		int next= treeNode << 1;
+
+		return sumQuery(next, s, mid, left, right) + 
+				sumQuery(next | 1, mid + 1, e, left, right);
 	}
 	public static void update(int treeNode, int s, int e, int left, int right, long value) {
 		
@@ -90,13 +106,13 @@ class Main{
 		update(next, s, mid, left, right, value);
 		update(next | 1, mid + 1, e, left, right, value);
 		
-		tree[treeNode][0] = tree[next][0] + tree[next | 1][0];
-		tree[treeNode][1] = Math.min( tree[next][1], tree[next | 1][1] );
+		sum[treeNode] = sum[next] + sum[next | 1];
+		min[treeNode] = Math.min( min[next], min[next | 1] );
 	}
 	public static void init(int treeNode, int s, int e) {
 		if(s == e)
 		{
-			tree[treeNode][0] = tree[treeNode][1] = arr[s];
+			sum[treeNode] = min[treeNode] = arr[s];
 			return;
 		}
 		
@@ -106,14 +122,16 @@ class Main{
 		init(next, s, mid);
 		init(next | 1, mid + 1, e);
 		
-		tree[treeNode][0] = tree[next][0] + tree[next | 1][0];
-		tree[treeNode][1] = Math.min(tree[next][1], tree[next | 1][1]);
+		sum[treeNode] = sum[next] + sum[next | 1];
+		min[treeNode] = Math.min(min[next], min[next | 1]);
 	}
 	public static void propagate(int treeNode, int s, int e) {
 		if(lazy[treeNode] != 0)
 		{
-			tree[treeNode][0] += (e - s + 1) * lazy[treeNode];
-			tree[treeNode][1] += lazy[treeNode];
+			
+			sum[treeNode] += (e - s + 1) * lazy[treeNode];
+			min[treeNode] += lazy[treeNode];
+			
 			if(s != e)
 			{
 				lazy[treeNode << 1]		+= lazy[treeNode];
