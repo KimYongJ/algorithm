@@ -1,78 +1,63 @@
-// https://github.com/KimYongJ/algorithm
-import java.util.PriorityQueue;
-
-class Node{
-    int a, b;
-    int dist;
-    Node(int a, int b, int dist){
-        this.a = a;
-        this.b = b;
-        this.dist = dist;
-    }
-}
-
-class Main{
-    
-    static int V, E;
-    static long RESULT;
-    static int a, b, d;
-    static int parent[];
-    static PriorityQueue<Node> pq = new PriorityQueue<Node>((a,b)->{
-    	if(a.dist <= b.dist) {
-    		return -1;
-    	}
-    	return 1;
-    });
-    
-    // 빠른 입력을 위해 만든 함수
-    public static int read() throws Exception {
-		int c, n = System.in.read() & 15;
-		boolean isNegative = n == 13;
-		if (isNegative) n = System.in.read() & 15;
-		while ((c = System.in.read()) > 32) n = (n << 3) + (n << 1) + (c & 15);
-		if (c == 13) System.in.read();
-		return isNegative ? ~n + 1 : n;
+//https://github.com/kimyongj/algorithm
+//https://www.acmicpc.net/problem/1197
+//1초 128MB
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+class Node implements Comparable<Node>{
+	int a,b,c;
+	Node(int a, int b, int c){
+		this.a=a; this.b=b; this.c=c;
 	}
-    
-    // 부모의 부모를 바꾸는 함수
-    public static void changeParent(int a, int b){
-        parent[a] = b;
-    }
-    
-    // 부모노드 가져오는 함수
-    public static int getParent(int x){
-        if(parent[x] == x) return x;
-        return getParent(parent[x]);
-    }
-    
-    public static void main(String[] args)throws Exception{ 
-        V 				= read();
-        E 				= read();
-        parent = new int[V+1];
-        
-        for(int i=1; i<=V; i++)
-        	parent[i] 	= i;
-        
-        for(int i=0; i<E; i++){
-            a 			= read();
-            b 			= read();
-            d 			= read();
-            pq.add(new Node(a,b,d));
-        }
-        
-        while(V>1){
-            Node now = pq.poll();
-            int aParent = getParent(now.a);
-            int bParent = getParent(now.b);
-            if(aParent != bParent){
-                V--;
-                RESULT += now.dist;
-                if(aParent > bParent){
-                    changeParent(aParent, bParent);
-                }else changeParent(bParent, aParent);
-            }
-        }
-        
-        System.out.println(RESULT);
-    }
+	@Override
+	public int compareTo(Node o) {
+		return c - o.c;
+	}
+}
+class Main{
+	
+	static int[] parent;
+	
+	public static void main(String[] args)throws Exception{
+		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int V = Integer.parseInt(st.nextToken());	// 1<=만
+		int E = Integer.parseInt(st.nextToken());	// 1<=십만
+		Node node[] = new Node[E];
+		int result = 0;
+		
+		parent = new int[V + 1];
+		for(int i=1; i<=V; i++)
+			parent[i] = i;
+		
+		for(int i=0; i<E; i++)
+		{
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			int c = Integer.parseInt(st.nextToken());
+			node[i] = new Node(a,b,c);
+		}
+		
+		Arrays.sort(node);
+		
+		for(Node now : node)
+		{
+			int p1 = getParent(parent[now.a]);
+			int p2 = getParent(parent[now.b]);
+			if(p1 != p2) {
+				result += now.c;
+				if(p1 < p2)
+					parent[p2] = p1;
+				else
+					parent[p1] = p2;
+			}
+		}
+		System.out.print(result);
+	}
+	public static int getParent(int node) {
+		return parent[node] = parent[node] == node ? 
+				node : getParent(parent[node]);
+	}
 }
