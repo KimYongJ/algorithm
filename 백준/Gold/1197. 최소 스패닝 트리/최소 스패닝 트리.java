@@ -3,7 +3,7 @@
 //1초 128MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 class Node implements Comparable<Node>{
 	int a,b,c;
@@ -24,7 +24,7 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int V = Integer.parseInt(st.nextToken());	// 1<=만
 		int E = Integer.parseInt(st.nextToken());	// 1<=십만
-		Node node[] = new Node[E];
+		PriorityQueue<Node> pq = new PriorityQueue<>();
 		int result = 0;
 		
 		parent = new int[V + 1];
@@ -37,13 +37,12 @@ class Main{
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 			int c = Integer.parseInt(st.nextToken());
-			node[i] = new Node(a,b,c);
+			pq.add(new Node(a,b,c));
 		}
 		
-		Arrays.sort(node);
-		
-		for(Node now : node)
+		while(!pq.isEmpty())
 		{
+			Node now = pq.poll();
 			int p1 = getParent(parent[now.a]);
 			int p2 = getParent(parent[now.b]);
 			if(p1 != p2) {
