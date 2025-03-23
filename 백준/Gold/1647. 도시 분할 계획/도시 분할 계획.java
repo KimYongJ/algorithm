@@ -10,20 +10,16 @@ class Main{
 	
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		int N	= read();	// 2<=십만
-		int M	= read();	// 1<=백만
+		Reader in = new Reader();
+		int N	= in.nextInt();	// 2<=십만
+		int M	= in.nextInt();	// 1<=백만
 		parent	= new int[N + 1];
 		
 		for(int i=1; i<=N; i++)
 			parent[i] = i;
 		
 		while(M-->0)
-		{
-			int a = read();
-			int b = read();
-			int c = read();// 1<=천
-			pq.add(new Node(a,b,c));
-		}
+			pq.add(new Node(in.nextInt(), in.nextInt(), in.nextInt()));
 		
 		int total	= 0;
 		int max		= 0;
@@ -55,11 +51,6 @@ class Main{
 			return node;
 		return parent[node] = getParent(parent[node]);
 	}
-	static int read() throws Exception {
-		int c, n = System.in.read() & 15;
-		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
-		return n;
-	}
 }
 
 class Node implements Comparable<Node>{
@@ -73,4 +64,32 @@ class Node implements Comparable<Node>{
 	public int compareTo(Node o) {
 		return this.c - o.c;
 	}
+}
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
