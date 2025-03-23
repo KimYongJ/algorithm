@@ -2,10 +2,7 @@
 //https://www.acmicpc.net/problem/1647
 //2초 128MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -13,10 +10,8 @@ class Main{
 	
 	public static void main(String[] args)throws Exception{
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N	= Integer.parseInt(st.nextToken());	// 2<=십만
-		int M	= Integer.parseInt(st.nextToken());	// 1<=백만
+		int N	= read();	// 2<=십만
+		int M	= read();	// 1<=백만
 		parent	= new int[N + 1];
 		
 		for(int i=1; i<=N; i++)
@@ -24,10 +19,9 @@ class Main{
 		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			int c = Integer.parseInt(st.nextToken());// 1<=천
+			int a = read();
+			int b = read();
+			int c = read();// 1<=천
 			pq.add(new Node(a,b,c));
 		}
 		
@@ -60,6 +54,11 @@ class Main{
 		if(parent[node] == node)
 			return node;
 		return parent[node] = getParent(parent[node]);
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
 
