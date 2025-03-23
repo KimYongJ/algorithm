@@ -46,8 +46,8 @@ class Main{
 		}
 		
 		int result = 0;
-		
-		while(!pq.isEmpty())
+		int repeat = N - 1;
+		while(0 <= repeat)
 		{
 			Node now = pq.poll();
 			int p1 = getParent(now.a);
@@ -60,6 +60,7 @@ class Main{
 					parent[p1] = p2;
 				
 				result += now.c;
+				repeat--;
 			}
 		}
 		System.out.print(result);
