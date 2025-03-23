@@ -23,8 +23,8 @@ class Main{
 		int V		= read();	// 1<=만
 		int E		= read();	// 1<=십만
 		int result	= 0;
+		parent		= new int[V + 1];
 		
-		parent = new int[V + 1];
 		for(int i=1; i<=V; i++)
 			parent[i] = i;
 		
