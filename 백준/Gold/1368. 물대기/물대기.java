@@ -2,18 +2,7 @@
 //https://www.acmicpc.net/problem/1368
 //2초 128MB
 import java.util.PriorityQueue;
-class Node implements Comparable<Node>{
-	int a,b,c;
-	Node(int a, int b, int c){
-		this.a=a; 
-		this.b=b; 
-		this.c=c;
-	}
-	@Override
-	public int compareTo(Node o) {
-		return this.c - o.c;
-	}
-}
+
 class Main{
 	
 	static int[] parent;
@@ -71,5 +60,18 @@ class Main{
 		int c, n = System.in.read() & 15;
 		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
 		return n;
+	}
+}
+
+class Node implements Comparable<Node>{
+	int a,b,c;
+	Node(int a, int b, int c){
+		this.a=a; 
+		this.b=b; 
+		this.c=c;
+	}
+	@Override
+	public int compareTo(Node o) {
+		return this.c - o.c;
 	}
 }
