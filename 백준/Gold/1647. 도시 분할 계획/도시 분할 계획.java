@@ -48,8 +48,10 @@ class Main{
 					parent[p2] = p1;
 				
 				total += now.c;
-				max = Math.max(max, now.c);
-				repeat--;
+				repeat-= 1;
+				
+				if(max < now.c)
+					max = now.c;
 			}
 		}
 		System.out.print(total - max);
