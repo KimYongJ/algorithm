@@ -5,17 +5,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
-class Switch implements Comparable<Switch>{
+class Switch{
 	int port, cost;
 	Switch(int p, int c){
 		port = p;
 		cost = c;
-	}
-	@Override
-	public int compareTo(Switch o) {
-		if(cost != o.cost)
-			return cost - o.cost;
-		return port - o.port;
 	}
 }
 class Main{
@@ -35,28 +29,27 @@ class Main{
 
 		int M = Integer.parseInt(br.readLine());	// 연결할 컴퓨터 개수(1<=십만)
 
-		//Arrays.sort(sch);
 		// 스위치 당 컴퓨터 연결시 드는 최소비용을 저장할 dp
-		long dp[][] = new long[N + 1][M + 1];
+		long dp[] = new long[M + 1];
 		
-		for(int i=0; i<=N; i++)
-			Arrays.fill(dp[i], MAX);
+		Arrays.fill(dp, MAX);
 		
-		dp[0][1] = 0;
+		dp[1] = 0;// 스위치 0개를 사용해 컴퓨터 1개를 사용하는데 드는 비용 0
 		
-		for(int i=1; i<=N; i++)
+		for(int i=1; i<=N; i++)				// 스위치 반복
 		{
-			Switch now = sch[i - 1];
-			for(int j=1; j<=M; j++)
+			Switch now = sch[i - 1];		// 현재 스위치를 꺼냄
+			for(int j=M; j>=0; j--)			// 연결할 컴퓨터 대수
 			{
-				dp[i][j] = dp[i-1][j];
-				
-				int prvPort = j - now.port + 2;
+				// 현재 스위치를 사용하는 경우
+				// - 현재 스위치를 사용하면 now.port-1개 포트가 추가됨,
+				// - j대의 컴퓨터 연결을 위해서는 실제로 j + 1개의 포트가 필요함, 모든 포트 1개는 인터넷에 연결되야 하므로.
+				int prvPort = j + 1 - (now.port - 1);
 				
 				if(0<=prvPort && prvPort <= M)
-					dp[i][j] = Math.min(dp[i][j], dp[i-1][prvPort] + now.cost);
+					dp[j] = Math.min(dp[j], dp[prvPort] + now.cost);
 			}
 		}
-		System.out.print(dp[N][M] == MAX ? -1 : dp[N][M]);
+		System.out.print(dp[M] == MAX ? -1 : dp[M]);
 	}
 }
