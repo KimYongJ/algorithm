@@ -47,7 +47,7 @@ class IdxAndValue implements Comparable<IdxAndValue>{
 public class Main {
 	static Scanner sc = new Scanner(System.in);
     static List<Node> nodes = new ArrayList<>();	// 세그먼트트리의 모든 노드를 저장하는 리스트
-    static List<Integer> list;						// 초기에 배열에 입력되는 숫자들의 중복제거 + 오름차순된 리스트 
+    static List<Integer> list = new ArrayList<>();						// 초기에 배열에 입력되는 숫자들의 중복제거 + 오름차순된 리스트 
     // 세그먼트트리 초기화하는 함수
     static int init(int L, int R) {
         if (L == R)
@@ -68,14 +68,14 @@ public class Main {
     // node를 새롭게 추가하는데, 리프노드가 먼저 추가되고, 그 후 거기까지 오면서 지나친 노드들이 nodes에 계속 추가된다.
     // 리프노드일 때는 현재 노드의 + val만큼의 데이터만 넣고, 리프가 아닌경우 왼쪽 탐색은 왼쪽 업데이트노드만변경, 오른쪽탐색은
     // 오른쪽 노드만 변경, nodeNum은 전달할 때 왼쪽은 왼쪽노드번호, 오른쪽은 오른쪽 노드번호를 내린다.
-    static int update(int i, int val, int L, int R, int nodeNum) {
+    static int update(int i, int L, int R, int nodeNum) {
 
         Node cur = nodes.get(nodeNum);// 해당하는 노드를 빼옴
 
         if (L == R)
         {
         	// 리프노드일 경우 현재 노드의 누적합에 val을 더해준다.
-            nodes.add(new Node(cur.sum + val));
+            nodes.add(new Node(cur.sum + 1));
         }
         else
         {
@@ -84,14 +84,14 @@ public class Main {
             if (i <= mid)
             {
             	// 기준되는 인덱스i가 mid보다 작거나 같으면 왼쪽탐색
-                int l = update(i, val, L, mid, cur.l);
-                nodes.add(new Node(l, cur.r, cur.sum + val));
+                int l = update(i, L, mid, cur.l);
+                nodes.add(new Node(l, cur.r, cur.sum + 1));
             }
             else// 기준되는 인덱스i가 mid보다 크면 오른쪽 탐색
             {
             	// 추가한 노드의 인덱스 번호를 담은 node를 새롭게 생성
-                int r = update(i, val, mid + 1, R, cur.r);
-                nodes.add(new Node(cur.l, r, cur.sum + val));
+                int r = update(i, mid + 1, R, cur.r);
+                nodes.add(new Node(cur.l, r, cur.sum + 1));
             }
         }
         // 추가된 노드의 인덱스 반환
@@ -118,15 +118,11 @@ public class Main {
         int q = sc.nextInt();// 함수 Q(1<=오천)
         List<Integer> roots = new ArrayList<>();	// 각 쿼리마다 세그먼트 트리의 루트노드를 저장하는 리스트
     	List<IdxAndValue> idxAndValue = new ArrayList<>();// 좌표압축ㅇ글 저장할 리스트
-    	Set<Integer> set = new HashSet<>();
     	int arr[] = new int[n];
     	
-    	for (int i = 0; i < n; i++) {
-            set.add(arr[i] = sc.nextInt());// 배열 초기값, 절대값 십억이하
-    	}
-    	
-    	list = new ArrayList<>(set);// 배열의 값만 저장하는 리스트
-    	
+    	for (int i = 0; i < n; i++)
+            list.add(arr[i] = sc.nextInt());// 배열 초기값, 절대값 십억이하
+
     	Collections.sort(list);// 초기값으로 입력된 숫자들의 중복을 제거하고 오름차순정렬
     	
     	for (int i = 0; i < n; i++)
@@ -142,7 +138,7 @@ public class Main {
         {
             while (idx < n && idxAndValue.get(idx).value == v)
             {
-            	int nodeSize = update(idxAndValue.get(idx).idx, 1, 0, n, roots.get(roots.size() - 1));
+            	int nodeSize = update(idxAndValue.get(idx).idx, 0, n, roots.get(roots.size() - 1));
             	
                 roots.set(roots.size() - 1, nodeSize);// 현재 버전 업데이트
                 
