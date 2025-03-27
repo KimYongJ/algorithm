@@ -1,174 +1,168 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/7469
+//1초 256MB
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-
-class Node {
-    int l, r, sum; // 세그먼트트리의 각 노드, 구간 합을 저장
-    
-    Node() {
-        this.l = -1;
-        this.r = -1;
-        this.sum = 0;
-    }
-    
-    Node(int sum) {
-        this.l = -1;
-        this.r = -1;
-        this.sum = sum;
-    }
-    
-    Node(int l, int r, int sum) {
-        this.l = l;
-        this.r = r;
-        this.sum = sum;
-    }
-}
-
-class IdxAndValue implements Comparable<IdxAndValue>{
+import java.util.HashMap;
+import java.util.StringTokenizer;
+import java.util.TreeSet;
+class Obj implements Comparable<Obj>{
 	int idx, value;
-	IdxAndValue(int i, int v){
-		idx=i; value =v;
+	Obj(int i, int v){
+		idx=i; value=v;
 	}
 	@Override
-	public int compareTo(IdxAndValue o) {
-		
+	public int compareTo(Obj o) {
 		if(value != o.value)
 			return value - o.value;
-		
 		return idx - o.idx;
 	}
 }
-
-public class Main {
-	static Scanner sc = new Scanner(System.in);
-    static List<Node> nodes = new ArrayList<>();	// 세그먼트트리의 모든 노드를 저장하는 리스트
-    static List<Integer> list = new ArrayList<>();						// 초기에 배열에 입력되는 숫자들의 중복제거 + 오름차순된 리스트 
-    // 세그먼트트리 초기화하는 함수
-    static int init(int L, int R) {
-        if (L == R)
-        {
-            nodes.add(new Node(0));// 리프 노드일 경우 구간합을 0으로 세팅, 왼쪽 오른쪽 자식노드는 -1로 세팅
-        }
-        else
-        {
-        	// 트리를 분할하여 왼쪽과 오른쪽 자식노드를 생성
-            int mid = (L + R) / 2;
-            // 왼쪽 자식노드는 L~mid까지, 오른쪽 자식노드는 mid + 1, R 까지 자식노드의 노드번호를 후위탐색으로 저장
-            nodes.add(new Node(init(L, mid), init(mid + 1, R), 0));
-        }
-        // 자기의 노드번호를 반환
-        return nodes.size() - 1;
-    }
-    // 세그먼트 트리의 특정 구간의 값을 업데이트하는 함수
-    // node를 새롭게 추가하는데, 리프노드가 먼저 추가되고, 그 후 거기까지 오면서 지나친 노드들이 nodes에 계속 추가된다.
-    // 리프노드일 때는 현재 노드의 + val만큼의 데이터만 넣고, 리프가 아닌경우 왼쪽 탐색은 왼쪽 업데이트노드만변경, 오른쪽탐색은
-    // 오른쪽 노드만 변경, nodeNum은 전달할 때 왼쪽은 왼쪽노드번호, 오른쪽은 오른쪽 노드번호를 내린다.
-    static int update(int i, int L, int R, int nodeNum) {
-
-        Node cur = nodes.get(nodeNum);// 해당하는 노드를 빼옴
-
-        if (L == R)
-        {
-        	// 리프노드일 경우 현재 노드의 누적합에 val을 더해준다.
-            nodes.add(new Node(cur.sum + 1));
-        }
-        else
-        {
-        	// 리프노드가 아닌경우, 기준이되는 인덱스 i를 기준으로 왼쪽 오른쪽을 정해서 탐색한다.
-            int mid = (L + R) / 2;
-            if (i <= mid)
-            {
-            	// 기준되는 인덱스i가 mid보다 작거나 같으면 왼쪽탐색
-                int l = update(i, L, mid, cur.l);
-                nodes.add(new Node(l, cur.r, cur.sum + 1));
-            }
-            else// 기준되는 인덱스i가 mid보다 크면 오른쪽 탐색
-            {
-            	// 추가한 노드의 인덱스 번호를 담은 node를 새롭게 생성
-                int r = update(i, mid + 1, R, cur.r);
-                nodes.add(new Node(cur.l, r, cur.sum + 1));
-            }
-        }
-        // 추가된 노드의 인덱스 반환
-        return nodes.size() - 1;
-    }
-    // 특정 구간 L, R의 합을 구하는 함수
-    static int sum(int L, int R, int nodeNum, int nodeL, int nodeR) {
-    	
-        Node cur = nodes.get(nodeNum);
-        // 구간이 트리와 겹치지 않으면 0을 반환
-        if (R < nodeL || nodeR < L)
-        	return 0;
-        // 구간이 완전 포함되면 sum을반환
-        if (L <= nodeL && nodeR <= R)
-        	return cur.sum;
-        
-        // 부분적으로 겹치면 왼쪽 오른쪽을 재귀적으로 탐색하며 sum을 구함
-        int mid = (nodeL + nodeR) / 2;
-        
-        return sum(L, R, cur.l, nodeL, mid) + sum(L, R, cur.r, mid + 1, nodeR);
-    }
-    public static void main(String[] args) {
-        int n = sc.nextInt();// 배열의 크기N(1<=십만)
-        int q = sc.nextInt();// 함수 Q(1<=오천)
-        List<Integer> roots = new ArrayList<>();	// 각 쿼리마다 세그먼트 트리의 루트노드를 저장하는 리스트
-    	List<IdxAndValue> idxAndValue = new ArrayList<>();// 좌표압축ㅇ글 저장할 리스트
-    	int arr[] = new int[n];
-    	
-    	for (int i = 0; i < n; i++)
-            list.add(arr[i] = sc.nextInt());// 배열 초기값, 절대값 십억이하
-
-    	Collections.sort(list);// 초기값으로 입력된 숫자들의 중복을 제거하고 오름차순정렬
-    	
-    	for (int i = 0; i < n; i++)
-        	// 초기값으로 입력된 숫자들을 순서대로 돌면서, 그 숫자가 몇번째 큰수인지 저장
-        	idxAndValue.add(new IdxAndValue(i, Collections.binarySearch(list, arr[i])));
-        
-        Collections.sort(idxAndValue);
-       
-        // 초기 루트번호 저장
-        roots.add(init(0, n));
-        
-        for (int v = 0, idx = 0; v <= n; v++)
-        {
-            while (idx < n && idxAndValue.get(idx).value == v)
-            {
-            	int nodeSize = update(idxAndValue.get(idx).idx, 0, n, roots.get(roots.size() - 1));
-            	
-                roots.set(roots.size() - 1, nodeSize);// 현재 버전 업데이트
-                
-                ++idx;
-            }
-            roots.add(roots.get(roots.size() - 1));// 다음 버전을 위해 복사
-        }
-        
-        while (q-- > 0)
-        {
-            int i = sc.nextInt() - 1;	// i범위
-            int j = sc.nextInt() - 1;	// j범위
-            int k = sc.nextInt();		// k번째 수 출력
-            
-            int left = 0,right = n;
-            int result = 0;
-            while (left <= right)
-            {
-                int mid = (left + right) / 2;
-                
-                if (sum(i, j, roots.get(mid), 0, n) < k)
-                	left = mid + 1;
-                else
-                {
-                	result = mid;
-                	right = mid - 1;
-                }
-            }
-            System.out.println(list.get(result));
-        }
-        sc.close();
-    }
+class Node{
+	int left, right, sum;
+	Node(int l, int r, int s){
+		left=l; right=r; sum=s;
+	}
+}
+class Main{
+	
+	static int N, Q, arr[];
+	static ArrayList<Node> nodes	= new ArrayList<>();
+	
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N	= Integer.parseInt(st.nextToken());// 주어진수의 개수(1<=십만)
+		Q	= Integer.parseInt(st.nextToken());// 쿼리수(1<=오천)
+		arr = new int[N];
+		
+		ArrayList<Integer> roots = new ArrayList<>();
+		roots.add(init(0, N));	// 최초에 PST 트리를 미리 세팅해놓는다.
+		
+		st = new StringTokenizer(br.readLine());
+		TreeSet<Integer> tset = new TreeSet<>();// 좌표압축을 위해 사용
+		for(int i=0; i<N; i++)
+		{
+			arr[i] = Integer.parseInt(st.nextToken());// 절대값 10억이하
+			tset.add(arr[i]);
+		}
+		// 좌표압축을 위한 map선언
+		HashMap<Integer, Integer> map = new HashMap<>();
+		int idx = 0;
+		for(int s : tset)
+			map.put(s, idx++);// 원래 값을 입력시 압축된 숫자 반환
+		
+		// 압축된 값과 각 좌표의 idx기준으로 list를 재생성
+		ArrayList<Obj> list = new ArrayList<>();
+		for(int i=0; i<N; i++)
+			list.add(new Obj(i, map.get(arr[i])));
+		
+		// 압축된 값을 기준으로 오름차순, 같을 경우 인덱스기준 오름차순
+		Collections.sort(list);
+		
+		// 아래 반복문 목표 : 압축된 값이 낮은 순으로 돌면서 해당 idx를 순차적으로 PST에 마킹한다.
+		// 여기서 중요한것은 압축된 값을 마킹하는게아니라, 압축된 값이 낮은순으로 그 idx를 마킹하는 점에있다.
+		// PST는 업데이트시 1차원 리스트에 데이터를 지속적으로 쌓기 때문에 업데이트 전 정보도 갖고 있을 수 있다.
+		idx = 0;// list에서의 인덱스
+		for(int value=0; value<=N; value++)// 압축된 값은 결국 N이하일 것이기 때문에 최대는 N
+		{
+			while(idx<list.size() && list.get(idx).value == value)
+			{
+				int rootIdx = roots.get(roots.size()-1);
+				int nodeIdx = update(rootIdx, 0, N, list.get(idx).idx);
+				// 최종 루트값을 현재 구한 루트값으로 덮어씌움(set)
+				roots.set(roots.size()-1, nodeIdx);
+				
+				++idx;
+			}
+			// 다음을 위해 마지막 루트노드를 하나 추가로 넣음(즉, 복사함)
+			roots.add(roots.get(roots.size() - 1));
+		}
+		
+		Arrays.sort(arr);
+		
+		StringBuilder sb = new StringBuilder();
+		while(Q-->0)
+		{
+			st = new StringTokenizer(br.readLine());
+			int i = Integer.parseInt(st.nextToken()) - 1;	// 범위
+			int j = Integer.parseInt(st.nextToken()) - 1;	// 범위
+			int k = Integer.parseInt(st.nextToken());		// k번째 수
+			
+			int s	= 0;
+			int e	= N;
+			int res = 0;
+			
+			while(s <= e)
+			{
+				int mid = (s + e) >> 1;
+				// mid번째 i,j범위에 인덱스 마킹 값을 가져온다
+				// k가 3이고, mid번째 i,j범위에 인덱스 마킹값이 5면, k번째 수가 이미 입력된것,
+				// 그래서 sum함수의 결과가 k이상인 가장 작은수가 되도록 res를 세팅해야함
+				int cal = sum(roots.get(mid), 0, N, i, j);
+				if(k <= cal)
+				{
+					res = mid;
+					e = mid - 1;
+				}
+				else
+					s = mid + 1;
+			}
+			sb.append(arr[res]).append('\n');
+		}
+		System.out.print(sb);
+	}
+	public static int sum(int rootIdx, int s, int e, int left, int right) {
+		Node node = nodes.get(rootIdx);
+		
+		if(left <= s && e <= right)
+			return node.sum;
+		if(e < left || right < s)
+			return 0;
+		
+		int mid = (s + e) >> 1;
+		
+		return sum(node.left, s, mid, left, right) +
+				sum(node.right, mid + 1, e, left, right);
+	}
+	public static int update(int rootIdx, int s, int e, int targetIdx) {
+		Node node	= nodes.get(rootIdx);
+		int nextSum = node.sum + 1;
+		// 리프노드일 경우 리프노드 추가
+		if(s == e)
+			nodes.add(new Node(-1, -1, nextSum));
+		else
+		{
+			int mid = (s + e) >> 1;
+			// 1을 추가하려는 target인덱스가 mid 이하인 경우 왼쪽 탐색
+			if(targetIdx <= mid)
+			{
+				int leftIdx = update(node.left, s, mid, targetIdx);
+				nodes.add(new Node(leftIdx, node.right, nextSum));
+			}
+			else
+			{
+				int rightIdx = update(node.right, mid + 1, e, targetIdx);
+				nodes.add(new Node(node.left, rightIdx, nextSum));
+			}
+		}
+		
+		return nodes.size() - 1;
+	}
+	public static int init(int s, int e) {
+		if(s == e)// 리프노드일 경우
+			nodes.add(new Node(-1, -1, 0));
+		else
+		{
+			int mid		= (s + e) >> 1;
+			int left	= init(s , mid);
+			int right	= init(mid + 1, e);
+			// left, right의 nodes안에서 인덱스를 집어 넣어 1차원에 트리를 표현
+			nodes.add(new Node(left, right, 0));
+		}
+		return nodes.size() - 1;
+	}
 }
