@@ -2,8 +2,8 @@
 //https://www.acmicpc.net/problem/6497
 //1초 256MB
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 
 class Node implements Comparable<Node>{
 	int n1, n2, dist;
@@ -29,9 +29,9 @@ class Main{
 		
 		while(true)
 		{
-			ArrayList<Node> list = new ArrayList<>();
-			int M		= in.readInt();	// 1<=이십만
-			int N		= in.readInt();	// m-1 <=이십만
+			PriorityQueue<Node> pq = new PriorityQueue<>();
+			int M		= in.readInt();	// 노드 수 1<=이십만
+			int N		= in.readInt();	// 길의 수 m-1 <=이십만
 			int distSum = 0;
 			parent		= new int[N + 1];
 			
@@ -49,16 +49,15 @@ class Main{
 				
 				distSum += dist;
 				
-				list.add(new Node(n1,n2,dist));
+				pq.add(new Node(n1,n2,dist));
 			}
 			
-			Collections.sort(list);
 			
 			int sum = 0;
-			
-			for(int i=0; i<list.size() ; i++)
+			int cnt = 1;
+			while(cnt != M)
 			{
-				Node now = list.get(i);
+				Node now = pq.poll();
 				int parent1 = getParent(now.n1);
 				int parent2 = getParent(now.n2);
 				if(parent1 != parent2)
@@ -69,6 +68,7 @@ class Main{
 						parent[parent1] = parent2;
 					
 					sum += now.dist;
+					cnt += 1;
 				}
 			}
 			
