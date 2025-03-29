@@ -1,10 +1,10 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/6497
 //1초 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 class Node implements Comparable<Node>{
 	int n1, n2, dist;
 	Node(int n1, int n2, int dist){
@@ -17,19 +17,21 @@ class Node implements Comparable<Node>{
 		return dist - o.dist;
 	}
 }
+
 class Main{
 
 	static int parent[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
+		
+		StringBuilder sb= new StringBuilder();
+		Reader in		= new Reader();
+		
 		while(true)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			PriorityQueue<Node> pq = new PriorityQueue<>();
-			int M		= Integer.parseInt(st.nextToken());	// 1<=이십만
-			int N		= Integer.parseInt(st.nextToken());	// m-1 <=이십만
+			ArrayList<Node> list = new ArrayList<>();
+			int M		= in.readInt();	// 1<=이십만
+			int N		= in.readInt();	// m-1 <=이십만
 			int distSum = 0;
 			parent		= new int[N + 1];
 			
@@ -41,21 +43,22 @@ class Main{
 			
 			while(N-->0)
 			{
-				st = new StringTokenizer(br.readLine());
-				int n1 = Integer.parseInt(st.nextToken());
-				int n2 = Integer.parseInt(st.nextToken());
-				int dist = Integer.parseInt(st.nextToken());
+				int n1	= in.readInt();
+				int n2	= in.readInt();
+				int dist= in.readInt();
 				
 				distSum += dist;
 				
-				pq.add(new Node(n1,n2,dist));
+				list.add(new Node(n1,n2,dist));
 			}
+			
+			Collections.sort(list);
 			
 			int sum = 0;
 			
-			while(!pq.isEmpty())
+			for(int i=0; i<list.size() ; i++)
 			{
-				Node now = pq.poll();
+				Node now = list.get(i);
 				int parent1 = getParent(now.n1);
 				int parent2 = getParent(now.n2);
 				if(parent1 != parent2)
@@ -69,7 +72,8 @@ class Main{
 				}
 			}
 			
-			sb.append(distSum - sum).append('\n');
+			sb.append(distSum - sum)
+				.append('\n');
 		}
 		System.out.print(sb);
 	}
@@ -77,4 +81,34 @@ class Main{
 		if(parent[node] == node) return node;
 		return parent[node] = getParent(parent[node]);
 	}
+}
+
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    int readInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
