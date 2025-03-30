@@ -20,20 +20,17 @@ class Main{
 		
 		init(1, 1, N);
 		
-		int startNode = 0;
-		for(int remain = N; remain >=1; remain--)
+		for(int remain = N, idx = 0; remain >=1; remain--)
 		{
-			startNode = (startNode + K - 1) % remain;
-			int traget = query(1, 1, N, startNode + 1);
-			
-			sb.append(traget);
+			idx = (idx + K - 1) % remain;
+
+			sb.append( query(1, 1, N, idx + 1) );
 			
 			if(remain != 1)
 				sb.append(", ");
 		}
 		
 		sb.append('>');
-		
 		
 		System.out.print(sb);
 	}
@@ -54,16 +51,13 @@ class Main{
 		
 		return idx;
 	}
-	public static void init(int treeNode, int s, int e) {
+	public static int init(int treeNode, int s, int e) {
 		if(s == e)
-		{
-			tree[treeNode] = 1;
-			return;
-		}
+			return tree[treeNode] = 1;
+
 		int mid = (s + e) >> 1;
-		init(treeNode << 1, s, mid);
-		init(treeNode << 1 | 1, mid + 1, e);
 		
-		tree[treeNode] = tree[treeNode << 1] + tree[treeNode << 1 | 1];
+		return tree[treeNode] = init(treeNode << 1, s, mid) + 
+									init(treeNode << 1 | 1, mid + 1, e);
 	}
 }
