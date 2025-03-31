@@ -1,87 +1,65 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/7469
+//1초 256MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.util.TreeSet;
-class Object implements Comparable<Object>{
-	int idx, originValue, compValue;
-	Object(int i, int o, int c)
-	{
-		idx = i;
-		originValue = o;
-		compValue = c;
-	}
-	@Override
-	public int compareTo(Object o) {
-		if(originValue != o.originValue)
-			return originValue - o.originValue;
-		return idx - o.idx;
-	}
-}
 class Node{
 	int left, right, sum;
 	Node(int l, int r, int s){
 		left=l; right=r; sum=s;
 	}
 }
+class Obj implements Comparable<Obj>{
+	int idx, value;
+	Obj(int i, int v){
+		idx = i; value = v;
+	}
+	@Override
+	public int compareTo(Obj o) {
+		if(value != o.value)
+			return value - o.value;
+		return idx - o.idx;
+	}
+}
 class Main{
 	
 	static int N, Q;
-	
-	static List<Integer> roots	= new ArrayList<>();// 갱신시마다 해당 루트 노드를 담을 리스트
-	static List<Node> nodes		= new ArrayList<>();// 세그트리노드를 1차원으로 표현
+	static ArrayList<Obj>		list;
+	static ArrayList<Integer>	roots;
+	static ArrayList<Node>		nodes;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		N		= Integer.parseInt(st.nextToken());
+		Q		= Integer.parseInt(st.nextToken());
+		list	= new ArrayList<>();
+		roots	= new ArrayList<>();		// 세그먼트 트리를 update할 때마다 버전(루트노드)를 담을 리스트
+		nodes	= new ArrayList<>();		// 세그먼트 트리를 update할 대마다 해당 세그먼트 노드들을 1차원으로 담을 리스트
 		
-		N	= Integer.parseInt(st.nextToken());
-		Q	= Integer.parseInt(st.nextToken());
-		ArrayList<Object> list = new ArrayList<>();
-		
-		TreeSet<Integer> set = new TreeSet<>();
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-		{
-			int n = Integer.parseInt(st.nextToken());
-			list.add(new Object(i, n, 0));// 입력 순서와, 입력된값, 그리고 압축 숫자는 처음에 0으로 넣음
-			set.add(n); // 값 압축을 위해 입력되는 값의 중복을 제거하고 정렬까지해주는 treeSet에 넣음
-		}
-		
-		HashMap<Integer, Integer> map = new HashMap<>();
-		int idx = 0;
-		for(int s : set)
-			map.put(s, idx++);
-		
-		for(int i=0; i<N; i++)
-		{
-			// 리스트를 순회하며 원래 값에 압축 값을 추가한다.
-			Object now = list.get(i);
-			now.compValue = map.get(now.originValue);
-		}
-		// 입력된 값을 오름차순정렬, 값이 같으면 먼저 입력된순(idx)으로 정렬
+			// 입력받은 순서대로, value를 담는다.
+			list.add(new Obj(i,Integer.parseInt(st.nextToken())));
+		// value가 낮은 순으로 그리고 idx가 낮은순으로 정렬
 		Collections.sort(list);
 		
-		roots.add(init(0 , N));
-		
-		idx = 0;
-		for(int value=0; value<N; value++)
+		// init을 호출해 세그먼트 트리를 미리 생성해 놓는다.
+		roots.add(init(0, N - 1)); 
+
+		// list를 돌면서 인덱스를 순차적으로 마킹한다.
+		for(Obj now : list)
 		{
-			while(idx < N && list.get(idx).compValue == value)
-			{
-				int rootNode = roots.get(roots.size() - 1);
-				int root = update(rootNode, 0, N, list.get(idx).idx);
-				
-				roots.set(roots.size() - 1, root);
-				
-				++idx;
-			}
-			roots.add(roots.get(roots.size()-1));
+			int root = roots.get(roots.size() - 1);	// 루트노드 가져오기
+			// 해당 루트 노드를 기준으로 새버전을 생성해가며 입력된 value의 인덱스를 마킹한다.
+			// 세그먼트 트리에 마킹되는 것은, value가 작은 순으로 정렬된 입력순서(now.idx)이다.
+			// 이렇게 인덱스를 마킹하면 추 후에 이분 탐색으로 k번째 수를 찾을 때 활용 가능하다.
+			int rootsNode = update(root, 0, N - 1, now.idx);
+			
+			roots.add(rootsNode);	// 갱신된 버전(rootsNode)를 삽입
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -93,62 +71,69 @@ class Main{
 			int k = Integer.parseInt(st.nextToken());
 			
 			int s = 0;
-			int e = N;
+			int e = N - 1;
 			int res = 0;
-			while(s <= e)
+			
+			while(s<=e)
 			{
 				int mid = (s + e) >> 1;
-				int cal = sum(roots.get(mid), 0, N, i, j);
+				// 초기에 세그먼트 트리 생성을 위해 roots에 init을 add해놨기 때문에 초기값을 건너띄기 위해 mid에 + 1을 한다.
+				int cal = sum(roots.get(mid + 1), 0, N - 1, i, j);
 				if(k <= cal)
 				{
 					res = mid;
 					e = mid - 1;
 				}
-				else s = mid + 1;
+				else
+					s = mid + 1;
 			}
-			sb.append(list.get(res).originValue).append('\n');
+			
+			sb.append(list.get(res).value).append('\n');
 		}
 		System.out.print(sb);
 	}
 	public static int sum(int nodeNum, int s, int e, int left, int right) {
 		if(e < left || right < s)
 			return 0;
-		
-		Node now = nodes.get(nodeNum);
-		if(left <=s && e<= right)
-			return now.sum;
+		if(left<=s && e<=right)
+			return nodes.get(nodeNum).sum;
 		
 		int mid = (s + e) >> 1;
 		
-		return sum(now.left, s, mid, left, right) +
-				sum(now.right, mid + 1, e, left, right);
+		return sum(nodes.get(nodeNum).left, s, mid, left, right) + 
+				sum(nodes.get(nodeNum).right, mid + 1, e, left, right);
+		
 	}
 	public static int update(int nodeNum, int s, int e, int targetIdx) {
-		Node node = nodes.get(nodeNum);
+		
+		Node now = nodes.get(nodeNum);
+		
 		if(s == e)
-			nodes.add(new Node(-1,-1, node.sum + 1));
+			nodes.add(new Node(-1, -1, now.sum + 1));
 		else
 		{
 			int mid = (s + e) >> 1;
-			if(targetIdx <= mid) {
-				int l = update(node.left, s, mid, targetIdx);
-				nodes.add(new Node(l, node.right, node.sum + 1));
-			}
-			else {
-				int r = update(node.right, mid + 1, e, targetIdx);
-				nodes.add(new Node(node.left, r, node.sum + 1));
-			}
+			int l = now.left;
+			int r = now.right;
+			
+			if(targetIdx <= mid)
+				l = update(now.left, s, mid, targetIdx);
+			else
+				r = update(now.right, mid + 1, e, targetIdx);
+			
+			nodes.add(new Node(l, r, now.sum + 1));
 		}
 		return nodes.size() - 1;
 	}
 	public static int init(int s, int e) {
 		if(s == e)
-			nodes.add(new Node(-1,-1,0));
+			nodes.add(new Node(-1, -1, 0));
 		else
 		{
 			int mid = (s + e) >> 1;
-			int l = init(s, mid);
-			int r = init(mid + 1, e);
+			int l	= init(s, mid);
+			int r	= init(mid + 1, e);
+			
 			nodes.add(new Node(l, r, 0));
 		}
 		return nodes.size() - 1;
