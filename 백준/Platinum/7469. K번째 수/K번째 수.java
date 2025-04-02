@@ -1,12 +1,9 @@
 //https://github.com/kimyongj/algorithm
 //https://www.acmicpc.net/problem/7469
 //1초 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 class Object implements Comparable<Object>{
 	int idx, value;
 	Object(int i, int v){
@@ -33,17 +30,15 @@ class Main{
 	static ArrayList<Node> nodes;
 
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br	= new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st	= new StringTokenizer(br.readLine());
-		int N				= Integer.parseInt(st.nextToken());// 배열의크기 N(1<=100,000)
-		int Q				= Integer.parseInt(st.nextToken());// 쿼리수 Q(1<=5,000)
+		Reader in			= new Reader();
+		int N				= in.nextInt();// 배열의크기 N(1<=100,000)
+		int Q				= in.nextInt();// 쿼리수 Q(1<=5,000)
 		int roots[]			= new int[N + 1];// 루트는 원래 N개만 필요하지만, 최초 세그먼트 초기화시킨 후 담을 루트노드 값 때문에 + 1함
 		List<Object> list	= new ArrayList<>();
 		nodes				= new ArrayList<>();
-		
-		st = new StringTokenizer(br.readLine());
+
 		for(int i=0; i<N; i++)
-			list.add(new Object(i, Integer.parseInt(st.nextToken())));
+			list.add(new Object(i, in.nextInt()));
 		
 		Collections.sort(list);// value가 낮은 기준으로 오름차순 정렬
 		
@@ -61,10 +56,9 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		while(Q-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int i = Integer.parseInt(st.nextToken()) - 1; // 인덱스가 0부터시작했기 때문에 -1을 해주어 인덱스 보정
-			int j = Integer.parseInt(st.nextToken()) - 1; // 인덱스가 0부터시작했기 때문에 -1을 해주어 인덱스 보정
-			int k = Integer.parseInt(st.nextToken());
+			int i = in.nextInt() - 1; // 인덱스가 0부터시작했기 때문에 -1을 해주어 인덱스 보정
+			int j = in.nextInt() - 1; // 인덱스가 0부터시작했기 때문에 -1을 해주어 인덱스 보정
+			int k = in.nextInt();
 			
 			int s = 0;
 			int e = N - 1;
@@ -146,3 +140,32 @@ class Main{
 //5
 //6
 //3
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+    
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
+}
