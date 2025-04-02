@@ -5,137 +5,144 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
-class Node{
-	int left, right, sum;
-	Node(int l, int r, int s){
-		left=l; right=r; sum=s;
-	}
-}
-class Obj implements Comparable<Obj>{
+class Object implements Comparable<Object>{
 	int idx, value;
-	Obj(int i, int v){
-		idx = i; value = v;
+	Object(int i, int v){
+		this.idx = i;
+		this.value = v;
 	}
 	@Override
-	public int compareTo(Obj o) {
+	public int compareTo(Object o) {
 		if(value != o.value)
 			return value - o.value;
 		return idx - o.idx;
 	}
 }
+class Node{
+	int left, right, sum;
+	Node(int l, int r, int s){
+		this.left	= l;
+		this.right	= r;
+		this.sum	= s;
+	}
+}
 class Main{
 	
-	static int N, Q;
-	static ArrayList<Obj>		list;
-	static ArrayList<Integer>	roots;
-	static ArrayList<Node>		nodes;
-	
+	static ArrayList<Node> nodes;
+
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());
-		Q		= Integer.parseInt(st.nextToken());
-		list	= new ArrayList<>();
-		roots	= new ArrayList<>();		// 세그먼트 트리를 update할 때마다 버전(루트노드)를 담을 리스트
-		nodes	= new ArrayList<>();		// 세그먼트 트리를 update할 대마다 해당 세그먼트 노드들을 1차원으로 담을 리스트
+		BufferedReader	br	= new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st	= new StringTokenizer(br.readLine());
+		int N				= Integer.parseInt(st.nextToken());// 배열의크기 N(1<=100,000)
+		int Q				= Integer.parseInt(st.nextToken());// 쿼리수 Q(1<=5,000)
+		int roots[]			= new int[N + 1];// 루트는 원래 N개만 필요하지만, 최초 세그먼트 초기화시킨 후 담을 루트노드 값 때문에 + 1함
+		List<Object> list	= new ArrayList<>();
+		nodes				= new ArrayList<>();
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			// 입력받은 순서대로, value를 담는다.
-			list.add(new Obj(i,Integer.parseInt(st.nextToken())));
-		// value가 낮은 순으로 그리고 idx가 낮은순으로 정렬
-		Collections.sort(list);
+			list.add(new Object(i, Integer.parseInt(st.nextToken())));
 		
-		// init을 호출해 세그먼트 트리를 미리 생성해 놓는다.
-		roots.add(init(0, N - 1)); 
-
-		// list를 돌면서 인덱스를 순차적으로 마킹한다.
-		for(Obj now : list)
+		Collections.sort(list);// value가 낮은 기준으로 오름차순 정렬
+		
+		// 세그먼트트리를 초기화하고 루트노드 번호를 roots[0]에 담는다.
+		roots[0] = init(0, N - 1);
+		
+		for(int i=0; i<list.size(); i++)
 		{
-			int root = roots.get(roots.size() - 1);	// 루트노드 가져오기
-			// 해당 루트 노드를 기준으로 새버전을 생성해가며 입력된 value의 인덱스를 마킹한다.
-			// 세그먼트 트리에 마킹되는 것은, value가 작은 순으로 정렬된 입력순서(now.idx)이다.
-			// 이렇게 인덱스를 마킹하면 추 후에 이분 탐색으로 k번째 수를 찾을 때 활용 가능하다.
-			int rootsNode = update(root, 0, N - 1, now.idx);
-			
-			roots.add(rootsNode);	// 갱신된 버전(rootsNode)를 삽입
+			// 배열의 크기만큼 PST버전을 만들어 주고 만든 후 PST의 각각의 루트 번호를 roots에 담는다.
+			// i+1번째 루트노드는, i번째 루트 노드를 통해 구해진다.
+			// value기준으로 오름차순 정렬된 입력순서(idx)를 세그먼트 트리에 마킹하며 버전을 갱신해준다.
+			roots[i + 1] = update(roots[i], 0, N - 1, list.get(i).idx);
 		}
 		
 		StringBuilder sb = new StringBuilder();
 		while(Q-->0)
 		{
 			st = new StringTokenizer(br.readLine());
-			int i = Integer.parseInt(st.nextToken()) - 1;
-			int j = Integer.parseInt(st.nextToken()) - 1;
+			int i = Integer.parseInt(st.nextToken()) - 1; // 인덱스가 0부터시작했기 때문에 -1을 해주어 인덱스 보정
+			int j = Integer.parseInt(st.nextToken()) - 1; // 인덱스가 0부터시작했기 때문에 -1을 해주어 인덱스 보정
 			int k = Integer.parseInt(st.nextToken());
 			
 			int s = 0;
 			int e = N - 1;
 			int res = 0;
-			
-			while(s<=e)
+			while(s <= e)
 			{
 				int mid = (s + e) >> 1;
-				// 초기에 세그먼트 트리 생성을 위해 roots에 init을 add해놨기 때문에 초기값을 건너띄기 위해 mid에 + 1을 한다.
-				int cal = sum(roots.get(mid + 1), 0, N - 1, i, j);
+                // 이분탐색을 통해 i,j범위의 합이 k가되는 가장 작은 mid를 찾는다.
+				int cal = sum(roots[mid + 1], 0, N - 1, i, j);
 				if(k <= cal)
 				{
 					res = mid;
 					e = mid - 1;
 				}
-				else
-					s = mid + 1;
+				else s = mid + 1;
 			}
 			
-			sb.append(list.get(res).value).append('\n');
+			sb.append(list.get(res).value)
+				.append('\n');
 		}
 		System.out.print(sb);
 	}
-	public static int sum(int nodeNum, int s, int e, int left, int right) {
+	public static int init(int s, int e) {
+		if(s == e)// 리프 노드인 경우 왼쪽, 오른쪽 자신은 -1로, sum 0으로
+		{
+			nodes.add(new Node(-1, -1, 0));
+			return nodes.size() - 1;
+		}
+		int mid = (s + e) >> 1;
+		int l = init(s, mid);
+		int r = init(mid + 1, e);
+		
+		nodes.add(new Node(l, r, 0));
+		
+		return nodes.size() - 1;
+	}
+	public static int update(int nowNode, int s, int e, int targetIdx) {
+		
+		Node now = nodes.get(nowNode);
+		
+		if(s == e)
+		{
+			nodes.add(new Node(-1, -1, now.sum + 1));
+			return nodes.size() - 1;
+		}
+		int mid = (s + e) >> 1;
+		int l = now.left;
+		int r = now.right;
+		
+		if(targetIdx <= mid)
+			l = update(now.left, s, mid, targetIdx);
+		else
+			r = update(now.right, mid + 1, e, targetIdx);
+		
+		nodes.add(new Node(l, r, now.sum + 1));
+		
+		return nodes.size() - 1;
+	}
+	
+	public static int sum(int nowNode, int s, int e, int left, int right) {
 		if(e < left || right < s)
 			return 0;
+		
 		if(left<=s && e<=right)
-			return nodes.get(nodeNum).sum;
+			return nodes.get(nowNode).sum;
 		
 		int mid = (s + e) >> 1;
 		
-		return sum(nodes.get(nodeNum).left, s, mid, left, right) + 
-				sum(nodes.get(nodeNum).right, mid + 1, e, left, right);
-		
-	}
-	public static int update(int nodeNum, int s, int e, int targetIdx) {
-		
-		Node now = nodes.get(nodeNum);
-		
-		if(s == e)
-			nodes.add(new Node(-1, -1, now.sum + 1));
-		else
-		{
-			int mid = (s + e) >> 1;
-			int l = now.left;
-			int r = now.right;
-			
-			if(targetIdx <= mid)
-				l = update(now.left, s, mid, targetIdx);
-			else
-				r = update(now.right, mid + 1, e, targetIdx);
-			
-			nodes.add(new Node(l, r, now.sum + 1));
-		}
-		return nodes.size() - 1;
-	}
-	public static int init(int s, int e) {
-		if(s == e)
-			nodes.add(new Node(-1, -1, 0));
-		else
-		{
-			int mid = (s + e) >> 1;
-			int l	= init(s, mid);
-			int r	= init(mid + 1, e);
-			
-			nodes.add(new Node(l, r, 0));
-		}
-		return nodes.size() - 1;
+		return sum(nodes.get(nowNode).left, s, mid, left, right)
+				+ sum(nodes.get(nowNode).right, mid + 1, e, left, right);
 	}
 }
+//7 3			// 배열의크기 N(1<=100,000), 쿼리수 Q(1<=5,000)
+//1 5 2 6 3 7 4	// 각 정수는 절대 값 십억을 넘지 않는 정수
+//2 5 3			// 왼쪽범위i,오른쪽범위j,찾을k번째수(1<i,j<=N / 1<= k<= j-i+1)
+//4 4 1
+//1 7 3
+////답
+//5
+//6
+//3
