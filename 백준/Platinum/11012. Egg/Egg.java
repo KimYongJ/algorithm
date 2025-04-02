@@ -2,6 +2,7 @@
 //https://www.acmicpc.net/problem/11012
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.PriorityQueue;
 class Point implements Comparable<Point>{
 	int x, y;
 	Point(int x, int y){
@@ -29,26 +30,25 @@ class Main{
 		int T = in.nextInt();//테스트케이스 수(1<=20)
 		while(T-->0)
 		{
-			int N = in.nextInt();// 좌표수
-			int M = in.nextInt();// 쿼리수
-			Point point[] = new Point[N];
+			PriorityQueue<Point> pq = new PriorityQueue<>();
+			int N		= in.nextInt();// 좌표수
+			int M		= in.nextInt();// 쿼리수
 			int roots[] = new int[LEN + 1];
-			nodes = new ArrayList<>();
+			nodes		= new ArrayList<>();
 			
 			for(int i=0; i<N; i++)
 			{
 				int x	= in.nextInt() + 1;// 좌표의수N(0<=10,000)
 				int y	= in.nextInt() + 1;// 쿼리수M(0<=50,000)
-				point[i]= new Point(x,y);
+				pq.add(new Point(x,y));
 			}
 			// 초기 세그먼트 트리 생성, roots[0]에는 초기 세그먼트트리의 root번호, 즉 nodes의 사이즈가 들어간다.
 			roots[0] = init(1, LEN);
 			
-			Arrays.sort(point);
-			
 			int prevY = 0;
-			for(Point p : point)
+			while(!pq.isEmpty())
 			{
+				Point p = pq.poll();
 				for(int y=prevY; y<=p.y; y++)
 				{
 					// 이전 탐색한 y좌표 부터 현재 파악하려는 y좌표까지 복사를 진행한다.
