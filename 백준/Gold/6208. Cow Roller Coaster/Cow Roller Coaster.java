@@ -47,25 +47,27 @@ class Main{
 		{
 			for(int b=0; b<=B; b++)
 			{
-				
-				if(dp[l][b] == 0)
+				if(dp[l][b] == 0)// 유효하지 않으면 스킵
 					continue;
 				
 				for(Node now : list[l])
 				{
 					int nextLeng = l + now.w;
 					int nextCost = b + now.c;
-					if(nextCost <= B)
+					if(nextLeng <= L && nextCost <= B)
 						dp[nextLeng][nextCost] = Math.max(dp[nextLeng][nextCost], dp[l][b] + now.f);
 				}
 			}
 		}
 		
-		int res = -1;
+		int res = 0;
 		
 		for(int c=0; c<=B; c++)
 			res = Math.max(dp[L][c], res);
 		
-		System.out.print(res - 1);
+		if(res > 0)
+			System.out.print(res - 1);// 처음 dp[0][0]을 1로 마킹했으므로 -1을하여 원래 값으로 복구
+		else
+			System.out.print(-1);
 	}
 }
