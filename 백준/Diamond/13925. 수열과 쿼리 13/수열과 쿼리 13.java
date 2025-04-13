@@ -56,20 +56,20 @@ class Main{
 			return;
 		if(left <= s && e <= right)
 		{
-			if(flag == 1)
+			if(flag == 1)// 더하기
 			{
-				lazy[treeNode].mul = 1;
-				lazy[treeNode].sum = value;
+				lazy[treeNode].mul = 1;		// 곱할 숫자를 1로 만든다.
+				lazy[treeNode].sum = value;	// 더할 숫자를 value로 만든다.
 			}
-			else if(flag == 2)
+			else if(flag == 2)// 곱하기
 			{
-				lazy[treeNode].mul = value;
-				lazy[treeNode].sum = 0;
+				lazy[treeNode].mul = value;	// 곱할 숫자를 value로 만든다.
+				lazy[treeNode].sum = 0;		// 더할 수는 0으로 만든다.
 			}
-			else
+			else// 대입하기
 			{
-				lazy[treeNode].mul = 0;
-				lazy[treeNode].sum = value;
+				lazy[treeNode].mul = 0;		// 대입이기 때문에 곱하는 것은 0으로 한다.
+				lazy[treeNode].sum = value;	// 대입이라 value를 넣는다.
 			}
 			
 			propagate(treeNode , s, e);
@@ -86,17 +86,18 @@ class Main{
 	public static void propagate(int treeNode, int s, int e) {
 		if(lazy[treeNode].sum != 0 || lazy[treeNode].mul > 1)
 		{
-			
+			// 현재 값에 곱하기를 하고, 더할 값은 하위 노드수 만큼 곱해서 더한다.
 			tree[treeNode] = (tree[treeNode] * lazy[treeNode].mul) + (e - s + 1) * lazy[treeNode].sum;
 			tree[treeNode] %= MOD;
 			if(s != e)
 			{
 				int nextNode = treeNode << 1;
-				
-				lazy[nextNode].mul		= (lazy[nextNode].mul * lazy[treeNode].mul) % MOD;
-				lazy[nextNode].sum		= (lazy[nextNode].sum * lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
-				lazy[nextNode | 1].mul	= (lazy[nextNode | 1].mul * lazy[treeNode].mul) % MOD;
-				lazy[nextNode | 1].sum	= (lazy[nextNode | 1].sum * lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
+				// 현재의 mul 값을 다음 lazy에 내려줄 때 곱해준다. 
+				lazy[nextNode].mul		= (lazy[nextNode].mul		* lazy[treeNode].mul) % MOD;
+				lazy[nextNode | 1].mul	= (lazy[nextNode | 1].mul	* lazy[treeNode].mul) % MOD;
+				// 다음 sum을 구할 때는, 현재 mul의 값을 곱한 다음, 현재 sum의 값을 더한다
+				lazy[nextNode].sum		= (lazy[nextNode].sum		* lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
+				lazy[nextNode | 1].sum	= (lazy[nextNode | 1].sum	* lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
 			}
 			
 			lazy[treeNode].sum = 0;
