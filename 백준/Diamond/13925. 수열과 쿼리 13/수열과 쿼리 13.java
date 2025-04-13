@@ -2,29 +2,24 @@
 //https://www.acmicpc.net/problem/13925
 //2초 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
-	static int N, len;
-	static int arr[];
+	static final long MOD = 1_000_000_007;
+	static int N, len, arr[];
 	static long tree[];
 	static Node[] lazy;
-	static long MOD = 1_000_000_007; 
-			
+
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		N = Integer.parseInt(br.readLine());	// 1<=100,000
-		len = N * 4;
-		arr = new int[N + 1];
-		tree= new long[len];
-		lazy= new Node[len];
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		Reader in = new Reader();
+		N		= in.nextInt();	// 1<=100,000
+		len 	= N * 4;
+		arr 	= new int[N + 1];
+		tree	= new long[len];
+		lazy	= new Node[len];
+		
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());// 1<=1,000,000,000
+			arr[i] = in.nextInt();// 1<=1,000,000,000
 		
 		// 트리 초기화 
 		init( 1, 1, N );
@@ -32,14 +27,13 @@ class Main{
 		for(int i=0; i<len; i++)
 			lazy[i] = new Node(0, 1);
 		
-		int Q = Integer.parseInt(br.readLine());	// 1<= 100,000
+		int Q = in.nextInt();	// 1<= 100,000
 		
 		while(Q-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int f = Integer.parseInt(st.nextToken());
-			int x = Integer.parseInt(st.nextToken());
-			int y = Integer.parseInt(st.nextToken());
+			int f = in.nextInt();
+			int x = in.nextInt();
+			int y = in.nextInt();
 			if(f == 4)
 			{				
 				sb.append( query( 1, 1, N, x, y) )
@@ -47,7 +41,7 @@ class Main{
 			}
 			else
 			{
-				long v = Integer.parseInt(st.nextToken()); // 1<=1,000,000,000
+				long v = in.nextInt(); // 1<=1,000,000,000
 				
 				update( 1, 1, N, x, y, v, f );
 			}
@@ -66,30 +60,19 @@ class Main{
 			{
 				lazy[treeNode].mul = 1;
 				lazy[treeNode].sum = value;
-				propagate(treeNode , s, e);
 			}
 			else if(flag == 2)
 			{
-				tree[treeNode] = (tree[treeNode] * value) % MOD;
-				if(s != e)
-				{
-					lazy[treeNode << 1].mul = (lazy[treeNode << 1].mul * value) % MOD;
-					lazy[treeNode << 1].sum = (lazy[treeNode << 1].sum * value) % MOD;
-					lazy[treeNode << 1 | 1].mul = (lazy[treeNode << 1 | 1].mul * value) % MOD;
-					lazy[treeNode << 1 | 1].sum = (lazy[treeNode << 1 | 1].sum * value) % MOD;
-				}
+				lazy[treeNode].mul = value;
+				lazy[treeNode].sum = 0;
 			}
 			else
 			{
-				tree[treeNode] = ((e - s + 1) * value) % MOD;
-				if( s!= e)
-				{
-					lazy[treeNode << 1] = new Node(value, 0);
-					lazy[treeNode << 1 | 1] = new Node(value, 0);
-				}
+				lazy[treeNode].mul = 0;
+				lazy[treeNode].sum = value;
 			}
 			
-			
+			propagate(treeNode , s, e);
 			return;
 		}
 		
@@ -109,10 +92,11 @@ class Main{
 			if(s != e)
 			{
 				int nextNode = treeNode << 1;
-				lazy[nextNode].mul = (lazy[nextNode].mul * lazy[treeNode].mul) % MOD;
-				lazy[nextNode].sum = (lazy[nextNode].sum * lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
-				lazy[nextNode | 1].mul = (lazy[nextNode | 1].mul * lazy[treeNode].mul) % MOD;
-				lazy[nextNode | 1].sum = (lazy[nextNode | 1].sum * lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
+				
+				lazy[nextNode].mul		= (lazy[nextNode].mul * lazy[treeNode].mul) % MOD;
+				lazy[nextNode].sum		= (lazy[nextNode].sum * lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
+				lazy[nextNode | 1].mul	= (lazy[nextNode | 1].mul * lazy[treeNode].mul) % MOD;
+				lazy[nextNode | 1].sum	= (lazy[nextNode | 1].sum * lazy[treeNode].mul + lazy[treeNode].sum) % MOD;
 			}
 			
 			lazy[treeNode].sum = 0;
@@ -129,8 +113,10 @@ class Main{
 		
 		int mid = (s + e) >> 1;
 		
-		return (query(treeNode << 1, s, mid, left, right)
-				+ query(treeNode << 1 | 1, mid + 1, e, left, right)) % MOD;
+		return (
+					query(treeNode << 1, s, mid, left, right)
+					+ query(treeNode << 1 | 1, mid + 1, e, left, right)
+				) % MOD;
 	}
 	public static void init(int treeNode, int s, int e) {
 		if(s == e)
@@ -144,7 +130,7 @@ class Main{
 		init(treeNode << 1, s, mid);
 		init(treeNode << 1 | 1, mid + 1, e);
 		
-		tree[treeNode] = (tree[treeNode << 1] + tree[treeNode << 1 | 1]) %MOD;
+		tree[treeNode] = (tree[treeNode << 1] + tree[treeNode << 1 | 1]) % MOD;
 	}
 }
 
@@ -154,4 +140,33 @@ class Node{
 		sum = s;
 		mul = m;
 	}
+}
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
