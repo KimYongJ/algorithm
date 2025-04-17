@@ -12,7 +12,7 @@ class Main{
 		int M		= Integer.parseInt(st.nextToken())+2;	// 만두종류M(1<=10), 연산 편의를 위해 +2 진행
 		int G		= Integer.parseInt(st.nextToken());		// 만두 속 없는 만두를 만드는데 드는 밀가루 그램(<=100)
 		int R		= Integer.parseInt(st.nextToken());		// 만두속없는 만두 판매 비(<=100)
-		int dp[][]	= new int[M][N + 1];// 밀가루 그램에 따른 비용
+		int dp[]	= new int[N + 1];// 밀가루 그램에 따른 비용
 		Node[] node = new Node[M];
 		
 		node[1] = new Node(N/G, G, R);
@@ -31,20 +31,17 @@ class Main{
 
 		for(int m=1; m<M; m++)
 		{
-			for(int j=0; j<=N; j++)		// 새로운 행일 때 이전 값을 복사 
-				dp[m][j] = dp[m - 1][j];
-			
-			for(int i=0; i<=N; i++)		// 밀가루 양을 돌면서 만들 수 있는 개수에 따른 최대 값 갱신
+			for(int i=N; i>=0; i--)		// 밀가루 양을 돌면서 만들 수 있는 개수에 따른 최대 값 갱신
 			{
 				for(int c=1; c<=node[m].cnt; c++)// 만들 수 있는 개수
 				{
-					int nextGaru = i + node[m].garu * c;// 개수에 따라 산출되는 가루 양
+					int prevGaru = i - node[m].garu * c;// 개수에 따라 산출되는 가루 양
 					int cost = node[m].cost * c;	// 개수에 따라 얻을 수 있는 비용
 					// 가루 양이 최대 값보다 클 때 스킵
-					if(nextGaru > N)
+					if(prevGaru < 0)
 						break;
 
-					dp[m][nextGaru] = Math.max(dp[m][nextGaru], dp[m-1][i] + cost);
+					dp[i] = Math.max(dp[i], dp[prevGaru] + cost);
 				}
 			}
 		}
@@ -52,7 +49,7 @@ class Main{
 		int ans = 0;
 		// 마지막 행에 큰 값들이 다 들어가있으므로 가장 큰 것을 찾아 출력
 		for(int i=0; i<=N; i++)
-			ans = Math.max(ans, dp[M - 1][i]);
+			ans = Math.max(ans, dp[i]);
 		
 		System.out.print(ans);
 	}
