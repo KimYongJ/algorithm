@@ -21,15 +21,16 @@ class Node implements Comparable<Node>{
 }
 class Main{
 	public static void main(String[] args)throws Exception{
-		PriorityQueue<Node> pq = new PriorityQueue<>();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		int N = Integer.parseInt(st.nextToken());	// 1<=1000
-		int M = Integer.parseInt(st.nextToken());	// 1<=1000
-		int parent[] = new int[N + 1];
-		int data[][] = new int[N + 1][2];
-		int cnt	= N - 1;
+		int N			= Integer.parseInt(st.nextToken());	// 1<=1000
+		int M			= Integer.parseInt(st.nextToken());	// 1<=1000
+		int cnt			= N - 1;
+		int parent[]	= new int[N + 1];
+		int data[][]	= new int[N + 1][2];
+		
+		
 		for(int i=1; i<=N; i++)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -56,7 +57,8 @@ class Main{
 			}
 		}
 		
-		for(int i=1; i<=N; i++)
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+		for(int i=1; i<N; i++)
 		{
 			for(int j=i+1; j<=N; j++)
 			{
