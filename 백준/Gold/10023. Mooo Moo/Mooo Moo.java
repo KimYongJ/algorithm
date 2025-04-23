@@ -9,18 +9,23 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		final int INF = 1<<30;
 		int N = Integer.parseInt(st.nextToken());// 들판 수(1<=100)
 		int B = Integer.parseInt(st.nextToken());// 품종 수(1<=20)
-		int sound[] = new int[B + 1];	// 품종에 따른 소의 음량
-		int total[] = new int[N + 1];	// 각 들판마다 얻은 음량
 		
+		
+		int sound[] = new int[B + 1];	// 품종에 따른 소의 음량
 		for(int i=1; i<=B; i++)
 			sound[i] = Integer.parseInt(br.readLine());	// 1<=100
 		
+		
+		int total[] = new int[N + 1];	// 각 들판마다 얻은 음량
 		for(int i=1; i<=N; i++)
 			total[i] = Integer.parseInt(br.readLine());	// 0<=100,000
 		
-		int ans = 0;
+		
+		int maxNeed = 0;
+		int need[] = new int[N + 1];
 		for(int i=1; i<=N; i++)
 		{
 			if(total[i] + 1 == total[i-1])	// 해당 들판에 소가 없을 경우
@@ -30,27 +35,34 @@ class Main{
 			// 이전 들판 값이 0이 아닌 경우 해당 값의 -1 만큼 빼준다.
 			if(total[i-1] != 0)
 				 nowValue -= (total[i-1] - 1);
-			
-			// nowValue안에 소들이 최소로 들어가야 한다. 만약 불가한 경우 -1출력
-			// dp[음량] = 해당 음량에 가능한 최소 소의 숫자
-			int dp[] = new int[nowValue + 1];
-			
-			Arrays.fill(dp, 1<<30);
-			
-			dp[0] = 0;
-			// 무한 배낭 문제
-			for(int j=1; j<=B; j++)
-				for(int z=sound[j]; z<=nowValue; z++)
-					dp[z] = Math.min(dp[z], dp[z - sound[j]] + 1);
-			
-			if(dp[nowValue] == 1<<30)
+
+			need[i] = nowValue;	// 결과적으로 구해야 하는 값을 저장해 나감
+			// 구해야하는 가장 큰 값 저장
+			maxNeed = Math.max(maxNeed, nowValue);
+		}
+		
+		int dp[] = new int[maxNeed + 1];
+		
+		Arrays.fill(dp, INF);
+		
+		dp[0] = 0;
+		
+		for(int s : sound)
+			for(int i=s; i<=maxNeed; i++)
+				dp[i] = Math.min(dp[i], dp[i - s] + 1);
+		
+		int ans = 0;
+		
+		for(int i=1; i<=N; i++)
+		{
+			if(dp[need[i]] == INF)
 			{
 				System.out.print(-1);
 				return;
 			}
-			
-			ans += dp[nowValue];
+			ans += dp[need[i]];
 		}
+		
 		System.out.print(ans);
 	}
 }
