@@ -1,5 +1,6 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/13510
+//2초 512MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 class Main{
+	
 	static class Node{
 		int node, value;
 		Node(int n, int v){
@@ -14,29 +16,30 @@ class Main{
 			value = v;
 		}
 	}
-	static int N, Q;
-	static ArrayList<Node>[] adNode;	// 인접리스트
-	static int hldCnt;
-	static int[][] edge;				// 간선 정보 저장
-	static int[] tree;					// 세그먼트 트리
-	static int[] treeNum;				// HLD용 : 입력된 노드 번호 -> 세그먼트 트리 인덱스로 변환할 값
-	static int[] chainLevel;			// HLD용 : 노드 깊이(체인 레벨)
-	static int[] chainHead;				// HLD용 : 각 체인 마다의 head 노드
-	static int[] chainParent;			// HLD용 : 내가 속한 체인의 head 노드의 바로 윗노드, 즉, 다음 체인으로 첨프할 때 도착할 노드
 	
+	static int N, Q;
+	static int idx;						// 입력된 노드 번호를 세그먼트 트리의 인덱스로 전환할 때 증가될 인덱스 값
+	static int [] tree;					// 세그먼트 트리
+	static int [] treeIdx;				// HLD용 : 입력된 노드 번호 -> 세그먼트 트리 인덱스로 변환할 값
+	static int [] chainHead;			// HLD용 : 각 체인 마다의 head 노드, 체인 당 첫번째 노드의 값은 자기 자신이됨
+	static int [] chainLevel;			// HLD용 : 노드가 포함된 체인의 깊이(체인 레벨)
+	static int [] chainParent;			// HLD용 : 내가 속한 체인의 head 노드의 바로 윗노드, 즉, 다음 체인으로 첨프할 때 도착할 노드
+	static int [][] edge;				// 간선 정보 저장
+	static ArrayList<Node>[] adNode;	// 인접 리스트
+
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
-		N				= Integer.parseInt(br.readLine());
-		adNode			= new ArrayList[N + 1];
-		edge			= new int[N + 1][];
-		tree			= new int[N * 4];
-		treeNum			= new int[N + 1];
-		chainLevel		= new int[N + 1];
-		chainHead		= new int[N + 1];
-		chainParent		= new int[N + 1];
-		hldCnt			= 0;
+		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder	sb = new StringBuilder();
+		StringTokenizer	st;
+		
+		N			= Integer.parseInt(br.readLine());// 정점 수(2<=100,000)
+		tree		= new int[N * 4];
+		treeIdx		= new int[N + 1];
+		chainHead	= new int[N + 1];
+		chainLevel	= new int[N + 1];
+		chainParent = new int[N + 1];
+		edge		= new int[N + 1][];
+		adNode		= new ArrayList[N + 1];
 		
 		for(int i=0; i<=N; i++)
 			adNode[i] = new ArrayList<>();
@@ -46,130 +49,87 @@ class Main{
 			st = new StringTokenizer(br.readLine());
 			int node1 = Integer.parseInt(st.nextToken());
 			int node2 = Integer.parseInt(st.nextToken());
-			int value = Integer.parseInt(st.nextToken());
+			int value = Integer.parseInt(st.nextToken());//비용 w(1<=1,000,000)
 			adNode[node1].add(new Node(node2, value));
 			adNode[node2].add(new Node(node1, value));
-			
-			edge[i] = new int[]{node1, node2};
+			edge[i] = new int[] {node1, node2};
 		}
 		
-		// 서브트리 크기를 파악해서 가장 큰 서브트리를 갖는 객체를 adNode의 가장 앞으로 옮김
-		computeSizeAndSwapHeavyChild(1, 0, new int[N + 1]);
+		// 이 함수에서는 단순히 HLD를 구현하기 위해 adNode에서 가장 heavy한 자식만 앞으로 옮기는 역할을 합니다.
+		moveHeavyChildToFront(1, 0, new int[N + 1]);
 		
-		// HLD 초기 설정
-		chainHead[1] = 1;	// 1번 노드의 체인헤드는 1번
-		chainParent[1] = 1;	// 1번 노드의 체인은 1번이며, 가장 처음도 1번
+		chainHead[1] = 1;	// 1번노드의 헤드는 자기 자신
 		
-		setHldDfs(1, 0, 1);
+		// 해당 함수에서 HLD를 위한 chain 정보들을 마킹하고, 세그먼트 트리에 값을 업데이트 한다.
+		setHLD(1, 0, 1);
 		
-		Q = Integer.parseInt(br.readLine());
+		Q = Integer.parseInt(br.readLine());// 쿼리 개수 Q(1<=100,000)
 		while(Q-->0)
 		{
 			st = new StringTokenizer(br.readLine());
 			int op = Integer.parseInt(st.nextToken());
-
 			if(op == 1)// 1 i c : i번 간선의 비용을 j로 바꾼다.
 			{
-				int i		= Integer.parseInt(st.nextToken());
-				int c		= Integer.parseInt(st.nextToken());
-				int node1	= edge[i][0];
-				int node2	= edge[i][1];
+				int i = Integer.parseInt(st.nextToken());
+				int c = Integer.parseInt(st.nextToken());
+				// 간선 정보는 자식 노드에 저장되어 있으므로, i번째 간선의 2개의 노드를 가져와서
+				// 세그먼트 트리 노드의 번호로 변경했을 때 큰 값을 찾아 그 값으로 업데이트한다.
+				// setHLD 함수에서 treeIdx배열 세팅 하는 것을 보면, 자식 노드가 무조건 값이 더 크다.
+				int segIdx = Math.max(treeIdx[ edge[i][0] ], treeIdx[ edge[i][1] ]);
 				
-				if(treeNum[node1] > treeNum[node2]) 
-				{
-					int tmp = node1;
-					node1 = node2;
-					node2 = tmp;
-				}
-				// 세그먼트 트리의 인덱스로 변경했을 때 큰수, 즉, 자식 노드가 node2가 되도록 한다.
-				// A가 부모, B가 자식 노드일 때 A-B사이 간선을 B노드에 저장해 놓았기 때문에 이렇게 한다.
-				update(1, 1, N, treeNum[node2], c);
+				update(1, 1, N, segIdx, c);
 				
 				continue;
 			}
-			
-			// 이하 u에서 v로가는 단순 경로중 가장 큰 가중치를 출력한다. 
-			
-			int low = Integer.parseInt(st.nextToken());
-			int high = Integer.parseInt(st.nextToken());
-			
-			if(chainLevel[low] > chainLevel[high]) 
-			{
-				int tmp = low;
-				low = high;
-				high = tmp;
-			}
-			
+			// op가 2인 경우 u, v사이의 간선 중 가장 큰 값을 찾는다.
 			int ans = 0;
+			int u = Integer.parseInt(st.nextToken());
+			int v = Integer.parseInt(st.nextToken());
 			
-			// chainLevel[low]과 chainLevel[high] 값이 같아질 때 까지 chainLevel[high]을 내리며
-			// 내리면서 해당 구간의 가장 큰 가중치를 쿼리로 구해나간다.
-			while(chainLevel[low] < chainLevel[high])
+			// 레벨이 같아질 때까지 레벨이 높은 것을 낮게 만들면서 높이를 맞춘다.
+			if(chainLevel[u] > chainLevel[v])	// v노드가 레벨이 더크게 조정 즉, v노드가 레벨이 더 높아야된다.
 			{
-				ans = Math.max(ans, query(1, 1, N, treeNum[chainHead[high]], treeNum[high]));
-				high = chainParent[high];// 다음 체인으로 바로 점프
+				int tmp = v;
+				v = u;
+				u = tmp;
 			}
-			// 위 while문에서 레벨은 같아졌지만, 같은 체인에 포함되지 않을 수 있어 같은 체인이 될 때 까지 같이 점프하며 값을 구해나간다.
-			while(chainHead[high] != chainHead[low])
+			while(chainLevel[u] != chainLevel[v])
 			{
-				ans = Math.max(ans, query(1, 1, N, treeNum[chainHead[low]], treeNum[low]));
-				ans = Math.max(ans, query(1, 1, N, treeNum[chainHead[high]], treeNum[high]));
-				low = chainParent[low];		// 다음 체인으로 점프
-				high = chainParent[high];	// 당므 체인으로 점프
+				int head = chainHead[v];
+				// 해당 체인의 head부터, 현재 v노드까지 가장 큰 값을 구해와 ans 갱신
+				ans = Math.max(ans, query(1, 1, N, treeIdx[head], treeIdx[v]));
+				v = chainParent[v];	// 레벨이 높은 v를 다음 체인까지 바로 점프 하도록 만든다.
 			}
 			
-			// 여기까지 오면 같은 체인안에 있는 것이다.
-			// 주어진 노드번호가, 세그먼트 트리 노드의 인덱스로 변경했을 때, low가 작은 값이 되도록 스왑한다.
-			if(treeNum[low] > treeNum[high])
+			// 레벨이 같아졌다면 같은 체인에 속하도록 두 노드의 레벨을 지속적으로 낮춘다.
+			while(chainHead[v] != chainHead[u])
 			{
-				int tmp = low;
-				low = high;
-				high = tmp;
+				ans = Math.max(ans, query(1, 1, N, treeIdx[chainHead[u]], treeIdx[u]));
+				ans = Math.max(ans, query(1, 1, N, treeIdx[chainHead[v]], treeIdx[v]));
+				u = chainParent[u];	// 다음 체인으로 바로 점프
+				v = chainParent[v];	// 다음 체인으로 바로 점프
 			}
-			// treeNum[low] + 1을 하는 이유 : 
-			// 세그먼트 트리에 값을 저장할 때, A가 부모노드이고, B가 자식노드일 때 간선의 가중치를 B위치에 저장했다.
-			// 그렇기 때문에 해당 범위까지 검색으로 제한해야 정확한 값을 구할 수 있다.
-			ans = Math.max(ans, query(1, 1, N, treeNum[low] + 1, treeNum[high]));
+			
+			// 같은 체인에 속했다면, 마지막으로 해당 두 노드간의 부모 자식 노드를 파악한 후, 그 사이의 가장 큰 값을 다시 비교한다.
+			if(treeIdx[u] > treeIdx[v])	// v를 자식노드로 만든다.
+			{
+				int tmp = v;
+				v = u;
+				u = tmp;
+			}
+			
+			// treeIdx[u] + 1을 하는 이유 : 
+			// 세그먼트 트리에 값을 저장할 때, A가 부모노드이고, B가 자식노드일 때 간선의 가중치를 B위치에 저장했다. 
+			// 부모 자신은 빼주어야 정확한 값을 구해올 수 있다.
+			ans = Math.max(ans, query(1, 1, N, treeIdx[u] + 1, treeIdx[v]));
 			
 			sb.append(ans).append('\n');
 		}
 		System.out.print(sb);
 	}
-	public static int query(int treeNode, int s, int e, int left, int right) {
-		
-		if(e < left || right < s)
-			return 0;
-		
-		if(left<=s && e<= right)
-			return tree[treeNode];
-		
-		int mid = (s + e) >> 1;
-		
-		int l = query(treeNode << 1, s, mid, left, right);
-		int r = query(treeNode << 1 | 1, mid + 1, e, left, right);
-		
-		return Math.max(l, r);
-	}
-	public static void update(int treeNode, int s, int e, int targetIdx, int value) {
-		
-		if(e < targetIdx || targetIdx < s)
-			return;
-		
-		if(s == e)
-		{
-			tree[treeNode] = value;
-			return;
-		}
-		
-		int mid = (s + e) >> 1;
-		
-		update(treeNode << 1, s, mid, targetIdx, value);
-		update(treeNode << 1 | 1, mid + 1, e, targetIdx, value);
-		
-		tree[treeNode] = Math.max(tree[treeNode << 1], tree[treeNode << 1 | 1]);
-	}
-	public static void setHldDfs(int nowNode, int parentNode, int level) {
-		treeNum[nowNode] = ++hldCnt;
+	
+	static void setHLD(int nowNode, int parentNode, int level) {
+		treeIdx[nowNode] = ++idx;
 		chainLevel[nowNode] = level;
 		
 		for(int i=0; i<adNode[nowNode].size(); i++)
@@ -179,38 +139,38 @@ class Main{
 			if(now.node == parentNode)
 				continue;
 			
-			if(i == 0)	// heavy child / 처음인 경우, 즉, 서브트리의 크기가 가장 큰경우 
+			if(i == 0)	// heavy일 경우, 기존 데이터들 그대로 이어짐
 			{
-				chainHead[now.node]		= chainHead[nowNode];	// 기존 체인 유지시 해당 체인의 head 저장
-				chainParent[now.node]	= chainParent[nowNode];	// chainParent[v] : v 체인의 head 바로 위 노드 (다음 체인으로 점프용)  
-				setHldDfs(now.node, nowNode, level);
+				chainHead[now.node] = chainHead[nowNode];
+				chainParent[now.node] = chainParent[nowNode];
+				setHLD(now.node, nowNode, level);	// heavy는 level이 그대로 이어진다.
 			}
-			else		// light child : 새 체인 시작
+			else		// 새로운 체인 시작
 			{
-				chainHead[now.node] = now.node;					// 새 체인 시작시 해당 체인의 head는 자기 자신
-				chainParent[now.node] = nowNode;				// 새 체인 시작시 now.node는 nowNode로 바로 점프할 수 있게 저장
-				setHldDfs(now.node, nowNode, level + 1);
+				chainHead[now.node] = now.node;			// 해당 체인의 시작은 자기자신
+				chainParent[now.node] = nowNode;		// 새 체인 시작시 now.node는 nowNode로 바로 점프할 수 있게 저장
+				setHLD(now.node, nowNode, level + 1);	// 새 체인 시작시 레벨 증가
 			}
-			
-			// 연결된 간선 가중치로 세그먼트트리 업데이트 
-			update( 1, 1, N, treeNum[now.node], now.value);
+			// now객체의 모든 연산이 끝난 후, 해당 노드 번호를 이용해 세그먼트 트리에 간선 값을 업데이트한다.
+			// 부모노드가 A, 자식노드 B라 할 때, 노드는 2개지만 간선은 하나기 때문에 간선 정보는 자식노드에 저장한다.
+			// 그래서 현재 함수에서 nowNode에 저장하는것이 아닌, 자식 노드인 now.node에 간선 정보를 저장한다.
+			update(1, 1, N, treeIdx[now.node], now.value);
 		}
+		
 	}
-	public static void computeSizeAndSwapHeavyChild(int nowNode, int parentNode, int size[]) {
+	static void moveHeavyChildToFront(int nowNode, int parentNode, int[] size) {
 		int heavySize = 0;
 		int heavyIdx = 0;
-		
 		size[nowNode] = 1;
-		
-		for(int i=0; i< adNode[nowNode].size(); i++)
+		for(int i=0; i<adNode[nowNode].size(); i++)
 		{
 			Node now = adNode[nowNode].get(i);
 			
-			if(now.node == parentNode)
+			if(now.node == parentNode)	// 부모노드면 스킵
 				continue;
 			
-			computeSizeAndSwapHeavyChild(now.node, nowNode, size);	// DFS순회
-			// 현재 노드의 크기에 자식 노드의 크기를 더함
+			moveHeavyChildToFront(now.node, nowNode, size);
+			
 			size[nowNode] += size[now.node];
 			
 			if(heavySize < size[now.node])
@@ -218,9 +178,37 @@ class Main{
 				heavySize = size[now.node];
 				heavyIdx = i;
 			}
+			
 		}
-		// 가장 무거운 인덱스를 제일 앞에 놓는다.
+		// 0번째 인덱스에 가장 무거은 노드를 놓아 추후 있을 연산을 단순하게 한다.
 		Collections.swap(adNode[nowNode], 0, heavyIdx);
+	}
+	static void update(int treeNode, int s, int e, int targetIdx, int value) {
+		if(e < targetIdx || targetIdx < s)
+			return;
+		if(s == e)
+		{
+			tree[treeNode] = value;
+			return;
+		}
+		int mid = (s + e) >> 1;
+		
+		update(treeNode << 1, s, mid, targetIdx, value);
+		update(treeNode << 1 | 1, mid + 1, e, targetIdx, value);
+		
+		tree[treeNode] = Math.max(tree[treeNode << 1], tree[treeNode << 1 | 1]);
+	}
+	static int query(int treeNode, int s, int e, int left, int right) {
+		if(e < left || right < s)
+			return 0;
+		if(left<=s && e<=right)
+			return tree[treeNode];
+		
+		int mid = (s + e) >> 1;
+		int l = query(treeNode << 1, s, mid, left, right);
+		int r = query(treeNode << 1 | 1, mid + 1, e, left, right);
+		
+		return Math.max(l,r);
 	}
 }
 //3		// 정점 수(2<=100,000)
