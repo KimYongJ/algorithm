@@ -8,122 +8,19 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 class Main{
 	
-	static boolean isEnd = false;
+	static boolean isEnd = false;		// 유효한지, 아닌지를 판별, 끝내야하면 true
 	static int N, Q;
-	static int idx;
-	static int[] arr;
-	static int[] tree;
-	static int[] lazy;
-	static int[] treeIdx;
-	static int[] nodeIdx;
-	static int[] chainHead;
-	static int[] chainLevel;
-	static int[] chainParent;
-	static ArrayList<Integer>[] adNode;
-	// 최초 입력된 정점의 최대 대역폭을 세팅하고 최솟값 세그먼트 트리로 만든다.
-	static void init(int treeNode, int s, int e) {
-		if(s == e)
-		{
-			tree[treeNode] = arr[nodeIdx[s]];
-			return;
-		}
-		
-		int mid = (s + e) >> 1;
-		
-		init(treeNode << 1, s, mid);
-		init(treeNode << 1 | 1, mid + 1, e);
-		
-		tree[treeNode] = Math.min(tree[treeNode << 1], tree[treeNode << 1 | 1]);
-	}
-	// 구간 업데이트를 위한 propagate함수, 업데이트 숫자를 tree 값에 빼주고, 값이 0 이하로 내려가면,
-	// 즉, 대역폭 초과를 처리하려고 하면 isEnd를 true로 바꿔 끝낸다.
-	static void propagate(int treeNode, int s, int e) {
-		if(lazy[treeNode] != 0)
-		{
-			tree[treeNode] -= lazy[treeNode];
-			
-			if(tree[treeNode] < 0)
-				isEnd = true;
-			
-			if(s != e)
-			{
-				lazy[treeNode << 1]		+= lazy[treeNode];
-				lazy[treeNode << 1 | 1] += lazy[treeNode];
-			}
-			
-			lazy[treeNode] = 0;
-		}
-	}
-	static void update(int treeNode, int s, int e, int left, int right, int value) {
-		propagate(treeNode, s, e);
-		
-		if(e < left || right < s)
-			return;
-		
-		if(left<=s && e<=right)
-		{
-			lazy[treeNode] = value;
-			propagate(treeNode, s, e);
-			return;
-		}
-		
-		int mid = (s + e) >> 1;
-		
-		update(treeNode << 1, s, mid, left, right, value);
-		update(treeNode << 1 | 1, mid + 1, e, left, right, value);
-		
-		tree[treeNode] = Math.min(tree[treeNode << 1], tree[treeNode << 1 | 1]);
-	}
-	public static void setSize(int nowNode, int parentNode, int [] size) {
-		int heavySize = 0;
-		int heavyIdx = 0;
-		size[nowNode] = 1;
-		
-		for(int i=0; i<adNode[nowNode].size(); i++)
-		{
-			int next = adNode[nowNode].get(i);
-			
-			if(next == parentNode)
-				continue;
-			
-			setSize(next, nowNode, size);
-			
-			size[nowNode] += size[next];
-			if(heavySize < size[next])
-			{
-				heavySize = size[next];
-				heavyIdx = i;
-			}
-		}
-		
-		if(adNode[nowNode].size() > 0)
-			Collections.swap(adNode[nowNode], 0, heavyIdx);
-	}
-	static void setHLD(int nowNode, int parentNode, int level) {
-		chainLevel[nowNode] = level;
-		treeIdx[nowNode] = ++idx;
-		nodeIdx[idx] = nowNode;
-		for(int i=0; i<adNode[nowNode].size(); i++)
-		{
-			int next = adNode[nowNode].get(i);
-			
-			if(next == parentNode)
-				continue;
-			
-			if(i == 0)	// heay일 경우, 기존 체인 유지
-			{
-				chainHead[next] = chainHead[nowNode];
-				chainParent[next] = chainParent[nowNode];
-				setHLD(next, nowNode, level);
-			}
-			else		// light일 경우 새로운 체인 시작
-			{
-				chainHead[next] = next;			// 새 체인의 head는 자기자신
-				chainParent[next] = nowNode;	// 이전 체인 점프할 정보는 이전 노드
-				setHLD(next, nowNode, level + 1);	// 새 체인에서는 level이 증가한다
-			}
-		}
-	}
+	static int idx;						// 입력된 노드 번호를 세그먼트 트리의 인덱스 번호로 변환할 변수
+	static int[] arr;					// 최초 입력되는 최대 대역폭
+	static int[] tree;					// 최솟값 세그먼트 트리 배열
+	static int[] lazy;					// 구간 업데이트를 위한 lazy 배열
+	static int[] treeIdx;				// 입력된 노드번호 -> 세그먼트 트리 인덱스로 변환할 배열
+	static int[] nodeIdx;				// 세그먼트 트리 인덱스 -> 입력된 노드번호로 역으로 변환할 배열
+	static int[] chainHead;				// HLD에서 해당 체인의 첫번째 값
+	static int[] chainLevel;			// HLD에서 노드의 레벨을 저장
+	static int[] chainParent;			// HLD에서 이전 체인으로 넘어가기 위해 점프할 노드 값
+	static ArrayList<Integer>[] adNode;	// 인접리스트
+	
 	public static void main(String[] args)throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -164,6 +61,7 @@ class Main{
 		init(1, 1, N);	// 최솟값 세그먼트 트리 초기화
 		
 		int ans = 0;
+		
 		while(Q-->0)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -171,10 +69,12 @@ class Main{
 			int x = Integer.parseInt(st.nextToken());
 			int y = Integer.parseInt(st.nextToken());
 			int w = Integer.parseInt(st.nextToken());
-			
+			// 체인의 head값이 같아질 때 까지 높은 레벨을 낮은 레벨로 지속적으로 올리면서, 유효성을 판단한다.
+			// 이 때 update를 같이함. 최솟값 세그먼트 트리에서 0미만으로 값이 떨어지면 대역폭 초과이므로 종료함
 			while(!isEnd && chainHead[x] != chainHead[y])
 			{
-				if(chainLevel[x] > chainLevel[y]) {
+				if(chainLevel[x] > chainLevel[y])
+				{
 					int tmp = x;
 					x = y;
 					y = tmp;
@@ -202,6 +102,115 @@ class Main{
 				break;
 		}
 		System.out.print(ans);
+	}
+	// 해당 함수에서는 트리를 순회하며 가장 무거운 노드를 인접리스트에서 맨앞으로 옮기는 역할만 한다.
+	public static void setSize(int nowNode, int parentNode, int [] size) {
+		int heavySize = 0;
+		int heavyIdx = 0;
+		size[nowNode] = 1;
+		
+		for(int i=0; i<adNode[nowNode].size(); i++)
+		{
+			int next = adNode[nowNode].get(i);
+			
+			if(next == parentNode)
+				continue;
+			
+			setSize(next, nowNode, size);
+			
+			size[nowNode] += size[next];
+			if(heavySize < size[next])
+			{
+				heavySize = size[next];
+				heavyIdx = i;
+			}
+		}
+		
+		if(adNode[nowNode].size() > 0)
+			Collections.swap(adNode[nowNode], 0, heavyIdx);
+	}
+	// 트리를 순회하며 HLD 체인 값들을 입력 + 세그먼트 트리 인덱스와 노드 번호간 치환 배열 세팅
+	static void setHLD(int nowNode, int parentNode, int level) {
+		
+		chainLevel[nowNode] = level;
+		treeIdx[nowNode] = ++idx;
+		nodeIdx[idx] = nowNode;
+		
+		for(int i=0; i<adNode[nowNode].size(); i++)
+		{
+			int next = adNode[nowNode].get(i);
+			
+			if(next == parentNode)
+				continue;
+			
+			if(i == 0)	// heay일 경우, 기존 체인 유지
+			{
+				chainHead[next] = chainHead[nowNode];
+				chainParent[next] = chainParent[nowNode];
+				setHLD(next, nowNode, level);
+			}
+			else		// light일 경우 새로운 체인 시작
+			{
+				chainHead[next] = next;			// 새 체인의 head는 자기자신
+				chainParent[next] = nowNode;	// 이전 체인 점프할 정보는 이전 노드
+				setHLD(next, nowNode, level + 1);	// 새 체인에서는 level이 증가한다
+			}
+		}
+	}
+	// 최초 입력된 정점의 최대 대역폭을 세팅하고 최솟값 세그먼트 트리로 만든다.
+	static void init(int treeNode, int s, int e) {
+		if(s == e)
+		{
+			// 세그먼트 트리 인덱스를 node번호로 치환한 후 값을 대입해야 한다.
+			tree[treeNode] = arr[nodeIdx[s]];
+			return;
+		}
+		
+		int mid = (s + e) >> 1;
+		
+		init(treeNode << 1, s, mid);
+		init(treeNode << 1 | 1, mid + 1, e);
+		
+		tree[treeNode] = Math.min(tree[treeNode << 1], tree[treeNode << 1 | 1]);
+	}
+	static void update(int treeNode, int s, int e, int left, int right, int value) {
+		propagate(treeNode, s, e);
+		
+		if(e < left || right < s)
+			return;
+		
+		if(left<=s && e<=right)
+		{
+			lazy[treeNode] = value;
+			propagate(treeNode, s, e);
+			return;
+		}
+		
+		int mid = (s + e) >> 1;
+		
+		update(treeNode << 1, s, mid, left, right, value);
+		update(treeNode << 1 | 1, mid + 1, e, left, right, value);
+		
+		tree[treeNode] = Math.min(tree[treeNode << 1], tree[treeNode << 1 | 1]);
+	}
+	// 구간 업데이트를 위한 propagate함수, 업데이트 숫자를 tree 값에 빼주고, 값이 0 이하로 내려가면,
+	// 즉, 대역폭 초과를 처리하려고 하면 isEnd를 true로 바꿔 끝낸다.
+	static void propagate(int treeNode, int s, int e) {
+		if(lazy[treeNode] != 0)
+		{
+			tree[treeNode] -= lazy[treeNode];
+			
+			if(tree[treeNode] < 0)
+				isEnd = true;
+			
+			if(s != e)
+			{
+				lazy[treeNode << 1]		+= lazy[treeNode];
+				lazy[treeNode << 1 | 1] += lazy[treeNode];
+			}
+			
+			lazy[treeNode] = 0;
+		}
 	}
 }
 //3 2		// 정점개수(2<=100,000), 예약 개수(2<=100,000)
