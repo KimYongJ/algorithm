@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 class Main{
-	
 	static final long MOD = (1L<<32) - 1;
 	static int N, Q;
 	static int idx;				// 노드번호 -> 트리번호로 바꿀 순차증가 인덱스
@@ -50,8 +49,8 @@ class Main{
 		// setSize : 이 함수에서 heavy한 자식노드를 인접 노드의 가장 앞쪽으로 옮긴다.
 		setSize(1, 0, new int[N + 1]);
 		
-		chainParent[1] = 1;
 		chainHead[1] = 1;	// 1번 노드의 헤드는 자기 자신
+		chainParent[1] = 1;	// 1번 노드의 이전 체인은 없으므로 자기자신
 		// setHLD : 이 함수에서 HLD를 위한 chain정보를 입력하며 동시에 노드당 서브트리의 범위 + 노드 -> 세그먼트 트리 인덱스 번호를 저장
 		setHLD(1, 0, 1);
 		
@@ -224,11 +223,8 @@ class SegmentTree{
 	public void propagate(int treeNode, int s, int e) {
 		if(lazy[treeNode].sum != 0 || lazy[treeNode].mul != 1)
 		{
-			tree[treeNode] *= lazy[treeNode].mul;
+			tree[treeNode] = tree[treeNode] * lazy[treeNode].mul + (e - s + 1) * lazy[treeNode].sum;
 			tree[treeNode] &= MOD;
-			tree[treeNode] += (e - s + 1) * lazy[treeNode].sum;
-			tree[treeNode] &= MOD;
-			
 			if(s != e)
 			{
 				int left = treeNode << 1;
@@ -237,15 +233,8 @@ class SegmentTree{
 				lazy[left].mul	= (lazy[left].mul	* lazy[treeNode].mul) & MOD;
 				lazy[right].mul = (lazy[right].mul	* lazy[treeNode].mul) & MOD;
 				
-				lazy[left].sum	*= lazy[treeNode].mul;
-				lazy[left].sum	&= MOD;
-				lazy[left].sum	+= lazy[treeNode].sum;
-				lazy[left].sum	&= MOD;
-				
-				lazy[right].sum	*= lazy[treeNode].mul;
-				lazy[right].sum	&= MOD;
-				lazy[right].sum	+= lazy[treeNode].sum;
-				lazy[right].sum	&= MOD;
+				lazy[left].sum	= (lazy[left].sum	* lazy[treeNode].mul + lazy[treeNode].sum) & MOD;
+				lazy[right].sum = (lazy[right].sum	* lazy[treeNode].mul + lazy[treeNode].sum) & MOD;
 			}
 			lazy[treeNode].sum = 0;
 			lazy[treeNode].mul = 1;
