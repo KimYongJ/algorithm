@@ -9,19 +9,27 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 class Main{
-	static class Query{
-		int left, right, idx;
-		Query(int l, int r, int i){
+	
+	static class Query implements Comparable<Query>{
+		int left, right, idx, log;
+		Query(int l, int r, int i, int g){
 			left = l;
 			right= r;
 			idx = i;
+			log = g;
+		}
+		@Override
+		public int compareTo(Query o) {
+			int l = left / log;
+			int r = o.left / log;
+			return l == r ? right - o.right : l - r;
 		}
 	}
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N		= Integer.parseInt(br.readLine());	//수열의 크기 1<=100,000
+		int log		= (int) Math.sqrt(N);
 		int arr[]	= new int[N + 1];
-		int log		= (int) Math.log(N);
 		int count[] = new int[1_000_001];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -31,55 +39,42 @@ class Main{
 		ArrayList<Query> query = new ArrayList<>();
 		
 		int Q = Integer.parseInt(br.readLine());// 쿼리 개수 1<=100,000
-		int ans[]	= new int[Q + 1];
+		int ans[] = new int[Q + 1];
 		for(int i=1; i<=Q; i++)
 		{
 			st = new StringTokenizer(br.readLine());
 			int l = Integer.parseInt(st.nextToken());
 			int r = Integer.parseInt(st.nextToken());
-			query.add(new Query(l, r, i));
+			query.add(new Query(l, r, i, log));
 		}
 		
 		// left / log 한 값을 기준으로 오름차순, 같으면 right가 작은 값을 기준으로 오름차순
-		Collections.sort(query, (a,b)->{
-			int l = a.left / log;
-			int r = b.left / log;
-			return l == r ? a.right - b.right : l - r;
-		});
+		Collections.sort(query);
 		
-		int idxL = 1;	// 올라가기만 한다.
-		int idxR = 0;	// 올라가기만 한다.
+		int idxL = 1;
+		int idxR = 0;
 		int cnt = 0;
 		
-		for(Query q : query)
+		for(int i=0; i<query.size(); i++)
 		{
-			while(idxR < q.right)
-			{
-				idxR++;
-				if(count[arr[idxR]]++ == 0)
-						cnt++;
-			}
-			while(idxL < q.left)
-			{
-				if(count[arr[idxL]]-- == 1)
-					cnt--;
-				
-				idxL++;
-			}
-			while(q.left < idxL)
-			{
-				idxL--;
-				if(count[arr[idxL]]++ == 0)
-					cnt++;
-			}
-			while(q.right < idxR)
-			{
-				if(count[arr[idxR]]-- == 1)
-					cnt--;
-				
-				idxR--;
-			}
+			Query q = query.get(i);
 			
+			while(idxR < q.right)
+				if(count[arr[++idxR]]++ == 0)
+						cnt++;
+
+			while(idxL < q.left)
+				if(count[arr[idxL++]]-- == 1)
+					cnt--;
+
+			while(q.left < idxL)
+				if(count[arr[--idxL]]++ == 0)
+					cnt++;
+
+			while(q.right < idxR)
+				if(count[arr[idxR--]]-- == 1)
+					cnt--;
+
 			ans[q.idx] = cnt; 
 		}
 		
