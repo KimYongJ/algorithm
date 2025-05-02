@@ -2,11 +2,10 @@
 //https://www.acmicpc.net/problem/2912
 //1초 256MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 
 class Main{
 
@@ -26,29 +25,40 @@ class Main{
 			return l == r ? right - o.right : l - r;
 		}
 	}
-
+    static class FastScanner {
+        private final byte[] buf = new byte[1 << 16];
+        private int idx, len;
+        private final InputStream in;
+        FastScanner(InputStream in) { this.in = in; }
+        private int read() throws IOException {
+            if (idx >= len) { len = in.read(buf); idx = 0; }
+            return len == -1 ? -1 : buf[idx++];
+        }
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            while ((c = read()) <= 32 && c != -1);
+            if (c == '-') { sign = -1; c = read(); }
+            while (c > 32 && c != -1) { val = val * 10 + (c - '0'); c = read(); }
+            return val * sign;
+        }
+    }
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());// 난쟁이 수(3<=300,000)
-		int C		= Integer.parseInt(st.nextToken());// 모자 색상 수(1<=10,000)
+		FastScanner fs = new FastScanner(System.in);
+		int N		= fs.nextInt();// 난쟁이 수(3<=300,000)
+		int C		= fs.nextInt();// 모자 색상 수(1<=10,000)
 		int arr[]	= new int[N + 1];
 		int color[] = new int[C + 1];
 		sqrt		= (int)Math.sqrt(N);
-		st = new StringTokenizer(br.readLine());
+
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = fs.nextInt();
 		
 		ArrayList<Query> query = new ArrayList<>();
-		int Q = Integer.parseInt(br.readLine());
+		int Q = fs.nextInt();
 		int ans[] = new int[Q + 1];
+		
 		for(int i=1; i<=Q; i++)
-		{
-			st = new StringTokenizer(br.readLine());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
-			query.add(new Query(l,r,i));
-		}
+			query.add(new Query(fs.nextInt(),fs.nextInt(),i));
 		
 		Collections.sort(query);
 		
