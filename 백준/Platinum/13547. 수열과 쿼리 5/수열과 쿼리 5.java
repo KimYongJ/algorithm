@@ -2,14 +2,31 @@
 //https://www.acmicpc.net/problem/13547
 //2초 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 
 class Main{
 	
+    static class FastScanner {
+        private final byte[] buf = new byte[1 << 16];
+        private int idx, len;
+        private final InputStream in;
+        FastScanner(InputStream in) { this.in = in; }
+        private int read() throws IOException {
+            if (idx >= len) { len = in.read(buf); idx = 0; }
+            return len == -1 ? -1 : buf[idx++];
+        }
+        int nextInt() throws IOException {
+            int c, sign = 1, val = 0;
+            while ((c = read()) <= 32 && c != -1);
+            if (c == '-') { sign = -1; c = read(); }
+            while (c > 32 && c != -1) { val = val * 10 + (c - '0'); c = read(); }
+            return val * sign;
+        }
+    }
+    
 	static class Query implements Comparable<Query>{
 		int left, right, idx, log;
 		Query(int l, int r, int i, int g){
@@ -26,27 +43,23 @@ class Main{
 		}
 	}
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N		= Integer.parseInt(br.readLine());	//수열의 크기 1<=100,000
+		FastScanner fs = new FastScanner(System.in);
+		int N		= fs.nextInt();	//수열의 크기 1<=100,000
 		int log		= (int) Math.sqrt(N);
 		int arr[]	= new int[N + 1];
 		int count[] = new int[1_000_001];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());// 배열 원소 값 1<=1,000,000
+			arr[i] = fs.nextInt();// 배열 원소 값 1<=1,000,000
 		
 		ArrayList<Query> query = new ArrayList<>();
 		
-		int Q = Integer.parseInt(br.readLine());// 쿼리 개수 1<=100,000
-		int ans[] = new int[Q + 1];
+		int Q		= fs.nextInt();// 쿼리 개수 1<=100,000
+		int ans[]	= new int[Q + 1];
+		
 		for(int i=1; i<=Q; i++)
-		{
-			st = new StringTokenizer(br.readLine());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
-			query.add(new Query(l, r, i, log));
-		}
+			query.add(new Query(fs.nextInt(), fs.nextInt(), i, log));
+		
 		
 		// left / log 한 값을 기준으로 오름차순, 같으면 right가 작은 값을 기준으로 오름차순
 		Collections.sort(query);
