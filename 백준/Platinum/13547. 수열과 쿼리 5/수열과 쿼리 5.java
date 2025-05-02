@@ -28,24 +28,24 @@ class Main{
     }
     
 	static class Query implements Comparable<Query>{
-		int left, right, idx, log;
-		Query(int l, int r, int i, int g){
+		int left, right, idx, sqrt;
+		Query(int l, int r, int i, int s){
 			left = l;
 			right= r;
 			idx = i;
-			log = g;
+			sqrt = s;
 		}
 		@Override
 		public int compareTo(Query o) {
-			int l = left / log;
-			int r = o.left / log;
+			int l = left / sqrt;
+			int r = o.left / sqrt;
 			return l == r ? right - o.right : l - r;
 		}
 	}
 	public static void main(String[] args)throws Exception{
 		FastScanner fs = new FastScanner(System.in);
 		int N		= fs.nextInt();	//수열의 크기 1<=100,000
-		int log		= (int) Math.sqrt(N);
+		int sqrt	= (int) Math.sqrt(N);
 		int arr[]	= new int[N + 1];
 		int count[] = new int[1_000_001];
 		
@@ -58,7 +58,7 @@ class Main{
 		int ans[]	= new int[Q + 1];
 		
 		for(int i=1; i<=Q; i++)
-			query.add(new Query(fs.nextInt(), fs.nextInt(), i, log));
+			query.add(new Query(fs.nextInt(), fs.nextInt(), i, sqrt));
 		
 		
 		// left / log 한 값을 기준으로 오름차순, 같으면 right가 작은 값을 기준으로 오름차순
@@ -99,9 +99,9 @@ class Main{
 		System.out.print(sb);
 	}
 }
-//5				// 수의 길이 1<=100,000
+//5			// 수의 길이 1<=100,000
 //1 1 2 1 3		// 배열 원소 값 1<=1,000,000
-//3				// 쿼리 개수 1<=100,000
+//3			// 쿼리 개수 1<=100,000
 //1 5			// 배열의 위치 1<=N
 //2 4
 //3 5
