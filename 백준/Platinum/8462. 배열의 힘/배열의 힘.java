@@ -1,11 +1,8 @@
 //https://github.com/KimyongJ/algorithm
 //https://www.acmicpc.net/problem/8462
 //3초 128MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 class Main{
 	
 	static int sqrt;
@@ -26,27 +23,20 @@ class Main{
 	}
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N		= Integer.parseInt(st.nextToken());// 배열 크기(1<=100,000)
-		int Q		= Integer.parseInt(st.nextToken());// 부분 배열 개수(1<=100,000)
+		Reader in	= new Reader();
+		int N		= in.nextInt();// 배열 크기(1<=100,000)
+		int Q		= in.nextInt();// 부분 배열 개수(1<=100,000)
 		int arr[]	= new int[N + 1];
 		long cnt[]	= new long[1_000_001];
 		long ans[]	= new long[Q + 1];
 		sqrt		= (int)Math.sqrt(N);
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());// 1<=1,000,000
+			arr[i] = in.nextInt();// 1<=1,000,000
 		
 		ArrayList<Query> query = new ArrayList<>();
 		for(int i=1; i<=Q; i++)
-		{
-			st = new StringTokenizer(br.readLine());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
-			query.add(new Query(l, r, i));
-		}
+			query.add(new Query(in.nextInt(), in.nextInt(), i));
 		
 		Collections.sort(query);
 		
@@ -57,9 +47,7 @@ class Main{
 		{			
 			while(idxR < q.right)
 			{
-				++idxR;
-				
-				int num = arr[idxR];
+				int num = arr[++idxR];
 				
 				now += 2*cnt[num] * num + num;
 				
@@ -67,29 +55,23 @@ class Main{
 			}
 			while(q.right < idxR)
 			{
-				int num = arr[idxR];
+				int num = arr[idxR--];
 				
 				now -= 2*cnt[num] * num - num;
 				
 				--cnt[num];
-				
-				--idxR;
 			}
 			while(idxL < q.left)
 			{
-				int num = arr[idxL];
+				int num = arr[idxL++];
 				
 				now -= 2*cnt[num] * num - num;
 				
 				--cnt[num];
-				
-				++idxL;
 			}
 			while(q.left < idxL)
 			{
-				--idxL;
-				
-				int num = arr[idxL];
+				int num = arr[--idxL];
 
 				now += 2*cnt[num] * num + num;
 				
@@ -106,6 +88,36 @@ class Main{
 		System.out.print(sb);
 	}
 }
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+    
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
+}
+
 //8 3					// 배열 크기(1<=100,000), 부분 배열 개수(1<=100,000)
 //4 3 1 1 1 3 1 2		// 1<=1,000,000
 //2 7					// 범위
