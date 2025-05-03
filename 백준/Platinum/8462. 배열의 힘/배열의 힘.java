@@ -58,37 +58,42 @@ class Main{
 			while(idxR < q.right)
 			{
 				++idxR;
+				
 				int num = arr[idxR];
 				
-				now -= cnt[num] * cnt[num] * num;
-//				now += 2*cnt[num] * num + num;
-				++cnt[num];
+				now += 2*cnt[num] * num + num;
 				
-				now += cnt[num] * cnt[num] * num;
+				++cnt[num];
 			}
 			while(q.right < idxR)
 			{
 				int num = arr[idxR];
-				now -= cnt[num] * cnt[num] * num;
+				
+				now -= 2*cnt[num] * num - num;
+				
 				--cnt[num];
-				now += cnt[num] * cnt[num] * num;
+				
 				--idxR;
 			}
 			while(idxL < q.left)
 			{
 				int num = arr[idxL];
-				now -= cnt[num] * cnt[num] * num;
+				
+				now -= 2*cnt[num] * num - num;
+				
 				--cnt[num];
-				now += cnt[num] * cnt[num] * num;
+				
 				++idxL;
 			}
 			while(q.left < idxL)
 			{
 				--idxL;
+				
 				int num = arr[idxL];
-				now -= cnt[num] * cnt[num] * num;
+
+				now += 2*cnt[num] * num + num;
+				
 				++cnt[num];
-				now += cnt[num] * cnt[num] * num;
 			}
 			
 			ans[q.idx] = now; 
