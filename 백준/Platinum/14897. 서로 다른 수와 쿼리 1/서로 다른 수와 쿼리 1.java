@@ -1,12 +1,9 @@
 //https://github.com/KimYongJ/algorithm
 //https://www.acmicpc.net/problem/14897
 //5초 1024MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 class Main{
 	static class Query implements Comparable<Query>{
@@ -30,7 +27,7 @@ class Main{
 	static int N, Q;
 	static int arr[];
 	static ArrayList<Query> query;
-	static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static Reader in = new Reader();
 	
 	public static void main(String[] args)throws Exception{
 		inputAndComp();
@@ -40,14 +37,13 @@ class Main{
 	
 	static void inputAndComp()throws Exception{
 		TreeSet<Integer> tset = new TreeSet<>();
-		N		= Integer.parseInt(br.readLine());// 1<=1,000,000
+		N		= in.nextInt();// 1<=1,000,000
 		sqrt	= (int)Math.sqrt(N);
 		arr		= new int[N + 1];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
 		{
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = in.nextInt();
 			tset.add(arr[i]);
 		}
 		
@@ -61,14 +57,9 @@ class Main{
 	static void getQueryAndSort()throws Exception {
 		query = new ArrayList<>();
 		
-		Q = Integer.parseInt(br.readLine());// 1<=1,000,000
+		Q = in.nextInt();// 1<=1,000,000
 		for(int i=1; i<=Q; i++)
-		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
-			query.add(new Query(l, r, i));
-		}
+			query.add(new Query(in.nextInt(), in.nextInt(), i));
 		
 		Collections.sort(query);
 	}
@@ -105,5 +96,33 @@ class Main{
 		
 		System.out.print(sb);
 	}
+}
 
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
