@@ -10,17 +10,18 @@ import java.util.StringTokenizer;
 import java.util.TreeSet;
 class Main{
 	static class Query implements Comparable<Query>{
-		int left, right, idx;
+		int left, right, idx, factor;
 		Query(int l, int r, int i){
 			left = l;
 			right= r;
 			idx = i;
+			factor = left / sqrt;
 		}
 		@Override
 		public int compareTo(Query o) {
-			int l = left / sqrt;
-			int r = o.left / sqrt;
-			return l == r ? right - o.right : l - r;
+			return factor == o.factor 
+					? right - o.right 
+					: factor - o.factor;
 		}
 	}
 	
@@ -79,26 +80,22 @@ class Main{
 		int diff = 0;
 		for(Query q : query)
 		{
-			while(idxR < q.right) {
-				++idxR;
-				if(count[arr[idxR]]++ == 0)
+			while(idxR < q.right)
+				if(count[arr[++idxR]]++ == 0)
 					diff++;
-			}
-			while(q.right < idxR) {
-				if(--count[arr[idxR]] == 0)
+
+			while(q.right < idxR)
+				if(--count[arr[idxR--]] == 0)
 					--diff;
-				--idxR;
-			}
-			while(q.left < idxL) {
-				--idxL;
-				if(count[arr[idxL]]++ == 0)
+				
+			while(q.left < idxL)
+				if(count[arr[--idxL]]++ == 0)
 					diff++;
-			}
-			while(idxL < q.left) {
-				if(--count[arr[idxL]] == 0)
+			
+			while(idxL < q.left)
+				if(--count[arr[idxL++]] == 0)
 					--diff;
-				++idxL;
-			}
+
 			ans[q.idx] = diff; 
 		}
 		
