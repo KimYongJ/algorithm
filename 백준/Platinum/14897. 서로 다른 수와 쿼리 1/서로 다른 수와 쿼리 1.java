@@ -4,7 +4,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 class Main{
 	static class Query implements Comparable<Query>{
 		int left, right, idx, factor;
@@ -36,7 +37,7 @@ class Main{
 	}
 	
 	static void inputAndComp()throws Exception{
-		TreeSet<Integer> tset = new TreeSet<>();
+		Set<Integer> set = new HashSet<>();
 		N		= in.nextInt();// 1<=1,000,000
 		sqrt	= (int)Math.sqrt(N);
 		arr		= new int[N + 1];
@@ -44,12 +45,15 @@ class Main{
 		for(int i=1; i<=N; i++)
 		{
 			arr[i] = in.nextInt();
-			tset.add(arr[i]);
+			set.add(arr[i]);
 		}
-		
+
 		HashMap<Integer, Integer> map = new HashMap<>();
-		for(int t : tset)
-			map.put(t, ++idx);
+		ArrayList<Integer> list = new ArrayList<>(set);
+		Collections.sort(list);
+		
+		for(;idx<list.size();)
+			map.put(list.get(idx),++idx);
 		
 		for(int i=1; i<=N; i++)
 			arr[i] = map.get(arr[i]);
