@@ -78,7 +78,9 @@ class Main{
 		}
 		@Override
 		public int compareTo(Query o) {
-			return fac == o.fac ? right - o.right : fac - o.fac;
+			if(fac != o.fac)
+				return fac - o.fac;
+			return (fac&1)==0 ? right - o.right : o.right - right;
 		}
 	}
 }
