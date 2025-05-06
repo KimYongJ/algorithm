@@ -3,8 +3,7 @@
 //2초 512MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 class Main{
@@ -29,7 +28,7 @@ class Main{
 		for(int i=1; i<=N; i++)
 			arr[i] = Integer.parseInt(st.nextToken()) + OFF_SET;
 		
-		ArrayList<Query> query = new ArrayList<>();
+		PriorityQueue<Query> query = new PriorityQueue<>();
 		for(int i=1; i<=Q; i++)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -38,12 +37,12 @@ class Main{
 			query.add(new Query(l, r, i, l / sqrt));
 		}
 		
-		Collections.sort(query);
-		
 		int L = 1;
 		int R = 0;
-		for(Query q : query)
+		while(!query.isEmpty())
 		{
+			Query q = query.poll();
+			
 			while(R < q.right) plus(arr[++R]);
 			while(q.right < R) minus(arr[R--]);
 			while(L < q.left) minus(arr[L++]);
