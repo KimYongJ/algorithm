@@ -10,12 +10,20 @@ import java.util.StringTokenizer;
 import java.util.TreeSet;
 class Main{
 	
+	static int idx;	// 값 압축시 사용하는 flag
 	static int sqrt;
 	static int twoCnt;
 	static int N, Q;
 	static int [] arr, ans, count;
+	static ArrayList<Query> query;
 	
 	public static void main(String[] args)throws Exception{
+		init();		// 해당 함수에서 배열을 입력받고, 값 압축을 진행하고, 쿼리들도 입력받아 Mo's알고리즘으로 정렬
+		solve();	// 해당 함수에서 정렬된 쿼리들을 투포인터를 이용해 결과를 저장
+		print();	// 해당 함수에서 저장된 결과를 출력
+	}
+	
+	static void init()throws Exception{
 		BufferedReader	br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N		= Integer.parseInt(st.nextToken());// 배열 수(1<=500,000)
@@ -33,14 +41,14 @@ class Main{
 			set.add(arr[i]);
 		}
 		HashMap<Integer,Integer> map = new HashMap<>();
-		int idx = 0;
 		for(int s : set)
 			map.put(s, ++idx);
 		
 		for(int i=1; i<=N; i++)
 			arr[i] = map.get(arr[i]);
 		
-		ArrayList<Query> query = new ArrayList<>();
+		// 쿼리를 입력 받은 후 Mo's알고리즘으로 정렬
+		query = new ArrayList<>();
 		for(int i=1; i<=Q; i++)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -50,7 +58,9 @@ class Main{
 		}
 		
 		Collections.sort(query);
-		
+	}
+	static void solve() {
+		// 2개인 것의 개수를 구함
 		count = new int[idx + 1];
 		twoCnt = 0;
 		int L = 1;
@@ -64,7 +74,9 @@ class Main{
 			
 			ans[q.idx] = twoCnt; 
 		}
-		
+	}
+	static void print() {
+		// 결과 출력
 		StringBuilder sb = new StringBuilder();
 		
 		for(int i=1; i<=Q; i++)
@@ -72,6 +84,7 @@ class Main{
 		
 		System.out.print(sb);
 	}
+	
 	static void minus(int num) {
 		if(count[num] == 3)
 			++twoCnt;
