@@ -17,21 +17,23 @@ class Main{
 		N = Integer.parseInt(st.nextToken())+1;// 1 <= 1,000
 		M = Integer.parseInt(st.nextToken());//	1 <= N * (N-1) / 2
 		
-		PriorityQueue<Node> max = new PriorityQueue<Node>((a,b)->b.flag - a.flag);
-		PriorityQueue<Node> min = new PriorityQueue<Node>((a,b)->a.flag - b.flag);
+		PriorityQueue<Node> max = new PriorityQueue<>();
+		PriorityQueue<Node> min = new PriorityQueue<>();
 		
 		for(int i=0; i<=M; i++)
 		{
 			st = new StringTokenizer(br.readLine());
 			int n1 = Integer.parseInt(st.nextToken())+1;
 			int n2 = Integer.parseInt(st.nextToken())+1;
-			int f = Integer.parseInt(st.nextToken());
-			Node node = new Node(n1, n2, f ^ 1);
-			max.add(node);
-			min.add(node);
+			int c = Integer.parseInt(st.nextToken());
+
+			max.add(new Node(n1, n2, c));
+			min.add(new Node(n1, n2, c ^ 1));
 		}
 		
-		System.out.print(cal(max) - cal(min));
+		int MAX = N - cal(max) - 1;
+		int MIN = cal(min);
+		System.out.print(MAX * MAX - MIN * MIN);
 	}
 	static int cal(PriorityQueue<Node> pq) {
 		int res = 0;
@@ -50,7 +52,7 @@ class Main{
 			if(p1 != p2)
 			{
 				edgeCnt += 1;
-				res += now.flag;
+				res += now.cost;
 				if(parent[p1] < parent[p2])
 					parent[p2] = p1;
 				else
@@ -59,7 +61,7 @@ class Main{
 		}
 		
 		
-		return res * res;
+		return res;
 	}
 	static int getParent(int node, int[] parent) {
 		if(parent[node] == node)
@@ -67,12 +69,16 @@ class Main{
 		
 		return parent[node] = getParent(parent[node], parent);
 	}
-	static class Node{
-		int node1, node2, flag;
+	static class Node implements Comparable<Node>{
+		int node1, node2, cost;
 		Node(int n1, int n2, int f){
 			node1 = n1;
 			node2 = n2;
-			flag = f;
+			cost = f;
+		}
+		@Override
+		public int compareTo(Node o) {
+			return cost - o.cost;
 		}
 	}
 }
