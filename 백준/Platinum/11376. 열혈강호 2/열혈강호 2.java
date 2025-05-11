@@ -45,24 +45,19 @@ class Main{
 	static boolean dfs(int job) {
 		for(int person : adList[job])
 		{
-			if(visit[person][0] && visit[person][1])
-				continue;
-			
-			if(!visit[person][0])
-				visit[person][0] = true;
-			else
-				visit[person][1] = true;
-			
 			for(int i=0; i<=1; i++)
 			{
+				if(visit[person][i])
+					continue;
+				
+				visit[person][i] = true;
+				
 				if(match[person][i&1] != job && (match[person][i] == 0 || dfs(match[person][i])))
 				{
 					match[person][i] = job;
 					return true;
 				}
 			}
-			
-			
 		}
 		return false;
 	}
