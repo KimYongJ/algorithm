@@ -34,12 +34,14 @@ class Main{
 		}
 		
 		int cnt = 0;
+		
 		for(int job=1; job<=M; job++)
 		{
 			visit = new boolean[N + 1][2];
 			if(dfs(job))
 				++cnt;
 		}
+		
 		System.out.print(cnt);
 	}
 	static boolean dfs(int job) {
