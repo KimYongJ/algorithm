@@ -18,7 +18,6 @@
 //답 : 4
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 class Main{
@@ -26,7 +25,7 @@ class Main{
 	static int N, M;
 	static int[] match;						// idx : 노트북 번호, value : 매칭된 사람 번호
 	static boolean[] visit;					// idx : 노트북 번호, value : 해당 노트북을 방문했었는지 체크
-	static ArrayList<Integer>[] adList;
+	static Node[] adNode;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,17 +33,14 @@ class Main{
 		N		= Integer.parseInt(st.nextToken());	// 사람 수 1<=100
 		M		= Integer.parseInt(st.nextToken());	// 노트북 예상 수(0<=5,000)
 		match	= new int[N + 1];
-		adList	= new ArrayList[N + 1];
-		
-		for(int i=0; i<=N; i++)
-			adList[i] = new ArrayList<>();
+		adNode	= new Node[N + 1];
 		
 		for(int i=0; i<M; i++)
 		{
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
-			adList[a].add(b);
+			adNode[a] = new Node(b, adNode[a]);
 		}
 		
 		int cnt = 0;
@@ -59,8 +55,10 @@ class Main{
 		System.out.print(cnt);
 	}
 	static boolean dfs(int person) {
-		for(int noteBook : adList[person])
+		for(Node next = adNode[person]; next != null; next=next.next)
 		{
+			int noteBook = next.noteBook;
+			
 			if(visit[noteBook])
 				continue;
 			
@@ -74,5 +72,13 @@ class Main{
 			
 		}
 		return false;
+	}
+	static class Node{
+		int noteBook;
+		Node next;
+		Node(int noteBook, Node next){
+			this.noteBook = noteBook;
+			this.next = next;
+		}
 	}
 }
