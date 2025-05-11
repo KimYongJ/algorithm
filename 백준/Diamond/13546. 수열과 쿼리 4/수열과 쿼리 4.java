@@ -49,52 +49,10 @@ class Main{
 		int R = 0;
 		for(Query q : query)
 		{
-			while(q.left < L) {
-				--L;
-				
-				int now = arr[L];
-				
-				cal(now, -1);
-				
-				idxList[now].addFirst(L);
-				
-				cal(now, 1);
-			}
-
-			while(R < q.right) {
-				++R;
-				
-				int now = arr[R];
-				
-				cal(now, -1);
-				
-				idxList[now].addLast(R);
-				
-				cal(now, 1);
-			}
-			while(L < q.left) {
-				
-				int now = arr[L];
-
-				cal(now, -1);
-				
-				idxList[now].removeFirst();
-				
-				cal(now, 1);
-				
-				++L;
-			}
-			while(q.right < R) {
-				int now = arr[R];
-
-				cal(now, -1);
-				
-				idxList[now].removeLast();
-				
-				cal(now, 1);
-				
-				--R;
-			}
+			while(q.left < L)	excute(--L, 1);
+			while(R < q.right)	excute(++R, 2);
+			while(L < q.left)	excute(L++, 3);
+			while(q.right < R)	excute(R--, 4);
 			
 			ans[q.idx] = find(); 
 		}
@@ -105,6 +63,21 @@ class Main{
 			sb.append(ans[i]).append('\n');
 		
 		System.out.print(sb);
+	}
+	static void excute(int idx, int flag) {
+		int now = arr[idx];
+		
+		cal(now, -1);
+		
+		switch(flag)
+		{
+			case 1:idxList[now].addFirst(idx); break;
+			case 2:idxList[now].addLast(idx); break;
+			case 3:idxList[now].removeFirst();break;
+			case 4:idxList[now].removeLast();
+		}
+		
+		cal(now, 1);
 	}
 	static void cal(int now, int plus) {
 	    if(idxList[now].size() > 0)
