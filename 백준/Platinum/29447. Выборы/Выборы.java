@@ -68,10 +68,11 @@ class Main{
 		int R = 0;
 		for(Query q : query)
 		{
+			while(q.left < L)	plus(arr[--L]);
 			while(R < q.right)	plus(arr[++R]);
 			while(q.right < R)	minus(arr[R--]);
 			while(L < q.left)	minus(arr[L++]);
-			while(q.left < L)	plus(arr[--L]);
+			
 
 			ans[q.idx] = max;
 		}
@@ -106,7 +107,13 @@ class Main{
 		}
 		@Override
 		public int compareTo(Query o) {
-			return fac != o.fac ? fac - o.fac : right - o.right;
+			if(fac != o.fac)
+				return fac - o.fac;
+			
+			if(fac % 2 == 0)
+				return right - o.right;
+			
+			return o.right - right;
 		}
 	}
 }
