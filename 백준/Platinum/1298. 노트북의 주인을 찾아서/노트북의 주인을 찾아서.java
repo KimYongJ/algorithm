@@ -1,4 +1,3 @@
-//https://github.com/KimyongJ/algorithm
 //https://www.acmicpc.net/problem/1298
 //2초 128MB
 //5 13	// 사람 수 1<=100, 노트북 예상 수(0<=5,000)
@@ -16,9 +15,6 @@
 //5 4
 //5 5
 //답 : 4
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -28,18 +24,16 @@ class Main{
 	static Node[] adNode;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N		= Integer.parseInt(st.nextToken());	// 사람 수 1<=100
-		M		= Integer.parseInt(st.nextToken());	// 노트북 예상 수(0<=5,000)
+		Reader in = new Reader();
+		N		= in.nextInt();	// 사람 수 1<=100
+		M		= in.nextInt();	// 노트북 예상 수(0<=5,000)
 		match	= new int[N + 1];
 		adNode	= new Node[N + 1];
 		
 		for(int i=0; i<M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = in.nextInt();
+			int b = in.nextInt();
 			adNode[a] = new Node(b, adNode[a]);
 		}
 		
@@ -81,4 +75,33 @@ class Main{
 			this.next = next;
 		}
 	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
+	}
+
 }
