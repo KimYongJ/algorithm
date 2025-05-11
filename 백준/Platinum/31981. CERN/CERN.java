@@ -98,7 +98,7 @@ class Main{
 		if(len <= maxFreq * 2)
 			return 1;
 		// 구간의 길이가 홀수면, 각 원소 수만큼 남길 수 있고
-		// 구간의 길이가 짝수면, 정확히 2번 등장하는 것만 남길 수 있음
+		// 구간의 길이가 짝수면, 2번이상 등장하는 것만 남길 수 있음
 		return (len & 1) == 1 ? countElement : count2;
 	}
 	static class Query implements Comparable<Query>{
