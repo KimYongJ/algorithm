@@ -15,11 +15,8 @@
 //6
 //답 : 4
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -30,24 +27,24 @@ class Main{
 	static ArrayList<Integer>[] adList;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 티셔츠 수(1<=200)
-		M = Integer.parseInt(st.nextToken());// 카라 수(1<=200)
+		Reader in = new Reader();
+		N = in.nextInt();// 티셔츠 수(1<=200)
+		M = in.nextInt();// 카라 수(1<=200)
 		tarea = new int[N + 1];
 		match = new int[M + 1];
 		visit = new boolean[M + 1];
 		adList = new ArrayList[N + 1];// 티셔츠마다 연결가능한 카라를 저장한다.
+		
 		// 티셔츠 넓이 입력 및 list초기화
 		for(int i=1; i<=N; i++)
 		{
-			tarea[i] = Integer.parseInt(br.readLine());
+			tarea[i] = in.nextInt();
 			adList[i] = new ArrayList<>();
 		}
 		// 카라를 입력 받으며 입력 받은 카라가 어느 티셔츠에 붙일 수 있는지 저장
 		for(int i=1; i<=M; i++)
 		{
-			float collar = Float.parseFloat(br.readLine());
+			float collar = in.nextInt();// 카라 넓이를 입력 받음
 			
 			for(int j=1; j<=N; j++)
 			{
@@ -62,12 +59,14 @@ class Main{
 		}
 		
 		int cnt = 0;
+		
 		for(int i=1; i<=N; i++)
 		{
 			Arrays.fill(visit, false);
 			if(dfs(i))
 				++cnt;
 		}
+		
 		System.out.print(cnt);		
 	}
 	static boolean dfs(int tshirt)
@@ -88,4 +87,33 @@ class Main{
 		
 		return false;
 	}
+}
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+    
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
