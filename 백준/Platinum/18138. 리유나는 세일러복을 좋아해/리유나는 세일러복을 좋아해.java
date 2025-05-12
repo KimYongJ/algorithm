@@ -18,6 +18,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 class Main{
@@ -35,6 +36,7 @@ class Main{
 		M = Integer.parseInt(st.nextToken());// 카라 수(1<=200)
 		tarea = new int[N + 1];
 		match = new int[M + 1];
+		visit = new boolean[M + 1];
 		adList = new ArrayList[N + 1];// 티셔츠마다 연결가능한 카라를 저장한다.
 		// 티셔츠 넓이 입력 및 list초기화
 		for(int i=1; i<=N; i++)
@@ -62,7 +64,7 @@ class Main{
 		int cnt = 0;
 		for(int i=1; i<=N; i++)
 		{
-			visit = new boolean[M + 1];
+			Arrays.fill(visit, false);
 			if(dfs(i))
 				++cnt;
 		}
