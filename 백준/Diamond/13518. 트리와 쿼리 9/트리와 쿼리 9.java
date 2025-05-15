@@ -1,69 +1,143 @@
-import java.util.*;
+//https://www.acmicpc.net/problem/13518
+//2초 512MB
+//8// 노드 수 2<=100,000
+//105 2 9 3 8 5 7 7 // 가중치 1,000,000
+//1 2	// 노드수 -1 개줄에 연결 간선 주어짐
+//1 3
+//1 4
+//3 5
+//3 6
+//3 7
+//4 8
+//2	// 쿼리 수 1<=100,000
+//2 5	// 두 노드가 주어짐
+//7 8
+////두 노드 사이 서로다른 정점의 가중치의 개수 답 : 
+//4
+//4
 
-public class Main {
-    static class Query {
-        int s, e, i, k; // 쿼리 정보: 시작노드 s, 끝노드 e, 인덱스 i, 공통조상 k
-    }
-    static Scanner sc = new Scanner(System.in);
-    static final int N = 100001;
-    static List<Integer>[] graph = new ArrayList[N];
-    static int[] in = new int[N], out = new int[N], rec = new int[N * 2];
-    static int[][] dp = new int[N][18];
-    static int[] depth = new int[N], weight = new int[N];
-    static int[] nodeCount = new int[N];
-    static int[] weightCount = new int[N * 10];
-    static int[] answer = new int[N];
-    static Query[] queries = new Query[N];
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
 
-    static int n, q;
-    static int o = 0, ro = 0, t = 0; // 방문 순서, Euler 순서 index, 결과 값
-
-    public static void main(String[] args) {
-        initGraph();
-        dfsLCA(1, 1); // 루트부터 LCA용 깊이, dfs 방문 처리
-        buildLcaTable(); // dp배열로 2^j 번째 부모 저장
-        processQueries(); // 쿼리 정리 및 정렬
-        solve(0, 0); // Mo's 알고리즘으로 결과 처리
-    }
-
-    // 입력 및 그래프 초기화
-    static void initGraph() {
-
-        n = sc.nextInt();
-        for (int i = 0; i <= n; i++) graph[i] = new ArrayList<>();
-        for (int i = 1; i <= n; i++) weight[i] = sc.nextInt(); // 노드별 값
-        for (int i = 1; i < n; i++) {
-            int u = sc.nextInt(), v = sc.nextInt();
-            graph[u].add(v);
-            graph[v].add(u);
+class Main{
+	
+	static int N, Q;
+	static int idx;		// ETT진행시 순차 증가할 인덱스
+	static int sqrt;	// Mo's알고리즘을 위한 변수
+	static int in[];	// ETT진행시 진입 인덱스	 (idx : 노드번호) (value : all배열의 인덱스)
+	static int out[];	// ETT진행시 나가는 인덱스(idx : 노드번호) (value : all배열의 인덱스)
+	static int all[];	// 트리를 1차원으로 표현, ETT in과 out을 모두 담음( idx : ETT변환 인덱스) (value : 노드번호)
+	static int arr[];	// 각 노드마다의 가중치를 담음
+	static int depth[];	// LCA구할 때 사용
+	static int dp[][];	// LCA를 빠르게 구하기 위한 dp배열
+	static int cnt[];	// (idx : 가중치) (value : 가중치의 당장횟수)
+	static int nodeCnt[]; // 해당 노드의 등장 횟수
+	static int ans;		// 최종적으로 구한 서로 다른 가중치의 개수
+	static int result[];
+	static ArrayList<Integer> adList[];// 인접리스트
+	static ArrayList<Query> query;
+	
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N = Integer.parseInt(br.readLine());
+		sqrt = (int)Math.sqrt(N<<1);
+		in = new int[N + 1];
+		out = new int[N + 1];
+		all = new int[(N << 1) + 1];
+		arr = new int[N + 1];
+		adList = new ArrayList[N + 1];
+		depth = new int[N + 1];
+		dp = new int[N + 1][18];
+		query = new ArrayList<>();
+		cnt = new int[1_000_001];
+		nodeCnt = new int[N + 1];
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for(int i=1; i<=N; i++)
+		{
+			arr[i] = Integer.parseInt(st.nextToken());// 각 노드당 가중치를 입력받음
+			adList[i] = new ArrayList<>();// 인접리스트도 같이 초기화
+		}
+		
+		for(int i=1; i<N; i++)
+		{
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			adList[a].add(b);
+			adList[b].add(a);
+		}
+		
+		dfs(1, 1);			// 트리 1차원화 + LCA를 위한 기본 세팅
+		buildLcaTable();	// LCA를 위한 dp테이블 세팅
+		
+		Q = Integer.parseInt(br.readLine());// 쿼리 수
+		result = new int[Q + 1];
+		for(int i=1; i<=Q; i++)
+		{
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			int lca = getLCA(a,b);
+			
+			if(in[a] > in[b])
+			{
+				int tmp = a;
+				a = b;
+				b = tmp;
+			}
+			
+			if(lca == a)
+			{
+				query.add(new Query(in[a], in[b], 0, in[a] / sqrt, i));
+				continue;
+			}
+			
+			query.add(new Query(out[a], in[b], lca, out[a] / sqrt, i));
+		}
+		
+		Collections.sort(query);
+		
+		int L = 0;
+		int R = 0;
+		for(Query q : query)
+		{
+			while(R < q.right) toggle(all[++R],1);
+			while(q.left < L) toggle(all[--L],1);
+			while(q.right < R) toggle(all[R--],-1);
+			while(L < q.left) toggle(all[L++],-1);
+			
+			if(q.lca != 0) toggle(q.lca,1);
+			
+			result[q.idx] = ans; 
+			
+			if(q.lca != 0) toggle(q.lca,-1);
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i=1; i<=Q; i++)
+			sb.append(result[i]).append('\n');
+		
+		System.out.print(sb);
+	}
+    static void toggle(int node, int add) {
+        
+        nodeCnt[node] += add;
+        if (nodeCnt[node] == 1)
+        {
+            if (++cnt[arr[node]] == 1)
+            	ans++;
+        }
+        if (nodeCnt[node] == (add > 0 ? 2 : 0))
+        {
+            if (--cnt[arr[node]] == 0)
+            	ans--;
         }
     }
-
-    // DFS로 LCA를 위한 Euler Tour 진행
-    static void dfsLCA(int node, int d) {
-        depth[node] = d;
-        in[node] = ++o;
-        rec[++ro] = node;
-        for (int next : graph[node]) {
-            if (depth[next] == 0) {
-                dp[next][0] = node; // 바로 위 부모 저장
-                dfsLCA(next, d + 1);
-            }
-        }
-        out[node] = ++o;
-        rec[++ro] = node;
-    }
-
-    // LCA용 Sparse Table 구축 (dp[i][j] = i번 노드의 2^j번째 조상)
-    static void buildLcaTable() {
-        for (int j = 1; j < 18; j++) {
-            for (int i = 1; i <= n; i++) {
-                dp[i][j] = dp[dp[i][j - 1]][j - 1];
-            }
-        }
-    }
-
-    // LCA 구하기
     static int getLCA(int u, int v) {
         if (depth[u] < depth[v]) {
             int temp = u;
@@ -86,64 +160,46 @@ public class Main {
         }
         return u;
     }
-
-    // 쿼리 입력 및 사전 처리
-    static void processQueries() {
-        q = sc.nextInt();
-        for (int i = 0; i < q; i++) {
-            int s = sc.nextInt(), e = sc.nextInt();
-            queries[i] = new Query();
-            queries[i].s = s;
-            queries[i].e = e;
-            queries[i].i = i;
-            if (in[s] > in[e]) {
-                int tmp = s;
-                s = e;
-                e = tmp;
-            }
-            int lca = getLCA(s, e);
-            queries[i].e = in[e];
-            if (s == lca) {
-                queries[i].s = in[s];
-            } else {
-                queries[i].s = out[s];
-                queries[i].k = in[lca];
-            }
-        }
-        Arrays.sort(queries, 0, q, (a, b) -> {
-            int blockSize = 400;
-            if (a.s / blockSize != b.s / blockSize) return a.s / blockSize - b.s / blockSize;
-            return a.e - b.e;
-        });
-    }
-
-    // 쿼리의 구간에 따라 노드 추가/삭제
-    static void toggle(int node, int add) {
-        int val = weight[node];
-        nodeCount[node] += add;
-        if (nodeCount[node] == 1) {
-            weightCount[val]++;
-            if (weightCount[val] == 1) t++;
-        }
-        if (nodeCount[node] == (add > 0 ? 2 : 0)) {
-            weightCount[val]--;
-            if (weightCount[val] == 0) t--;
-        }
-    }
-
-    // Mo's 알고리즘 수행
-    static void solve(int s, int e) {
-        for (int i = 0; i < q; i++) {
-            while (s > queries[i].s) toggle(rec[--s], 1);
-            while (s < queries[i].s) toggle(rec[s++], -1);
-            while (e > queries[i].e) toggle(rec[e--], -1);
-            while (e < queries[i].e) toggle(rec[++e], 1);
-            if (queries[i].k != 0) toggle(rec[queries[i].k], 1);
-            answer[queries[i].i] = t;
-            if (queries[i].k != 0) toggle(rec[queries[i].k], -1);
-        }
-        for (int i = 0; i < q; i++) {
-            System.out.println(answer[i]);
-        }
-    }
+	static void buildLcaTable()
+	{
+		for(int j=1; j<18; j++)
+			for(int i=1; i<=N; i++)
+				dp[i][j] = dp[dp[i][j-1]][j-1];
+	}
+	static void dfs(int now, int dep) {
+		depth[now] = dep;	// LCA를 위한 깊이 저장
+		in[now] = ++idx;	// 트리의 진입 정보를 담음
+		all[idx] = now;	// 트리 순회를 1차원 배열로 저장
+		for(int next : adList[now])
+		{
+			if(depth[next] != 0)// 방문한 적이 있다면 스킵
+				continue;
+			
+			dp[next][0] = now;	// LCA를 위해 부모노드 저장
+			
+			dfs(next, dep + 1);
+		}
+		out[now] = ++idx;
+		all[idx] = now;		
+	}
+	static class Query implements Comparable<Query>{
+		int left, right, lca, fac, idx;
+		Query(int left, int right, int lca, int fac, int idx){
+			this.left = left;
+			this.right = right;
+			this.lca = lca;
+			this.fac = fac;
+			this.idx = idx;
+		}
+		@Override
+		public int compareTo(Query o) {
+			if(fac != o.fac)
+				return fac - o.fac;
+			
+			if((fac&1) == 0)
+				return right - o.right;
+			
+			return o.right - right;
+		}
+	}
 }
