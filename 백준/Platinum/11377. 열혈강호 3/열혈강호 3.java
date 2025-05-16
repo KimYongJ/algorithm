@@ -65,9 +65,9 @@ class Main{
 		
 		System.out.print(cnt);
 	}
-	// dfs 함수는 job에 사람이 매칭될 때마다 true를 반환한다. person이 갖고있는 일에 대해 매칭이 어쨋든 가능하면 무조건 true반환
-	// 내가 갖고있는 job을 내가 할 수 있는지 확인하기 위해, 내가 할 수 있는 job에 다른 사람이 매칭되있다면,
-	// 그 사람에게 다른 job으로 갈 수 있는지 끊임 연쇄적으로 없이 묻는다.
+	// dfs 함수는 job에 사람이 매칭될 때마다 true를 반환. person이 갖고있는 일에 대해 매칭이 어쨋든 가능하면 무조건 true반환
+	// 내가 갖고있는 job을 내가 할 수 있는지 확인하기 위해, 내가 할 수 있는 job에 사람이 매칭되어있다면,
+	// 그 사람에게 다른 job으로 갈 수 있는지 연쇄적으로 계속 묻는다.
 	static boolean dfs(int person)
 	{
 		for(int job : adList[person])
