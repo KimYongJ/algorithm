@@ -13,16 +13,16 @@ class Solution {
         {
             int len = mats[i];
 
-            for(int x=0; x <= xmax - len; x++)
-                for(int y=0; y <= ymax - len; y++)
+            for(int x=xmax - len; x >= 0; x--)
+                for(int y=ymax - len; y >= 0; y--)
                     if(isPos(x, y, len, park))
                         return len;
         }
         return -1;
     }
     public boolean isPos(int x, int y, int len, String[][] park){
-        for(int x1 = x; x1 < x+len; x1++)
-            for(int y1 = y; y1 < y+len; y1++)
+        for(int x1 = x+len-1; x1 >= x; x1--)
+            for(int y1 = y+len-1; y1 >= y; y1--)
                 if(!"-1".equals(park[y1][x1]))
                     return false;
         
