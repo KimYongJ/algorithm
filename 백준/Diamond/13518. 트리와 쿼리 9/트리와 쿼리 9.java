@@ -24,6 +24,8 @@ import java.util.StringTokenizer;
 
 class Main{
 	
+	static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
 	static int N, Q;
 	static int idx;		// ETT진행시 순차 증가할 인덱스
 	static int sqrt;	// Mo's알고리즘을 위한 변수
@@ -41,7 +43,13 @@ class Main{
 	static ArrayList<Query> query;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		init();// 기본 입력 받기
+		dfs(1, 1);// 트리 1차원화 + LCA를 위한 기본 세팅
+		buildLcaTable();// LCA를 위한 dp테이블 세팅
+		inputQuery();// 쿼리 입력 및 1차원 배열 인덱스로 치환
+		solve();// 투포인터로 해결
+	}
+	static void init()throws Exception{
 		N = Integer.parseInt(br.readLine());
 		sqrt = (int)Math.sqrt(N<<1);
 		in = new int[N + 1];
@@ -55,7 +63,7 @@ class Main{
 		cnt = new int[1_000_001];
 		nodeCnt = new int[N + 1];
 		
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
 		{
 			arr[i] = Integer.parseInt(st.nextToken());// 각 노드당 가중치를 입력받음
@@ -70,10 +78,30 @@ class Main{
 			adList[a].add(b);
 			adList[b].add(a);
 		}
-		
-		dfs(1, 1);			// 트리 1차원화 + LCA를 위한 기본 세팅
-		buildLcaTable();	// LCA를 위한 dp테이블 세팅
-		
+	}
+	static void dfs(int now, int dep) {
+		depth[now] = dep;	// LCA를 위한 깊이 저장
+		in[now] = ++idx;	// 트리의 진입 정보를 담음
+		all[idx] = now;	// 트리 순회를 1차원 배열로 저장
+		for(int next : adList[now])
+		{
+			if(depth[next] != 0)// 방문한 적이 있다면 스킵
+				continue;
+			
+			dp[next][0] = now;	// LCA를 위해 부모노드 저장
+			
+			dfs(next, dep + 1);
+		}
+		out[now] = ++idx;
+		all[idx] = now;		
+	}
+	static void buildLcaTable()
+	{
+		for(int j=1; j<18; j++)
+			for(int i=1; i<=N; i++)
+				dp[i][j] = dp[dp[i][j-1]][j-1];
+	}
+	static void inputQuery()throws Exception {
 		Q = Integer.parseInt(br.readLine());// 쿼리 수
 		result = new int[Q + 1];
 		for(int i=1; i<=Q; i++)
@@ -100,21 +128,22 @@ class Main{
 		}
 		
 		Collections.sort(query);
-		
-		int L = 0;
+	}
+	static void solve() {
+		int L = 1;
 		int R = 0;
 		for(Query q : query)
 		{
-			while(R < q.right) toggle(all[++R],1);
-			while(q.left < L) toggle(all[--L],1);
-			while(q.right < R) toggle(all[R--],-1);
-			while(L < q.left) toggle(all[L++],-1);
+			while(R < q.right) plus(all[++R]);
+			while(q.left < L) plus(all[--L]);
+			while(q.right < R) minus(all[R--]);
+			while(L < q.left) minus(all[L++]);
 			
-			if(q.lca != 0) toggle(q.lca,1);
+			if(q.lca != 0) plus(q.lca);
 			
 			result[q.idx] = ans; 
 			
-			if(q.lca != 0) toggle(q.lca,-1);
+			if(q.lca != 0) minus(q.lca);
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -124,20 +153,25 @@ class Main{
 		
 		System.out.print(sb);
 	}
-    static void toggle(int node, int add) {
-        
-        nodeCnt[node] += add;
-        if (nodeCnt[node] == 1)
-        {
-            if (++cnt[arr[node]] == 1)
-            	ans++;
-        }
-        if (nodeCnt[node] == (add > 0 ? 2 : 0))
-        {
-            if (--cnt[arr[node]] == 0)
-            	ans--;
-        }
-    }
+	static void plus(int node) {
+		++nodeCnt[node];
+		if(nodeCnt[node] == 1) {
+			if(++cnt[arr[node]] == 1)
+				++ans;
+		}
+		else if(--cnt[arr[node]] == 0)
+				--ans;
+	}
+	static void minus(int node) {
+		--nodeCnt[node];
+		if(nodeCnt[node] == 0) {
+			if(--cnt[arr[node]] == 0)
+				--ans;
+		}
+		else if(++cnt[arr[node]] == 1)
+			++ans;
+	}
+
     static int getLCA(int u, int v) {
         if (depth[u] < depth[v]) {
             int temp = u;
@@ -160,28 +194,6 @@ class Main{
         }
         return u;
     }
-	static void buildLcaTable()
-	{
-		for(int j=1; j<18; j++)
-			for(int i=1; i<=N; i++)
-				dp[i][j] = dp[dp[i][j-1]][j-1];
-	}
-	static void dfs(int now, int dep) {
-		depth[now] = dep;	// LCA를 위한 깊이 저장
-		in[now] = ++idx;	// 트리의 진입 정보를 담음
-		all[idx] = now;	// 트리 순회를 1차원 배열로 저장
-		for(int next : adList[now])
-		{
-			if(depth[next] != 0)// 방문한 적이 있다면 스킵
-				continue;
-			
-			dp[next][0] = now;	// LCA를 위해 부모노드 저장
-			
-			dfs(next, dep + 1);
-		}
-		out[now] = ++idx;
-		all[idx] = now;		
-	}
 	static class Query implements Comparable<Query>{
 		int left, right, lca, fac, idx;
 		Query(int left, int right, int lca, int fac, int idx){
