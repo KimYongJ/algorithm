@@ -50,7 +50,7 @@ class Main{
 		}
 		
 		// idx = 좌표 압축으로 인해 등장 숫자중 최대 숫자가 됨
-		sqrt = (int)Math.sqrt(N);
+		sqrt = (int)Math.sqrt(idx);
 		cnt = new int[idx + 1];
 		fac = new int[idx / sqrt + 2];
 		facFreq = new int[idx / sqrt + 2][N + 1];
