@@ -10,14 +10,14 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
 class Main{
 	
-	static int time;
 	static int match[];
-	static int visitTime[];
+	static boolean visit[];
 	static List<Integer> adList[];
 	
 	public static void main(String[] args)throws Exception{
@@ -31,7 +31,7 @@ class Main{
 		
 		adList = new ArrayList[M + 1];
 		match = new int[N + 1];
-		visitTime = new int[402];
+		visit = new boolean[N + 1];
 		
 		// 여학생의 키 입력
 		st = new StringTokenizer(br.readLine());
@@ -64,7 +64,7 @@ class Main{
 		
 		for(int i=1; i<=M; i++)
 		{
-			++time;
+			Arrays.fill(visit, false);
 			if(dfs(i))
 				++cnt;
 		}
@@ -74,10 +74,10 @@ class Main{
 	public static boolean dfs(int boy) {
 		for(int girl : adList[boy])
 		{
-			if(visitTime[girl] == time)
+			if(visit[girl])
 				continue;
 			
-			visitTime[girl] = time;
+			visit[girl] = true;
 			
 			if(match[girl] == 0 || dfs(match[girl]))
 			{
