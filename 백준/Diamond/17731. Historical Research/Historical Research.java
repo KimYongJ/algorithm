@@ -14,53 +14,47 @@
 //16
 //16
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	
+	static final int PLUS = 1;
+	static final int MINUS = -1;
 	static int sqrt;
 	static int N, Q;
-	static int arr[];
-	static int brr[];
-	static long cnt[];
-	static long ans[];
-	static long tree[];
-	static List<Query> query;
+	static int arr[];// 초기 입력되는 사건의 종류
+	static int brr[];// 값 압축을 위한 배열
+	static long ans[];// 최종 결과를 담을 배열
+	static long tree[];// 구간 최댓값 세그먼트트리, (idx : 압축된 사건의 종류) ( value : 해당 사건 종류의 중요도 )
+	static List<Query> query;// 쿼리
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		Q = Integer.parseInt(st.nextToken());
+		Reader in = new Reader();
+		N = in.nextInt();
+		Q = in.nextInt();
 		sqrt = (int)Math.sqrt(N);
 		arr = new int[N + 1];
 		brr = new int[N + 1];
-		cnt = new long[N + 1];
 		ans = new long[Q + 1];
 		tree = new long[N * 4];
 		query = new ArrayList<>();
 		
 		// 값 압축을 위해 두 배열에 모두 값을 초기화 함
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = brr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = brr[i] = in.nextInt();
 		// 값 압축을 위한 brr배열 정렬
 		Arrays.sort(brr);
 		// 값 압축
 		for(int i=1; i<=N; i++)
 			arr[i] = binarySearch(arr[i]);
-		
+		// 쿼리 입력및 mo's 정렬
 		for(int i=1; i<=Q; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
+			int s = in.nextInt();
+			int e = in.nextInt();
 			query.add(new Query(s, e, i, s / sqrt));
 		}
 		
@@ -71,11 +65,11 @@ class Main{
 		
 		for(Query q : query)
 		{
-			while(e < q.e) plus(arr[++e]);
-			while(q.s < s) plus(arr[--s]);
-			while(q.e < e) minus(arr[e--]);
-			while(s < q.s) minus(arr[s++]);
-			
+			while(e < q.e) cal(arr[++e], PLUS);
+			while(q.s < s) cal(arr[--s], PLUS);
+			while(q.e < e) cal(arr[e--], MINUS);
+			while(s < q.s) cal(arr[s++], MINUS);
+			// 최댓값 세그먼트 트리이기 때문에 tree[1]에 최댓값이 있다.
 			ans[q.idx] = tree[1]; 
 		}
 		
@@ -86,17 +80,9 @@ class Main{
 		
 		System.out.print(sb);
 	}
-
-	static void plus(int idx)
-	{
-		long next = ++cnt[idx] * brr[idx];
-		
-		update(1, 1, N, idx, next);
-	}
-	static void minus(int idx) {
-		long next = --cnt[idx] * brr[idx];
-
-		update(1, 1, N, idx, next);
+	static void cal(int idx, int flag) {
+		// 주어진 값을 세그먼트 트리에 더하거나, 뺀다. flag는 양, 음 플레그
+		update(1, 1, N, idx, brr[idx] * flag);
 		
 	}
 	static void update(int treeNode, int s, int e, int targetIdx, long value) {
@@ -105,7 +91,7 @@ class Main{
 		
 		if(s == e)
 		{
-			tree[treeNode] = value;
+			tree[treeNode] += value;
 			return;
 		}
 		
@@ -152,4 +138,77 @@ class Main{
 			return o.e - e;
 		}
 	}
+}
+
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    String nextString() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        byte c;
+        while ((c = read()) < 32) { if (size < 0) return "endLine"; }
+        do sb.appendCodePoint(c);
+        while ((c = read()) >= 32); // SPACE 분리라면 >로, 줄당 분리라면 >=로
+        return sb.toString();
+    }
+
+    char nextChar() throws Exception {
+        byte c;
+        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+        return (char)c;
+    }
+    
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    long nextLong() throws Exception {
+        long n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32);
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    double nextDouble() throws Exception {
+        double n = 0, div = 1;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -12345; }
+        if (c == 45) { c = read(); isMinus = true; }
+        else if (c == 46) { c = read(); }
+        do n = (n * 10) + (c & 15);
+        while (isNumber(c = read()));
+        if (c == 46) { while (isNumber(c = read())){ n += (c - 48) / (div *= 10); }}
+        return isMinus ? -n : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    boolean isAlphabet(byte c){
+        return (64 < c && c < 91) || (96 < c && c < 123);
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
