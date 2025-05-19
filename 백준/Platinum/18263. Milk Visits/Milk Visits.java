@@ -14,16 +14,12 @@
 //방문 경로에 원하는 소의 유형이 있으면 1, 없으면 0 출력
 //답 : 10110
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
-	static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringTokenizer st;
+	static Reader reader = new Reader();
 	static int N, Q;
 	static int idx;// 오일러 투어시 증가할 증가값
 	static int ans[];// 최종 결과를 담을 배열, 방문 중 해당 소 유형이 있다면 1, 없다면 0을 담음
@@ -48,9 +44,8 @@ class Main{
 		solve();// 투포인터 형식으로 문제 해결 및 출력
 	}
 	static void inputAndInit()throws Exception {
-		st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 노드 수(1<=1,000,000)
-		Q = Integer.parseInt(st.nextToken());// 친구 수(1<=1,000,000)
+		N = reader.nextInt();// 노드 수(1<=1,000,000)
+		Q = reader.nextInt();// 친구 수(1<=1,000,000)
 		ans = new int[Q + 1];
 		cow = new int[N + 1];
 		cnt = new int[N + 1];
@@ -66,19 +61,16 @@ class Main{
 		chainHeader[1] = 1;// 1의 헤더는 자기자신
 		chainParent[1] = 1;// 1의 다음 점프도 자기자신
 		
-		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
 		{
 			adList[i] = new ArrayList<>();
-			cow[i] = Integer.parseInt(st.nextToken());// 소의 유형(1<=노드 수)
+			cow[i] = reader.nextInt();// 소의 유형(1<=노드 수)
 		}
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = reader.nextInt();
+			int b = reader.nextInt();
 			adList[a].add(b);
 			adList[b].add(a);
 		}
@@ -138,10 +130,9 @@ class Main{
 	static void inputQuery()throws Exception{
 		for(int i=1, sqrt = (int)Math.sqrt(idx); i<=Q; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
-			int c = Integer.parseInt(st.nextToken());// 원하는 소의 유형
+			int s = reader.nextInt();
+			int e = reader.nextInt();
+			int c = reader.nextInt();// 원하는 소의 유형
 			int lca = getLCA(s,e);
 			if(in[s] > in[e])
 			{
@@ -240,4 +231,34 @@ class Main{
 			return o.e - e;
 		}
 	}
+}
+
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
