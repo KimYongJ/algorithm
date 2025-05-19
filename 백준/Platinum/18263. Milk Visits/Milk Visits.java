@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 class Main{
-	
+	static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static StringTokenizer st;
 	static int N, Q;
 	static int idx;// 오일러 투어시 증가할 증가값
 	static int ans[];// 최종 결과를 담을 배열, 방문 중 해당 소 유형이 있다면 1, 없다면 0을 담음
@@ -40,8 +41,14 @@ class Main{
 
 
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		inputAndInit();// 기본 값 입력 및 인접리스트 생성
+		setChild(1, 0, new int[N + 1]);// HLD 알고리즘을 위한 heavy노드 위치 교체만 진행
+		ettDfs(1, 1);// 오일러 투어 + HLD 체인분할 진행
+		inputQuery();// 쿼리를 입력 받아 1차원 배열에 대응 시키고 Mo's정렬
+		solve();// 투포인터 형식으로 문제 해결 및 출력
+	}
+	static void inputAndInit()throws Exception {
+		st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());// 노드 수(1<=1,000,000)
 		Q = Integer.parseInt(st.nextToken());// 친구 수(1<=1,000,000)
 		ans = new int[Q + 1];
@@ -56,8 +63,8 @@ class Main{
 		chainParent = new int[N + 1];
 		query = new ArrayList<>();
 		adList = new ArrayList[N + 1];
-		chainHeader[1] = 1;// 체인 1의 헤더는 자기자신
-		chainParent[1] = 1;
+		chainHeader[1] = 1;// 1의 헤더는 자기자신
+		chainParent[1] = 1;// 1의 다음 점프도 자기자신
 		
 		
 		st = new StringTokenizer(br.readLine());
@@ -75,10 +82,60 @@ class Main{
 			adList[a].add(b);
 			adList[b].add(a);
 		}
+	}
+	static void setChild(int nowNode, int parentNode, int size[]) {
+		int heavySize = 0;
+		int heavyIdx = 0;
+		size[nowNode] = 1;
+		for(int i=0; i<adList[nowNode].size(); i++)
+		{
+			int nextNode = adList[nowNode].get(i);
+			
+			if(nextNode == parentNode)
+				continue;
+			
+			setChild(nextNode, nowNode, size);
+			
+			size[nowNode] += size[nextNode];
+			
+			if(heavySize < size[nextNode])
+			{
+				heavySize = size[nextNode];
+				heavyIdx = i;
+			}
+		}
 		
-		setChild(1, 0, new int[N + 1]);
-		ettDfs(1, 1);
+		Collections.swap(adList[nowNode], 0, heavyIdx);
+	}
+	static void ettDfs(int nowNode, int level) {
+		in[nowNode] = ++idx;
+		ett[idx] = nowNode;
+		chainLevel[nowNode] = level;
 		
+		for(int i=0; i<adList[nowNode].size(); i++)
+		{
+			int nextNode = adList[nowNode].get(i);
+			
+			if(chainHeader[nextNode] != 0)// 이미 방문한 노드면 스킵
+				continue;
+				
+			if(i == 0)// heavy child이면 체인 유지
+			{
+				chainHeader[nextNode] = chainHeader[nowNode];
+				chainParent[nextNode] = chainParent[nowNode];
+				ettDfs(nextNode, level);
+				continue;
+			}
+			// light child이면 새로운 체인 생성
+			chainHeader[nextNode] = nextNode;
+			chainParent[nextNode] = nowNode;
+			ettDfs(nextNode, level + 1);// 새로운 체인은 레벨 증가
+		}
+		
+		out[nowNode] = ++idx;
+		ett[idx] = nowNode;
+	}
+	static void inputQuery()throws Exception{
 		for(int i=1, sqrt = (int)Math.sqrt(idx); i<=Q; i++)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -100,7 +157,26 @@ class Main{
 		}
 		
 		Collections.sort(query);
-		
+	}
+	static int getLCA(int node1, int node2) {
+		if(in[node1] > in[node2])
+		{
+			int tmp = node1;
+			node1 = node2;
+			node2 = tmp;
+		}
+		// 같은 체인이 될 때 까지 레벨이 높은 것을 낮게 하여 위로 올린다.
+		while(chainHeader[node1] != chainHeader[node2])
+		{
+			if(chainLevel[node1] > chainLevel[node2])
+				node1 = chainParent[node1];
+			else
+				node2 = chainParent[node2];
+		}
+		// 같은 체인이면 오일러 투어시 먼저 진입한 노드를 반환
+		return in[node1] > in[node2] ? node2 : node1;
+	}
+	static void solve() {
 		int s = 1;
 		int e = 0;
 		
@@ -142,76 +218,6 @@ class Main{
 			++cnt[cow[node]];
 		else
 			--cnt[cow[node]];
-	}
-	static int getLCA(int node1, int node2) {
-		if(in[node1] > in[node2])
-		{
-			int tmp = node1;
-			node1 = node2;
-			node2 = tmp;
-		}
-		// 같은 체인이 될 때 까지 레벨이 높은 것을 낮게 하여 위로 올린다.
-		while(chainHeader[node1] != chainHeader[node2])
-		{
-			if(chainLevel[node1] > chainLevel[node2])
-				node1 = chainParent[node1];
-			else
-				node2 = chainParent[node2];
-		}
-		// 같은 체인이면 오일러 투어시 먼저 진입한 노드를 반환
-		return in[node1] > in[node2] ? node2 : node1;
-	}
-	static void ettDfs(int nowNode, int level) {
-		in[nowNode] = ++idx;
-		ett[idx] = nowNode;
-		chainLevel[nowNode] = level;
-		
-		for(int i=0; i<adList[nowNode].size(); i++)
-		{
-			int nextNode = adList[nowNode].get(i);
-			
-			if(chainHeader[nextNode] != 0)// 이미 방문한 노드면 스킵
-				continue;
-				
-			if(i == 0)// heavy child이면 체인 유지
-			{
-				chainHeader[nextNode] = chainHeader[nowNode];
-				chainParent[nextNode] = chainParent[nowNode];
-				ettDfs(nextNode, level);
-				continue;
-			}
-			// light child이면 새로운 체인 생성
-			chainHeader[nextNode] = nextNode;
-			chainParent[nextNode] = nowNode;
-			ettDfs(nextNode, level + 1);// 새로운 체인은 레벨 증가
-		}
-		
-		out[nowNode] = ++idx;
-		ett[idx] = nowNode;
-	}
-	static void setChild(int nowNode, int parentNode, int size[]) {
-		int heavySize = 0;
-		int heavyIdx = 0;
-		size[nowNode] = 1;
-		for(int i=0; i<adList[nowNode].size(); i++)
-		{
-			int nextNode = adList[nowNode].get(i);
-			
-			if(nextNode == parentNode)
-				continue;
-			
-			setChild(nextNode, nowNode, size);
-			
-			size[nowNode] += size[nextNode];
-			
-			if(heavySize < size[nextNode])
-			{
-				heavySize = size[nextNode];
-				heavyIdx = i;
-			}
-		}
-		
-		Collections.swap(adList[nowNode], 0, heavyIdx);
 	}
 	static class Query implements Comparable<Query>{
 		int s, e, idx, fac, lca, c;
