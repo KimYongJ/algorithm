@@ -14,12 +14,9 @@
 //1
 //1
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -30,10 +27,9 @@ class Main{
 	static List<Query> query;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 자연수 개수(1<=30,000)
-		Q = Integer.parseInt(st.nextToken());// 쿼리 수(1<=30,000)
+		Reader in = new Reader();
+		N = in.nextInt();// 자연수 개수(1<=30,000)
+		Q = in.nextInt();// 쿼리 수(1<=30,000)
 		arr = new int[N + 1];
 		ans = new int[Q + 1];
 		tree = new Node[N * 4];
@@ -43,15 +39,13 @@ class Main{
 		for(int i=N*4-1; i>=0; i--)
 			tree[i] = new Node();
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = in.nextInt();
 		
 		for(int i=1, sqrt = (int)Math.sqrt(N); i<=Q; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
+			int s = in.nextInt();
+			int e = in.nextInt();
 			query.add(new Query(s, e, i, s / sqrt));
 		}
 
@@ -62,10 +56,10 @@ class Main{
 		
 		for(Query q : query)
 		{
-			while(e < q.e) excute(arr[++e], false);
-			while(q.s < s) excute(arr[--s], false);
-			while(q.e < e) excute(arr[e--], true);
-			while(s < q.s) excute(arr[s++], true);
+			while(e < q.e) update(1, 1, N, arr[++e], false);
+			while(q.s < s) update(1, 1, N, arr[--s], false);
+			while(q.e < e) update(1, 1, N, arr[e--], true);
+			while(s < q.s) update(1, 1, N, arr[s++], true);
 			
 			ans[q.idx] = tree[1].diffMin; 
 		}
@@ -76,10 +70,6 @@ class Main{
 			sb.append(ans[i]).append('\n');
 		
 		System.out.print(sb);
-	}
-	
-	static void excute(int targetIdx, boolean isClear) {
-		update(1, 1, N, targetIdx, isClear);
 	}
 	
 	static void update(int treeNode, int s, int e, int targetIdx, boolean isClear) {
@@ -152,5 +142,33 @@ class Main{
 			this.max = max;
 			this.diffMin = diffMin;
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
