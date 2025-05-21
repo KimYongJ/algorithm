@@ -88,12 +88,15 @@ class Main{
 		
 		if(s == e)
 		{
-			tree[treeNode] = new Node();
-			// 초기화가 아닌 경우
-			if(!isClear)
+			// 초기화인경우
+			if(isClear)
 			{
-				tree[treeNode].min = s;
-				tree[treeNode].max = s;
+				tree[treeNode].min = 1<<30;
+				tree[treeNode].max = 0;
+			}
+			else// 초기화가 아니라 값 세팅인 경우 값 세팅
+			{
+				tree[treeNode].min = tree[treeNode].max = s;
 			}
 			return;
 		}
@@ -103,23 +106,18 @@ class Main{
 		update(treeNode << 1, s, mid, targetIdx, isClear);
 		update(treeNode << 1 | 1, mid + 1, e, targetIdx, isClear);
 		
-		tree[treeNode] = merge(tree[treeNode << 1], tree[treeNode << 1 | 1]);
+		merge(tree[treeNode], tree[treeNode << 1], tree[treeNode << 1 | 1]);
 	}
 
-	static Node merge(Node L, Node R) {
-		int min = Math.min(L.min, R.min);// 양쪽의 최솟 값 중 최솟 값
-		int max = Math.max(L.max, R.max);//양쪽의 최댓 값 중 최댓 값
+	static void merge(Node origin, Node L, Node R) {
 		int diff = 1<<30;
 		
 		if(R.min != 1<<30 && L.max != 0)
 			diff = R.min - L.max;
 		
-		return new Node(
-					min,
-					max,
-					// 양쪽의 차이 중 가장 작은 차이값 과, 오른쪽 작은 값과 왼쪽 큰값의 차이 중 작은 값
-					Math.min(Math.min(L.diffMin, R.diffMin), diff)
-				);
+		origin.min = Math.min(L.min, R.min);// 양쪽의 최솟 값 중 최솟 값
+		origin.max = Math.max(L.max, R.max);//양쪽의 최댓 값 중 최댓 값
+		origin.diffMin = Math.min(Math.min(L.diffMin, R.diffMin), diff);
 	}
 	static class Query implements Comparable<Query>{
 		int s, e, idx, fac;
