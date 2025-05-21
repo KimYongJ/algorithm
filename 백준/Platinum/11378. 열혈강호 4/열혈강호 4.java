@@ -42,7 +42,7 @@ class Main{
 		}
 		
 		int jobCnt = 0;
-		
+		// 먼저 모든 직원에 대해 이분 매칭을 돌려 할 수 있는 일의 수를 구한다.
 		for(int i=1; i<=N; i++)
 		{
 			++time;
@@ -50,18 +50,17 @@ class Main{
 				++jobCnt;
 		}
 		
-		++time;
-		
+		++time;// 다음 visit을 판단하기 위해 dfs전 +1을 미리 해줌
+		// K번 더 매칭을 위해 직원마다 매칭이 불가할 때 까지 이분 매칭을 돌린다.
 		for(int i=1; i<=N && K != 0; i++)
 		{
 			while(dfs(i) && K != 0)
-			{
+			{// 매칭이 가능하면 계속 일을 매칭시켜 K를 감소시킴
 				++jobCnt;
-				--K;
 				++time;
+				--K;
 			}
 		}
-		
 		
 		System.out.print(jobCnt);
 	}
@@ -74,7 +73,8 @@ class Main{
 			
 			visitTime[job] = time;
 			
-			if(match[job] == 0 || dfs(match[job])) {
+			if(match[job] == 0 || dfs(match[job]))
+			{
 				match[job] = person;
 				return true;
 			}
