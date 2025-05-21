@@ -17,22 +17,16 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
 class Main{
 	
-	static final int INF = 1<<30;
-	static int sqrt;
 	static int N, Q;
-	static int ans[];// 최종 결과를 담을 배열
-	static int arr[];// 입력된 더미의 초기값을 받을 배열
-	static int cnt[];// 차이가 나올 때마다 마킹할 카운팅 배열(차이는 최대 N만큼 가능)
-	static int fac[];// 차이의 구간을 마킹할 제곱근 배열
-	static Min_Seg minSeg;
-	static Max_Seg maxSeg;
+	static int arr[];
+	static int ans[];
+	static Node tree[];// 세그먼트 트리로 인덱스는 해당 자연수, value는 구간의 최솟값, 최댓값, 값 차이의 최솟값이 담김
 	static List<Query> query;
 	
 	public static void main(String[] args)throws Exception{
@@ -40,27 +34,27 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());// 자연수 개수(1<=30,000)
 		Q = Integer.parseInt(st.nextToken());// 쿼리 수(1<=30,000)
-		sqrt = (int)Math.sqrt(N);
 		arr = new int[N + 1];
-		cnt = new int[N + 1];
 		ans = new int[Q + 1];
-		fac = new int[N / sqrt + 1];
-		minSeg = new Min_Seg(N, INF);
-		maxSeg = new Max_Seg(N);
+		tree = new Node[N * 4];
 		query = new ArrayList<>();
+		
+		// 트리 초기화
+		for(int i=N*4-1; i>=0; i--)
+			tree[i] = new Node();
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());// N이하 자연수가 고유하게 주어짐
+			arr[i] = Integer.parseInt(st.nextToken());
 		
-		for(int i=1; i<=Q; i++)
+		for(int i=1, sqrt = (int)Math.sqrt(N); i<=Q; i++)
 		{
 			st = new StringTokenizer(br.readLine());
 			int s = Integer.parseInt(st.nextToken());
 			int e = Integer.parseInt(st.nextToken());
 			query.add(new Query(s, e, i, s / sqrt));
 		}
-		
+
 		Collections.sort(query);
 		
 		int s = 1;
@@ -68,12 +62,12 @@ class Main{
 		
 		for(Query q : query)
 		{
-			while(e < q.e) plus(arr[++e]);
-			while(q.s < s) plus(arr[--s]);
-			while(q.e < e) minus(arr[e--]);
-			while(s < q.s) minus(arr[s++]);
-
-			ans[q.idx] = find();
+			while(e < q.e) excute(arr[++e], false);
+			while(q.s < s) excute(arr[--s], false);
+			while(q.e < e) excute(arr[e--], true);
+			while(s < q.s) excute(arr[s++], true);
+			
+			ans[q.idx] = tree[1].diffMin; 
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -83,162 +77,82 @@ class Main{
 		
 		System.out.print(sb);
 	}
-	static void plus(int num) {
-		maxSeg.update(1, 1, N, num, num);
-		minSeg.update(1, 1, N, num, num);
-		// num보다 작은 것중 가장 큰것
-		int min = maxSeg.query(1, 1, N, 1, num - 1);
-		// num보다 큰 것중 가장 작은 것
-		int max = minSeg.query(1, 1, N, num + 1, N);
-		// 둘이 유효한 값이면 해당 값을 배열에서 지움, 이 유는, 둘 사이에 num이 들어갈 것이기 때문
-		if(max != INF && min != 0)
-			setDiff(max - min, -1);
-		// max가 유효하면 num과 차이 삽입
-		if(max != INF)
-			setDiff(max - num, 1);
-		// min이 유효하면 num과 차이 삽입 
-		if(min != 0)
-			setDiff(num - min, 1);
+	
+	static void excute(int targetIdx, boolean isClear) {
+		update(1, 1, N, targetIdx, isClear);
 	}
-	static void minus(int num) {
-		maxSeg.update(1, 1, N, num, 0);
-		minSeg.update(1, 1, N, num, INF);
-		// num보다 작은 것중 가장 큰 것
-		int min = maxSeg.query(1, 1, N, 1, num - 1);
-		int max = minSeg.query(1, 1, N, num + 1, N);
-		// 값이 유효하면 둘 사이 차이 복원
-		if(max != INF && min != 0)
-			setDiff(max - min, 1);
-		// num과의 차이 삭제
-		if(max != INF)
-			setDiff(max - num, -1);
-		// num과의 차이 삭제
-		if(min != 0)
-			setDiff(num - min, -1);
-	}
-	static void setDiff(int diff, int plus) {
-		if(diff <= 0)// 차이가 0 이하인 것은 스킵
+	
+	static void update(int treeNode, int s, int e, int targetIdx, boolean isClear) {
+		if(e < targetIdx || targetIdx < s)
 			return;
-		// 차이와, 해당 구간에 값을 연산
-		cnt[diff] += plus;
-		fac[diff / sqrt] += plus;
-	}
-	static int find() {
-		for(int i=0; i<=N / sqrt; i++)
+		
+		if(s == e)
 		{
-			if(fac[i] == 0)
-				continue;
-			
-			int s = i * sqrt;
-			int e = Math.min(s + sqrt - 1, N);
-			while(s <= e)
+			tree[treeNode] = new Node();
+			// 초기화가 아닌 경우
+			if(!isClear)
 			{
-				if(cnt[s] != 0)
-					return s;
-				++s;
+				tree[treeNode].min = s;
+				tree[treeNode].max = s;
 			}
-		}
-		return 0;
-	}
-}
-class Min_Seg{
-	final int INF;
-	int N;
-	int tree[];
-	Min_Seg(int N, int INF)
-	{
-		this.N = N;
-		this.INF = INF;
-		this.tree = new int[N * 4];
-		Arrays.fill(tree, INF);
-	}
-	public void update(int treeNode, int s, int e, int targetIdx, int value) {
-		if(e < targetIdx || targetIdx < s)
-			return;
-		if(s == e)
-		{
-			tree[treeNode] = value;
 			return;
 		}
 		
 		int mid = (s + e) >> 1;
 		
-		update(treeNode << 1, s, mid, targetIdx, value);
-		update(treeNode << 1 | 1, mid + 1, e, targetIdx, value);
+		update(treeNode << 1, s, mid, targetIdx, isClear);
+		update(treeNode << 1 | 1, mid + 1, e, targetIdx, isClear);
 		
-		tree[treeNode] = Math.min(tree[treeNode << 1], tree[treeNode << 1 | 1]);
+		tree[treeNode] = merge(tree[treeNode << 1], tree[treeNode << 1 | 1]);
 	}
-	public int query(int treeNode, int s, int e, int left, int right)
-	{
-		if(e < left || right < s)
-			return INF;
+
+	static Node merge(Node L, Node R) {
+		int min = Math.min(L.min, R.min);// 양쪽의 최솟 값 중 최솟 값
+		int max = Math.max(L.max, R.max);//양쪽의 최댓 값 중 최댓 값
+		int diff = 1<<30;
 		
-		if(left<=s && e<=right)
-			return tree[treeNode];
+		if(R.min != 1<<30 && L.max != 0)
+			diff = R.min - L.max;
 		
-		int mid = (s + e) >> 1;
-		
-		int L = query(treeNode << 1, s, mid, left, right);
-		int R = query(treeNode << 1 | 1, mid + 1, e, left, right);
-		
-		return Math.min(L, R);
+		return new Node(
+					min,
+					max,
+					// 양쪽의 차이 중 가장 작은 차이값 과, 오른쪽 작은 값과 왼쪽 큰값의 차이 중 작은 값
+					Math.min(Math.min(L.diffMin, R.diffMin), diff)
+				);
 	}
-}
-class Max_Seg{
-	int N;
-	int tree[];
-	Max_Seg(int N)
-	{
-		this.N = N;
-		this.tree = new int[N * 4];
-	}
-	public void update(int treeNode, int s, int e, int targetIdx, int value)
-	{
-		if(e < targetIdx || targetIdx < s)
-			return;
-		if(s == e)
-		{
-			tree[treeNode] = value;
-			return;
+	static class Query implements Comparable<Query>{
+		int s, e, idx, fac;
+		Query(int s, int e, int idx, int fac){
+			this.s=s;
+			this.e=e;
+			this.idx=idx;
+			this.fac=fac;
 		}
-		
-		int mid = (s + e) >> 1;
-		
-		update(treeNode << 1, s, mid, targetIdx, value);
-		update(treeNode << 1 | 1, mid + 1, e, targetIdx, value);
-		
-		tree[treeNode] = Math.max(tree[treeNode << 1], tree[treeNode << 1 | 1]);
+		@Override
+		public int compareTo(Query o) {
+			if(fac != o.fac)
+				return fac - o.fac;
+			
+			if((fac & 1)==0)
+				return e - o.e;
+			
+			return o.e - e;
+		}
 	}
-	public int query(int treeNode, int s, int e, int left, int right)
-	{
-		if(e < left || right < s)
-			return 0;
-		
-		if(left<=s && e<=right)
-			return tree[treeNode];
-		
-		int mid = (s + e) >> 1;
-		
-		int L = query(treeNode << 1, s, mid, left, right);
-		int R = query(treeNode << 1 | 1, mid + 1, e, left, right);
-		
-		return Math.max(L, R);
-	}
-}
-class Query implements Comparable<Query>{
-	int s, e, idx, fac;
-	Query(int s, int e, int idx, int fac){
-		this.s=s;
-		this.e=e;
-		this.idx=idx;
-		this.fac=fac;
-	}
-	@Override
-	public int compareTo(Query o) {
-		if(fac != o.fac)
-			return fac - o.fac;
-		if((fac & 1) == 0)
-			return e - o.e;
-		return o.e - e;
+	static class Node{
+		int min;
+		int max;
+		int diffMin;
+		Node(){
+			this.min = 1<<30;
+			this.max = 0;
+			this.diffMin = 1<<30;
+		}
+		Node(int min, int max, int diffMin){
+			this.min = min;
+			this.max = max;
+			this.diffMin = diffMin;
+		}
 	}
 }
