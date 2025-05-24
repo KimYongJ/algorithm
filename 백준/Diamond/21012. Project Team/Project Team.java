@@ -13,26 +13,22 @@
 //2
 //0
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	
 	static final int MAX = 200_000;
 	static int N, Q;
-	static int ans[];
 	static int root[];// 영속성 세그먼트 트리의 버전을 담을 배열
 	static Result dummy;
 	static List<Node> nodes;// 영속성 세그먼트 트리의 노드들
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		N = Integer.parseInt(st.nextToken());
+		Reader in = new Reader();
+		
+		N = in.nextInt();
 		root = new int[N + 1];
 		dummy = new Result(0, 0);
 		nodes = new ArrayList<>();
@@ -40,38 +36,35 @@ class Main{
 		root[0] = init(1, MAX);// 영속성 세그먼트 트리 초기값 세팅
 		
 		// 영속성 세그먼트 트리를 값 입력과 동시에 업데이트 해나간다. 입력 하나당 버전이 1나씩 늘어난다.
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			root[i] = update(root[i - 1], 1, MAX, Integer.parseInt(st.nextToken()));
+			root[i] = update(root[i - 1], 1, MAX, in.nextInt());
 
-		Q = Integer.parseInt(br.readLine());
+		Q = in.nextInt();
 		for(int i=1; i<=Q; i++)
 		{
 			//(1 ≤ L ≤ R ≤ N / 1 ≤ A ≤ B ≤ 200,000 / 1 ≤ S ≤ 200,000)
-			st = new StringTokenizer(br.readLine());
-			int L = Integer.parseInt(st.nextToken());// 사람번호범위L
-			int R = Integer.parseInt(st.nextToken());// 사람번호범위R
-			int startScore = Integer.parseInt(st.nextToken());// 점수범위A
-			int endScore = Integer.parseInt(st.nextToken());// 점수범위B
-			long S = Integer.parseInt(st.nextToken());// 원하는 최소 평균 점수S
+			int L = in.nextInt();// 사람번호범위L
+			int R = in.nextInt();// 사람번호범위R
+			int startScore = in.nextInt();// 점수범위A
+			int endScore = in.nextInt();// 점수범위B
+			long S = in.nextInt();// 원하는 최소 평균 점수S
 			
 			Result res;
 
 			int s = startScore;
 			int e = endScore;
-			int cnt1 = 0;
-			int cnt2 = 0;
+			int cnt = 0;
 			int midScore = 0;
 			long sum = 0;
 			while(s <= e)
 			{
 				int mid = (s + e) >> 1;
-				// 사람 범위중, 점수 제한을 두어  평균 S보다 크거나 같은 가장 작은 평균을 찾는다.
+				// 사람 범위 중, 점수 제한을 두어 S보다 크거나 같은 가장 작은 평균을 찾는다.
 				res = query(root[L - 1], root[R], 1, MAX, mid, endScore);
 				
 				if(res.sum >= S * res.cnt)
 				{
-					cnt1 = res.cnt;
+					cnt = res.cnt;
 					sum = res.sum;
 					e = mid - 1;
 					midScore = mid;
@@ -79,20 +72,28 @@ class Main{
 				else
 					s = mid + 1;
 			}
+			// 위에서 구한 값이 아래 반례 때문에 최선이 아닐 수 있다. 그러므로 mid까지 구한것에서 -1을 해서 그 값에 대해서 추가 가능한지 마지막으로 한번더 탐색해주어야 한다.
+//			3
+//			10 6 6
+//			1
+//			1 3 1 10 8
+//			답 : 2 이지만, 위 코드만으로는 1이나옴, 그리디하게 midSocre에 -1값을 통해 보정해주어야 함
+
+			midScore -= 1;// 이전 이분 탐색에서 최저로 구한 mid값에서 -1을 해준다.
 			
-			if(midScore > startScore)
+			if(midScore >= startScore)
 			{
-				midScore -= 1;
-				
+				// 이전 값에 대해 추가되지 못한 부분이 있는지 확인하는 부분들..
 				res = query(root[L - 1], root[R], 1, MAX, midScore, midScore);
 			
-				long traget = sum - S * cnt1;
+				long spare = sum - S * cnt; // 다른 곳에 추가해 줄 수 있는 여유 분
+				long need = S - midScore; // midScore가 평균이 되기 위해 추가적으로 필요한 값 
 				
-				cnt2 = (int)Math.min(res.cnt, traget / (S - midScore));
+				// 최종 값은 cnt와, 추가 할 수 있는 여유 분 나누기, midSocre가 평균이 되기 위해 필요한 값을 하여 둘 중 작은 것이 답이된다.
+				cnt += Math.min(res.cnt, spare / need);
 			}
 			
-			
-			sb.append(cnt1 + cnt2).append('\n');
+			sb.append(cnt).append('\n');
 		}
 		
 		System.out.print(sb);
@@ -185,5 +186,34 @@ class Main{
 			cnt = c;
 			score = s;
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	
+	
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
