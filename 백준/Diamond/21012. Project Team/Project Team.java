@@ -1,3 +1,17 @@
+//https://www.acmicpc.net/problem/21012
+//5초 512MB
+//6 // 사람수 1<=200,000
+//1 2 3 4 5 6 // 각사람당 점수 1<=200,000
+//4 // 질의 수 1<=200,000
+//1 6 1 6 1 // 사람번호범위L, 사람번호범위R, 점수범위A, 점수범위B, 원하는 최소 평균 점수S(1 ≤ L ≤ R ≤ N / 1 ≤ A ≤ B ≤ 200,000 / 1 ≤ S ≤ 200,000)
+//1 6 1 6 5
+//1 6 5 6 5
+//1 3 4 5 1
+//목표 : L부터 R 사이의 번호를 가지며, 점수가 A부터 B 사이인 사람들 중에 평균 잠재력 점수가 최소 S 이상이 되도록 최대한 많은 사람을 선택해서 그 사람수 출력
+//6
+//3
+//2
+//0
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -48,7 +62,6 @@ class Main{
 				int mid = (startScore + endScore) >> 1;
 				// 오른쪽, 왼쪽-1 번째 사람 을 구해와 둘을 
 				Result res = query(root[L - 1], root[R], 1, MAX, mid, B);
-				
 				
 				if(res.sum >= S * res.cnt)
 				{
