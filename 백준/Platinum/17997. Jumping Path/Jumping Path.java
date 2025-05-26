@@ -12,114 +12,113 @@
 //답 : 3 2
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 class Main{
 	
-	static final int MOD = 11092019;
+	static final int MOD = 11_092_019;
 	static int N;
 	static int idx;// 세그먼트 트리 인덱스 변수
-	static int segIdx[];// 노드번호 : 세그먼트 트리에 대응되는 인덱스
-	static int chainLevel[];
-	static int chainParent[];
-	static int chainHeader[];
-	static int heavyChildIdx[];
-	static Node dummy;
+	static int segIdx[];// 노드번호에 따른 세그먼트 트리에 대응되는 인덱스
+	static int heavyIdx[];// HLD를 위해 인접 리스트 중 가장 무거운 자식노드의 인덱스
+	static int chainLevel[];// HLD를 위한 체인 레벨 저장
+	static int chainParent[];// HLD를 위한 바로 이전 체인으로 점프하기 위한 정보를 저장
+	static int chainHeader[];// HLD를 위한 같은 체인의 head값 저장
 	static Node tree[];
-	static List<Integer> adlist[];
-	static List<Input> input;
+	static Node dummy;
+	static List<Integer> adList[];
+	static PriorityQueue<Input> input;
 	
 	public static void main(String[] args)throws Exception{
 		Reader reader = new Reader();
 		N = reader.nextInt();// 노드 개수(1<=1,000,000)
 		segIdx = new int[N + 1];
+		heavyIdx = new int[N + 1];
 		chainLevel = new int[N + 1];
 		chainParent = new int[N + 1];
 		chainHeader = new int[N + 1];
-		heavyChildIdx = new int[N + 1];
+		adList = new ArrayList[N + 1];
+		input = new PriorityQueue<>();
 		tree = new Node[N * 4];
-		input = new ArrayList<>();
-		adlist = new ArrayList[N + 1];
-		
-		chainHeader[1] = 1;
 		dummy = new Node(0,0);
+		chainHeader[1] = 1;
 		
 		for(int i=0; i<tree.length; i++)
 			tree[i] = new Node(0,0);
 		
-		for(int i=1; i<=N; i++)
-		{	
+		for(int node=1; node<=N; node++)
+		{
 			// 1번 노드부터N번 노드까지 갖는 점수(0<=1,000,000)
-			input.add(new Input(reader.nextInt(), i));
-			adlist[i] = new ArrayList<>();
+			int score = reader.nextInt();
+			input.add(new Input(score, node));
+			adList[node] = new ArrayList<>();
 		}
-
-		for(int i=2; i<=N; i++)
+		
+		for(int child = 2; child<=N; child++)
 		{
 			int parent = reader.nextInt();
-			adlist[parent].add(i);
-			adlist[i].add(parent);
+			adList[parent].add(child);
+			adList[child].add(parent);
 		}
 		
-		Collections.sort(input);
+		setChild(1, 0, new int[N + 1]);// HLD를 위해 자식노드 크기 책정 및 가장 무거운 자식노드 마킹
+		setHLD(1, 1);// HLD를 위한 체인 정보 마킹
 		
-		setSize(1, 0, new int[N + 1]);// hld를 위해 무거운 자식노드를 가장 왼쪽으로 옮김
-		setHLD(1, 1);// 체인 값 세팅
-		
-		int maxLen = -1;
+		int maxlen = 0;
 		int cnt = 0;
 		
-		for(int i=0; i<input.size(); i++)
+		while(!input.isEmpty())
 		{
-			Input in = input.get(i);
-			
+			Input now = input.poll();
+			int node = now.nodeNum;
 			Node result = new Node(0,0);
-			int node = in.nodeNum;
 			
+			// 루트 체인까지 올라오면서 가장 길면서, 길이가 같다면 개수를 더해나감
 			while(chainHeader[node] != 1)
 			{
-				result = merge( result, query(1, 1, N, segIdx[chainHeader[node]], segIdx[node]) );
+				result = result.add( query(1, 1, N, segIdx[chainHeader[node]], segIdx[node]) );
 				node = chainParent[node];
 			}
+			// 루트 체인까지 마지막 연산
+			result = result.add( query(1, 1, N, 1, segIdx[node]) );
 			
-			result = merge( result, query(1, 1, N, 1, segIdx[node]) );
-			
-			int maxLen2 = result.maxLen + 1;
-			int cnt2 = result.cnt;
-			
+			int maxlen2 = result.len + 1;// 쿼리로 구한 최대 길이
+			int cnt2 = result.cnt;// 쿼리로 구한 경로 개수
+			// 경로개수가 0이면 + 1
 			if(cnt2 == 0)
 				++cnt2;
-
-            if (maxLen2 > maxLen)
-            {
-                maxLen = maxLen2;
-                cnt = cnt2 % MOD;
-            }
-            else if (maxLen2 == maxLen)
-                cnt = (cnt + cnt2) % MOD;
-            
-			update(1, 1, N, segIdx[in.nodeNum], maxLen2, cnt2);
+			// 최대 길이 갱신시 그대로 대입
+			if(maxlen < maxlen2)
+			{
+				maxlen = maxlen2;
+				cnt = cnt2;
+			}
+			else if(maxlen == maxlen2)// 최대길이가 같다면 경로 개수 플러스
+				cnt = (cnt + cnt2) % MOD;
+			
+			// 구한 값을 update하여 다음 연산에 사용하도록 함
+			update(1, 1, N, segIdx[now.nodeNum], maxlen2, cnt2);
 		}
 		
-		System.out.print(maxLen + " " + cnt);
+		System.out.print(maxlen + " " + cnt);
 	}
-	static void update(int treeNode, int s, int e, int targetIdx, int maxLen, int cnt) {
+	static void update(int treeNode, int s, int e, int targetIdx, int len, int cnt) {
 		if(e < targetIdx || targetIdx < s)
 			return;
-		
 		if(s == e)
 		{
-			tree[treeNode].cnt = cnt % MOD;
-			tree[treeNode].maxLen = maxLen;
+			tree[treeNode].len = len;
+			tree[treeNode].cnt = cnt;
 			return;
 		}
+		
 		int mid = (s + e) >> 1;
 		
-		update(treeNode << 1, s, mid, targetIdx, maxLen, cnt);
-		update(treeNode << 1 | 1 , mid + 1, e, targetIdx, maxLen, cnt);
+		update(treeNode << 1, s, mid, targetIdx, len, cnt);
+		update(treeNode << 1 | 1, mid + 1, e, targetIdx, len, cnt);
 		
-		tree[treeNode] = merge(tree[treeNode << 1], tree[treeNode << 1 | 1]);
+		tree[treeNode] = tree[treeNode << 1].add( tree[treeNode << 1 | 1] );
 	}
 	static Node query(int treeNode, int s, int e, int left, int right) {
 		if(e < left || right < s)
@@ -130,118 +129,120 @@ class Main{
 		
 		int mid = (s + e) >> 1;
 		
-		Node L = query(treeNode << 1, s, mid , left, right);
+		Node L = query(treeNode << 1, s, mid, left, right);
 		Node R = query(treeNode << 1 | 1, mid + 1, e, left, right);
 		
-		return merge(L, R);
+		return L.add(R);
 	}
 	static void setHLD(int nowNode, int level) {
-		segIdx[nowNode] = ++idx;
+		segIdx[nowNode] = ++idx;// 트리 노드를 세그먼트 트리 인덱스로 치환
 		chainLevel[nowNode] = level;
-		// 가장 무거운 노드 먼저 순회
-		int next = adlist[nowNode].get(heavyChildIdx[nowNode]);
+		
+		// 무거운 노드 부터 탐색한다.
+		int heavyChildIdx = heavyIdx[nowNode];
+		int next = adList[nowNode].get(heavyChildIdx);
+		// 탐색한 적이 없다면 탐색
 		if(chainHeader[next] == 0)
 		{
 			chainHeader[next] = chainHeader[nowNode];
 			chainParent[next] = chainParent[nowNode];
-			setHLD(next, level);// 기존 체인 유지시 레벨 그대로
+			setHLD(next, level);
 		}
-		// 이후 가벼운 노드들 순회
-		for(int i=0; i<adlist[nowNode].size(); i++)
+		
+		// 가벼운 노드들 탐색
+		for(int i=0; i<adList[nowNode].size(); i++)
 		{
-			next = adlist[nowNode].get(i);
-			
-			if(chainHeader[next] != 0 || heavyChildIdx[nowNode] == i)
+			next = adList[nowNode].get(i);
+			// 무거운 노드이거나, 탐색한 킵
+			if(i == heavyChildIdx || chainHeader[next] != 0)
 				continue;
 			
-			// 새로운 체인 시작시
-			chainHeader[next] = next;// header는 자기 자신
-			chainParent[next] = nowNode;// 이전 체인으로 바로 점프할 노드 세팅
-			setHLD(next, level + 1);// 레벨 추가
+			chainHeader[next] = next;// 새로운 체인 시작시 체인의 헤더는 자기자신
+			chainParent[next] = nowNode;// 새로운 체인 시작시 이전 체인 바로 점프할 노드 세팅
+			setHLD(next, level + 1);// 새로운 체인 시작시 레벨 증가
 		}
 	}
-	static void setSize(int nowNode, int parentNode, int [] size) {
-		int heavyIdx = 0;
+	static void setChild(int nowNode, int parentNode, int size[]) {
+		int heavyChildIdx = 0;
 		int heavySize = 0;
 		size[nowNode] = 1;
 		
-		for(int i=0; i<adlist[nowNode].size(); i++)
+		for(int i=0; i<adList[nowNode].size(); i++)
 		{
-			int next = adlist[nowNode].get(i);
+			int next = adList[nowNode].get(i);
 			
 			if(next == parentNode)
 				continue;
 			
-			setSize(next, nowNode, size);
-			
+			setChild(next, nowNode, size);
 			size[nowNode] += size[next];
 			if(heavySize < size[next])
 			{
 				heavySize = size[next];
-				heavyIdx = i;
+				heavyChildIdx = i;
 			}
 		}
-		// 해당 노드의 가장 무거운 노드 입력
-		heavyChildIdx[nowNode] = heavyIdx;
-	}
-	static Node merge(Node L, Node R) {
-		if(L.maxLen > R.maxLen)
-			return L;
-		if(L.maxLen < R.maxLen)
-			return R;
-		
-		return new Node(L.maxLen, (L.cnt + R.cnt) % MOD);
+		// 해당 노드의 자식 노드 중 가장 무거운 것 마킹
+		heavyIdx[nowNode] = heavyChildIdx;
 	}
 	static class Input implements Comparable<Input>{
-		
-		int score;
-		int nodeNum;
-		
+		int score, nodeNum;
 		Input(int s, int n){
 			score = s;
 			nodeNum = n;
 		}
 		@Override
 		public int compareTo(Input o) {
-			return score == o.score ? 
-						nodeNum - o.nodeNum : score - o.score;
+			if(score != o.score)
+				return score - o.score;
+			
+			return nodeNum - o.nodeNum;
 		}
 	}
 	static class Node{
-		int maxLen;
-		int cnt;
-		Node(int m, int c){
-			maxLen = m;
+		int len, cnt;
+		Node(int l, int c){
+			len = l;
 			cnt = c;
 		}
+		public Node add(Node o) {
+			if(len < o.len)
+				return o;
+			if(len > o.len)
+				return this;
+			
+			return new Node(
+						len,
+						(cnt + o.cnt) % MOD
+					);
+		}
 	}
-}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
 
-class Reader {
-    final int SIZE = 1 << 13;
-    byte[] buffer = new byte[SIZE];
-    int index, size;
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
 
-    int nextInt() throws Exception {
-        int n = 0;
-        byte c;
-        boolean isMinus = false;
-        while ((c = read()) <= 32) { if (size < 0) return -1; }
-        if (c == 45) { c = read(); isMinus = true; }
-        do n = (n << 3) + (n << 1) + (c & 15);
-        while (isNumber(c = read()));
-        return isMinus ? ~n + 1 : n;
-    }
-
-    boolean isNumber(byte c) {
-        return 47 < c && c < 58;
-    }
-
-    byte read() throws Exception {
-        if (index == size) {
-            size = System.in.read(buffer, index = 0, SIZE);
-            if (size < 0) buffer[0] = -1;
-        }
-        return buffer[index++];
-    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
+	}
 }
