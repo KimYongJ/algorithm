@@ -6,12 +6,9 @@
 //3 1 2
 //가능한 비용의 합 중 홀수인 최솟값, 짝수인 최솟값 출력(없으면-1출력) : 5 6
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -21,14 +18,13 @@ class Main{
 	static boolean visitEdge[];
 	static List<Edge> edgeList;
 	static List<Node> adNode[];
-	static UnionFind uf;
-	static HLD hld;
+	static UnionFind uf;// 크루스칼 알고리즘을 위한 유니온파인드 클래스
+	static HLD hld;// HLD를 위한 클래스
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 정점 개수(2<=100,000)
-		M = Integer.parseInt(st.nextToken());// 간선 개수(1<=300,000)
+		Reader in = new Reader();
+		N = in.nextInt();// 정점 개수(2<=100,000)
+		M = in.nextInt();// 간선 개수(1<=300,000)
 		edgeList = new ArrayList<>();
 		visitEdge = new boolean[M + 1];
 		uf = new UnionFind(N);
@@ -39,10 +35,9 @@ class Main{
 		
 		for(int i=1; i<=M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int n1 = Integer.parseInt(st.nextToken());
-			int n2 = Integer.parseInt(st.nextToken());
-			long cost = Long.parseLong(st.nextToken());// 간선의 비용 wi(1<=1,000,000,000)
+			int n1 = in.nextInt();
+			int n2 = in.nextInt();
+			long cost = in.nextInt();// 간선의 비용 wi(1<=1,000,000,000)
 			edgeList.add(new Edge(n1, n2, i, cost));
 		}
 		// 크루스칼 알고리즘을 위해 간선을 가중치 기준 오름차순 정렬
@@ -59,7 +54,7 @@ class Main{
 				// 해당 노드를 기준으로 트리를 생성, 양방향 맵핑 진행
 				adNode[edge.n1].add(new Node(edge.n2, edge.cost));
 				adNode[edge.n2].add(new Node(edge.n1, edge.cost));
-				visitEdge[edge.idx] = true; 
+				visitEdge[edge.idx] = true; // 해당 간선 방문 체크
 			}
 		}
 		if(edgeCnt != N )
@@ -69,11 +64,11 @@ class Main{
 		}
 		// hld 클래스 초기 세팅
 		hld = new HLD(N, adNode);
-		
+		// 사용하지 않은 간선을 모두 돌며 해당 간선 추가시 변동되는 값으로 ans2를 갱신해나감
 		for(int i=0; i<edgeList.size(); i++)
 		{
 			Edge edge = edgeList.get(i);
-			
+			// 이미 방문한 간선은 스킵
 			if(visitEdge[edge.idx])
 				continue;
 			
@@ -83,25 +78,26 @@ class Main{
 				max = hld.oddMaxQuery(edge.n1, edge.n2);
 			else// 간선 가중치가 솔수면 노드 사이 짝수 max를 가져온다.
 				max = hld.evenMaxQuery(edge.n1, edge.n2);
-			
+			// 탐색 결과가 0이면 스킵
 			if(max == 0)
 				continue;
-			
+			// 결과를 구해서 최저 값으로 대임
 			long nextAns = ans1 - max + edge.cost;
 			
 			if(nextAns < ans2)
 				ans2 = nextAns;
 		}
-		
+		// ans2 값이 없다면 -1로 치환
 		if(ans2 == Long.MAX_VALUE)
 			ans2 = -1;
-		
+		// ans1이 짝수면 ans2 먼저 출력, 홀수면 그반대로 출력
 		if(ans1 % 2 == 0)
 			System.out.print(ans2 + " " + ans1);
 		else
 			System.out.print(ans1 + " " + ans2);
 	}
 	static class HLD{
+		
 		int N;
 		int idx;// 세그먼트 트리 인덱스
 		int segIdx[];// 노드의 값 -> 세그먼트트리 인덱스로 치환해줄 배열
@@ -126,59 +122,6 @@ class Main{
 			setChildSize(1, 0, new int[N + 1]);
 			// HLD를 위해 실제 체인 정보 세팅과 세그먼트 트리의 값을 세팅한다.
 			setHLD(1, 1);
-		}
-
-		long oddMaxQuery(int node1, int node2) {
-			return getValue(node1, node2, oddTree);
-		}
-		long evenMaxQuery(int node1, int node2) {
-			return getValue(node1, node2, evenTree);
-		}
-		long getValue(int node1, int node2, long[] tree) {
-			
-			long max = 0;
-			
-			if(segIdx[node1] > segIdx[node2])
-			{
-				int tmp = node1;
-				node1 = node2;
-				node2 = tmp;
-			}
-			// 같은 체인이 될 때 까지 레벨일 높은걸 낮추면서 같은 체인으로 만듦, 이 때 max값 계속 갱신
-			while(chainHeader[node1] != chainHeader[node2])
-			{
-				if(chainLevel[node1] > chainLevel[node2])
-				{
-					max = Math.max(max, query(1, 1, N, segIdx[chainHeader[node1]], segIdx[node1], tree));
-					node1 = chainParent[node1];
-					continue;
-				}
-				max = Math.max(max, query(1, 1, N, segIdx[chainHeader[node2]], segIdx[node2], tree));
-				node2 = chainParent[node2];
-			}
-			// 여기까지 오면 같은 체인에 있는 것, 같은 체인 내에서 올려야 함
-			if(segIdx[node1] > segIdx[node2])
-			{
-				int tmp = node1;
-				node1 = node2;
-				node2 = tmp;
-			}
-			// 간선 가중치는 자식노드에 저장하였으므로 마지막 탐색은 위노드 + 1로 탐색해야함,
-			return Math.max(max, query(1, 1, N, segIdx[node1] + 1, segIdx[node2], tree));
-		}
-		long query(int treeNode, int s, int e, int left, int right, long[] tree) {
-			if(e < left || right < s)
-				return 0;
-			
-			if(left <= s && e <= right)
-				return tree[treeNode];
-			
-			int mid = (s + e) >> 1;
-			
-			return Math.max(
-						query(treeNode << 1, s, mid, left, right, tree),
-						query(treeNode << 1 | 1, mid + 1, e, left, right, tree)
-					);
 		}
 		void setChildSize(int nowNode, int parentNode, int size[])
 		{
@@ -228,6 +171,7 @@ class Main{
 					chainParent[now.node] = nowNode;// 이전 체인 점프할 노드는 nowNode가됨
 					setHLD(now.node, level + 1);// 레벨 증가
 				}
+				// 두 노드중, 자식노드에 간선의 가중치를 저장한다. 그래서 추후 조회할 때도 이부분을 고려해서 쿼리해야함.
 				update(1, 1, N, segIdx[now.node], now.cost);
 			}
 		}
@@ -253,6 +197,60 @@ class Main{
 			// 짝수 홀수 세그먼트 트리 모두 업데이트
 			oddTree[treeNode] = Math.max(oddTree[treeNode << 1], oddTree[treeNode << 1 | 1]);
 			evenTree[treeNode] = Math.max(evenTree[treeNode << 1], evenTree[treeNode << 1 | 1]);
+		}
+		long oddMaxQuery(int node1, int node2) {
+			return getValue(node1, node2, oddTree);
+		}
+		long evenMaxQuery(int node1, int node2) {
+			return getValue(node1, node2, evenTree);
+		}
+		// 제공된 tree 배열안에서 node1부터 node2 경로사이 가장 큰 값 반환
+		long getValue(int node1, int node2, long[] tree) {
+			
+			long max = 0;
+			// 연산 편의를 위해 node1이 더 상위 노드가 되어야 함
+			if(segIdx[node1] > segIdx[node2])
+			{
+				int tmp = node1;
+				node1 = node2;
+				node2 = tmp;
+			}
+			// 같은 체인이 될 때 까지 레벨일 높은걸 낮추면서 같은 체인으로 만듦, 이 때 max값 계속 갱신
+			while(chainHeader[node1] != chainHeader[node2])
+			{
+				if(chainLevel[node1] > chainLevel[node2])
+				{
+					max = Math.max(max, query(1, 1, N, segIdx[chainHeader[node1]], segIdx[node1], tree));
+					node1 = chainParent[node1];
+					continue;
+				}
+				max = Math.max(max, query(1, 1, N, segIdx[chainHeader[node2]], segIdx[node2], tree));
+				node2 = chainParent[node2];
+			}
+			// 여기까지 오면 같은 체인에 있는 것, 같은 체인 내에서 올려야 함
+			if(segIdx[node1] > segIdx[node2])//연산 편의를 위해 node1이 더 상위 노드가 되어야 함
+			{
+				int tmp = node1;
+				node1 = node2;
+				node2 = tmp;
+			}
+			
+			// 간선 가중치는 자식노드에 저장하였으므로 마지막 탐색은 더 높은 노드의 + 1로 탐색해야함, 낮은 노드는 그대로 진행
+			return Math.max(max, query(1, 1, N, segIdx[node1] + 1, segIdx[node2], tree));
+		}
+		long query(int treeNode, int s, int e, int left, int right, long[] tree) {
+			if(e < left || right < s)
+				return 0;
+			
+			if(left <= s && e <= right)
+				return tree[treeNode];
+			
+			int mid = (s + e) >> 1;
+			
+			return Math.max(
+						query(treeNode << 1, s, mid, left, right, tree),
+						query(treeNode << 1 | 1, mid + 1, e, left, right, tree)
+					);
 		}
 	}
 	static class UnionFind{
@@ -305,4 +303,33 @@ class Main{
 			return Long.compare(cost,o.cost);
 		}
 	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
+	}
+
 }
