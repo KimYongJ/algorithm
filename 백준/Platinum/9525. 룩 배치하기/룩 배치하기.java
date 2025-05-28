@@ -1,3 +1,14 @@
+//https://www.acmicpc.net/problem/9525
+//1초 128MB
+//5 // 체스판의 크기 1<=100
+//X....// .은 빈칸, X는 칸에 폰이 있음을 의미
+//X....
+//..X..
+//.X...
+//....X
+//주어진 체스판에 록을 배치할 때, 최대 몇개를 배치할 수 있는가
+//답 : 7
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
