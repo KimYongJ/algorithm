@@ -26,11 +26,7 @@ class Main{
 		{
 			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=N; x++)
-			{
 				origin[y][x] = Integer.parseInt(st.nextToken());
-				// 누적합을 바로 구한다.
-				origin[y][x] += origin[y-1][x] + origin[y][x-1] - origin[y-1][x-1];
-			}
 		}
 		
 		// 구간 질의를 입력받으며 차분 배열 4점에 마킹한다.
@@ -57,11 +53,7 @@ class Main{
 		for(int x=1; x<=N; x++)
 			for(int y=1; y<=N; y++)
 				diff[y][x] += diff[y-1][x];
-		// 차분 배열의 누적합을 저장한다.
-		for(int y=1; y<=N; y++)
-			for(int x=1; x<=N; x++)
-				diff[y][x] += diff[y-1][x] + diff[y][x-1] - diff[y-1][x-1];
-		
+
 		// 마지막 목표 값을 입력받아 출력한다.
 		st = new StringTokenizer(br.readLine());
 		st.nextToken();
@@ -69,9 +61,12 @@ class Main{
 		int x1 = Integer.parseInt(st.nextToken()) + 1;
 		int y2 = Integer.parseInt(st.nextToken()) + 1;
 		int x2 = Integer.parseInt(st.nextToken()) + 1;
-		// 각 구간의 누적합을 출력
-		long result = origin[y2][x2] - origin[y2][x1-1] - origin[y1-1][x2] + origin[y1-1][x1-1] +
-				diff[y2][x2] - diff[y2][x1-1] - diff[y1-1][x2] + diff[y1-1][x1-1];
+		long result = 0;
+		
+		for(int y=y1; y<=y2; y++)
+			for(int x=x1; x<=x2; x++)
+				result += origin[y][x] + diff[y][x];
+		
 		System.out.print(result);
 	}
 }
