@@ -1,14 +1,3 @@
-//https://www.acmicpc.net/problem/9525
-//1초 128MB
-//5 // 체스판의 크기 1<=100
-//X....// .은 빈칸, X는 칸에 폰이 있음을 의미
-//X....
-//..X..
-//.X...
-//....X
-//주어진 체스판에 록을 배치할 때, 최대 몇개를 배치할 수 있는가
-//답 : 7
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -18,14 +7,14 @@ class Main{
 	
 	static int N;
 	static int yIdx, xIdx;
-	static int ymap[][];
-	static int xmap[][];
-	static boolean isPawn[][];
-	static List<Integer> adList[];
+	static int ymap[][];// y좌표의 인덱스들을 담을 배열
+	static int xmap[][];// x좌표의 인덱스들을 담을 배열
+	static boolean isPawn[][];// 가로막는 폰인지 아닌지를 담을 배열
+	static List<Integer> adList[];// 인접리스트
 	// 이분 매칭시 사용
-	static int time;
-	static int match[];
-	static int visitTime[];
+	static int time;// 이분 매칭시 방문 표시를 체킹할 변수
+	static int match[];// 매칭된 값을 저장할 변수
+	static int visitTime[];// 노드가 방문했는지를 체크할 배열
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,10 +33,13 @@ class Main{
 			for(int x=1; x<=N; x++)
 			{
 				isPawn[y][x] = str.charAt(x-1) == 'X';
-				if(!isPawn[y][x])
+				if(!isPawn[y][x])// 빈칸인 경우 
 				{
+					// y인덱스는 위쪽만 바라보고 위쪽 값이 정해져 있다면 그 값으로, 안정해져있다면 새로운 행을 생성합니다.
 					ymap[y][x] = ymap[y-1][x] == 0 ? ++yIdx : ymap[y-1][x];
+					// x인덱스는 왼쪽만 바라보고 왼쪽 값이 정해져 있다면 그 값으로, 안정해져있다면 새로운 열을 생성합니다.
 					xmap[y][x] = xmap[y][x-1] == 0 ? ++xIdx : xmap[y][x-1];
+					// 모든 빈칸에 대해서 인접 리스트를 생성합니다.
 					adList[ymap[y][x]].add(xmap[y][x]);
 				}
 			}
@@ -68,9 +60,12 @@ class Main{
 	static boolean dfs(int y) {
 		for(int x : adList[y])
 		{
+			// 이미 방문했다면 스킵
 			if(visitTime[x] == time)
 				continue;
+			// 방문 체크
 			visitTime[x] = time;
+			// 현재 x좌표가 방문하지 않았거나, 여기 방문한 노드가 다른곳으로 옮길 수 있다면, x에 y를 넣고 return true;
 			if(match[x] == 0 || dfs(match[x]))
 			{
 				match[x] = y;
