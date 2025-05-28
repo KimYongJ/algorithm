@@ -9,36 +9,27 @@
 //1 0 0 2 2 2
 //2 0 0 2 2// 2번 쿼리 : 2번쿼리는 딱 한번만 나오며 해당 격자안의 값만 더해서 출력
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());// 사각형크기(1<=1,000)
-		int M = Integer.parseInt(st.nextToken());// 질의 수(1<=300,000)
+		Reader in = new Reader();
+		int N = in.nextInt();// 사각형크기(1<=1,000)
+		int M = in.nextInt();// 질의 수(1<=300,000)
 		long origin[][] = new long[N + 2][N + 2];
 		long diff[][] = new long[N + 2][N + 2]; // 차분 배열
 		
 		for(int y=1; y<=N; y++)
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=1; x<=N; x++)
-				origin[y][x] = Integer.parseInt(st.nextToken());
-		}
+				origin[y][x] = in.nextInt();
 		
 		// 구간 질의를 입력받으며 차분 배열 4점에 마킹한다.
 		for(int i=1; i<M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			st.nextToken();
-			int y1 = Integer.parseInt(st.nextToken()) + 1;
-			int x1 = Integer.parseInt(st.nextToken()) + 1;
-			int y2 = Integer.parseInt(st.nextToken()) + 1;
-			int x2 = Integer.parseInt(st.nextToken()) + 1;
-			int k = Integer.parseInt(st.nextToken());
+			in.nextInt();
+			int y1 = in.nextInt() + 1;
+			int x1 = in.nextInt() + 1;
+			int y2 = in.nextInt() + 1;
+			int x2 = in.nextInt() + 1;
+			int k = in.nextInt();
 			// 차분배열의 네점에 마킹
 			diff[y1][x1] += k;
 			diff[y1][x2 + 1] -= k;
@@ -55,12 +46,12 @@ class Main{
 				diff[y][x] += diff[y-1][x];
 
 		// 마지막 목표 값을 입력받아 출력한다.
-		st = new StringTokenizer(br.readLine());
-		st.nextToken();
-		int y1 = Integer.parseInt(st.nextToken()) + 1;
-		int x1 = Integer.parseInt(st.nextToken()) + 1;
-		int y2 = Integer.parseInt(st.nextToken()) + 1;
-		int x2 = Integer.parseInt(st.nextToken()) + 1;
+		in.nextInt();
+		int y1 = in.nextInt() + 1;
+		int x1 = in.nextInt() + 1;
+		int y2 = in.nextInt() + 1;
+		int x2 = in.nextInt() + 1;
+		
 		long result = 0;
 		
 		for(int y=y1; y<=y2; y++)
@@ -68,5 +59,30 @@ class Main{
 				result += origin[y][x] + diff[y][x];
 		
 		System.out.print(result);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
