@@ -17,8 +17,7 @@ class Main{
 	
 	static int totalBlank;
 	static int Y, X;
-	static int left[][];
-	static int right[][];
+	static int idx[][];
 	static boolean isPos[][];
 
 	// 이분 매칭시 사용
@@ -32,8 +31,7 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		Y = Integer.parseInt(st.nextToken());// 행(1<=50)
 		X = Integer.parseInt(st.nextToken());// 열(1<=50)
-		left = new int[Y + 2][X + 2];
-		right = new int[Y + 2][X + 2];
+		idx = new int[Y + 2][X + 2];
 		isPos = new boolean[Y + 2][X + 2];
 
 		boolean flag;
@@ -41,23 +39,18 @@ class Main{
 		int j = 0;
 		for(int y=1; y<=Y; y++)
 		{
-			flag = y % 2 != 1;
+			flag = y % 2 == 1;// 타일을 체스판 처럼 구분하기 위한 값
 			String str = br.readLine();
-			for(int x=1; x<=X; x++)
+			for(int x=1; x<=X; x++,flag = !flag)
 			{
-				char c = str.charAt(x - 1);
-				isPos[y][x] = c == '.';
-				flag = !flag;
+				isPos[y][x] = str.charAt(x - 1) == '.';
 				
 				if(!isPos[y][x])
 					continue;
 				
 				++totalBlank;
 				
-				if(flag)
-					left[y][x] = ++i;
-				else
-					right[y][x] = ++j;
+				idx[y][x] = flag ? ++i : ++j;
 			}
 		}
 		
@@ -81,7 +74,7 @@ class Main{
 					int nextY = y + xy[0];
 					int nextX = x + xy[1];
 					if(isPos[nextY][nextX])
-						adList[left[y][x]].add(right[nextY][nextX]);
+						adList[idx[y][x]].add(idx[nextY][nextX]);
 				}
 			}
 		}
