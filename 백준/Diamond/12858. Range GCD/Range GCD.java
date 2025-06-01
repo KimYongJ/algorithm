@@ -48,6 +48,7 @@ class Main{
 				long diff = diffQuery(1, 1, N, A, B-1);
 				
 				sb.append( gcd( first, Math.abs(diff)) ).append('\n');
+				continue;
 			}
 			
 			// T A B : T가 0이 아니라면, 수열의 A번째 원소부터 B번째 원소까지에 T라는 수를 더하는 연산이다.
