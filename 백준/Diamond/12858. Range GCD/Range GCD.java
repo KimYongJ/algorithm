@@ -1,160 +1,181 @@
+//https://www.acmicpc.net/problem/12858
+//2초 512MB
+//4//원소 개수 (1 ≤ N ≤ 100,000)
+//6 3 38 49// 수열의 원소 값(1<=10억)
+//5// 쿼리 수(1 ≤ Q ≤ 100,000)
+//0 1 3// T A B : T가 0이라면, 수열의 A번째 원소부터 B번째 원소까지의 최대공약수를 출력해야 한다.
+//9 2 2// T A B : T가 0이 아니라면, 수열의 A번째 원소부터 B번째 원소까지에 T라는 수를 더하는 연산이다.
+//0 1 2// A <= B(1<=N)
+//6 3 3
+//0 3 4
+//T가 0일 때마다 해당 구간의 최대공약수 출력
+//1
+//6
+//1
 
-import java.io.*;
-import java.util.StringTokenizer;
-
-public class Main {
-
-    /* ---------------------- 전역 ---------------------- */
-    static int N, Q;                     // 원소 개수, 질의 수
-    static long[] arr;                     // 초기 수열 (1-based, a[N+1]=dummy)
-    static long[] diffSeg;               // diff[] GCD 세그먼트 트리
-
-    /* ------------------ 유틸 : GCD -------------------- */
-    /** 유클리드 최대공약수 (항상 양수 반환) */
-    static long gcd(long x, long y) {
-        if (y == 0) return Math.abs(x);
-        return gcd(y, x % y);
-    }
-
-    /* ========= ① diff용 세그먼트 트리 (구간 GCD) ========= */
-
-    /** 트리 빌드 : diff[i] = a[i+1] - a[i] */
-    static void buildDiff(int node, int l, int r) {
-        if (l == r) {
-            diffSeg[node] = arr[l + 1] - arr[l];
-            return;
-        }
-        int m = (l + r) >>> 1;
-        buildDiff(node << 1, l, m);
-        buildDiff(node << 1 | 1, m + 1, r);
-        diffSeg[node] = gcd(diffSeg[node << 1], diffSeg[node << 1 | 1]);
-    }
-
-    /** 단일 diff 인덱스에 delta 추가 */
-    static void updateDiff(int node, int l, int r, int idx, long delta) {
-        if (idx < l || idx > r) return;
-        if (l == r) {
-            diffSeg[node] += delta;
-            return;
-        }
-        int m = (l + r) >>> 1;
-        updateDiff(node << 1, l, m, idx, delta);
-        updateDiff(node << 1 | 1, m + 1, r, idx, delta);
-        diffSeg[node] = gcd(diffSeg[node << 1], diffSeg[node << 1 | 1]);
-    }
-
-    /** diff[l..r] 의 GCD (구간이 비면 0) */
-    static long queryDiff(int node, int l, int r, int ql, int qr) {
-        if (qr < l || r < ql) return 0;
-        if (ql <= l && r <= qr) return diffSeg[node];
-        int m = (l + r) >>> 1;
-        return gcd(
-            queryDiff(node << 1, l, m, ql, qr),
-            queryDiff(node << 1 | 1, m + 1, r, ql, qr)
-        );
-    }
-
-    /* ========= ② 값용 세그먼트 트리 (Range-Add / Point-Query) ========= */
-
-    /** 1-based 인덱스 전용 range-add 세그먼트 트리 */
-    static final class RangeAddPointSegTree {
-        private final long[] tree;     // 리프 : 실제 a[i] 값, 내부 : 왼쪽 리프 값
-        private final long[] lazy;     // 구간에 아직 전파되지 않은 덧셈 값
-        private final int n;
-
-        RangeAddPointSegTree(int n) {
-            this.n = n;
-            tree = new long[4 * n + 4];
-            lazy = new long[4 * n + 4];
-        }
-
-        /** lazy 값 아래로 전달 & 현 노드 반영 */
-        private void propagate(int node, int l, int r) {
-            if (lazy[node] == 0) return;
-            tree[node] += lazy[node];
-            if (l != r) {                    // 자식 노드에 누적
-                lazy[node << 1]     += lazy[node];
-                lazy[node << 1 | 1] += lazy[node];
-            }
-            lazy[node] = 0;
-        }
-
-        /** [ql,qr] 에 delta 더하기 */
-        void rangeAdd(int ql, int qr, long delta) { rangeAdd(1, 1, n, ql, qr, delta); }
-        private void rangeAdd(int node, int l, int r, int ql, int qr, long delta) {
-            propagate(node, l, r);
-            if (qr < l || r < ql) return;
-            if (ql <= l && r <= qr) {
-                lazy[node] += delta;
-                propagate(node, l, r);
-                return;
-            }
-            int m = (l + r) >>> 1;
-            rangeAdd(node << 1, l, m, ql, qr, delta);
-            rangeAdd(node << 1 | 1, m + 1, r, ql, qr, delta);
-        }
-
-        /** a[idx] 단일 조회 */
-        long pointQuery(int idx) { return pointQuery(1, 1, n, idx); }
-        private long pointQuery(int node, int l, int r, int idx) {
-            propagate(node, l, r);
-            if (l == r) return tree[node];
-            int m = (l + r) >>> 1;
-            return (idx <= m)
-                 ? pointQuery(node << 1, l, m, idx)
-                 : pointQuery(node << 1 | 1, m + 1, r, idx);
-        }
-    }
-
-    /* ---------------------- 메인 ---------------------- */
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-
-        /* 입력 */
-        N = Integer.parseInt(br.readLine());
-        arr = new long[N + 2];                // a[N+1] 더미 0
-        diffSeg = new long[4 * N + 4];
-
-        RangeAddPointSegTree valSeg = new RangeAddPointSegTree(N);  // 값용 트리
-
-        st = new StringTokenizer(br.readLine());
-        for (int i = 1; i <= N; i++)
-        {
-        	arr[i] = Long.parseLong(st.nextToken());
-            valSeg.rangeAdd(i, i, arr[i]);     // 초기값 세팅 : a[i] += a[i]
-        }
-
-        /* diff 세그먼트 트리 빌드 */
-        buildDiff(1, 1, N);
-
-        /* 쿼리 처리 */
-        Q = Integer.parseInt(br.readLine());
-        StringBuilder out = new StringBuilder();
-
-        while (Q-- > 0) {
-            st = new StringTokenizer(br.readLine());
-            long t = Long.parseLong(st.nextToken());   // 0이면 질의, 아니면 덧셈
-            int x  = Integer.parseInt(st.nextToken());
-            int y  = Integer.parseInt(st.nextToken());
-            if (x > y) { int tmp = x; x = y; y = tmp; } // 보장 안 됐을 때 대비
-
-            if (t == 0)
-            {               /* ───── 질의 : 최대공약수 ───── */
-                long first = valSeg.pointQuery(x);          // a[x]
-                long gDiff = queryDiff(1, 1, N, x, y - 1);  // diff[x..y-1] GCD
-                out.append(gcd(first, Math.abs(gDiff))).append('\n');
-            }
-            else
-            {                    /* ───── 갱신 : 구간 덧셈 ───── */
-                /* diff 배열 갱신  diff[x-1] += t */
-                updateDiff(1, 1, N, x - 1,  t);
-                /* diff[y] -= t  (y ≤ N) */
-                updateDiff(1, 1, N, y,     -t);
-                /* 값 세그트리 : [x,y] 범위에 t 더하기 */
-                valSeg.rangeAdd(x, y, t);
-            }
-        }
-        System.out.print(out);
-    }
+class Main{
+	
+	static int N, Q;
+	static long arr[];
+	static long lazy[];
+	static long diffSeg[];// 리프노드는 배열의 차를 저장하고, 내부노드는 gcd를 저장한다.
+	static long pointSeg[];// 이 세그먼트는 그냥 리프노드에 값만 저장하고 lazy 업데이트를 적용할 수 있다.
+	
+	public static void main(String[] args)throws Exception{
+		Reader in = new Reader();
+		StringBuilder sb = new StringBuilder();
+		N = in.nextInt();//원소 개수 (1 ≤ N ≤ 100,000)
+		arr = new long[N + 2];
+		lazy = new long[N * 4];
+		diffSeg = new long[N * 4];
+		pointSeg = new long[N * 4];
+		
+		for(int i=1; i<=N; i++)// 수열의 원소 값(1<=10억)
+			arr[i] = in.nextInt();
+		
+		init(1, 1, N);// diffSeg와 pointSeg를 업데이트한다.
+		
+		Q = in.nextInt();// 쿼리 수(1 ≤ Q ≤ 100,000)
+		while(Q-->0)
+		{
+			int T = in.nextInt();
+			int A = in.nextInt();
+			int B = in.nextInt();
+			
+			if(T == 0)// T A B : T가 0이라면, 수열의 A번째 원소부터 B번째 원소까지의 최대공약수를 출력해야 한다.
+			{
+				long first = pointQuery(1, 1, N, A);
+				long diff = diffQuery(1, 1, N, A, B-1);
+				
+				sb.append( gcd( first, Math.abs(diff)) ).append('\n');
+			}
+			
+			// T A B : T가 0이 아니라면, 수열의 A번째 원소부터 B번째 원소까지에 T라는 수를 더하는 연산이다.
+			pointUpdate(1, 1, N, A, B, T);
+			diffUpdate(1, 1, N, A - 1, T);
+			diffUpdate(1, 1, N, B, -T);
+		}
+		System.out.print(sb);
+	}
+	public static void diffUpdate(int treeNode, int s, int e, int targetIdx, long value) {
+		if(e < targetIdx || targetIdx < s)
+			return;
+		if(s == e)
+		{
+			diffSeg[treeNode] += value;
+			return;
+		}
+		
+		int mid = (s + e) >> 1;
+		
+		diffUpdate(treeNode << 1, s, mid, targetIdx, value);
+		diffUpdate(treeNode << 1 | 1, mid + 1, e, targetIdx, value);
+		
+		diffSeg[treeNode] = gcd(diffSeg[treeNode << 1], diffSeg[treeNode << 1 | 1]);
+	}
+	public static long diffQuery(int treeNode, int s, int e, int left, int right) {
+		if(e < left || right < s)
+			return 0;
+		
+		if(left <= s && e <= right)
+			return diffSeg[treeNode];
+		
+		int mid = (s + e) >> 1;
+		
+		long l = diffQuery(treeNode << 1, s, mid, left, right);
+		long r = diffQuery(treeNode << 1 | 1, mid + 1, e, left, right);
+		
+		return gcd(l, r);
+	}
+	public static void pointUpdate(int treeNode, int s, int e, int left, int right, long value) {
+		propagate(treeNode, s, e);
+		
+		if(e < left || right < s)
+			return;
+		
+		if(left <= s && e <= right)
+		{
+			lazy[treeNode] = value;
+			propagate(treeNode, s, e);
+			return;
+		}
+		
+		int mid = (s + e) >> 1;
+		
+		pointUpdate(treeNode << 1, s, mid, left, right, value);
+		pointUpdate(treeNode << 1 | 1, mid + 1, e, left, right, value);
+	}
+	public static long pointQuery(int treeNode, int s, int e, int targetIdx) {
+		propagate(treeNode, s, e);
+		
+		if(e < targetIdx || targetIdx < s)
+			return 0;
+		if(s == e)
+			return pointSeg[treeNode];
+		
+		int mid = (s + e) >> 1;
+		
+		return targetIdx <= mid ? 
+				pointQuery(treeNode << 1, s, mid, targetIdx)
+				: pointQuery(treeNode << 1 | 1, mid + 1, e, targetIdx);
+	}
+	public static void propagate(int treeNode, int s, int e) {
+		if(lazy[treeNode] == 0)
+			return;
+		
+		if(s == e)
+			pointSeg[treeNode] += lazy[treeNode];
+		
+		if(s != e)
+		{
+			lazy[treeNode << 1] += lazy[treeNode];
+			lazy[treeNode << 1 | 1] += lazy[treeNode];
+		}
+		
+		lazy[treeNode] = 0;
+	}
+	public static void init(int treeNode, int s, int e) {
+		if(s == e)
+		{
+			pointSeg[treeNode] = arr[s];
+			diffSeg[treeNode] = arr[s + 1] - arr[s];
+			return;
+		}
+		
+		int mid = (s + e) >> 1;
+		
+		init(treeNode << 1, s, mid);
+		init(treeNode << 1 | 1, mid + 1, e);
+		
+		diffSeg[treeNode] = gcd(diffSeg[treeNode << 1], diffSeg[treeNode << 1 | 1]);
+	}
+	public static long gcd(long a, long b) {
+		if(b == 0) return a;
+		return gcd(b, a % b);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
+	}
 }
