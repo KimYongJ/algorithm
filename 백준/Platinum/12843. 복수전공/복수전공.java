@@ -29,27 +29,25 @@ class Main{
 	static int time;
 	static int match[];
 	static int visitTime[];
-	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
+		adList = new ArrayList[N + 1];
 		cIdx = new int[N + 1];
 		sIdx = new int[N + 1];
-		adList = new ArrayList[N + 1];
+		for(int i=0; i<=N; i++)
+			adList[i] = new ArrayList<>();
 		
-		for(int i=1,idxC = 0, idxS = 0; i<=N; i++)
+		for(int i=0,idxC = 0, idxS = 0; i<N; i++)
 		{
-			adList[i] = new ArrayList<>(); // 인접리스트 초기화
-			
-			st = new StringTokenizer(br.readLine());
-			
-			int node = Integer.parseInt(st.nextToken());// 노드번호
-			char c = st.nextToken().charAt(0);// 과목
-			if(c == 'c')// 컴퓨터 과목이면 컴퓨터 과목 배열에 인덱스 마킹
+			st = new StringTokenizer(br.readLine());// 필요 없어서 버림
+			int node = Integer.parseInt(st.nextToken());
+			char c = st.nextToken().charAt(0);
+			if(c == 'c')
 				cIdx[node] = ++idxC;
-			else// 소프트웨어 과목이면 해당 과목 배열에 인덱스 마킹
+			else
 				sIdx[node] = ++idxS;
 		}
 		
@@ -58,7 +56,6 @@ class Main{
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
-			// 컴퓨터 과목기준으로 인접 리스트 생성
 			if(cIdx[a] != 0)
 				adList[cIdx[a]].add(sIdx[b]);
 			else
