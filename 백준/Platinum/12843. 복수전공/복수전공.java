@@ -12,45 +12,54 @@
 //4 5
 // 답 : 3
 
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 class Main{
 	
 	static int N, M;
-	static boolean isComputer[];
+	static int cIdx[];
+	static int sIdx[];
 	static List<Integer> adList[];
-	
 	// 이분 매칭시 사용
 	static int time;
 	static int match[];
 	static int visitTime[];
-	
 	public static void main(String[] args)throws Exception{
-		Reader in = new Reader();
-		N = in.nextInt();
-		M = in.nextInt();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
 		adList = new ArrayList[N + 1];
-		isComputer = new boolean[N + 1];
+		cIdx = new int[N + 1];
+		sIdx = new int[N + 1];
+		for(int i=0; i<=N; i++)
+			adList[i] = new ArrayList<>();
 		
-		for(int i=1; i<=N; i++)
+		for(int i=0,idxC = 0, idxS = 0; i<N; i++)
 		{
-			adList[i] = new ArrayList<>(); // 인접리스트 초기화
-			
-			int node = in.nextInt();// 노드번호
-			char c = in.nextChar();// 과목
-			isComputer[node] = c == 'c';
+			st = new StringTokenizer(br.readLine());// 필요 없어서 버림
+			int node = Integer.parseInt(st.nextToken());
+			char c = st.nextToken().charAt(0);
+			if(c == 'c')
+				cIdx[node] = ++idxC;
+			else
+				sIdx[node] = ++idxS;
 		}
 		
 		for(int i=1;i<=M; i++)
 		{
-			int a = in.nextInt();
-			int b = in.nextInt();
-			// 컴퓨터 과목기준으로 인접 리스트 생성
-			if(isComputer[a])
-				adList[a].add(b);
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			if(cIdx[a] != 0)
+				adList[cIdx[a]].add(sIdx[b]);
 			else
-				adList[b].add(a);
+				adList[cIdx[b]].add(sIdx[a]);
 		}
 		
 		match = new int[N + 1];
@@ -82,35 +91,5 @@ class Main{
 			}
 		}
 		return false;
-	}
-	static class Reader {
-	    final int SIZE = 1 << 13;
-	    byte[] buffer = new byte[SIZE];
-	    int index, size;
-	    int nextInt() throws Exception {
-	        int n = 0;
-	        byte c;
-	        boolean isMinus = false;
-	        while ((c = read()) <= 32) { if (size < 0) return -1; }
-	        if (c == 45) { c = read(); isMinus = true; }
-	        do n = (n << 3) + (n << 1) + (c & 15);
-	        while (isNumber(c = read()));
-	        return isMinus ? ~n + 1 : n;
-	    }
-	    char nextChar() throws Exception {
-	        byte c;
-	        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
-	        return (char)c;
-	    }
-	    boolean isNumber(byte c) {
-	        return 47 < c && c < 58;
-	    }
-	    byte read() throws Exception {
-	        if (index == size) {
-	            size = System.in.read(buffer, index = 0, SIZE);
-	            if (size < 0) buffer[0] = -1;
-	        }
-	        return buffer[index++];
-	    }
 	}
 }
