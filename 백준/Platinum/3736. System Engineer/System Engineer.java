@@ -37,6 +37,7 @@ class Main{
 			String str = br.readLine();
 			if(str == null || "".equals(str))
 				break;
+			
 			clear();
 			
 			N = Integer.parseInt(str);
@@ -55,12 +56,14 @@ class Main{
 			}
 			
 			int cnt = 0;
+			
 			for(int i=0; i<N; i++)
 			{
 				++time;
 				if(dfs(i))
 					++cnt;
 			}
+			
 			sb.append(cnt).append('\n');
 		}
 		System.out.print(sb);
