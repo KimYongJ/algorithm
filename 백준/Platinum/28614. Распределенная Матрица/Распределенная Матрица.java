@@ -23,7 +23,6 @@ class Main{
 	
 	static int idx;// 순차증가 인덱스
 	static int segIdx[];// 트리노드 번호 -> 세그먼트 트리 인덱스 번호를 담을 배열
-	static int chainLevel[];// 노드번호당 체인의 레벨을 담을 배열
 	static int chainParent[];// 노드번호당 이전 체인으로 바로 점프하기 위해 이전 체인의 노드번호를 담을 배열
 	static int chainHeader[];// 노드번호당 자기 체인의 head를 담을 배열
 	
@@ -39,7 +38,6 @@ class Main{
 		N = in.nextInt();// 노드 수(2<=2*10^6)
 		Q = in.nextInt();// 이벤트 수(2<=2*10^6)
 		segIdx = new int[N + 1];
-		chainLevel = new int[N + 1];
 		chainParent = new int[N + 1];
 		chainHeader = new int[N + 1];
 		chainParent[1] = 1;// 1번노드의 이전 체인은 없으므로 자기 자신
