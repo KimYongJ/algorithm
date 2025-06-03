@@ -13,12 +13,9 @@
 //-1
 //14
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -38,10 +35,9 @@ class Main{
 	static List<Integer> adList[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 노드 수(2<=2*10^6)
-		Q = Integer.parseInt(st.nextToken());// 이벤트 수(2<=2*10^6)
+		Reader in = new Reader();
+		N = in.nextInt();// 노드 수(2<=2*10^6)
+		Q = in.nextInt();// 이벤트 수(2<=2*10^6)
 		segIdx = new int[N + 1];
 		chainLevel = new int[N + 1];
 		chainParent = new int[N + 1];
@@ -64,14 +60,13 @@ class Main{
 		
 		for(int i=0; i<Q; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			char cmd = st.nextToken().charAt(0);
-			int x = Integer.parseInt(st.nextToken());
+			char cmd = in.nextChar();
+			int x = in.nextInt();
 			int y = 0;
 			
 			if(cmd == '!' || cmd == '?')
 			{
-				y = Integer.parseInt(st.nextToken());
+				y = in.nextInt();
 				if(cmd == '!')
 				{
 					adList[x].add(y);
@@ -158,7 +153,6 @@ class Main{
 			return dummy;
 		if(left <= s && e <= right)
 			return tree[treeNode];
-		
 		
 		int mid = (s + e) >> 1;
 		
@@ -280,5 +274,35 @@ class Main{
 			this.x=x;
 			this.y=y;
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    char nextChar() throws Exception {
+	        byte c;
+	        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+	        return (char)c;
+	    }
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
