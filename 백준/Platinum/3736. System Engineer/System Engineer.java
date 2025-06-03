@@ -18,7 +18,7 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static final int MAX = 20_002;
+	static final int MAX = 10_001;
 	static int N;
 	static int time;
 	static int match[];
@@ -43,16 +43,14 @@ class Main{
 			
 			for(int i=0; i<N; i++)
 			{
-				st = new StringTokenizer(br.readLine());
-				String j = st.nextToken();
-				String c = st.nextToken();
-				int job = Integer.parseInt(j.substring(0, j.length() - 1));
-				int cnt = Integer.parseInt(c.substring(1, c.length() - 1));
+				st = new StringTokenizer(br.readLine(), " |:()");
+				int job = Integer.parseInt(st.nextToken());
+				int cnt = Integer.parseInt(st.nextToken());
 				
 				while(cnt-->0)
 				{
 					int server = Integer.parseInt(st.nextToken());
-					adList[job].add(server);
+					adList[job].add(server - N);
 				}
 			}
 			
