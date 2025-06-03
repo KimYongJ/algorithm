@@ -30,43 +30,39 @@ class Main{
 	static HLD hld;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
-		N = Integer.parseInt(br.readLine());// 도시 수(1<=50,000)
+		Reader in = new Reader();
+		N = in.nextInt();// 도시 수(1<=50,000)
 		height = new int[N + 1];
 		adList = new ArrayList[N + 1];
 		
 		for(int i=0; i<=N; i++)
 			adList[i] = new ArrayList<>();
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			height[i] = Integer.parseInt(st.nextToken());
+			height[i] = in.nextInt();
 		
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = in.nextInt();
+			int b = in.nextInt();
 			adList[a].add(b);
 			adList[b].add(a);
 		}
-		
+		// HLD를 위한 기본 세팅
 		hld = new HLD(N, height, adList);
 		
-		Q = Integer.parseInt(br.readLine());// 질의 수(1<=100,000)
+		Q = in.nextInt();// 질의 수(1<=100,000)
 		
 		while(Q-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			char c = st.nextToken().charAt(0);
-			int x = Integer.parseInt(st.nextToken());
-			int y = Integer.parseInt(st.nextToken());
+			char c = in.nextChar();
+			int x = in.nextInt();
+			int y = in.nextInt();
 			
 			if(c == '!')// ! 명령어는 x번 노드의 높이가 y로 변경되 었다는 것을 의미
 			{
-				hld.update(x, y);
+				hld.update(x, y);// 해당 노드에 업데이트
 				continue;
 			}
 			// ? 명령어는 x,y번 노드 사이에 각 밧줄 길이중 최대 길이
@@ -75,16 +71,18 @@ class Main{
 		System.out.print(sb);
 	}
 	static class HLD{
+		
 		int N;
 		int idx;
 		int tree[];
 		int reverse[];// 세그먼트 트리 인덱스 -> 노드 번호
 		int segIdx[];// 노드번호 -> 세그먼트 트리 인덱스
-		int height[];
+		int height[];// 초기 높이 값
 		int chainLevel[];
 		int chainParent[];
 		int chainHeader[];
 		List<Integer> adList[];
+		
 		HLD(int N, int height[], List<Integer> adList[]){
 			this.N = N;
 			this.height = height;
@@ -165,6 +163,7 @@ class Main{
 		void init(int treeNode, int s, int e) {
 			if(s == e)
 			{
+				// height에 저장된 높이는 노드 번호 그대로 저장되어 있기 때문에, 세그먼트 트리 인덱스를 노드 번호로 변환해야 한다.
 				tree[treeNode] = height[reverse[s]];
 				return;
 			}
@@ -201,8 +200,8 @@ class Main{
 		}
 		void setHLD(int nowNode, int level)
 		{
-			segIdx[nowNode] = ++idx;
-			reverse[idx] = nowNode;
+			segIdx[nowNode] = ++idx;// 노드 번호 -> 세그먼트 트리 인덱스로 변환
+			reverse[idx] = nowNode;// 세그먼트 트리 인덱스 -> 노드번호로 변환
 			chainLevel[nowNode] = level;
 			
 			for(int i=0; i<adList[nowNode].size(); i++)
@@ -224,5 +223,35 @@ class Main{
 				setHLD(next, level + 1);// 새로운 체인 시작시 레벨 추가
 			}
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    char nextChar() throws Exception {
+	        byte c;
+	        while ((c = read()) < 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+	        return (char)c;
+	    }
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
