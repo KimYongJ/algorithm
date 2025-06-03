@@ -42,7 +42,7 @@ class Main{
 		chainLevel = new int[N + 1];
 		chainParent = new int[N + 1];
 		chainHeader = new int[N + 1];
-		chainParent[1] = 1;
+		chainParent[1] = 1;// 1번노드의 이전 체인은 없으므로 자기 자신
 		chainHeader[1] = 1;// 1번노드 헤드는 자기자신
 		tree = new Node[N * 4];
 		result = new Node[N * 4];
@@ -96,12 +96,13 @@ class Main{
 				update(1, 1, N, segIdx[q.x], time, true);
 			else
 			{
-				// 1번 노드 -> x노드까지 확인
-				Node res1 = find(q.x);
-				// 2번 노드 -> y노드까지 확인
-				Node res2 = find(q.y);
-				// lca노드 -> 1번노드까지 확인
-				Node res3 = find(getLca(q.x, q.y));
+				int lca = getLca(q.x, q.y);
+				// 1번 노드 -> lca까지 확인
+				Node res1 = find(1, lca);
+				// 양쪽 노드 확인( lca를 통해 두 노드가 탐색되므로 )
+				Node res2 = find(q.y, q.x);
+				// lca노드가 두번 탐색되었으므로 한번 빼야되서 별도로 가져옴
+				Node res3 = query( 1, 1, N, segIdx[lca], segIdx[lca]);
 				
 				if(res1.isConnected && res2.isConnected)
 				{
@@ -120,16 +121,27 @@ class Main{
 	static long cal(Node res, int time) {
 		return res.cnt * time - res.lastModified;
 	}
-	static Node find(int node) {
+	static Node find(int node1, int node2) {
 		Node res = new Node(0,0,true);
 		
-		while(chainHeader[1] != chainHeader[node])
+		while(chainHeader[node1] != chainHeader[node2])
 		{
-			res.add( query(1, 1, N, segIdx[chainHeader[node]], segIdx[node] ));
-			node = chainParent[node];
+			if(segIdx[node1] > segIdx[node2])
+			{
+				int tmp = node1;
+				node1 = node2;
+				node2 = tmp;
+			}
+			res.add( query(1, 1, N, segIdx[chainHeader[node2]], segIdx[node2] ));
+			node2 = chainParent[node2];
 		}
-		
-		res.add( query(1, 1, N, 1, segIdx[node]) );
+		if(segIdx[node1] > segIdx[node2])
+		{
+			int tmp = node1;
+			node1 = node2;
+			node2 = tmp;
+		}
+		res.add( query(1, 1, N, segIdx[node1], segIdx[node2]) );
 		
 		return res;
 	}
