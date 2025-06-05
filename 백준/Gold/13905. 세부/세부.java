@@ -1,10 +1,7 @@
 //https://www.acmicpc.net/problem/13905
-
+//1초 256MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
@@ -21,11 +18,7 @@ class Main{
 		int e = Integer.parseInt(st.nextToken());
 		
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		List<Object> adList[] = new ArrayList[N + 1];
 		UnionFind uf = new UnionFind(N);
-		
-		for(int i=0; i<=N; i++)
-			adList[i] = new ArrayList<>();
 		
 		for(int i=0; i<M; i++)
 		{
@@ -36,7 +29,6 @@ class Main{
 			pq.add(new Node(n1, n2, dist));
 		}
 		
-		// 큐에서 dist가 큰 값 기준으로 꺼내며 트리를 형성
 		int edgeCnt = 1;
 		while(!pq.isEmpty() && edgeCnt != N)
 		{
@@ -44,40 +36,17 @@ class Main{
 			if(uf.union(now.n1, now.n2))
 			{
 				++edgeCnt;
-				adList[now.n1].add(new Object(now.n2, now.dist));
-				adList[now.n2].add(new Object(now.n1, now.dist));
+				if(uf.find(s) == uf.find(e))
+				{
+					System.out.print(now.dist);
+					return;
+				}
 			}
 		}
 		
-		System.out.print( bfs(adList, N, s, e) );
+		System.out.print(0);
 	}
-	static int bfs(List<Object> adList[], int N, int s, int e) {
-		ArrayDeque<Object> q = new ArrayDeque<>();
-		boolean visit[] = new boolean[N + 1];
-		visit[s] = true;
-		
-		q.add(new Object(s, 1<<30));
-		
-		while(!q.isEmpty())
-		{
-			Object now = q.poll();
-			
-			if(now.node == e)
-				return now.min;
-			
-			for(Object next : adList[now.node])
-			{
-				if(visit[next.node])
-					continue;
-				
-				visit[next.node] = true; 
-				
-				q.add(new Object(next.node, Math.min(now.min, next.min)));
-			}
-		}
-		
-		return 0;
-	}
+
 	static class UnionFind{
 		int N;
 		int parent[];
@@ -116,13 +85,6 @@ class Main{
 		@Override
 		public int compareTo(Node o) {
 			return o.dist - dist;
-		}
-	}
-	static class Object{
-		int node, min;
-		Object(int n, int m){
-			this.node = n;
-			this.min = m;
 		}
 	}
 }
