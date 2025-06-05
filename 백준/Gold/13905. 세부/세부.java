@@ -42,25 +42,27 @@ class Main{
 			Node now = pq.poll();
 			if(uf.union(now.n1, now.n2))
 			{
-				adList[now.n1].add(new Object(now.n2, now.dist, now.dist));
-				adList[now.n2].add(new Object(now.n1, now.dist, now.dist));
+				adList[now.n1].add(new Object(now.n2, now.dist));
+				adList[now.n2].add(new Object(now.n1, now.dist));
 			}
 		}
 		
-		System.out.print( dijkstra(adList, N, s, e) );
+		System.out.print( bfs(adList, N, s, e) );
 	}
-	static int dijkstra(List<Object> adList[], int N, int s, int e) {
+	static int bfs(List<Object> adList[], int N, int s, int e) {
 		ArrayDeque<Object> q = new ArrayDeque<>();
 		boolean visit[] = new boolean[N + 1];
 		visit[s] = true;
 		
-		q.add(new Object(s, 1<<30, 1<<30));
+		q.add(new Object(s, 1<<30));
 		
 		while(!q.isEmpty())
 		{
 			Object now = q.poll();
+			
 			if(now.node == e)
 				return now.min;
+			
 			for(Object next : adList[now.node])
 			{
 				if(visit[next.node])
@@ -68,7 +70,7 @@ class Main{
 				
 				visit[next.node] = true; 
 				
-				q.add(new Object(next.node, next.dist, Math.min(now.min, next.min)));
+				q.add(new Object(next.node, Math.min(now.min, next.min)));
 			}
 		}
 		
@@ -115,10 +117,9 @@ class Main{
 		}
 	}
 	static class Object{
-		int node, dist, min;
-		Object(int n, int d, int m){
+		int node, min;
+		Object(int n, int m){
 			this.node = n;
-			this.dist = d;
 			this.min = m;
 		}
 	}
