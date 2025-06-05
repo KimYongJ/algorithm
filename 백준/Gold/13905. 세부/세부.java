@@ -29,18 +29,13 @@ class Main{
 			pq.add(new Node(n1, n2, dist));
 		}
 		
-		int edgeCnt = 1;
-		while(!pq.isEmpty() && edgeCnt != N)
+		while(!pq.isEmpty())
 		{
 			Node now = pq.poll();
-			if(uf.union(now.n1, now.n2))
+			if(uf.union(now.n1, now.n2) && uf.find(s) == uf.find(e))
 			{
-				++edgeCnt;
-				if(uf.find(s) == uf.find(e))
-				{
-					System.out.print(now.dist);
-					return;
-				}
+				System.out.print(now.dist);
+				return;
 			}
 		}
 		
