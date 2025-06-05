@@ -9,27 +9,25 @@
 //질의에 따라 이동가능한지 출력
 //1
 //0
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());// 통나무 개수(1 ≤ N ≤ 100,000)
-		int Q = Integer.parseInt(st.nextToken());// 질문 개수(1 ≤ Q ≤ 100,000)
+		Reader in = new Reader();
+		int N = in.nextInt();// 통나무 개수(1 ≤ N ≤ 100,000)
+		int Q = in.nextInt();// 질문 개수(1 ≤ Q ≤ 100,000)
+		
 		UnionFind uf = new UnionFind(N);
 		List<Query> point = new ArrayList<>();
+		
 		for(int i=1; i<=N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
-			
+			int s = in.nextInt();
+			int e = in.nextInt();
+			in.nextInt(); // Y값은 필요 없으므로 그냥 버린다.
 			point.add(new Query(s, e, i));
 		}
 		
@@ -37,6 +35,7 @@ class Main{
 		
 		int e = point.get(0).e;
 		int idx = point.get(0).idx;
+		
 		for(int i=1; i<N; i++)
 		{
 			Query q = point.get(i);
@@ -57,9 +56,8 @@ class Main{
 		
 		for(int i=1; i<=Q; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int n1 = Integer.parseInt(st.nextToken());
-			int n2 = Integer.parseInt(st.nextToken());
+			int n1 = in.nextInt();
+			int n2 = in.nextInt();
 			sb.append(uf.isConnected(n1, n2)).append('\n');
 		}
 		
@@ -104,5 +102,33 @@ class Main{
 		public int compareTo(Query o) {
 			return s - o.s;
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
