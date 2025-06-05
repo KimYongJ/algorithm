@@ -37,11 +37,13 @@ class Main{
 		}
 		
 		// 큐에서 dist가 큰 값 기준으로 꺼내며 트리를 형성
-		while(!pq.isEmpty())
+		int edgeCnt = 1;
+		while(!pq.isEmpty() && edgeCnt != N)
 		{
 			Node now = pq.poll();
 			if(uf.union(now.n1, now.n2))
 			{
+				++edgeCnt;
 				adList[now.n1].add(new Object(now.n2, now.dist));
 				adList[now.n2].add(new Object(now.n1, now.dist));
 			}
