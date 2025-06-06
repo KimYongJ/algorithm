@@ -42,42 +42,32 @@ class Main{
 				continue;
 			}
 			
-			int parent1 = find(n1);
-			int parent2 = find(n2);
-			if(parent1 == parent2)
-				continue;
-			
-			if(parent[parent1] < parent[parent2])
-				parent[parent2] = parent1;
-			else
-				parent[parent1] = parent2;
+			union(n1, n2);
 		}
 		
 		for(int now = 1; now<=N; now++)
-		{
 			for(int enemy : adList[now])
-			{
 				for(int friend : adList[enemy])
-				{
-					int parent1 = find(now);
-					int parent2 = find(friend);
-					if(parent1 == parent2)
-						continue;
-					
-					if(parent[parent1] < parent[parent2])
-						parent[parent2] = parent1;
-					else
-						parent[parent1] = parent2;
-				}
-			}
-		}
-		
+					union(now, friend);
+
 		Set<Integer> set = new HashSet<>();
 		
 		for(int i=1; i<=N; i++)
 			set.add(find(i));
 
 		System.out.print(set.size());
+	}
+	static void union(int n1, int n2) {
+		int parent1 = find(n1);
+		int parent2 = find(n2);
+		
+		if(parent1 == parent2)
+			return;
+		
+		if(parent[parent1] < parent[parent2])
+			parent[parent2] = parent1;
+		else
+			parent[parent1] = parent2;
 	}
 	static int find(int node) {
 		if(parent[node] == node) return node;
