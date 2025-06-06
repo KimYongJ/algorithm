@@ -1,8 +1,5 @@
 //https://www.acmicpc.net/problem/1765
 //2초 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -11,11 +8,9 @@ class Main{
 	static int enemy[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		
-		N = Integer.parseInt(br.readLine());// 학생수 (2 ≤ 1000) 
-		M = Integer.parseInt(br.readLine());// 인간관계 수(1 ≤ 5000)
+		Reader in = new Reader();
+		N = in.nextInt();// 학생수 (2 ≤ 1000) 
+		M = in.nextInt();// 인간관계 수(1 ≤ 5000)
 		parent = new int[N + 1];
 		enemy = new int[N + 1];
 		
@@ -24,10 +19,9 @@ class Main{
 
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			char cmd = st.nextToken().charAt(0);
-			int n1 = Integer.parseInt(st.nextToken());
-			int n2 = Integer.parseInt(st.nextToken());
+			char cmd = in.nextChar();
+			int n1 = in.nextInt();
+			int n2 = in.nextInt();
 			if(cmd == 'E')
 			{
 				setEnemy(n1, n2);
@@ -67,5 +61,35 @@ class Main{
 	static int find(int node) {
 		if(parent[node] == node) return node;
 		return parent[node] = find(parent[node]);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    char nextChar() throws Exception {
+	        byte c;
+	        while ((c = read()) <= 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+	        return (char)c;
+	    }
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
