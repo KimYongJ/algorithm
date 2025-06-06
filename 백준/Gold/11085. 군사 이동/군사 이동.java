@@ -1,9 +1,7 @@
 //https://www.acmicpc.net/problem/11085
 //2초 256MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.util.PriorityQueue;
-import java.util.StringTokenizer;
 
 class Main{
 
@@ -13,25 +11,22 @@ class Main{
 	static PriorityQueue<Node> pq;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		P = Integer.parseInt(st.nextToken());
-		W = Integer.parseInt(st.nextToken());
-		st = new StringTokenizer(br.readLine());
-		start = Integer.parseInt(st.nextToken());
-		end = Integer.parseInt(st.nextToken());
-		pq = new PriorityQueue<>();
+		Reader in = new Reader();
+		P = in.nextInt();
+		W = in.nextInt();
+		start = in.nextInt();
+		end = in.nextInt();
 		parent = new int[P + 1];
+		pq = new PriorityQueue<>();
 		
 		for(int i=1; i<=P; i++)
 			parent[i] = i;
 		
 		while(W-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int n1 = Integer.parseInt(st.nextToken());
-			int n2 = Integer.parseInt(st.nextToken());
-			int dist = Integer.parseInt(st.nextToken());
+			int n1 = in.nextInt();
+			int n2 = in.nextInt();
+			int dist = in.nextInt();
 			pq.add(new Node(n1, n2, dist));
 		}
 		
@@ -72,5 +67,30 @@ class Main{
 		public int compareTo(Node o) {
 			return o.dist - dist;
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
