@@ -49,13 +49,13 @@ class Main{
 			for(int enemy : adList[now])
 				for(int friend : adList[enemy])
 					union(now, friend);
-
-		Set<Integer> set = new HashSet<>();
 		
+		int cnt = 0;
 		for(int i=1; i<=N; i++)
-			set.add(find(i));
+			if(parent[i] == i)
+				++cnt;
 
-		System.out.print(set.size());
+		System.out.print(cnt);
 	}
 	static void union(int n1, int n2) {
 		int parent1 = find(n1);
