@@ -2,17 +2,13 @@
 //2초 256MB
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 class Main{
 	
 	static int N, M;
 	static int parent[];
-	static List<Integer> adList[];
+	static int enemy[];
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,15 +16,12 @@ class Main{
 		
 		N = Integer.parseInt(br.readLine());// 학생수 (2 ≤ 1000) 
 		M = Integer.parseInt(br.readLine());// 인간관계 수(1 ≤ 5000)
-		adList = new ArrayList[N + 1];
 		parent = new int[N + 1];
+		enemy = new int[N + 1];
 		
 		for(int i=0; i<=N; i++)
-		{
-			adList[i] = new ArrayList<>();
 			parent[i] = i;
-		}
-		
+
 		while(M-->0)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -37,25 +30,27 @@ class Main{
 			int n2 = Integer.parseInt(st.nextToken());
 			if(cmd == 'E')
 			{
-				adList[n1].add(n2);
-				adList[n2].add(n1);
+				setEnemy(n1, n2);
 				continue;
 			}
 			
 			union(n1, n2);
 		}
 		
-		for(int now = 1; now<=N; now++)
-			for(int enemy : adList[now])
-				for(int friend : adList[enemy])
-					union(now, friend);
-		
 		int cnt = 0;
+		
 		for(int i=1; i<=N; i++)
 			if(parent[i] == i)
 				++cnt;
 
 		System.out.print(cnt);
+	}
+	static void setEnemy(int n1, int n2) {
+		if(enemy[n1] != 0) union(enemy[n1], n2);
+		if(enemy[n2] != 0) union(enemy[n2], n1);
+		
+		enemy[n1] = n2;
+		enemy[n2] = n1;
 	}
 	static void union(int n1, int n2) {
 		int parent1 = find(n1);
