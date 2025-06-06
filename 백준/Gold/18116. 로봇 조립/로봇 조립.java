@@ -5,9 +5,6 @@
 //I 3 2
 //Q 1// Q명령어는 해당 노드가 포함된 로봇에 몇개의 부품이 있는지 출력
 //Q 4
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -17,9 +14,8 @@ class Main{
 	static int cnt[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		N = Integer.parseInt(br.readLine());
+		Reader in = new Reader();
+		N = in.nextInt();
 		parent = new int[MAX + 1];
 		cnt = new int[MAX + 1];
 		for(int i=1; i<=MAX; i++)
@@ -31,17 +27,16 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		while(N-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			char cmd = st.nextToken().charAt(0);
+			char cmd = in.nextChar();
 			if(cmd == 'Q')
 			{
-				sb.append(cnt[find(Integer.parseInt(st.nextToken()))])
+				sb.append(cnt[find(in.nextInt())])
 					.append('\n');
 				continue;
 			}
 			
-			int parent1 = find(Integer.parseInt(st.nextToken()));
-			int parent2 = find(Integer.parseInt(st.nextToken()));
+			int parent1 = find(in.nextInt());
+			int parent2 = find(in.nextInt());
 			
 			if(parent1 == parent2)
 			{
@@ -63,5 +58,37 @@ class Main{
 	static int find(int node) {
 		if(parent[node] == node) return node;
 		return parent[node] = find(parent[node]);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    char nextChar() throws Exception {
+	        byte c;
+	        while ((c = read()) <= 32); // SPACE 분리라면 <=로, SPACE 무시라면 <로
+	        return (char)c;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
