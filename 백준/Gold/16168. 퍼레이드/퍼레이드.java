@@ -1,8 +1,5 @@
 //https://www.acmicpc.net/problem/16168
 //2초 128MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -12,10 +9,9 @@ class Main{
 	static int parent[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		V = Integer.parseInt(st.nextToken());
-		E = Integer.parseInt(st.nextToken());
+		Reader read = new Reader();
+		V = read.nextInt();
+		E = read.nextInt();
 		in = new int[V + 1];
 		parent = new int[V + 1];
 		
@@ -24,9 +20,8 @@ class Main{
 		
 		for(int i=1; i<=E; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int n1 = Integer.parseInt(st.nextToken());
-			int n2 = Integer.parseInt(st.nextToken());
+			int n1 = read.nextInt();
+			int n2 = read.nextInt();
 			in[n1]++;
 			in[n2]++;
 			union(n1, n2);
@@ -63,5 +58,30 @@ class Main{
 	static int find(int node) {
 		if(parent[node] == node) return node;
 		return parent[node] = find(parent[node]);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
