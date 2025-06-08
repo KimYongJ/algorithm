@@ -22,17 +22,13 @@
 //13
 //13
 
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	
-	static final int INF = 1_100_000_000;
+	static final int INF = 1_000_000_001;
 	static int N, M;
 	static boolean mstEdge[];
 	static DSU dsu;
@@ -41,12 +37,11 @@ class Main{
 	static List<Node> adList[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
+		Reader in = new Reader();
 		
-		N = Integer.parseInt(st.nextToken());// 마을의 수(2<=100,000)
-		M = Integer.parseInt(st.nextToken());// 도로의 수 (2<=300,000)
+		N = in.nextInt();// 마을의 수(2<=100,000)
+		M = in.nextInt();// 도로의 수 (2<=300,000)
 		mstEdge = new boolean[M];
 		edgeList = new ArrayList<>();
 		dsu = new DSU(N);
@@ -57,10 +52,9 @@ class Main{
 		// 간선 정보 입력 받기
 		for(int i=0; i<M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int n1 = Integer.parseInt(st.nextToken());
-			int n2 = Integer.parseInt(st.nextToken());
-			int dist = Integer.parseInt(st.nextToken());
+			int n1 = in.nextInt();
+			int n2 = in.nextInt();
+			int dist = in.nextInt();
 			edgeList.add(new Edge(n1, n2, dist, i));
 		}
 		// MST를 구하기 위한 정렬
@@ -362,5 +356,33 @@ class Main{
 		public int compareTo(Edge o) {
 			return dist - o.dist;
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
