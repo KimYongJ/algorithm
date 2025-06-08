@@ -14,10 +14,12 @@
 //10
 //6
 //6
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
 class Main{
 	
@@ -28,13 +30,12 @@ class Main{
 	static List<Edge> edgeList;
 	static DSU dsu;
 	static HLD hld;
-	
 	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		Reader in = new Reader();
-		
-		N = in.nextInt();// 노드 수(2≤100,000)
-		M = in.nextInt();// 간선 수(1≤200,000)
+		N = Integer.parseInt(st.nextToken());// 노드 수(2≤100,000)
+		M = Integer.parseInt(st.nextToken());// 간선 수(1≤200,000)
 		isMst = new boolean[M];
 		edgeList = new ArrayList<>();
 		dsu = new DSU(N);
@@ -42,20 +43,21 @@ class Main{
 		
 		for(int i=0; i<=N; i++)
 			adList[i] = new ArrayList<>();
-		// 간선 정보 입력 받기
+		
 		for(int i=0; i<M; i++)
 		{
-			int n1 = in.nextInt();
-			int n2 = in.nextInt();
-			int weight = in.nextInt();
+			st = new StringTokenizer(br.readLine());
+			int n1 = Integer.parseInt(st.nextToken());
+			int n2 = Integer.parseInt(st.nextToken());
+			int weight = Integer.parseInt(st.nextToken());
 			edgeList.add(new Edge(n1, n2, weight, i));
 		}
-		// MST를 구하기 위한 정렬
+		
 		Collections.sort(edgeList);
 		
 		long weightSum = 0;
 		int edgeCnt = 1;
-		// MST 간선을 연결하며 , 가중치의 총합 및 간선연결 개수를 체크 
+		
 		for(int i=0; i<edgeList.size(); i++)
 		{
 			Edge now = edgeList.get(i);
@@ -77,7 +79,7 @@ class Main{
 			System.out.print(sb);
 			return;
 		}
-		// HLD알고리즘을 위한 클래스 초기화 
+		
 		hld = new HLD(N, INF, adList);
 		
 		// MST에 포함되지 않은 간선들을 순회하며 그 간선의 가중치를, MST경로 상에서 업데이트 처리
@@ -106,7 +108,7 @@ class Main{
 			// 경로가 없어서 INF면 -1을 출력하고 있다면, 현재 간선을 지우고 가져온 간선을 넣음
 			res[now.idx] =  min == INF ? -1 : weightSum - now.weight + min;
 		}
-		// 결과 출력
+		
 		for(long r: res)
 			sb.append(r).append('\n');
 		
@@ -165,7 +167,6 @@ class Main{
 				n1 = n2;
 				n2 = tmp;
 			}
-			// 간선 정보는 자식노드에 저장되어있으므로 LCA에서 + 1한 범위부터 query 시작
 			return Math.min(min, query(1, 1, N, segIdx[n1] + 1, segIdx[n2]));
 		}
 		int query(int treeNode, int s, int e, int left, int right)
@@ -203,7 +204,6 @@ class Main{
 				n1 = n2;
 				n2 = tmp;
 			}
-			// 간선 정보는 자식노드에 저장되어있으므로 LCA에서 + 1한 범위부터 update 시작
 			update(1, 1, N, segIdx[n1] + 1, segIdx[n2], weight);
 		}
 		void update(int treeNode, int s, int e, int left, int right, int weight) {
@@ -339,33 +339,5 @@ class Main{
 		public int compareTo(Edge o) {
 			return weight - o.weight;
 		}
-	}
-	static class Reader {
-	    final int SIZE = 1 << 13;
-	    byte[] buffer = new byte[SIZE];
-	    int index, size;
-
-	    int nextInt() throws Exception {
-	        int n = 0;
-	        byte c;
-	        boolean isMinus = false;
-	        while ((c = read()) <= 32) { if (size < 0) return -1; }
-	        if (c == 45) { c = read(); isMinus = true; }
-	        do n = (n << 3) + (n << 1) + (c & 15);
-	        while (isNumber(c = read()));
-	        return isMinus ? ~n + 1 : n;
-	    }
-
-	    boolean isNumber(byte c) {
-	        return 47 < c && c < 58;
-	    }
-
-	    byte read() throws Exception {
-	        if (index == size) {
-	            size = System.in.read(buffer, index = 0, SIZE);
-	            if (size < 0) buffer[0] = -1;
-	        }
-	        return buffer[index++];
-	    }
 	}
 }
