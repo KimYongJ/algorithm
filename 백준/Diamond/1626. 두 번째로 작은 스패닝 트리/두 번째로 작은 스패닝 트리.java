@@ -13,12 +13,11 @@
 //5 7 4
 //6 7 26
 //두번째로 작은 스패닝 트리의 값 출력 : 44
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
+
 class Main{
 	
 	static int N, E;
@@ -29,10 +28,9 @@ class Main{
 	static HLD hld;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());//정점의 수 (1 ≤ 50,000)
-		E = Integer.parseInt(st.nextToken());//간선의 수 (1 ≤ 200,000)
+		Reader in = new Reader();
+		N = in.nextInt();//정점의 수 (1 ≤ 50,000)
+		E = in.nextInt();//간선의 수 (1 ≤ 200,000)
 		edgeList = new ArrayList<>();
 		dsu = new DSU(N);
 		adList = new ArrayList[N + 1];
@@ -43,10 +41,9 @@ class Main{
 		
 		for(int i=0; i<E; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int n1 = Integer.parseInt(st.nextToken());
-			int n2 = Integer.parseInt(st.nextToken());
-			int dist = Integer.parseInt(st.nextToken());
+			int n1 = in.nextInt();
+			int n2 = in.nextInt();
+			int dist = in.nextInt();
 			edgeList.add(new Edge(n1, n2, dist));
 		}
 		
@@ -316,5 +313,33 @@ class Main{
             if(min != max)
             	max2 = Math.max(max2, Math.max(min,o.max2));
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
