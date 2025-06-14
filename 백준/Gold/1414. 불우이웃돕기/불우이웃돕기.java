@@ -15,7 +15,7 @@ class Main{
 		PriorityQueue<Node> pq = new PriorityQueue<>();
 		int N = Integer.parseInt(br.readLine());
 		DSU dsu = new DSU(N);
-		long res = 0;
+		int res = 0;
 		
 		for(int i=1; i<=N; i++)
 		{
@@ -23,6 +23,7 @@ class Main{
 			for(int j=1; j<=N; j++)
 			{
 				int len = getNum(str.charAt(j - 1));
+				
 				if(len == 0)
 					continue;
 				else if(i == j)
@@ -39,12 +40,9 @@ class Main{
 			Node n = pq.poll();
 			
 			if(dsu.union(n.n1, n.n2))
-			{
 				conn++;
-				continue;
-			}
-			
-			res += n.dist;
+			else
+				res += n.dist;
 		}
 		
 		System.out.print(conn != N - 1 ? -1 : res);
