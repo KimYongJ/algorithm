@@ -44,42 +44,16 @@ class Main{
 			int o = Integer.parseInt(st.nextToken());
 			int p1 = find(Integer.parseInt(st.nextToken()));
 			int p2 = find(Integer.parseInt(st.nextToken()));
-			if(o == 1)
-			{
-				if(parent[p1] < parent[p2])
-				{
-					parent[p2] = p1;
-					cnt[p1] += cnt[p2];
-					cnt[p2] = 0;
-				}
-				else
-				{
-					parent[p1] = p2;
-					cnt[p2] += cnt[p1];
-					cnt[p1] = 0;
-				}
-				continue;
-			}
-			if(cnt[p1] == cnt[p2])
-			{
-				parent[p1] = parent[p2] = 0;
-				cnt[p1] = cnt[p2] = 0;
-			}
-			else if(cnt[p1] > cnt[p2])
-			{
-				cnt[p1] = cnt[p1] - cnt[p2];
-				parent[p2] = parent[p1];
-			}
-			else {
-				cnt[p2] = cnt[p2] - cnt[p1];
-				parent[p1] = parent[p2];
-			}
+			union(o, p1, p2);
 		}
+		
 		List<Long> force = new ArrayList<>();
 		int country = 0;
 		
-		for(int i=1; i<=N; i++) {
-			if(parent[i] == i) {
+		for(int i=1; i<=N; i++)
+		{
+			if(parent[i] == i)
+			{
 				country++;
 				force.add(cnt[i]);
 			}
@@ -95,6 +69,36 @@ class Main{
 			sb.append(force.get(i)).append(' ');
 		
 		System.out.print(sb);
+	}
+	static void union(int o, int p1, int p2) {
+		if(o == 1)
+		{
+			if(parent[p1] < parent[p2])
+			{
+				parent[p2] = p1;
+				cnt[p1] += cnt[p2];
+			}
+			else
+			{
+				parent[p1] = p2;
+				cnt[p2] += cnt[p1];
+			}
+			return;
+		}
+		
+		if(cnt[p1] == cnt[p2])
+		{
+			parent[p1] = parent[p2] = 0;
+		}
+		else if(cnt[p1] > cnt[p2])
+		{
+			cnt[p1] = cnt[p1] - cnt[p2];
+			parent[p2] = parent[p1];
+		}
+		else {
+			cnt[p2] = cnt[p2] - cnt[p1];
+			parent[p1] = parent[p2];
+		}
 	}
 	static int find(int node) {
 		if(parent[node] == node) return node;
