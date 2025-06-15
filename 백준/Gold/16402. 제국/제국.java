@@ -67,7 +67,7 @@ class Main{
 				int lose = w == 1 ? n2 : n1;
 				if(win == sokguk)
 				{
-					parent[find(lose)] = win;
+					parent[lose] = win;
 					parent[win] = win;
 				}
 			}
