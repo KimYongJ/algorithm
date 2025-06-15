@@ -12,12 +12,9 @@
 ////답
 //2
 //40 50
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+
+import java.util.PriorityQueue;
+
 class Main{
 	
 	static int N, M;
@@ -25,49 +22,39 @@ class Main{
 	static long cnt[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 국가수(1<=100,000)
-		M = Integer.parseInt(st.nextToken());// 기록의 수(1<=100,000)
+		Reader in = new Reader();
+		N = in.nextInt();// 국가수(1<=100,000)
+		M = in.nextInt();// 기록의 수(1<=100,000)
 		parent = new int[N + 1];
 		cnt = new long[N + 1];
 		
 		for(int i=1; i<=N; i++)
 		{
-			cnt[i] = Integer.parseInt(br.readLine());
+			cnt[i] = in.nextInt();
 			parent[i] = i;
 		}
 		
 		for(int i=1; i<=M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int o = Integer.parseInt(st.nextToken());
-			int p1 = find(Integer.parseInt(st.nextToken()));
-			int p2 = find(Integer.parseInt(st.nextToken()));
+			int o = in.nextInt();
+			int p1 = find(in.nextInt());
+			int p2 = find(in.nextInt());
 			union(o, p1, p2);
 		}
 		
-		List<Long> force = new ArrayList<>();
-		int country = 0;
+		PriorityQueue<Long> pq = new PriorityQueue<>();
 		
 		for(int i=1; i<=N; i++)
-		{
 			if(parent[i] == i)
-			{
-				country++;
-				force.add(cnt[i]);
-			}
-		}
-		
-		Collections.sort(force);
-		
+				pq.add(cnt[i]);
+
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(country).append('\n');
+		sb.append(pq.size()).append('\n');
 		
-		for(int i=0; i<force.size(); i++)
-			sb.append(force.get(i)).append(' ');
-		
+		while(!pq.isEmpty())
+			sb.append(pq.poll()).append(' ');
+
 		System.out.print(sb);
 	}
 	static void union(int o, int p1, int p2) {
@@ -103,5 +90,32 @@ class Main{
 	static int find(int node) {
 		if(parent[node] == node) return node;
 		return parent[node] = find(parent[node]);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
