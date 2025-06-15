@@ -16,11 +16,6 @@
 //26
 //48
 
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 
 	static int N, M;
@@ -28,25 +23,23 @@ class Main{
 	static int parent[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());//노드수(2<=100,000)
-		M = Integer.parseInt(st.nextToken());//간선 수(1<=100,000)
+		Reader in = new Reader();
+		N = in.nextInt();//노드수(2<=100,000)
+		M = in.nextInt();//간선 수(1<=100,000)
 		cnt = new int[N + 1];
 		parent = new int[N + 1];
 		
 		for(int i=1; i<=N; i++)
 		{
-			cnt[i] = Integer.parseInt(br.readLine());
+			cnt[i] = in.nextInt();
 			parent[i] = i;
 		}
 		
 		StringBuilder sb = new StringBuilder();
 		for(int i=1; i<=M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int p1 = find(Integer.parseInt(st.nextToken()));
-			int p2 = find(Integer.parseInt(st.nextToken()));
+			int p1 = find(in.nextInt());
+			int p2 = find(in.nextInt());
 			if(p1 == p2) {
 				sb.append(cnt[p1]).append('\n');
 			}
@@ -66,5 +59,30 @@ class Main{
 	static int find(int node) {
 		if(parent[node] == node) return node;
 		return parent[node] = find(parent[node]);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
