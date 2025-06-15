@@ -6,9 +6,6 @@
 //4 5
 //5 1
 //YES
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -19,30 +16,30 @@ class Main{
 	static boolean isBroken[];
 
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		K = Long.parseLong(st.nextToken());
+		Reader in = new Reader();
+		N = in.nextInt();
+		M = in.nextInt();
+		K = in.nextLong();
 		cnt = new int[N + 1];
 		parent = new int[N + 1];
 		isBroken = new boolean[N + 1];
-		if(M == 1 || M == 0) {
+		
+		if(M <= 1)
+		{
 			System.out.print("YES");
 			return;
 		}
-		st = new StringTokenizer(br.readLine());
+		
 		for(int i=1; i<=N; i++)
 		{
-			cnt[i] = Integer.parseInt(st.nextToken());
+			cnt[i] = in.nextInt();
 			parent[i] = i;
 		}
 		
 		for(int i=1; i<=M; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = in.nextInt();
+			int b = in.nextInt();
 			int min = Math.min(a, b);
 			int max = Math.max(a, b);
 			
@@ -81,5 +78,41 @@ class Main{
 	static int find(int node) {
 		if(parent[node] == node) return node;
 		return parent[node] = find(parent[node]);
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    long nextLong() throws Exception {
+	        long n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32);
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
