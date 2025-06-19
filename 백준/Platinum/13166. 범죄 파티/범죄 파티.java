@@ -37,10 +37,11 @@ class Main{
 			adList[i].add(new Friend(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));
 			adList[i].add(new Friend(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));
 		}
-		
+		// 이분 탐색으로 최소 K를 찾음 
 		int res = -1;
 		int s = 0;
 		int e = 1_000_000;
+		
 		while(s <= e)
 		{
 			K = (s + e) >> 1;
@@ -58,9 +59,9 @@ class Main{
 	static boolean dfs(int suspect) {
 		for(Friend f : adList[suspect])
 		{
-			if(f.cost <= K)
+			if(f.cost <= K)// K가 친구가 원하는 비용보다 큰지 체크
 			{
-				
+				// 비용을 만족하면 해당 친구 방문 체크 및 방문 처리
 				if(visitTime[f.num] == time)
 					continue;
 				
@@ -68,7 +69,7 @@ class Main{
 				
 				if(match[f.num] == 0 || dfs(match[f.num]))
 				{
-					match[f.num] =  suspect;
+					match[f.num] = suspect;
 					return true;
 				}
 			}
@@ -80,10 +81,10 @@ class Main{
 		
 		int cnt = 0;
 		
-		for(int i=1; i<=N; i++)
+		for(int suspect=1; suspect<=N; suspect++)
 		{
 			++time;
-			if(dfs(i))
+			if(dfs(suspect))
 				++cnt;
 		}
 		
