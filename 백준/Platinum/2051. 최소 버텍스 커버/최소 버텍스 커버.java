@@ -37,14 +37,14 @@ class Main{
 		R = Integer.parseInt(st.nextToken());
 		visitTime = new int[R + 1];
 		match = new int[R + 1];
-		reverseMatch = new int[L + 1];
+		reverseMatch = new int[L + 1];// 왼쪽 노드의 미매칭 상황을 알기위해 필요하다.
 		adList = new ArrayList[L + 1];
 		visitLeft = new boolean[L + 1];
 		visitRight = new boolean[R + 1];
 		
 		for(int i=0; i<=L; i++)
 			adList[i] = new ArrayList<>();
-
+		// 간선을 입력 받는다
 		for(int l=1; l<=L; l++)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -54,24 +54,25 @@ class Main{
 		}
 		
 		int cnt = 0;
-		
+		// 왼쪽 정점 기준으로 이분 매칭을 돌려서 크기를 구함과 동시에 매칭된 노드들을 서로 저장한다.
 		for(int l=1; l<=L; l++)
 		{
 			++time;
 			if(bipartite(l))
 				++cnt;
 		}
-		
+		// 왼쪽 정점 그룹 기준으로 미매칭 노드를 시작으로 교대 경로를 탐색한다. 왼쪽 정점은 매칭되지 않은 것만, 오른쪽 정점은 매칭된것만 탐색한다.
+		// dfs 함수안에서 탐색하는 모든 정점들을 방문 체크하여 어떤 노드를 방문했는지 알 수 있도록 한다.
 		for(int l=1; l<=L; l++)
-			if(reverseMatch[l] == 0)
+			if(reverseMatch[l] == 0)// 왼쪽 노드 기준, 미매칭 인것들을 기준으로 dfs 탐색
 				dfs(l);
 		
 		StringBuilder sb = new StringBuilder();
 		sb
 		.append(cnt).append('\n')
-		.append(getAns(visitLeft, false))
+		.append(getAns(visitLeft, false))// 왼쪽 정점은 차집합이기 때문에 방문하지 않은 정점을 답으로 출력
 		.append('\n')
-		.append(getAns(visitRight, true));
+		.append(getAns(visitRight, true));// 오른쪽 정점은 교집합이기 때문에 방문한 정점을 답으로 출력
 		
 		System.out.print(sb);
 	}
@@ -80,30 +81,31 @@ class Main{
 		int cnt = 0;
 		for(int i=1; i<visit.length; i++)
 		{
-			if(visit[i] == flag)
+			if(visit[i] == flag)// 전달된 flag와 같을 때만 답으로 출력
 			{
 				++cnt;
 				sb.append(i).append(' ');
 			}
 		}
 		sb.insert(0, ' ');
-		sb.insert(0, cnt);
+		sb.insert(0, cnt);// 맨처음 값이 정점의 개수여야 하므로 insert 처리
 		
 		return sb.toString();
 	}
 	static void dfs(int left) {
-		if(visitLeft[left])
+		if(visitLeft[left])// 왼쪽 정점 방문했다면 연산 스킵
 			return;
-		
+		// 왼쪽 정점 방문 처리
 		visitLeft[left] = true;
-		
+		// 왼쪽 정점은 미매칭 간선만 탐색, 오른쪽 정점은 매칭만 탐색하도록 하여 비매칭 -> 매칭 -> 비매칭 -> 매칭 으로 교대 간선 탐색하도록 구현
 		for(int right : adList[left])
 		{
+			// 오른쪽 정점을 방문했거나, 오른쪽 정점이 왼쪽 정점과 매칭되있다면 연산 스킵한다.
 			if(visitRight[right] || match[right] == left)
 				continue;
-			
+			// 오른쪽 정점 방문 처리
 			visitRight[right] = true;
-			
+			// 재귀 탐색
 			if(match[right] != 0)
 				dfs(match[right]);
 		}
@@ -119,7 +121,7 @@ class Main{
 			if(match[right] == 0 || bipartite(match[right]))
 			{
 				match[right] = left;
-				reverseMatch[left] = right;
+				reverseMatch[left] = right;// 미매칭 노드 파악을 위해 필요하다.
 				return true;
 			}
 		}
