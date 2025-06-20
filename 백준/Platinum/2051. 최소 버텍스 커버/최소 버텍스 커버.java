@@ -12,11 +12,9 @@
 //2 3 4
 //2 1 2
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
+
 
 class Main{
 	
@@ -31,10 +29,9 @@ class Main{
 	static boolean visitRight[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		L = Integer.parseInt(st.nextToken());
-		R = Integer.parseInt(st.nextToken());
+		Reader in = new Reader();
+		L = in.nextInt();
+		R = in.nextInt();
 		visitTime = new int[R + 1];
 		match = new int[R + 1];
 		reverseMatch = new int[L + 1];// 왼쪽 노드의 미매칭 상황을 알기위해 필요하다.
@@ -47,10 +44,9 @@ class Main{
 		// 간선을 입력 받는다
 		for(int l=1; l<=L; l++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int cnt = Integer.parseInt(st.nextToken());
+			int cnt = in.nextInt();
 			while(cnt-->0)
-				adList[l].add(Integer.parseInt(st.nextToken()));
+				adList[l].add(in.nextInt());
 		}
 		
 		int cnt = 0;
@@ -127,4 +123,32 @@ class Main{
 		}
 		return false;
 	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
+	}
+	
+
 }
