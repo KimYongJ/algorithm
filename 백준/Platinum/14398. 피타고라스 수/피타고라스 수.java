@@ -1,6 +1,8 @@
 //https://www.acmicpc.net/problem/14398
 //2초 512MB
-
+//9// 나무 막대 개수(1<=200)
+//3 4 4 3 11 5 12 9 4// 나무막대 길이(1<=1,000,000)
+//만들 수 있는 장난감의 최대수 : 3
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -31,11 +33,12 @@ class Main{
 		for(int i=1; i<=N; i++)
 		{
 			int num = Integer.parseInt(st.nextToken());
-			adList[i] = new ArrayList<>();
 			if(num % 2 == 0)
 				even.add(num);
 			else
 				odd.add(num);
+			
+			adList[i] = new ArrayList<>();
 		}
 		
 		for(int i=0; i<even.size(); i++)
@@ -44,7 +47,7 @@ class Main{
 			for(int j=0; j<odd.size(); j++)
 			{
 				int o = odd.get(j);
-				
+				// 최대 공약수가 1이면서, 완전 제곱수인 경우만 간선을 연결
 				if(gcd(e, o) == 1 && isSqure((long)e * e + (long)o * o))
 					adList[i + 1].add(j + 1);
 			}
