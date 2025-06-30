@@ -73,13 +73,13 @@ class Main{
 		int parent[];
 		
 		DSU(int N){
+			
 			this.N = N;
 			this.parent = new int[N + 1];
-			init();
-		}
-		void init() {
+			
 			for(int i=0; i<N; i++)
 				parent[i] = i;
+			
 		}
 		int find(int node) {
 			if(parent[node] == node) return node;
