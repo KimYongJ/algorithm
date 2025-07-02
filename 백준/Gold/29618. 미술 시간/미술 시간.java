@@ -1,10 +1,6 @@
 //https://www.acmicpc.net/problem/29618
 //0.5초 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int tree[];
@@ -12,33 +8,30 @@ class Main{
 	static int N, Q;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		Q = Integer.parseInt(st.nextToken());
+		Reader in = new Reader();
+		
+		N = in.nextInt();
+		Q = in.nextInt();
 		tree = new int[N * 4];
 		lazy = new int[N * 4];
 		
 		while(Q-->0)
-		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			int x = Integer.parseInt(st.nextToken());
-			
-			update(1, 1, N, a, b, x);
-		}
+			update(1, 1, N, in.nextInt(), in.nextInt(), in.nextInt());
 		
 		StringBuilder sb = new StringBuilder();
+		
 		for(int i=1; i<=N; i++)
 			sb.append(query(1, 1, N, i)).append(' ');
 		
 		System.out.print(sb);
 	}
 	static void update(int treeNode, int s, int e, int left, int right, int val) {
+		
 		propagate(treeNode, s, e);
+		
 		if(e < left || right < s)
 			return;
+		
 		if(left <= s && e <= right)
 		{
 			lazy[treeNode] = val;
@@ -52,7 +45,9 @@ class Main{
 		update(treeNode << 1 | 1, mid + 1, e, left, right, val);
 	}
 	static int query(int treeNode, int s, int e, int targetIdx) {
+		
 		propagate(treeNode, s, e);
+		
 		if(s == e)
 			return tree[treeNode];
 		
@@ -77,5 +72,31 @@ class Main{
 			if(lazy[treeNode << 1 | 1] == 0)
 				lazy[treeNode << 1 | 1] = lazy[treeNode];
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
