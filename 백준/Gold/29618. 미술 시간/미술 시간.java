@@ -39,7 +39,8 @@ class Main{
 		propagate(treeNode, s, e);
 		if(e < left || right < s)
 			return;
-		if(left <= s && e <= right) {
+		if(left <= s && e <= right)
+		{
 			lazy[treeNode] = val;
 			propagate(treeNode, s, e);
 			return;
@@ -76,6 +77,5 @@ class Main{
 			if(lazy[treeNode << 1 | 1] == 0)
 				lazy[treeNode << 1 | 1] = lazy[treeNode];
 		}
-		lazy[treeNode] = 0;
 	}
 }
