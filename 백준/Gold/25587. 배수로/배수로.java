@@ -57,10 +57,8 @@ class Main{
 				continue;
 			}
 			
-			int x = Integer.parseInt(st.nextToken());
-			int y = Integer.parseInt(st.nextToken());
-			int p1 = find(x);
-			int p2 = find(y);
+			int p1 = find(Integer.parseInt(st.nextToken()));
+			int p2 = find(Integer.parseInt(st.nextToken()));
 
 			if(p1 == p2)
 				continue;
@@ -80,11 +78,7 @@ class Main{
 			p[p1] += p[p2];
 			c[p1] += c[p2];
 			cnt[p1] += cnt[p2];
-			// 둘다 오버 : result 확인 불필요
-			// 둘다 미오버 : result 확인 불필요
-//			if((isOver[p1] && isOver[p2]) || (!isOver[p1] && !isOver[p2]))
-//				continue;
-			
+
 			isOver[p1] = c[p1] < p[p1];
 			
 			if(isOver[p1])
