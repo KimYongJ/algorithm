@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, M;
+	static int N, M, cnt;
 	static int parent[];
 	
 	public static void main(String[] args)throws Exception{
@@ -23,7 +23,7 @@ class Main{
 			st = new StringTokenizer(br.readLine());
 			N = Integer.parseInt(st.nextToken());
 			M = Integer.parseInt(st.nextToken());
-			
+			cnt = N;
 			if(N == 0 && M == 0)
 				break;
 			
@@ -39,18 +39,13 @@ class Main{
 				if(p1 == p2)
 					continue;
 				
+				cnt--;
+				
 				if(parent[p1] < parent[p2])
 					parent[p2] = p1;
 				else
 					parent[p1] = p2;
 			}
-			
-			int cnt = 0;
-			
-			for(int i=1; i<=N; i++)
-				if(parent[i] == i)
-					++cnt;
-			
 			sb.append("Case ").append(++idx).append(": ").append(cnt).append('\n');
 		}
 		System.out.print(sb);
