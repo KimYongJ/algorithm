@@ -11,7 +11,7 @@ class Main{
 	
 	static int N, M;
 	static int parent[];
-	static int visitCount[];
+	static boolean visit[];
 	static boolean onStack[];
 	static List<Node> list;
 	static List<Integer> adList[];
@@ -22,7 +22,7 @@ class Main{
 		N		= Integer.parseInt(st.nextToken());//선수 수 2<=50,000
 		M		= Integer.parseInt(st.nextToken());//보고된 경기 수 1<=250,000
 		parent	= new int[N];
-		visitCount = new int[N];
+		visit	= new boolean[N];
 		onStack = new boolean[N];
 		list	= new ArrayList<>();
 		adList	= new ArrayList[N];
@@ -36,9 +36,11 @@ class Main{
 		while(M-->0)
 		{
 			st = new StringTokenizer(br.readLine());
+			
 			int a = Integer.parseInt(st.nextToken());
 			char c = st.nextToken().charAt(0);
 			int b = Integer.parseInt(st.nextToken());
+			
 			if(c == '=')
 			{
 				union(a,b);
@@ -50,6 +52,7 @@ class Main{
 				b = a;
 				a = tmp;
 			}
+			
 			list.add(new Node(a, b));
 		}
 		
@@ -71,10 +74,10 @@ class Main{
 		
 		for(int i=0; i<N; i++)
 		{
-			if(visitCount[i] == 0)
+			if(!visit[i])
 			{
-				visitCount[i] = ++flag;
-				if(isCycle(i, flag))
+				visit[i] = true;
+				if(isCycle(i))
 				{
 					System.out.print("inconsistent");
 					return;
@@ -84,7 +87,7 @@ class Main{
 
 		System.out.print("consistent");
 	}
-	static boolean isCycle(int now, int flag)
+	static boolean isCycle(int now)
 	{
 		onStack[now] = true;
 		for(int next : adList[now])
@@ -92,12 +95,12 @@ class Main{
 			if(onStack[next])
 				return true;
 			
-			if(visitCount[next] != 0)
+			if(visit[next])
 				continue;
 			
-			visitCount[next] = flag;
+			visit[next] = true;
 			
-			if(isCycle(next, flag))
+			if(isCycle(next))
 				return true;
 		}
 		onStack[now] = false;
