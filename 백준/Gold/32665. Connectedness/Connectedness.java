@@ -22,7 +22,7 @@ class Main{
 		}
 		
 		int edgeCnt = 0;
-		while(M-->0)
+		while(M-->0 && cnt[1] != N)
 		{
 			st = new StringTokenizer(br.readLine());
 			int p1 = find(Integer.parseInt(st.nextToken()), parent);
@@ -33,17 +33,15 @@ class Main{
 			if(p1 == p2)
 				continue;
 			
-			if(parent[p1] < parent[p2]) {
+			if(parent[p1] < parent[p2])
+			{
 				parent[p2] = p1;
 				cnt[p1] += cnt[p2];
-			}else {
+			}
+			else
+			{
 				parent[p1] = p2;
 				cnt[p2] += cnt[p1];
-			}
-			
-			if(cnt[1] == N) {
-				System.out.print(edgeCnt);
-				return;
 			}
 		}
 		
