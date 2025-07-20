@@ -3,32 +3,33 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
 class Main{
 	
-	static int N, M, gSize;
+	static int N, M;
+	static int edgeSize;
+	static int size[];
 	static int parent[];
-	static List<Node> edge;
-	static List<Conn> adList[];
 	static boolean visit[];
+	static List<Conn> adList[];
+
 	// 최종 입력시 사용할 배열들
-	static boolean node[][];
-	static boolean e[][];
+	static boolean node[][];// 해당 그룹에 포함된 노드들
+	static boolean e[][];// 해당 그룹에 포함된 간선들
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());// 정점개수(1<=100,000)
 		M = Integer.parseInt(st.nextToken());// 간선개수(0<=200,000)
+		size = new int[2];
 		parent = new int[N + 1];
 		visit = new boolean[N + 1];
-		edge = new ArrayList<>();
 		adList = new ArrayList[N + 1];
-		node = new boolean[3][N + 1];
-		e = new boolean[3][M + 1];
+		node = new boolean[2][N + 1];
+		e = new boolean[2][M + 1];
 		
 		if(N <= 2)
 		{
@@ -59,14 +60,13 @@ class Main{
 			else
 				parent[p1] = p2;
 			
-			edge.add(new Node(a,b,i));
+			edgeSize++;
 			
 			adList[a].add(new Conn(b, i));
 			adList[b].add(new Conn(a, i));
 		}
 		
 		int cnt = 0;
-		int size[] = new int[2];
 		
 		for(int n = 1; n <= N; n++)
 		{
@@ -75,120 +75,106 @@ class Main{
 				
 				if(cnt == 2)
 				{
-					System.out.print(-1);
-					return;
+					cnt = 3;
+					break;
 				}
-				gSize = 1;
+				
 				visit[n] = true;
 				node[cnt][n] = true;// 해당 노드 방문 마킹
-				dfs(n, cnt);
 				
-				size[cnt] = gSize;
+				size[cnt] += dfs(n, cnt, -1);
+				
 				cnt++;
 			}
 		}
-		
-		if(size[0] == size[1])
+		// 컴포넌트가 3개이상이거나, 2개인데 사이즈 같다면 -1출력
+		if(cnt == 3 || size[0] == size[1])
 		{
 			System.out.print(-1);
 			return;
 		}
-		
-		StringBuilder sb = new StringBuilder();
-		
-		if(cnt == 2)
+		// 컴포넌트가 2개이면 바로 출력
+		if(cnt > 1)
 		{
-			sb.append(size[0]).append(' ').append(size[1]).append('\n');
-			
-			for(int r = 0; r<2; r++)
-			{
-				for(int i=0; i<=N; i++)
-					if(node[r][i])
-						sb.append(i).append(' ');
-				
-				sb.append('\n');
-				
-				for(int i=0; i<=M; i++)
-					if(e[r][i])
-						sb.append(i).append(' ');
-				
-				sb.append('\n');
-			}
-			System.out.print(sb);
+			print();
 			return;
 		}
+		// 이하는 컴포넌트가 무조건 1개인것, 리트노드만 하나로 자르고 나머지는 하나로 하면됨
+		// 초기화
+		for(int i=0; i<=N; i++) visit[i] = node[0][i] = node[1][i] = false;
+		for(int i=0; i<=M; i++)e[0][i] = e[1][i] = false;
 		
-		int leaf = 0;
+		// 리프노드를 가져옴
+		int leaf = getLeaf();
 		
-		for(int i=0; i<=N; i++)
+		size[0] = edgeSize;// 첫번째 그룹 사이즈 세팅
+		size[1] = 1;// 두번째 그룹 사이즈 세팅 1개 노드만 있음
+		node[1][leaf] = true;
+		
+		
+		for(int i=1; i<=N; i++)
 		{
-			if(adList[i].size() == 1)
+			if(!visit[i] && leaf != i)
 			{
-				leaf = i;
+				dfs(i, 0, leaf);
 				break;
 			}
 		}
 		
+		print();
+	}
+	static void print() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(size[0]).append(' ').append(size[1]).append('\n');
 		
-
-		sb.append(1).append(' ').append(edge.size()).append('\n');
-		sb.append(leaf).append('\n');
-		
-		Arrays.fill(node[0], false);
-		Arrays.fill(e[0], false);
-		
-		for(int i=0; i<edge.size(); i++)
+		for(int r = 0; r<2; r++)
 		{
-			Node now = edge.get(i);
+			for(int i=0; i<=N; i++)
+				if(node[r][i])
+					sb.append(i).append(' ');
 			
-			if(now.a == leaf || now.b == leaf)
-				continue;
+			sb.append('\n');
 			
-			node[0][now.a] = node[0][now.b]= true;
-			e[0][now.idx]= true; 
+			for(int i=0; i<=M; i++)
+				if(e[r][i])
+					sb.append(i).append(' ');
+			
+			sb.append('\n');
 		}
-		
-		for(int i=0; i<=N; i++)
-			if(node[0][i])
-				sb.append(i).append(' ');
-		
-		sb.append('\n');
-		
-		for(int i=0; i<=M; i++)
-			if(e[0][i])
-				sb.append(i).append(' ');
-
 		System.out.print(sb);
 	}
-	// 그래프를 셀 때 해당 노드와 간선을 미리 입력해 놓아야 한다.
-	static void dfs(int now, int idx)
+	static int getLeaf()
 	{
+		for(int i=0; i<=N; i++)
+			if(adList[i].size() == 1)
+				return i;
+		
+		return 0;
+	}
+	// 그래프를 셀 때 해당 노드와 간선을 미리 입력해 놓아야 한다.
+	static int dfs(int now, int idx, int except)
+	{
+		int nodeCnt = 1;
+		
 		for(Conn next : adList[now])
 		{
-			if(visit[next.next])
+			if(visit[next.next] || next.next == except)
 				continue;
 			
-			gSize++;
-			visit[next.next] = true; 
-			node[idx][next.next] = true;
+			visit[next.next] =  
+			node[idx][next.next] = 
 			e[idx][next.edgeIdx] = true;
 			
-			dfs(next.next, idx);
+			nodeCnt += dfs(next.next, idx, except);
 		}
+		
+		return nodeCnt;
 	}
 	static class Conn{
 		int next, edgeIdx;
 		Conn(int n, int i){
 			next = n;
 			edgeIdx = i;
-		}
-	}
-	static class Node{
-		int a,b, idx;
-		Node(int a, int b, int idx){
-			this.a=a;
-			this.b=b;
-			this.idx=idx;
 		}
 	}
 	static int find(int node) {
