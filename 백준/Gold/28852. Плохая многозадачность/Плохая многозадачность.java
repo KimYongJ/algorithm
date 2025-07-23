@@ -23,7 +23,7 @@ class Main{
 		{
 			long now = Math.min(Integer.parseInt(st.nextToken()), limit);
 
-			sum += Math.ceil(now/(double)B);
+			sum += (now + B - 1)/B;
 		}
 		
 		System.out.print(sum);
