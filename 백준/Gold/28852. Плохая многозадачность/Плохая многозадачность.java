@@ -15,7 +15,7 @@ class Main{
 		
 		st = new StringTokenizer(br.readLine());
 		
-		long sum = (long)Math.ceil(Integer.parseInt(st.nextToken()) / (double)B);
+		long sum = (Integer.parseInt(st.nextToken())+B - 1) / B;
 
 		long limit = (sum - 1) * B;
 		
