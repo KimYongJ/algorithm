@@ -12,25 +12,19 @@ class Main{
 		
 		int N = Integer.parseInt(st.nextToken());
 		double B = Integer.parseInt(st.nextToken());
-		int arr[] = new int[N];
+		
 		st = new StringTokenizer(br.readLine());
 		
-		arr[0] = Integer.parseInt(st.nextToken());
-		
-		int limit = (int) ((Math.ceil(arr[0]/B) - 1) * B);
+		long sum = (long)Math.ceil(Integer.parseInt(st.nextToken()) / B);
+
+		int limit = (int)((sum - 1) * B);
 		
 		for(int i=1; i<N; i++)
 		{
-			arr[i] = Integer.parseInt(st.nextToken());
-			
-			if(arr[i] > limit)
-				arr[i] = limit;
+			int now = Math.min(Integer.parseInt(st.nextToken()), limit);
+
+			sum += ((int)Math.ceil(now/B));
 		}
-		
-		long sum = 0;
-		
-		for(int i=0; i<N; i++)
-			sum += ((int)Math.ceil(arr[i]/B));
 		
 		System.out.print(sum);
 	}
