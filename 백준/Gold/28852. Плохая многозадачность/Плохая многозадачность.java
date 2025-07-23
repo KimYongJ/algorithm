@@ -11,19 +11,19 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
 		int N = Integer.parseInt(st.nextToken());
-		double B = Integer.parseInt(st.nextToken());
+		int B = Integer.parseInt(st.nextToken());
 		
 		st = new StringTokenizer(br.readLine());
 		
-		long sum = (long)Math.ceil(Integer.parseInt(st.nextToken()) / B);
+		long sum = (long)Math.ceil(Integer.parseInt(st.nextToken()) / (double)B);
 
-		int limit = (int)((sum - 1) * B);
+		long limit = (sum - 1) * B;
 		
 		for(int i=1; i<N; i++)
 		{
-			int now = Math.min(Integer.parseInt(st.nextToken()), limit);
+			long now = Math.min(Integer.parseInt(st.nextToken()), limit);
 
-			sum += ((int)Math.ceil(now/B));
+			sum += Math.ceil(now/(double)B);
 		}
 		
 		System.out.print(sum);
