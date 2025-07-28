@@ -11,9 +11,6 @@
 //첫째 줄에 단절점의 개수 출력, 둘째 줄에는 단절점의 번호를 오름차순으로 출력
 //3
 //1 6 7
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -24,20 +21,17 @@ class Main{
 	static Node adNode[];
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		N		= Integer.parseInt(st.nextToken());// 1번부터 번호가 있는 정점의 수(1<=10,000)
-		E		= Integer.parseInt(st.nextToken());// 간선수(1<=100,000)
+		Reader in = new Reader();
+		N		= in.nextInt();// 1번부터 번호가 있는 정점의 수(1<=10,000)
+		E		= in.nextInt();// 간선수(1<=100,000)
 		order	= new int[N + 1];
 		cut		= new boolean[N + 1];
 		adNode	= new Node[N + 1];
 		
 		for(int i=0; i<E; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = in.nextInt();
+			int b = in.nextInt();
 			adNode[a] = new Node(b, adNode[a]);
 			adNode[b] = new Node(a, adNode[b]);
 		}
@@ -101,5 +95,33 @@ class Main{
 			this.node = node;
 			this.next = next;
 		}
+	}
+	static class Reader {
+	    final int SIZE = 1 << 13;
+	    byte[] buffer = new byte[SIZE];
+	    int index, size;
+
+	    int nextInt() throws Exception {
+	        int n = 0;
+	        byte c;
+	        boolean isMinus = false;
+	        while ((c = read()) <= 32) { if (size < 0) return -1; }
+	        if (c == 45) { c = read(); isMinus = true; }
+	        do n = (n << 3) + (n << 1) + (c & 15);
+	        while (isNumber(c = read()));
+	        return isMinus ? ~n + 1 : n;
+	    }
+
+	    boolean isNumber(byte c) {
+	        return 47 < c && c < 58;
+	    }
+
+	    byte read() throws Exception {
+	        if (index == size) {
+	            size = System.in.read(buffer, index = 0, SIZE);
+	            if (size < 0) buffer[0] = -1;
+	        }
+	        return buffer[index++];
+	    }
 	}
 }
