@@ -13,8 +13,6 @@
 //1 6 7
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 class Main{
@@ -23,7 +21,7 @@ class Main{
 	static int idx, cutSize;
 	static int order[];
 	static boolean cut[];
-	static List<Integer> adList[];
+	static Node adNode[];
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,27 +31,20 @@ class Main{
 		E		= Integer.parseInt(st.nextToken());// 간선수(1<=100,000)
 		order	= new int[N + 1];
 		cut		= new boolean[N + 1];
-		adList	= new ArrayList[N + 1];
-		
-		for(int i=0; i<=N; i++)
-			adList[i] = new ArrayList<>();
+		adNode	= new Node[N + 1];
 		
 		for(int i=0; i<E; i++)
 		{
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
-			adList[a].add(b);
-			adList[b].add(a);
+			adNode[a] = new Node(b, adNode[a]);
+			adNode[b] = new Node(a, adNode[b]);
 		}
 		
 		for(int i=1; i<=N; i++)
-		{
 			if(order[i] == 0) // 아직 방문하지 않은 정점인 경우, 해당 정점을 루트노드로 탐색
-			{
 				dfs(i, 0);
-			}
-		}
 
 		StringBuilder sb = new StringBuilder();
 		
@@ -69,8 +60,10 @@ class Main{
 	{
 		int min = order[now] = ++idx;
 		int childCnt = 0;
-		for(int next : adList[now])
+		for(Node nextNode = adNode[now]; nextNode != null; nextNode=nextNode.next)
 		{
+			int next = nextNode.node;
+			
 			if(next == parent)// 부모노드일 경우 스킵
 				continue;
 			
@@ -100,5 +93,13 @@ class Main{
 			++cutSize;
 		
 		return min;
+	}
+	static class Node{
+		int node;
+		Node next;
+		Node(int node, Node next){
+			this.node = node;
+			this.next = next;
+		}
 	}
 }
