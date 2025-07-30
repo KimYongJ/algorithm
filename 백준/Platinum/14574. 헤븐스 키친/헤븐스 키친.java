@@ -89,7 +89,7 @@ class Main{
 			adList[now.b].add(now.a);
 		}
 		
-		dfs(1, -1);
+		dfs(1, 0);
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -108,7 +108,7 @@ class Main{
 			dfs(next, now);
 		}
 		
-		if(parent != -1)
+		if(parent > 0)
 			order.append(parent).append(' ').append(now).append('\n');
 
 	}
