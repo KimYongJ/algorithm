@@ -1,94 +1,103 @@
+//https://www.acmicpc.net/problem/10429
+//1초 256MB
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-class Main {
-
-    static final int[][] STARTS = {{0,0},{0,2},{1,1},{2,0},{2,2}};
-    static final int[][] DIR   = {{0,1},{1,0},{-1,0},{0,-1}};
-
-    static int N, M, MAX;          // 목표값, 숫자 개수, 경로 길이(=2*M-1)
-    static char[][] board = new char[3][3];
-    static boolean[][] visited = new boolean[3][3];
-    static int[][] path;           // 경로 기록 [MAX][2]
-
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        MAX = 2 * M - 1;
-        path = new int[MAX][2];
-
-        for (int y = 0; y < 3; y++) {
-            String line = br.readLine();
-            for (int x = 0; x < 3; x++) board[y][x] = line.charAt(x);
-        }
-
-        for (int[] s : STARTS) {
-            int sy = s[0], sx = s[1];
-            if (!isNum(sy, sx)) continue;          // 시작은 반드시 숫자
-            visited[sy][sx] = true;
-            path[0][0] = sy; path[0][1] = sx;
-            int first = board[sy][sx] - '0';
-            if (dfs(sy, sx, first, 1, '+', true, 1)) return; // 숫자 하나 썼으므로 cnt=1
-            visited[sy][sx] = false;
-        }
-        System.out.print(0);
-    }
-
-    /** y,x : 현재 위치
-     *  sum : 지금까지 계산값
-     *  cnt : 사용한 숫자 개수
-     *  op  : 다음 숫자에 적용할 연산자
-     *  needOp : 다음 이동이 연산자 칸이어야 하는가?
-     *  depth  : 지금까지 이동한 칸 수(시작 칸 포함) */
-    static boolean dfs(int y, int x, int sum, int cnt,
-                       char op, boolean needOp, int depth) {
-
-        if (cnt == M) {                               // 숫자 M개 사용 완료
-            if (sum == N && depth == MAX) {
-                printPath();
-                return true;
-            }
-            return false;
-        }
-
-        for (int[] d : DIR) {
-            int ny = y + d[0], nx = x + d[1];
-            if (!in(ny, nx) || visited[ny][nx]) continue;
-
-            if (needOp) {                             // 연산자 칸을 찾아야 함
-                if (!isOp(ny, nx)) continue;
-                visited[ny][nx] = true;
-                path[depth][0] = ny; path[depth][1] = nx;
-                if (dfs(ny, nx, sum, cnt, board[ny][nx], false, depth + 1))
-                    return true;
-                visited[ny][nx] = false;
-            } else {                                  // 숫자 칸을 찾아야 함
-                if (!isNum(ny, nx)) continue;
-                int val = board[ny][nx] - '0';
-                int nextSum = (op == '+') ? sum + val : sum - val;
-                visited[ny][nx] = true;
-                path[depth][0] = ny; path[depth][1] = nx;
-                if (dfs(ny, nx, nextSum, cnt + 1, op, true, depth + 1))
-                    return true;
-                visited[ny][nx] = false;
-            }
-        }
-        return false;
-    }
-
-    /* ---------- 유틸 ---------- */
-    static boolean in(int y, int x) { return 0 <= y && y < 3 && 0 <= x && x < 3; }
-    static boolean isNum(int y, int x) { return '0' <= board[y][x] && board[y][x] <= '9'; }
-    static boolean isOp(int y, int x)  { return board[y][x] == '+' || board[y][x] == '-'; }
-
-    static void printPath() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(1).append('\n');
-        for (int i = 0; i < MAX; i++)
-            sb.append(path[i][0]).append(' ').append(path[i][1]).append('\n');
-        System.out.print(sb);
-    }
+class Main{
+	
+	static final int start[][] = {{0,0},{0,2},{1,1},{2,0},{2,2}};
+	static final int dxy[][] = {{0,1},{1,0},{-1,0},{0,-1}};
+	static int N; // 목표 숫자
+	static int M; // 사용해야하는 숫자
+	static char map[][];
+	static int path[][];
+	static boolean visit[][];
+	
+	public static void main(String[] args)throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		map = new char[3][3];
+		path = new int[2 * M - 1][2];
+		visit = new boolean[3][3];
+		
+		for(int y=0; y<3; y++)
+		{
+			String str = br.readLine();
+			for(int x=0; x<3; x++)
+				map[y][x] = str.charAt(x);
+		}
+		
+		for(int s[] : start)
+		{
+			visit[s[0]][s[1]] = true;
+			
+			path[0][0] = s[0];
+			path[0][1] = s[1];
+			
+			if(dfs(s[0], s[1], map[s[0]][s[1]] - '0', 1, '+', 1, true))
+			{
+				print();
+				return;
+			}
+			
+			visit[s[0]][s[1]] = false;
+		}
+		
+		System.out.print(0);
+	}
+	static boolean dfs(int y, int x, int sum, int depth, char op, int useNumberCnt, boolean findOp) {
+		if(useNumberCnt == M)
+			return sum == N;
+		
+		for(int xy[] : dxy)
+		{
+			int nextY = y + xy[0];
+			int nextX = x + xy[1];
+			
+			if(!validate(nextY, nextX))
+				continue;
+			
+			visit[nextY][nextX] = true;
+			path[depth][0] = nextY;
+			path[depth][1] = nextX;
+			
+			int plus = 0;
+			int nextSum = sum;
+			
+			if(!findOp)
+			{
+				nextSum = cal(sum, map[nextY][nextX], op);
+				plus = 1;
+			}
+			
+			if(dfs(nextY, nextX, nextSum, depth + 1, map[nextY][nextX], useNumberCnt + plus, !findOp))
+				return true;
+			
+			visit[nextY][nextX] = false;
+		}
+		
+		return false;
+	}
+	static int cal(int a, char b, char op) {
+		b -= '0';
+		return op == '+' ? a+b : a-b;
+	}
+	static boolean validate(int y, int x) {
+		return 0<=y && 0<=x && y<3 && x<3 && !visit[y][x];
+	}
+	static void print() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(1).append('\n');
+		
+		for(int i=0; i<path.length; i++)
+			sb.append(path[i][0]).append(' ')
+				.append(path[i][1]).append('\n');
+		
+		System.out.print(sb);
+	}
 }
