@@ -67,7 +67,6 @@ class Main{
 			
 			int plus = 0;
 			int nextSum = sum;
-			boolean nextFindOp = findOp == false;
 			
 			if(!findOp)
 			{
@@ -75,7 +74,7 @@ class Main{
 				plus = 1;
 			}
 			
-			if(dfs(nextY, nextX, nextSum, depth + 1, map[nextY][nextX], useNumberCnt + plus, nextFindOp))
+			if(dfs(nextY, nextX, nextSum, depth + 1, map[nextY][nextX], useNumberCnt + plus, !findOp))
 				return true;
 			
 			visit[nextY][nextX] = false;
