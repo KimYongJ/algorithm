@@ -29,11 +29,8 @@
 //10
 //1
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -42,10 +39,9 @@ class Main{
 	static List<Integer> adList[];// 양방향 노드
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 트리 정점 수(2<=N<=10^5)
-		R = Integer.parseInt(st.nextToken());// 루트의 번호(1<=R<=N)
+		Reader in = new Reader();
+		N = in.nextInt();// 트리 정점 수(2<=N<=10^5)
+		R = in.nextInt();// 루트의 번호(1<=R<=N)
 		val = new int[N + 1];
 		adList = new ArrayList[N + 1];
 
@@ -55,30 +51,28 @@ class Main{
 		// 양방향 간선 생성
 		for(int i=1; i<N; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
+			int a = in.nextInt();
+			int b = in.nextInt();
 			adList[a].add(b);
 			adList[b].add(a);
 		}
 		
-		L = Integer.parseInt(br.readLine());// 리프 노드의 개수 (1<=L<=N)
+		L = in.nextInt();// 리프 노드의 개수 (1<=L<=N)
 
 		for(int i=0; i<L; i++)
 		{
-			st = new StringTokenizer(br.readLine());
-			int leaf = Integer.parseInt(st.nextToken());// 리프노드 번호(1<=ki<=N)
-			val[leaf] = Integer.parseInt(st.nextToken());// 노드의 값(0<=ti<=10^9)
+			int leaf = in.nextInt();// 리프노드 번호(1<=ki<=N)
+			val[leaf] = in.nextInt();// 노드의 값(0<=ti<=10^9)
 		}
 		
-		dfs(R, -1, true);
+		dfs(R, -1, true);// 후위 탐색으로 값 갱신
 		
 		StringBuilder sb = new StringBuilder();
 		
-		int cnt = Integer.parseInt(br.readLine());// 구해야 할 노드의 개수(1<=Q<=10^5)
+		int cnt = in.nextInt();// 구해야 할 노드의 개수(1<=Q<=10^5)
 		
-		while(cnt-->0)
-			sb.append(val[Integer.parseInt(br.readLine())])
+		while(cnt-->0)// 값 출력
+			sb.append(val[in.nextInt()])
 				.append('\n');
 		
 		System.out.print(sb);
@@ -107,4 +101,33 @@ class Main{
 		if(!isLeaf)// 리프노드가 아닌 경우만
 			val[now] = child;
 	}
+}
+
+class Reader {
+    final int SIZE = 1 << 13;
+    byte[] buffer = new byte[SIZE];
+    int index, size;
+
+    int nextInt() throws Exception {
+        int n = 0;
+        byte c;
+        boolean isMinus = false;
+        while ((c = read()) <= 32) { if (size < 0) return -1; }
+        if (c == 45) { c = read(); isMinus = true; }
+        do n = (n << 3) + (n << 1) + (c & 15);
+        while (isNumber(c = read()));
+        return isMinus ? ~n + 1 : n;
+    }
+
+    boolean isNumber(byte c) {
+        return 47 < c && c < 58;
+    }
+
+    byte read() throws Exception {
+        if (index == size) {
+            size = System.in.read(buffer, index = 0, SIZE);
+            if (size < 0) buffer[0] = -1;
+        }
+        return buffer[index++];
+    }
 }
