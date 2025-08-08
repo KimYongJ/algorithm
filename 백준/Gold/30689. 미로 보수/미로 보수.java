@@ -11,6 +11,7 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -20,39 +21,30 @@ class Main{
 	static final int dxy[][] = {{-1,0},{0,1},{1,0},{0,-1}};
 	static int min;
 	static int Y, X;
+	static char map[][];
 	static int value[][];
-	static List<Integer> adList[];
-	static List<Integer> cycle;
 	
 	static int time;
-	static int visitTime[];
+	static int visitTime[][];
+	static List<Node> cycle;
 	
 	public static void main(String[] args)throws Exception{
-		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		Y = Integer.parseInt(st.nextToken()); // 1<=2,000
 		X = Integer.parseInt(st.nextToken()); // 1<=2,000
+		map = new char[Y][X];
 		value = new int[Y][X];
+		visitTime = new int[Y][X];
 		cycle = new ArrayList<>();
-		adList = new ArrayList[Y * X];
-		
-		for(int i=0; i<adList.length; i++)
-			adList[i] = new ArrayList<>();
 		
 		for(int y=0; y<Y; y++) // 방향 입력 받음
 		{
 			String str = br.readLine();
 			for(int x=0; x<X; x++)
-			{
-				int nextIdx = getNext(y,x, str.charAt(x));
-				if(nextIdx < 0)
-					continue;
-				int nowIdx = getIdx(y, x);
-				
-				adList[nowIdx].add(nextIdx);
-			}
+				map[y][x] = str.charAt(x);
 		}
+		
 		for(int y=0; y<Y; y++) // 값 입력 받음
 		{
 			st = new StringTokenizer(br.readLine());
@@ -60,82 +52,64 @@ class Main{
 				value[y][x] = Integer.parseInt(st.nextToken());// 1<=500
 		}
 		
-		visitTime = new int[adList.length];
-		for(int i=0; i<adList.length; i++)
-		{
-			if(visitTime[i] != 0)
-				continue;
-			
-			visitTime[i] = ++time;
-			searchCycle(i);
-		 }
+		for(int y=0; y<Y; y++)
+			for(int x=0; x<X; x++)
+				if(visitTime[y][x] == 0)
+					bfs(y, x, true);
+
 		
 		int sum = 0;
 		
-		
-		for(int c : cycle)
-		{
-			min = 1<<10;
-			
-			dfs(c, c);
-			
-			sum += min;
-		}
+		visitTime = new int[Y][X];
+		for(Node n : cycle)
+			sum += bfs(n.y, n.x, false);
 		
 		System.out.print(sum);
 	}
-	static void dfs(int now, int end) {
-		for(int next : adList[now])
+	static int bfs(int y, int x, boolean isSave) {
+		int min = value[y][x];
+		ArrayDeque<Node> q = new ArrayDeque<>();
+		q.add(new Node(y,x));
+		visitTime[y][x] = ++time;
+		
+		while(!q.isEmpty())
 		{
-			min = Math.min(min, getValue(next));
+			Node now = q.poll();
 			
-			if(next == end)
-				return;
+			int idx = 0;
+			switch(map[now.y][now.x])
+			{
+			case 'R' : idx = 1;break;
+			case 'D' : idx = 2;break;
+			case 'L' : idx = 3;break;
+			}
 			
-			dfs(next, end);
-		}
-	}
-	static boolean searchCycle(int now) {
-		for(int next : adList[now])
-		{
-			if(visitTime[next]== 0)
+			int nextY = now.y + dxy[idx][0];
+			int nextX = now.x + dxy[idx][1];
+			
+			if(nextY < 0 || nextX < 0 || Y == nextY || X == nextX)
+				continue;
+			
+			if(visitTime[nextY][nextX] == 0)
 			{
-				visitTime[next] = time;
-				if(searchCycle(next))
-					return true;
+				visitTime[nextY][nextX] = time;
+				min = Math.min(min, value[nextY][nextX]);
+				q.add(new Node(nextY, nextX));
 			}
-			else if(visitTime[next] == time)
+			else if(visitTime[nextY][nextX] == time)
 			{
-				cycle.add(now);
-				return true;
+				if(isSave)
+					cycle.add(new Node(nextY, nextX));
 			}
 		}
-		return false;
+		
+		return min;
 	}
-	static int getNext(int y, int x, char c) {
-		int idx = 0;
-		switch(c)
-		{
-		case 'R' : idx = 1;break;
-		case 'D' : idx = 2;break;
-		case 'L' : idx = 3;break;
+	static class Node{
+		int y, x;
+		Node(int y, int x){
+			this.y=y;
+			this.x=x;
 		}
-		
-		y += dxy[idx][0];
-		x += dxy[idx][1];
-		
-		if(y < 0 || x < 0 || Y == y || X == x)
-			return -1;
-		
-		return getIdx(y,x);
-	}
-	static int getIdx(int y, int x) {
-		return y*X + x;
-	}
-	static int getValue(int n) {
-		int y = n / X;
-		int x = n % X;
-		
-		return value[y][x];
 	}
 }
