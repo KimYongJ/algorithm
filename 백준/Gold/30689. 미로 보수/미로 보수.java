@@ -21,8 +21,7 @@ class Main{
 	static int min;
 	static int Y, X;
 	static int value[][];
-	static char map[][];
-	static List<Node> adList[];
+	static List<Integer> adList[];
 	static List<Integer> cycle;
 	
 	static int time;
@@ -34,10 +33,9 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		Y = Integer.parseInt(st.nextToken()); // 1<=2,000
 		X = Integer.parseInt(st.nextToken()); // 1<=2,000
-		map = new char[Y][X];
 		value = new int[Y][X];
 		cycle = new ArrayList<>();
-		adList = new ArrayList[Y * X + X];
+		adList = new ArrayList[Y * X];
 		
 		for(int i=0; i<adList.length; i++)
 			adList[i] = new ArrayList<>();
@@ -46,26 +44,20 @@ class Main{
 		{
 			String str = br.readLine();
 			for(int x=0; x<X; x++)
-				map[y][x] = str.charAt(x);
+			{
+				int nextIdx = getNext(y,x, str.charAt(x));
+				if(nextIdx < 0)
+					continue;
+				int nowIdx = getIdx(y, x);
+				
+				adList[nowIdx].add(nextIdx);
+			}
 		}
 		for(int y=0; y<Y; y++) // 값 입력 받음
 		{
 			st = new StringTokenizer(br.readLine());
 			for(int x=0; x<X; x++)
 				value[y][x] = Integer.parseInt(st.nextToken());// 1<=500
-		}
-		
-		for(int y=0; y<Y; y++) // 방향에 맞게 연결리스트 생성
-		{
-			for(int x=0; x<X; x++)
-			{
-				int nextIdx = getNext(y,x);
-				if(nextIdx < 0)
-					continue;
-				int nowIdx = getIdx(y, x);
-				
-				adList[nowIdx].add(new Node(nextIdx, value[y][x]));
-			}
 		}
 		
 		visitTime = new int[adList.length];
@@ -83,35 +75,36 @@ class Main{
 		
 		for(int c : cycle)
 		{
-			min = 1<<30;
+			min = 1<<10;
+			
 			dfs(c, c);
 			
-			if(min != 1<<30)
-				sum += min;
+			sum += min;
 		}
 		
 		System.out.print(sum);
 	}
 	static void dfs(int now, int end) {
-		for(Node next : adList[now]) {
-			min = Math.min(min, next.cost);
+		for(int next : adList[now])
+		{
+			min = Math.min(min, getValue(next));
 			
-			if(next.node == end)
+			if(next == end)
 				return;
 			
-			dfs(next.node, end);
+			dfs(next, end);
 		}
 	}
 	static boolean searchCycle(int now) {
-		for(Node next : adList[now])
+		for(int next : adList[now])
 		{
-			if(visitTime[next.node]== 0)
+			if(visitTime[next]== 0)
 			{
-				visitTime[next.node] = time;
-				if(searchCycle(next.node))
+				visitTime[next] = time;
+				if(searchCycle(next))
 					return true;
 			}
-			else if(visitTime[next.node] == time)
+			else if(visitTime[next] == time)
 			{
 				cycle.add(now);
 				return true;
@@ -119,9 +112,9 @@ class Main{
 		}
 		return false;
 	}
-	static int getNext(int y, int x) {
+	static int getNext(int y, int x, char c) {
 		int idx = 0;
-		switch(map[y][x])
+		switch(c)
 		{
 		case 'R' : idx = 1;break;
 		case 'D' : idx = 2;break;
@@ -139,11 +132,10 @@ class Main{
 	static int getIdx(int y, int x) {
 		return y*X + x;
 	}
-	static class Node{
-		int node, cost;
-		Node(int n, int c){
-			node = n;
-			cost = c;
-		}
+	static int getValue(int n) {
+		int y = n / X;
+		int x = n % X;
+		
+		return value[y][x];
 	}
 }
