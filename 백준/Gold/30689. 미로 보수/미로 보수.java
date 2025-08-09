@@ -11,38 +11,38 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 class Main{
 	
 	static final int dxy[][] = {{-1,0},{0,1},{1,0},{0,-1}};
-	static int min;
+	static int ans;
 	static int Y, X;
-	static char map[][];
+	static int dir[][];
+	static int state[][];
 	static int value[][];
-	
-	static int time;
-	static int visitTime[][];
-	static List<Node> cycle;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		Y = Integer.parseInt(st.nextToken()); // 1<=2,000
 		X = Integer.parseInt(st.nextToken()); // 1<=2,000
-		map = new char[Y][X];
+		dir = new int[Y][X];
 		value = new int[Y][X];
-		visitTime = new int[Y][X];
-		cycle = new ArrayList<>();
+		state = new int[Y][X];
 		
 		for(int y=0; y<Y; y++) // 방향 입력 받음
 		{
 			String str = br.readLine();
 			for(int x=0; x<X; x++)
-				map[y][x] = str.charAt(x);
+			{
+				switch(str.charAt(x))
+				{
+				case 'R' : dir[y][x] = 1;break;
+				case 'D' : dir[y][x] = 2;break;
+				case 'L' : dir[y][x] = 3;break;
+				}
+			}
 		}
 		
 		for(int y=0; y<Y; y++) // 값 입력 받음
@@ -54,62 +54,41 @@ class Main{
 		
 		for(int y=0; y<Y; y++)
 			for(int x=0; x<X; x++)
-				if(visitTime[y][x] == 0)
-					bfs(y, x, true);
-
+				if(state[y][x] == 0)
+					dfs(y, x);
 		
-		int sum = 0;
-		
-		visitTime = new int[Y][X];
-		for(Node n : cycle)
-			sum += bfs(n.y, n.x, false);
-		
-		System.out.print(sum);
+		System.out.print(ans);
 	}
-	static int bfs(int y, int x, boolean isSave) {
-		int min = value[y][x];
-		ArrayDeque<Node> q = new ArrayDeque<>();
-		q.add(new Node(y,x));
-		visitTime[y][x] = ++time;
+	static void dfs(int y, int x) {
+		state[y][x] = 1; // 방문 중
 		
-		while(!q.isEmpty())
+		int nextY = y + dxy[dir[y][x]][0];
+		int nextX = x + dxy[dir[y][x]][1];
+		
+		if(nextY >= 0 && nextX >= 0 && nextY < Y && nextX < X)
 		{
-			Node now = q.poll();
-			
-			int idx = 0;
-			switch(map[now.y][now.x])
+			if(state[nextY][nextX] == 0)
 			{
-			case 'R' : idx = 1;break;
-			case 'D' : idx = 2;break;
-			case 'L' : idx = 3;break;
+				dfs(nextY, nextX);
 			}
-			
-			int nextY = now.y + dxy[idx][0];
-			int nextX = now.x + dxy[idx][1];
-			
-			if(nextY < 0 || nextX < 0 || Y == nextY || X == nextX)
-				continue;
-			
-			if(visitTime[nextY][nextX] == 0)
+			else if(state[nextY][nextX] == 1)
 			{
-				visitTime[nextY][nextX] = time;
-				min = Math.min(min, value[nextY][nextX]);
-				q.add(new Node(nextY, nextX));
-			}
-			else if(visitTime[nextY][nextX] == time)
-			{
-				if(isSave)
-					cycle.add(new Node(nextY, nextX));
+				int min = value[nextY][nextX];
+				int ny = nextY;
+				int nx = nextX;
+				while(true)
+				{
+					int ty = ny + dxy[dir[ny][nx]][0];
+					int tx = nx + dxy[dir[ny][nx]][1];
+					min = Math.min(min, value[ty][tx]);
+					ny = ty;
+					nx = tx;
+					if(nextY == ny && nextX == nx)
+						break;
+				}
+				ans += min;
 			}
 		}
-		
-		return min;
-	}
-	static class Node{
-		int y, x;
-		Node(int y, int x){
-			this.y=y;
-			this.x=x;
-		}
+		state[y][x] = 2;// 방문 종료
 	}
 }
