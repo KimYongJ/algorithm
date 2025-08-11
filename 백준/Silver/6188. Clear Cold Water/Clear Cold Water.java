@@ -19,7 +19,7 @@ class Main{
 	
 	static int N, C;
 	static int cnt[];
-	static List<Integer> adList[];
+	static Node adList[];
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,10 +27,7 @@ class Main{
 		N = Integer.parseInt(st.nextToken());
 		C = Integer.parseInt(st.nextToken());
 		cnt = new int[N + 1];
-		adList = new ArrayList[N + 1];
-		
-		for(int i=0; i<=N; i++)
-			adList[i] = new ArrayList<>();
+		adList = new Node[N + 1];
 		
 		for(int i=0; i<C; i++)
 		{
@@ -38,8 +35,8 @@ class Main{
 			int r = Integer.parseInt(st.nextToken());
 			int c1 = Integer.parseInt(st.nextToken());
 			int c2 = Integer.parseInt(st.nextToken());
-			adList[r].add(c1);
-			adList[r].add(c2);
+			adList[r] = new Node(c1, adList[r]);
+			adList[r] = new Node(c2, adList[r]);
 		}
 		
 		dfs(1, 0, 1);
@@ -55,7 +52,15 @@ class Main{
 		
 		cnt[now] = depth;
 		
-		for(int next : adList[now])
-			dfs(next, now, depth + 1);
+		for(Node next = adList[now]; next != null; next=next.next)
+			dfs(next.node, now, depth + 1);
+	}
+	static class Node{
+		int node;
+		Node next;
+		Node(int node, Node next){
+			this.node = node;
+			this.next = next;
+		}
 	}
 }
