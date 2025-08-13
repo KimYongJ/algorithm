@@ -51,12 +51,12 @@ class Main{
 		{
 			int [] a = list.get(i);
 			
-			map[a[0]][a[1]] = false;
+			map[a[0]][a[1]] = false;// 해당 좌표에서 초콜릿 제거
 			
-			if(isConnAndTree(cnt - 1, i))
+			if(isConnAndTree(cnt - 1, i))// 하나의 연결요소 이면서 트리인지 판별
 				ans.add(a);
 			
-			map[a[0]][a[1]] = true;
+			map[a[0]][a[1]] = true;// 초콜릿 복귀
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -69,23 +69,24 @@ class Main{
 		System.out.print(sb);
 	}
 	static boolean isConnAndTree(int remain, int idx) {
-		if(remain <= 0)
+		if(remain <= 0)// 방문해야할 노드가 0이하면 false
 			return false;
 		
-		idx = idx == 0 ? 1 : 0;
+		idx = idx == 0 ? 1 : 0; // 시작 좌표를 알기 위한 idx
 
 		int sy = list.get(idx)[0];
 		int sx = list.get(idx)[1];
 		
-		vertex = 0;
-		edgeCnt = 0;
+		vertex = 0;// 방문 정점
+		edgeCnt = 0;// 방문 간선
 		visit = new boolean[N + 2][N + 2];
 		
 		dfs(sy, sx);
 		
-		if(vertex != remain)
+		if(vertex != remain) // 방문한 정점과 방문해야할 정점이 같지 않다면 false 리턴
 			return false;
-		
+
+		// 트리인지 판별하는 공식
 		return vertex - 1 == edgeCnt / 2;
 	}
 	static void dfs(int y, int x) {
@@ -100,10 +101,10 @@ class Main{
 			int ny = y + xy[0];
 			int nx = x + xy[1];
 			
-			if(!map[ny][nx])
+			if(!map[ny][nx])// 초콜릿이 아니면 스킵
 				continue;
 			
-			edgeCnt++;
+			edgeCnt++;// 모든 무향 간선이 양쪽에서 한 번씩 세어져 총 2회 카운트됨 → edgeCnt/2가 실제 무향 간선 수(E)
 			
 			dfs(ny, nx);
 		}
