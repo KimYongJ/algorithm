@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -20,13 +19,13 @@ class Main{
 	static int N;
 	static int maxLen;
 	static Node cnt[];
-	static List<Result> list;
+	static String result[];
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine());
 		cnt = new Node[1001];
-		list = new ArrayList<>();
+		result = new String[N];
 		
 		for(int i=0; i<=1000; i++)
 			cnt[i] = new Node();
@@ -42,50 +41,39 @@ class Main{
 		}
 		
 		ArrayDeque<String> q = new ArrayDeque<>();
-		q.add("");
+		q.add("");// 초기 문자열 삽입
 		
-		for(int len = 1; len<=maxLen; len++)
+		for(int len = 1; len<=maxLen; len++) // 길이 1부터 가장긴 maxLen까지 반복
 		{
-			while(cnt[len].idx < cnt[len].order.size())
+			while(cnt[len].idx < cnt[len].order.size())// 특정 길이만큼 반복
 			{
-				if(q.isEmpty())
+				if(q.isEmpty())// 큐가 비어있다면 maxLen까지 못만드므로 불가능
 				{
 					System.out.print(-1);
 					return;
 				}
 			
-				String s = q.pollFirst();
+				String s = q.pollFirst();// 초기 문자열을 꺼냄
 				
-				while(s.length() < len)
+				while(s.length() < len)// 해당 길이만큼 문자열을 만듦
 				{
-					q.addLast(s + "1");
-					s = s + "0";
+					q.addLast(s + "1");// 시작 문자열이 ""이고 len이 3이라면, 큐에 담기는 데이터는 순서대로 "1", "01", "001" 임 
+					s = s + "0";// 다음 문자열은 "0"만 추가
 				}
 				
-				int order = cnt[len].order.get(cnt[len].idx++);
-				list.add(new Result(s, order));
+				int order = cnt[len].order.get(cnt[len].idx++);// 해당 길이의 최초 입력 순서를 꺼내옴
+				result[order] = s;// 정답 문자열을 입력순서에 바로 넣음
 			}
 		}
 		
-		
-		Collections.sort(list, (a,b) -> a.order - b.order);
-		
+		// 이하 문자열 출력
 		StringBuilder sb = new StringBuilder();
 		sb.append(1).append('\n');
 		
-		for(Result res : list)
-			sb.append(res.str).append('\n');
+		for(String res : result)
+			sb.append(res).append('\n');
 		
 		System.out.print(sb);
-	}
-
-	static class Result{
-		String str;
-		int order;
-		Result(String s, int o){
-			str = s;
-			order = o;
-		}
 	}
 	static class Node{
 		List<Integer> order;
