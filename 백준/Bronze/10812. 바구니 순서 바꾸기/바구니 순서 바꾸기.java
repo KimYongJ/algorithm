@@ -29,13 +29,13 @@ class Main{
 			int m = Integer.parseInt(st.nextToken());
 			
 			for(int i=s; i<m; i++)
-				brr[i] = arr[i];
+				brr[i] = arr[i];// 초기 값 따로 복사해 놓음
 			
-			for(int i=m, j = s; i<=e; i++)
-				arr[j++] = arr[i];
+			for(int i=m, j=s; i<=e; i++, j++)
+				arr[j] = arr[i];// 중간부터 끝까지 덮어씌움
 			
-			for(int i=s + e - m + 1, j = s; i<=e; i++)
-				arr[i] = brr[s++];
+			for(int i=s + e - m + 1, j=s ; i<=e; i++, j++)
+				arr[i] = brr[j];// 복사한 s부터의 값을 넣음
 		}
 		
 		StringBuilder sb = new StringBuilder();
