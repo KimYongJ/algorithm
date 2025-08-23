@@ -17,8 +17,7 @@ class Main{
 		
 		if(a<0)
 		{
-			time += -a * c;
-			time += d; 
+			time += (-a * c) + d;
 			a = 0;
 		}
 		
