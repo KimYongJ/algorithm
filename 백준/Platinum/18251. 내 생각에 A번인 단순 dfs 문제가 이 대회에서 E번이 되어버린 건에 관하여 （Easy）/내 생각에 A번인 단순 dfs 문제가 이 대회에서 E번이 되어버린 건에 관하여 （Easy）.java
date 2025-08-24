@@ -1,10 +1,13 @@
+//https://www.acmicpc.net/problem/18251
+//2초 512MB
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 class Main{
 	
-	static int xPos;
+	static int xPos, maxYPos;
 	static int N;
 	static int arr[];
 	static Node info[];
@@ -36,18 +39,15 @@ class Main{
 		if(right <= N)
 			dfs(right, yPos + 1);
 		
+		maxYPos = Math.max(maxYPos, yPos);
 	}
 	static void solve()
 	{
 		long sum = Long.MIN_VALUE;
-		int height = 0;
-		
-		int x = N; // 트리의 높이를 구하기 위해 사용
-		while(x > 0) {x>>=1; height++;}// 트리의 높이를 구함
-		
-		for(int s=1; s<=height; s++)
+
+		for(int s=1; s<=maxYPos; s++)
 		{
-			for(int e=s; e<=height; e++)
+			for(int e=s; e<=maxYPos; e++)
 			{
 				long cur = 0;
 				
