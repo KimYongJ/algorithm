@@ -45,7 +45,6 @@ class Main{
 		mark(max[0], 1);// 트리 지름을 탐색하며 visit에 마킹
 		
 		int max = 0;
-		boolean validate = false;
 		
 		for(int i=1; i<=N; i++)
 		{
@@ -53,16 +52,11 @@ class Main{
 				continue;
 			
 			for(int next : adList[i])
-			{
 				if(!visit[next])
-				{
-					validate = true;
 					max = Math.max(max,dfs2(next));
-				}
-			}
 		}
 		
-		System.out.print(validate ? maxDepth + max : 0);
+		System.out.print(max != 0 ? maxDepth + max : 0);
 	}
 	static int dfs2(int now) {
 		visit[now] = true;
