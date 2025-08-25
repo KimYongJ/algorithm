@@ -40,9 +40,9 @@ class Main{
 		dfs1(max[0], -1, 1);// 트리 지름의 양끝 노드를 구하기 위한 두번 째 dfs
 		
 		visit[max[0]] = true;
-		mark(max[0], 1);// 트리 지름을 탐색하며 visit에 마킹
+		mark(max[0]);// 트리 지름을 탐색하며 visit에 마킹
 		
-		int max = 0;
+		int bestExtra = 0;
 		
 		for(int i=1; i<=N; i++)// 모든 노드를 순회
 		{
@@ -52,10 +52,10 @@ class Main{
 			
 			for(int next : adList[i])
 				if(!visit[next])// 인접 노드를 순회하며 지름이 아닌 노드 발견시 거기서 부터 길이를 구함
-					max = Math.max(max, dfs2(next));
+					bestExtra  = Math.max(bestExtra , dfs2(next));
 		}
 		
-		System.out.print(max != 0 ? maxDepth + max : 0);
+		System.out.print(bestExtra  != 0 ? maxDepth + bestExtra  : 0);
 	}
 	static int dfs2(int now) {
 		visit[now] = true;
@@ -74,7 +74,7 @@ class Main{
 		// 자식 노드들 중 가장 긴 길이에 자기 자신을 더해 반환
 		return maxSize + 1;
 	}
-	static boolean mark(int now, int depth) {
+	static boolean mark(int now) {
 		
 		if(max[1] == now)// 목표에 도달시 true 리턴
 			return true;
@@ -85,7 +85,7 @@ class Main{
 			{
 				visit[next] = true;
 				
-				if(mark(next, depth + 1))
+				if(mark(next))
 					return true;
 				
 				visit[next] = false;
