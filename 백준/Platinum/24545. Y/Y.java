@@ -10,7 +10,7 @@ class Main{
 	static int idx;
 	static int maxDepth;
 	
-	static int max[];
+	static int node[];
 	static boolean visit[];
 	static List<Integer> adList[];
 	
@@ -18,7 +18,7 @@ class Main{
 		Reader in = new Reader();
 		
 		N = in.nextInt();
-		max = new int[2];
+		node = new int[2];
 		visit = new boolean[N + 1];
 		adList = new ArrayList[N + 1];
 		
@@ -37,10 +37,10 @@ class Main{
 		
 		idx = 1;
 		maxDepth = 0;
-		dfs1(max[0], -1, 1);// 트리 지름의 양끝 노드를 구하기 위한 두번 째 dfs
+		dfs1(node[0], -1, 1);// 트리 지름의 양끝 노드를 구하기 위한 두번 째 dfs
 		
-		visit[max[0]] = true;
-		mark(max[0]);// 트리 지름을 탐색하며 visit에 마킹
+		visit[node[0]] = true;
+		mark(node[0]);// 트리 지름을 탐색하며 visit에 마킹
 		
 		int bestExtra = 0;
 		
@@ -76,7 +76,7 @@ class Main{
 	}
 	static boolean mark(int now) {
 		
-		if(max[1] == now)// 목표에 도달시 true 리턴
+		if(node[1] == now)// 목표에 도달시 true 리턴
 			return true;
 		
 		for(int next : adList[now])
@@ -97,7 +97,7 @@ class Main{
 		if(maxDepth < depth)
 		{
 			maxDepth = depth;
-			max[idx] = now;
+			node[idx] = now;
 		}
 		for(int next : adList[now])
 			if(next != prev)
