@@ -11,15 +11,14 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
-		int res[] = new int[N];
-		int nums[][] = new int[N][2];
+		int front[] = new int[N];
+		int back[] = new int[N];
 		
 		for(int i=0; i<N; i++)
 		{
 			st = new StringTokenizer(br.readLine());
-			nums[i][0] = Integer.parseInt(st.nextToken());
-			nums[i][1] = Integer.parseInt(st.nextToken());
-			res[i] = nums[i][0];
+			front[i] = Integer.parseInt(st.nextToken());
+			back[i] = Integer.parseInt(st.nextToken());
 		}
 		
 		while(M-->0)
@@ -27,14 +26,18 @@ class Main{
 			int k = Integer.parseInt(br.readLine());
 			
 			for(int i=0; i<N; i++)
-				if(res[i] <= k)
-					res[i] = res[i] == nums[i][0] ? nums[i][1] : nums[i][0];
+				if(front[i] <= k)
+				{
+					int tmp = front[i];
+					front[i] = back[i];
+					back[i] = tmp;
+				}
 		}
 		
 		int sum = 0;
 		
-		for(int i=0; i<N; i++)
-			sum += res[i];
+		for(int f : front)
+			sum += f;
 		
 		System.out.print(sum);
 	}
