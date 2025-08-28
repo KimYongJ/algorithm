@@ -52,7 +52,7 @@ class Main{
 		}
 		
 		do {
-			setDir();// 해당 초에 방향 전환(0초부터 시작)
+			dirChange();// 해당 초에 방향 전환(0초부터 시작)
 			
 			++time;// 1초 증가
 		}while(moveDir());// 해당 방향으로 한칸 이동 및 유효한지 체크
@@ -90,7 +90,7 @@ class Main{
 		
 		return true;
 	}
-	static void setDir() {
+	static void dirChange() {
 		if(dirInfo[time] == 'L')
 			nowDir--;
 		else if(dirInfo[time] == 'D')
