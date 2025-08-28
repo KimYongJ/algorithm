@@ -15,8 +15,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	
-	static final int APPLE = -1;
-	static final int dxy[][] = {{0,1},{1,0},{0,-1},{-1,0}};
+	static int dxy[][] = {{0,1},{1,0},{0,-1},{-1,0}};
 	static int fy, fx;// 머리의 위치
 	static int ly, lx;// 꼬리의 위치
 	static int nowDir;// 현재의 방향
@@ -41,7 +40,7 @@ class Main{
 			st = new StringTokenizer(br.readLine());
 			int y = Integer.parseInt(st.nextToken());
 			int x = Integer.parseInt(st.nextToken());
-			map[y][x] = APPLE; // 사과는 -1
+			map[y][x] = -1; // 사과는 -1
 		}
 		
 		int dirCnt = Integer.parseInt(br.readLine());// 뱀의 방향 전환 횟수(1<=100)
@@ -51,12 +50,17 @@ class Main{
 			dirInfo[Integer.parseInt(st.nextToken())] = st.nextToken().charAt(0);
 		}
 		
-		do {
-			dirChange();// 해당 초에 방향 전환(0초부터 시작)
+		while(true)
+		{
+			setDir();// 해당 초에 방향 전환(0초부터 시작)
 			
 			++time;// 1초 증가
-		}while(moveDir());// 해당 방향으로 한칸 이동 및 유효한지 체크
+			
+			if(!moveDir())// 해당 방향으로 한칸 이동
+				break;
 
+		}
+		
 		System.out.print(time);
 	}
 	static boolean moveDir() {
@@ -90,7 +94,7 @@ class Main{
 		
 		return true;
 	}
-	static void dirChange() {
+	static void setDir() {
 		if(dirInfo[time] == 'L')
 			nowDir--;
 		else if(dirInfo[time] == 'D')
