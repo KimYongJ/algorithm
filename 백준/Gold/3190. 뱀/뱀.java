@@ -15,7 +15,8 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 class Main{
 	
-	static int dxy[][] = {{0,1},{1,0},{0,-1},{-1,0}};
+	static final int APPLE = -1;
+	static final int dxy[][] = {{0,1},{1,0},{0,-1},{-1,0}};
 	static int fy, fx;// 머리의 위치
 	static int ly, lx;// 꼬리의 위치
 	static int nowDir;// 현재의 방향
@@ -40,7 +41,7 @@ class Main{
 			st = new StringTokenizer(br.readLine());
 			int y = Integer.parseInt(st.nextToken());
 			int x = Integer.parseInt(st.nextToken());
-			map[y][x] = -1; // 사과는 -1
+			map[y][x] = APPLE; // 사과는 -1
 		}
 		
 		int dirCnt = Integer.parseInt(br.readLine());// 뱀의 방향 전환 횟수(1<=100)
