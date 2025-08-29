@@ -14,15 +14,12 @@ import java.util.StringTokenizer;
 class Main{
 	
 	static final int LEFT = -1;// 반시계 방향
-	static final int RIGHT = 1;// 시계 방향
 	static final int S = 1;// S극은 1로 입력
 	static int sawTooth[][];// 톱니바퀴 마다의 극 저장
-	static int changeDir[];// 각 톱니바퀴의 회전 방향 저장
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		sawTooth = new int[5][8];
-		changeDir = new int[5];
 		
 		for(int i=1; i<=4; i++)
 		{
@@ -37,68 +34,48 @@ class Main{
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int idx = Integer.parseInt(st.nextToken());
-			changeDir[idx] = Integer.parseInt(st.nextToken());
-			
-			dirMark(idx);// 초기 입력을 기준으로 회전해야할 모든 톱니바퀴의 방향 세팅
-			change();// 그대로 회전
+			int dir = Integer.parseInt(st.nextToken());
+			leftCheck(idx - 1, dir);// dfs로 왼쪽 톱니바퀴 탐색 및 회전
+			rightCheck(idx + 1, dir);// dfs로 오른쪽 톱니바퀴 탐색 및 회전
+			turn(idx, dir == LEFT);// 현재 톱니 회전
 		}
 		
 		print();// 결과 출력
 	}
-	static void dirMark(int idx) {
-		// 왼쪽 마킹
-		for(int i=idx - 1, dir = changeDir[idx]; i>=1; i--)
-		{
-			int l = sawTooth[i][2];// 왼쪽 톱니바퀴
-			int r = sawTooth[i + 1][6];// 오른쪽 톱니바퀴
-			
-			dir = -dir;// 방향은 항상 반전
-			
-			if(l != r)// 다르면 방향 입력 및 연산 지속
-			{
-				changeDir[i] = dir;
-				continue;
-			}
-			break;
-		}
-		// 오른쪽 마킹
-		for(int i=idx + 1, dir = changeDir[idx]; i<=4; i++)
-		{
-			int l = sawTooth[i - 1][2];
-			int r = sawTooth[i][6];
-			
-			dir = -dir;// 방향은 항상 반전
-			
-			if(l != r)// 다르면 방향 입력 및 연산 지속
-			{
-				changeDir[i] = dir;
-				continue;
-			}
-			break;
-		}
-	}
-	static void change() {
-		for(int i=1; i<=4; i++)
-		{
-			if(changeDir[i] == LEFT)
-				turnLeft(i);
-			else if(changeDir[i] == RIGHT)
-				turnRight(i);
-			
-			changeDir[i] = 0;// 이동 방향 초기화
-		}
-	}
-	static void turnLeft(int idx) {
-		int arr[] = sawTooth[idx];
-		int first = arr[0];
+	static void rightCheck(int idx, int dir) {
+		int nowDir = -dir;
 		
-		for(int i=1; i<=7; i++)
-			arr[i-1] = arr[i];
+		if(idx == 5)return;
+		if(sawTooth[idx - 1][2] == sawTooth[idx][6])return;
 		
-		arr[7] = first;
+		rightCheck(idx + 1, nowDir);
+		
+		turn(idx, nowDir == LEFT);
 	}
-	static void turnRight(int idx) {
+	static void leftCheck(int idx, int dir) {
+		int nowDir = -dir;
+		
+		if(idx == 0)return;
+		
+		if(sawTooth[idx][2] == sawTooth[idx + 1][6])return;
+		
+		leftCheck(idx - 1, nowDir);
+		
+		turn(idx, nowDir == LEFT);
+	}
+	static void turn(int idx, boolean isLeft) {
 		int arr[] = sawTooth[idx];
+		if(isLeft)
+		{
+			int first = arr[0];
+			
+			for(int i=1; i<=7; i++)
+				arr[i-1] = arr[i];
+			
+			arr[7] = first;
+			return;
+		}
+		
 		int last = arr[7];
 		
 		for(int i=7; i>=1; i--)
@@ -110,13 +87,14 @@ class Main{
 		int res = 0;
 		
 		for(int i=1; i<=4; i++)
+		{
 			if(sawTooth[i][0] == S)
 			{
 				res += i;
 				if(i == 3) res += 1;
 				if(i == 4) res += 4;
 			}
-		
+		}
 		System.out.print(res);
 	}
 }
