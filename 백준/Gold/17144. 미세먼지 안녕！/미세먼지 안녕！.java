@@ -4,6 +4,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -90,13 +91,19 @@ class Main{
 	}
 	static void diffusion() {
 		for(int y=0; y<Y; y++)
+			Arrays.fill(inc[y], 0);
+		
+		for(int y=0; y<Y; y++)
 		{
 			for(int x=0; x<X; x++)
 			{
+				inc[y][x] += base[y][x];
+				
 				if(base[y][x] <= 0)
 					continue;
 				
 				int cnt = 0;
+				int cal = base[y][x] / 5;
 				
 				for(int xy[] : dxy)
 				{
@@ -106,20 +113,15 @@ class Main{
 					if(ny<0 || nx<0 || Y<=ny || X<=nx || 0 > base[ny][nx])
 						continue;
 					
-					inc[ny][nx] += base[y][x] / 5;
+					inc[ny][nx] += cal;
 					++cnt;
 				}
-				base[y][x] -= (base[y][x] / 5) * cnt;
+				inc[y][x] -= (cal) * cnt;
 			}
 		}
 		
-		for(int y=0; y<Y; y++)
-		{
-			for(int x=0; x<X; x++)
-			{
-				base[y][x] += inc[y][x];
-				inc[y][x] = 0;
-			}
-		}
+		int[][] tmp = inc;
+		inc = base;
+		base = tmp;
 	}
 }
