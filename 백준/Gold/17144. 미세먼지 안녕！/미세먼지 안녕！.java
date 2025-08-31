@@ -3,8 +3,6 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 class Main{
@@ -13,8 +11,6 @@ class Main{
 	static int [][] base, inc;
 	static int []sy;// 공기청정기의 y좌표
 	static int Y, X, T;
-	static List<int[]> path1;
-	static List<int[]> path2;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,8 +21,7 @@ class Main{
 		base = new int[Y][X];
 		inc = new int[Y][X];
 		sy = new int[2];
-		path1 = new ArrayList<>();
-		path2 = new ArrayList<>();
+		
 		for(int y=0, idx = 0; y<Y; y++)
 		{
 			st = new StringTokenizer(br.readLine());
@@ -39,13 +34,10 @@ class Main{
 			}
 		}
 		
-		pathSetting();
-		
 		while(T-->0)
 		{
 			diffusion();
-			circulation(path1);
-			circulation(path2);
+			purify();
 		}
 		
 		int sum = 0;
@@ -56,37 +48,24 @@ class Main{
 		
 		System.out.print(sum + 2); // 공기청정기는 -2의 값을 가지므로 +2로 보정
 	}
-	static void circulation(List<int[]> path) {
-		
-		for(int i=path.size()-2; i>=0; i--)
-		{
-			int[] a = path.get(i);
-			int[] b = path.get(i + 1);
-			base[b[0]][b[1]] = base[a[0]][a[1]];
-		}
-		
-		int[] first = path.get(0);
-		
-		base[first[0]][first[1]] = 0;
-	}
-	static void pathSetting() {
+	static void purify() {
 		// 상단 세팅
-		int y = sy[0];
-		int x = 1;
+		int y = sy[0] - 2;
+		int x = 0;
 		
-		for(; x<X; x++)path1.add(new int[] {y,x});
-		for(x = X-1, y = sy[0]-1; y>=0; y--)path1.add(new int[] {y,x});
-		for(y = 0; x>=0; x--)path1.add(new int[] {y,x});
-		for(x = 0; y<sy[0]; y++)path1.add(new int[] {y,x});
+		for(; y>=0; y--) base[y+1][x] = base[y][x];
+		for(y=0, x=1; x<X; x++) base[y][x-1] = base[y][x];
+		for(x=X-1,y=1;y<=sy[0];y++) base[y-1][x] = base[y][x];
+		for(x=X-2,y=sy[0]; x>=1; x--) base[y][x+1] = base[y][x];
+		base[sy[0]][1] = 0;
 		
-		// 하단 세팅
-		y = sy[1];
-		x = 1;
-		for(; x<X; x++)path2.add(new int[] {y,x});
-		for(x=X-1, y=sy[1]+1; y<Y; y++)path2.add(new int[] {y,x});
-		for(y=Y-1; x>=0; x--) path2.add(new int[] {y,x});
-		for(x=0,y=Y-2;y>sy[1]; y--)path2.add(new int[] {y,x});
-		
+		y = sy[1] + 2;
+		x = 0;
+		for(; y < Y; y++) base[y-1][x] = base[y][x];
+		for(y=Y-1,x=1; x<X; x++) base[y][x - 1] = base[y][x];
+		for(x=X-1, y=Y-2; sy[1]<=y; y--) base[y + 1][x] = base[y][x];
+		for(y=sy[1],x=X-2;1<=x; x--)base[y][x + 1] = base[y][x];
+		base[sy[1]][1] = 0;
 	}
 	static void diffusion() {
 		for(int y=0; y<Y; y++)
