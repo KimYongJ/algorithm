@@ -50,23 +50,22 @@ class Main{
 			
 			// 보드에 마킹
 			for(Point n : list)
-//				if(n.y>=0 && n.x>=0 && n.y<=len && n.x<=len) 문제 규칙상 범위를 벗어나지 않음
 				map[n.y][n.x] = true;
 		}
 		System.out.print(print());
 	}
 	static void rotateAppend() {
 		
-		int size = list.size();
+		int size = list.size(); // list 사이즈 만큼 순회
 		
 		for(int i=0; i<size; i++)
 		{
-			Point now = list.get(i);
+			Point now = list.get(i);// 현재를 통해 다음(next)을 구함
 			
 			if(now.y == ey && now.x == ex)
 				continue;
 			
-			Point next = getNext(now.y, now.x, ey, ex);
+			Point next = getNext(now.y, now.x, ey, ex); // 다음을 공식에 따라 구함
 			list.add(next);
 		}
 		
