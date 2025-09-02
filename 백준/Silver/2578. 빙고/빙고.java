@@ -33,10 +33,8 @@ class Main{
 				System.out.print(cnt + 1);
 				return;
 			}
-
 			++cnt;
 		}
-		System.out.print(0);
 	}
 	static void mark(int[][] map, int target) {
 		for(int y=0; y<5; y++)
