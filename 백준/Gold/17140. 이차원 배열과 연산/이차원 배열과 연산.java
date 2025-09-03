@@ -54,10 +54,12 @@ class Main{
 		for(int y=0; y<yLen; y++)
 		{
 			int arr[] = order(map[y]);
-			xLen = Math.max(xLen, arr.length);
 			
-			for(int x=0; x<arr.length; x++)map[y][x] = arr[x];
-			for(int x=arr.length; x<=len; x++)map[y][x] = 0;
+            for(int x=0; x<arr.length; x++)map[y][x] = arr[x];
+			for(int x=arr.length; x<xLen; x++)map[y][x] = 0;
+            
+            xLen = Math.max(xLen, arr.length);
+
 		}
 	}
 	static void C() {
@@ -65,10 +67,13 @@ class Main{
 		{
 			int xrr[] = getXrr(x);
 			int arr[] = order(xrr);
-			yLen = Math.max(yLen, arr.length);
-			
+            
 			for(int y=0; y<arr.length; y++)map[y][x] = arr[y];
-			for(int y=arr.length; y<=len; y++)map[y][x] = 0;
+			for(int y=arr.length; y<yLen; y++)map[y][x] = 0;
+            
+            yLen = Math.max(yLen, arr.length);
+			
+			
 		}
 	}
 	static int[] getXrr(int x) {
