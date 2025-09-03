@@ -25,7 +25,7 @@ class Main{
 		R = Integer.parseInt(st.nextToken()) - 1;
 		C = Integer.parseInt(st.nextToken()) - 1;
 		K = Integer.parseInt(st.nextToken());
-		map = new int[len + 1][len + 1];
+		map = new int[len][len];
 		
 		for(int y=0; y<yLen; y++)
 		{
@@ -53,27 +53,14 @@ class Main{
 	static void R() {
 		for(int y=0; y<yLen; y++)
 		{
-			int arr[] = order(map[y]);
-			
-            for(int x=0; x<arr.length; x++)map[y][x] = arr[x];
-			for(int x=arr.length; x<xLen; x++)map[y][x] = 0;
-            
-            xLen = Math.max(xLen, arr.length);
-
+			order(map[y], y, true);
 		}
 	}
 	static void C() {
 		for(int x=0; x<xLen; x++)
 		{
 			int xrr[] = getXrr(x);
-			int arr[] = order(xrr);
-            
-			for(int y=0; y<arr.length; y++)map[y][x] = arr[y];
-			for(int y=arr.length; y<yLen; y++)map[y][x] = 0;
-            
-            yLen = Math.max(yLen, arr.length);
-			
-			
+			order(xrr, x, false);
 		}
 	}
 	static int[] getXrr(int x) {
@@ -84,7 +71,7 @@ class Main{
 		
 		return xrr;
 	}
-	static int[] order(int arr[]) {
+	static void order(int arr[],int idx, boolean isR) {
 		int counting[] = new int[len + 1];
 		
 		for(int i=0; i<arr.length; i++)
@@ -98,18 +85,41 @@ class Main{
 			if(counting[i] > 0)
 				pq.add(new Node(counting[i], i));
 		
-		int result[] = new int[Math.min(100, pq.size()*2)];
-		
+		int len = Math.min(100, pq.size()*2);
 		int i = 0;
+		if(isR)
+		{
+
+			while(!pq.isEmpty())
+			{
+				Node now = pq.poll();
+				map[idx][i++] = now.num;
+				map[idx][i++] = now.cnt;
+			}
+			
+			for(int x=len; x<xLen; x++)
+			{
+				map[idx][x] = 0;
+			}
+            
+            xLen = Math.max(xLen, len);
+			return;
+		}
 		
 		while(!pq.isEmpty())
 		{
 			Node now = pq.poll();
-			result[i++] = now.num;
-			result[i++] = now.cnt;
+			map[i++][idx] = now.num;
+			map[i++][idx] = now.cnt;
 		}
 		
-		return result;
+		for(int y=len; y<yLen; y++)
+		{
+			map[y][idx] = 0;
+		}
+		
+        yLen = Math.max(yLen, len);
+
 	}
 	static class Node implements Comparable<Node>{
 		int cnt;
