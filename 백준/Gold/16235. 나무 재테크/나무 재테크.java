@@ -24,7 +24,6 @@ class Main{
 	static int[][] plus, food, addTree;
 	static ArrayList<Integer>[][] init;
 	static ArrayDeque<Integer>[][] map;
-	static ArrayDeque<Integer>[][] death;
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -37,7 +36,6 @@ class Main{
 		addTree = new int[N][N];// 가을에 번식하는 나무를 담음
 		map = new ArrayDeque[N][N];// 현재나무의 나이를 담음
 		init = new ArrayList[N][N];// 최초 나무를 담음
-		death = new ArrayDeque[N][N];// 죽은 나무의 나이를 담음
 		
 		for(int y=0; y<N; y++)
 		{
@@ -48,7 +46,6 @@ class Main{
 				food[y][x] = 5;
 				map[y][x] = new ArrayDeque<>();
 				init[y][x] = new ArrayList<>();
-				death[y][x] = new ArrayDeque<>();
 			}
 		}
 		
@@ -131,24 +128,22 @@ class Main{
 		{
 			for(int x=0; x<N; x++)
 			{
-				// spring 로직
+				boolean isSummer = false;
 				int size = map[y][x].size();
 				
 				while(size-->0)
 				{
 					int age = map[y][x].pollFirst();
-					if(food[y][x] < age)// 나이만큼 양분을 먹지 못하면 죽음
+					if(isSummer || food[y][x] < age)// 나이만큼 양분을 먹지 못하면 죽음
 					{
-						death[y][x].add(age);
+						food[y][x] += age / 2; // 나이의 절반을 양분으로 만듦
+						isSummer = true;// 한번 summer 로직을 타면 계속 탄다. 오름차순이기 때문
 						continue;
 					}
 					
 					food[y][x] -= age;
 					map[y][x].addLast(age + 1);
 				}
-				// summer 로직
-				while(!death[y][x].isEmpty())
-					food[y][x] += death[y][x].pollFirst() / 2;
 			}
 		}
 	}
