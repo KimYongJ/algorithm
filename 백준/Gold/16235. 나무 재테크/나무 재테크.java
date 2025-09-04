@@ -73,19 +73,12 @@ class Main{
 		while(K-->0)
 		{
 			springAndSummer();
-			fall();
-			winter();
+			fallAndWinter();
 		}
 		
 		System.out.print( count() );
 	}
-	static void winter()
-	{
-		for(int y=0; y<N; y++)
-			for(int x=0; x<N; x++)
-				food[y][x] += plus[y][x];
-	}
-	static void fall()
+	static void fallAndWinter()
 	{
 		for(int y=0; y<N; y++)
 		{
@@ -111,6 +104,8 @@ class Main{
 					map[y][x].addFirst(1);
 				
 				addTree[y][x] = 0;
+				// winter 로직
+				food[y][x] += plus[y][x];
 			}
 
 	}
