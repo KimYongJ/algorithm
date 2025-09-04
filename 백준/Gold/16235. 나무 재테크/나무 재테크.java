@@ -75,8 +75,7 @@ class Main{
 		
 		while(K-->0)
 		{
-			spring();
-			summer();
+			springAndSummer();
 			fall();
 			winter();
 		}
@@ -127,17 +126,12 @@ class Main{
 				addTree[ny][nx]++;
 		}
 	}
-	static void summer() {
-		for(int y=0; y<N; y++)
-			for(int x=0; x<N; x++)
-				while(!death[y][x].isEmpty())
-					food[y][x] += death[y][x].pollFirst() / 2;
-	}
-	static void spring() {
+	static void springAndSummer() {
 		for(int y=0; y<N; y++)
 		{
 			for(int x=0; x<N; x++)
 			{
+				// spring 로직
 				int size = map[y][x].size();
 				
 				while(size-->0)
@@ -152,6 +146,9 @@ class Main{
 					food[y][x] -= age;
 					map[y][x].addLast(age + 1);
 				}
+				// summer 로직
+				while(!death[y][x].isEmpty())
+					food[y][x] += death[y][x].pollFirst() / 2;
 			}
 		}
 	}
