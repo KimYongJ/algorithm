@@ -15,14 +15,12 @@ class Main{
 		while(N-->0)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			int t = Integer.parseInt(st.nextToken());
-			char c = st.nextToken().charAt(0);
-			time -= t;
+			time -= Integer.parseInt(st.nextToken());
 			
 			if(time < 0)
 				break;
 			
-			if(c == 'T' && ++K == 9)
+			if(st.nextToken().charAt(0) == 'T' && ++K == 9)
 				K = 1;
 		}
 		
