@@ -21,7 +21,8 @@ class Main{
 				else
 					N = N * 3 + 1;
 				
-				M = Math.max(M, N);
+				if(M < N)
+                    M = N;
 			}
 			
 			sb.append(M).append('\n');
