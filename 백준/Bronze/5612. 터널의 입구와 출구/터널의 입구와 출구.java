@@ -13,20 +13,13 @@ class Main{
 		int M = Integer.parseInt(br.readLine());
 		int max = M;
 		
-		for(int i=0; i<N; i++) {
+		for(int i=0; i<N && 0<=M; i++)
+		{
 			st = new StringTokenizer(br.readLine());
-			M += Integer.parseInt(st.nextToken());
-			M -= Integer.parseInt(st.nextToken());
-			
-			if(M < 0)
-			{
-				max = 0;
-				break;
-			}
-			
+			M += Integer.parseInt(st.nextToken()) - Integer.parseInt(st.nextToken());
 			if(max < M)
 				max = M;
 		}
-		System.out.print(max);
+		System.out.print(M < 0 ? 0 : max);
 	}
 }
