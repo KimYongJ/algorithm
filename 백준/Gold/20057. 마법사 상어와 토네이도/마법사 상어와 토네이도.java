@@ -1,35 +1,29 @@
 //https://www.acmicpc.net/problem/20057
 //1초 512MB
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+
 class Main{
-	
-	static final int dxy[][] = {{0,-1},{1,0},{0,1},{-1,0}};
-	static final int rate[] = {0,2,10,7,1,5,10,7,1,2};
 	static final int sxy[][][] = {
 			{{0,-1},{-2,0},{-1,-1},{-1,0},{-1,1},{0,-2},{1,-1},{1,0},{1,1},{2,0}},
 			{{1,0},{0,-2},{1,-1},{0,-1},{-1,-1},{2,0},{1,1},{0,1},{-1,1},{0,2}},
 			{{0,1},{-2,0},{-1,1},{-1,0},{-1,-1},{0,2},{1,1},{1,0},{1,-1},{2,0}},
 			{{-1,0},{0,2},{-1,1},{0,1},{1,1},{-2,0},{-1,-1},{0,-1},{1,-1},{0,-2}}
 	};
+	static final int dxy[][] = {{0,-1},{1,0},{0,1},{-1,0}};
+	static final int rate[] = {0,2,10,7,1,5,10,7,1,2};
+
 	static int sand[][];
 	static boolean visit[][];
 	static int N, out;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
+
+		N = read();
 		sand = new int[N][N];
 		visit = new boolean[N][N];
 		
 		for(int y=0; y<N; y++)
-		{
-			st = new StringTokenizer(br.readLine());
 			for(int x=0; x<N; x++)
-				sand[y][x] = Integer.parseInt(st.nextToken());
-		}
+				sand[y][x] = read();
 
 		int y = N / 2;
 		int x = y;
@@ -90,5 +84,10 @@ class Main{
 			nextDir = dir;
 		
 		return nextDir;
+	}
+	static int read() throws Exception {// 빠른 입력을 위한 함수
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32) n = (n << 3 ) + (n << 1) + (c & 15);
+		return n;
 	}
 }
