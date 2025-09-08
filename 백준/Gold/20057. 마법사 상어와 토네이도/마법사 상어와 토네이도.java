@@ -35,11 +35,8 @@ class Main{
 		int x = y;
 		int dir = 0;
 		
-		while(dir >= 0)
+		while(!(y == 0 && x == 0))
 		{
-			if(y == 0 && x == 0)
-				break;
-			
 			visit[y][x] = true;
 			
 			y += dxy[dir][0];
