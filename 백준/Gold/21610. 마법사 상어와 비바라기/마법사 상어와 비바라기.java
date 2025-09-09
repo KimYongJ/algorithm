@@ -71,16 +71,9 @@ class Main{
 				map[ny][nx] += 1;// 물 추가
 			}
 		}
-		
-		// 구름 위치 갱신
-		boolean tmp[][] = isCloud;
 		isCloud = isCloudDummy;
-		isCloudDummy = tmp;
 		
-		// dummy 값 초기화
-		for(int y=0; y<N; y++)
-			for(int x=0; x<N; x++)
-				isCloudDummy[y][x] = false;
+		isCloudDummy = new boolean[N][N];
 	}
 	static void makeCloud() {
 		for(int y=0; y<N; y++)
