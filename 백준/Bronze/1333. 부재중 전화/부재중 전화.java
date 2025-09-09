@@ -28,15 +28,8 @@ class Main{
 			}
 		}
 		
-		while(len <= 100000)
-		{
-			if(len % D == 0)
-			{
-				System.out.print(len);
-				return;
-			}
-			len++;
-		}
+		int mul = (int)Math.ceil(len / (double)D);
 		
+		System.out.print(D * mul);
 	}
 }
