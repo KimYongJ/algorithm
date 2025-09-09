@@ -12,26 +12,26 @@ class Main{
 		int N = Integer.parseInt(st.nextToken());// 노래 수
 		int L = Integer.parseInt(st.nextToken());// 노래하나의 길이
 		int D = Integer.parseInt(st.nextToken());// 벨이 울리는 초
-		boolean sound[] = new boolean[N * 5 + L * N];
-		
-		int len = sound.length;
+
+		int len = N * 5 + L * N;
 		for(int i=0; i<len; i+= 5)
 		{
-			int j = Math.min(len, i + L);
-			while(i<j)
-				sound[i++] = true;
-		}
-		for(int i=0; i<sound.length; i++)
-		{
-			if(!sound[i] && i % D == 0)
+			i = Math.min(len, i + L);
+			
+			for(int j = i, z = i + 5; j<z; j++)
 			{
-				System.out.print(i);
-				return;
+				if(j % D == 0)
+				{
+					System.out.print(j);
+					return;
+				}
 			}
 		}
 		
-		while(len <= 100000) {
-			if(len % D == 0) {
+		while(len <= 100000)
+		{
+			if(len % D == 0)
+			{
 				System.out.print(len);
 				return;
 			}
