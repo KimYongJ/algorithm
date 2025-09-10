@@ -17,7 +17,8 @@ import java.util.StringTokenizer;
 class Main{
 	
 	static final int dxy[][] = {{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
-	static ArrayDeque<FireBall>[][] map, dummy;
+	static ArrayDeque<FireBall>[][] map;
+	static ArrayDeque<FireBall> dummy;
 	static int N, M, K;
 	
 	public static void main(String[] args)throws Exception{
@@ -27,16 +28,11 @@ class Main{
 		M = Integer.parseInt(st.nextToken());// 초기 파이어볼 정보(0<=N^2)
 		K = Integer.parseInt(st.nextToken());// 이동횟수(1<=1000)
 		map = new ArrayDeque[N][N];
-		dummy = new ArrayDeque[N][N];
+		dummy = new ArrayDeque<>();
 		
 		for(int y=0; y<N; y++)
-		{
 			for(int x=0; x<N; x++)
-			{
 				map[y][x] = new ArrayDeque<>();
-				dummy[y][x] = new ArrayDeque<>();
-			}
-		}
 		
 		while(M-->0)
 		{
@@ -47,7 +43,7 @@ class Main{
 			int c = Integer.parseInt(st.nextToken());// 속력(1<=1000)
 			int d = Integer.parseInt(st.nextToken());// 방향(0<=7)
 			
-			map[y][x].add(new FireBall(w,c,d));
+			dummy.add(new FireBall(y, x, w, c, d));
 		}
 		
 		while(K-->0)
@@ -59,29 +55,20 @@ class Main{
 		System.out.print(print());
 	}
 	static void move() {
-		for(int y=0; y<N; y++)
+		while(!dummy.isEmpty())
 		{
-			for(int x=0; x<N; x++)
-			{
-				ArrayDeque<FireBall> q = map[y][x];
-				while(!q.isEmpty())
-				{
-					FireBall f = q.poll();
-					
-					int ny = (y + (f.cnt*dxy[f.dir][0])) % N;
-					int nx = (x + (f.cnt*dxy[f.dir][1])) % N;
-					
-					if(ny < 0) ny+=N;
-					if(nx < 0) nx+=N;
-
-					dummy[ny][nx].add(f);
-				}
-			}
+			FireBall f = dummy.poll();
+			int ny = (f.y + (f.cnt*dxy[f.dir][0])) % N;
+			int nx = (f.x + (f.cnt*dxy[f.dir][1])) % N;
+			
+			if(ny < 0) ny+=N;
+			if(nx < 0) nx+=N;
+			
+			f.y = ny;
+			f.x = nx;
+			
+			map[ny][nx].add(f);
 		}
-		// 이동한 위치를 map으로 다시 변경
-		ArrayDeque<FireBall>[][] tmp = map;
-		map = dummy;
-		dummy = tmp;
 	}
 	static void sumAndDiv() {
 		for(int y=0; y<N; y++)
@@ -91,7 +78,11 @@ class Main{
 				ArrayDeque<FireBall> q = map[y][x];
 				int size = q.size();
 				if(size < 2)
+				{
+					if(!q.isEmpty())
+						dummy.add(q.poll());
 					continue;
+				}
 				
 				int weightSum = 0;
 				int cntSum = 0;
@@ -115,26 +106,26 @@ class Main{
 				int d = (odd == size) || (odd == 0) ? 0 : 1;
 				
 				for(int i=d; i<=7; i+= 2)
-					q.add(new FireBall(weightSum, cntSum, i));
+					dummy.add(new FireBall(y, x, weightSum, cntSum, i));
 			}
 		}
 	}
 	static int print() {
 		int sum = 0;
 		
-		for(int y=0; y<N; y++)
-			for(int x=0; x<N; x++)
-				while(!map[y][x].isEmpty())
-					sum += map[y][x].poll().weight;
+		while(!dummy.isEmpty())
+			sum += dummy.poll().weight;
 
 		return sum;
 	}
 	static class FireBall{
-		int weight, cnt, dir;
-		FireBall(int w, int c, int d){
-			weight = w;
-			cnt = c;
-			dir = d;
+		int y, x, weight, cnt, dir;
+		FireBall(int y, int x, int w, int c, int d){
+			this.y=y;
+			this.x=x;
+			this.weight = w;
+			this.cnt = c;
+			this.dir = d;
 		}
 	}
 }
