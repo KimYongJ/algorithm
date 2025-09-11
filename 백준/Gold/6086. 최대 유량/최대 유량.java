@@ -36,6 +36,7 @@ class Main{
 		}
 		
 		int sum = 0;
+        
 		while(true)
 		{
 			Arrays.fill(prev, -1); // 이전 탐색 노드를 담을 배열 초기화
