@@ -14,19 +14,20 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
+
 class Main{
-	
-	static final int LEFT = 6;
-	static final int RIGHT = 2;
+
 	static int T, K;
 	static int dir[];// 회전 반향( 시계:1, 반시계 : -1)
 	static int wheel[][];// 현재 톱니의 모양
+	static int wheelTop[];// 각 톱니마다의 12시 방향의 인덱스
 	
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		T = Integer.parseInt(br.readLine());
 		dir = new int[T];
 		wheel = new int[T][8];
+		wheelTop = new int[T];
 		
 		for(int i=0; i<T; i++)
 		{
@@ -36,6 +37,7 @@ class Main{
 		}
 		
 		K = Integer.parseInt(br.readLine());
+		
 		while(K-->0)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
@@ -45,58 +47,52 @@ class Main{
 			
 			checkLeft(idx);
 			checkRight(idx);
-			turn();
+			turnAll();
 		}
 		
 		int cnt = 0;
 		
 		for(int i = 0; i < T; i++)
-			if(wheel[i][0] == 1)
+			if(wheel[i][wheelTop[i]] == 1)
 				++cnt;
 		
 		System.out.print(cnt);
 	}
 	static void checkRight(int idx) {
-		int rightIdx = idx + 1;
+		int nextIdx = idx + 1;
 		
-		if(rightIdx == T)
+		if(nextIdx == T)
 			return;
 		
-		if(wheel[idx][RIGHT] != wheel[rightIdx][LEFT])
+		int right = (wheelTop[idx] + 2) % 8;
+		int left = (wheelTop[nextIdx] - 2 + 8) % 8;
+		
+		if(wheel[idx][right] != wheel[nextIdx][left])
 		{
-			dir[rightIdx] = -dir[idx];
-			checkRight(rightIdx);
+			dir[nextIdx] = -dir[idx];
+			checkRight(nextIdx);
 		}
 	}
 	static void checkLeft(int idx) {
 		if(idx == 0)
 			return;
 		
-		int leftIdx = idx - 1;
+		int nextIdx = idx - 1;
 		
-		if(wheel[leftIdx][RIGHT] != wheel[idx][LEFT])
+		int right = (wheelTop[nextIdx] + 2) % 8;
+		int left = (wheelTop[idx] - 2 + 8) % 8;
+		
+		if(wheel[nextIdx][right] != wheel[idx][left])
 		{
-			dir[leftIdx] = -dir[idx];
-			checkLeft(leftIdx);
+			dir[nextIdx] = -dir[idx];
+			checkLeft(nextIdx);
 		}
 	}
-	static void turn() {
+	static void turnAll() {
 		for(int i=0; i<T; i++)
 			if(dir[i] == 1)// 시계방향
-				turnRight(wheel[i]);
+				wheelTop[i] = (wheelTop[i] - 1 + 8) % 8;
 			else if(dir[i] < 0)// 반시계 방향
-				turnLeft(wheel[i]);
-	}
-	static void turnRight(int[] arr) {
-		int last = arr[7];
-		for(int i=6; i>=0; i--)
-			arr[i + 1] = arr[i];
-		arr[0] = last;
-	}
-	static void turnLeft(int[] arr) {
-		int first = arr[0];
-		for(int i=0; i<7; i++)
-			arr[i] = arr[i + 1];
-		arr[7] = first;
+				wheelTop[i] = (wheelTop[i] + 1) % 8;
 	}
 }
