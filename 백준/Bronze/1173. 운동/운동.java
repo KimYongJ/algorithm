@@ -25,7 +25,9 @@ class Main{
 		while(N > 0)
 		{
 			int next = now + T;// 운동했을 경우 맥박
+			
 			res++;
+			
 			if(next > M)
 			{
 				now = Math.max(m, now - R);
