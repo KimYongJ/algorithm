@@ -17,14 +17,8 @@ class Main{
 		
 		while(++cnt[ballIdx] != M)
 		{
-			++time;
-			
-			int l = L;
-			
-			if(cnt[ballIdx] % 2 == 0)
-				l = -L;
-			
-			ballIdx = (ballIdx + l + N) % N;
+			ballIdx = (ballIdx + (cnt[ballIdx] % 2 == 0 ? -L : L) + N) % N;
+			time++;
 		}
 		
 		System.out.print(time);
