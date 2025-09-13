@@ -14,7 +14,9 @@ class Main{
 		int cnt[] = new int[N];
 		int time = 0;
 		int ballIdx = 0;
-		while(true) {
+		
+		while(true)
+		{
 			if(++cnt[ballIdx] == M)
 				break;
 			
@@ -25,6 +27,7 @@ class Main{
 			else
 				ballIdx = (ballIdx - L + N) % N;
 		}
+		
 		System.out.print(time);
 	}
 }
