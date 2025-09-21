@@ -7,35 +7,42 @@ import java.io.InputStreamReader;
 class Main{
 	
 	public static void main(String[] args)throws Exception{
-		final int dxy[][] = {{1,0},{0,-1},{-1,0},{0,1}};
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		br.readLine();
-
+		final int dxy[][] = {{1,0},{0,-1},{-1,0},{0,1}};
 		boolean map[][] = new boolean[102][102];
-		int minY = 50, minX = 50, maxY = 50, maxX = 50;
-		int y = 50, x = 50;
+		int minY = 50;
+		int minX = 50;
+		int maxY = 50;
+		int maxX = 50;
+		int y = 50;
+		int x = 50;
 		int dir = 0;
+		
 		map[y][x] = true;
 		
+		br.readLine();
 		for(char c : br.readLine().toCharArray())
 		{
 			if(c == 'L')
 			{
-				dir = dir == 0 ? 3 : dir-1;
+				dir = (dir + 3) % 4;
 				continue;
 			}
 			
 			if(c == 'R')
 			{
-				dir = (dir + 1)%4;
+				dir = (dir + 1) % 4;
 				continue;
 			}
 			
 			int ny = y + dxy[dir][0];
 			int nx = x + dxy[dir][1];
+			
 			map[ny][nx] = true;
+			
 			y = ny;
 			x = nx;
+			
 			minY = Math.min(minY, y);
 			minX = Math.min(minX, x);
 			maxY = Math.max(maxY, y);
