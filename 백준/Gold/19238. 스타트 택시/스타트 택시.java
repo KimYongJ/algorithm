@@ -63,12 +63,13 @@ class Main{
 			int ex = Integer.parseInt(st.nextToken());// 목적지의 열번호
 			
 			customer[sy][sx] = true;// 승객의 출발지에 마킹
-			destinationY[sy][sx] = ey;
-			destinationX[sy][sx] = ex;
+			destinationY[sy][sx] = ey;// 손님 시작점에 종료 행 번호입력
+			destinationX[sy][sx] = ex;// 손님 시작점에 종료 열 번호입력
 		}
 		
-		while(M-->0)
+		while(M-->0)// 손님수만큼 반복
 		{
+			// 택시가 손님에게로 이동, 택시가 목적지로 이동 중 하나라도 안되면 -1 종료
 			if(!moveToPassenger() || !moveToDestination())
 			{
 				F = -1;
@@ -83,6 +84,7 @@ class Main{
 		clear();
 		q.add(new Pos(y, x, 0));
 		visit[y][x] = true;
+		
 		while(!q.isEmpty())
 		{
 			Pos now = q.poll();
@@ -112,20 +114,21 @@ class Main{
 		
 		while(!q.isEmpty())
 		{
-			int size = q.size();
+			int size = q.size();// 큐에 있는 모든 데이터를 한번 훑은 후 손님 좌표를 파악함
 			int minY = 1<<30;
 			int minX = 1<<30;
-			int minD = q.peek().dist;
+			int dist = q.peek().dist;
 			
-			if(minD > F)
+			if(dist > F)// 연료보다 먼거리 이동이면 종료
 				break;
 			
 			while(size-->0)
 			{
 				Pos now = q.poll();
 				
-				if(customer[now.y][now.x])
+				if(customer[now.y][now.x])// 현재 위치가 손님이 있는 위치이고
 				{
+					// Y좌표가 작거나, X좌표가 작은 경우 좌표 갱신
 					if(minY > now.y || (minY == now.y && minX > now.x))
 					{
 						minY = now.y;
@@ -136,14 +139,14 @@ class Main{
 				addQueue(now);
 			}
 			
-			if(minY != 1<<30)
+			if(minY != 1<<30)// 손님이 있는 좌표를 구한경우
 			{
 				y = minY;// 택시의 현재 위치 갱신
 				x = minX;// 택시의 현재 위치 갱신
 				gy = destinationY[minY][minX];// 택시의 도착 목적지 갱신
 				gx = destinationX[minY][minX];// 택시의 도착 목적지 갱신
 				customer[minY][minX] = false;// 손님 하나 제거
-				F -= minD;// 현재까지 오는데 드는 연료 제거
+				F -= dist;// 현재까지 오는데 드는 연료 제거
 				return F > 0;// 연료가 0보다 큰경우 true반환
 			}
 			
