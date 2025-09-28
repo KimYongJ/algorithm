@@ -1,10 +1,7 @@
 //https://www.acmicpc.net/problem/21918
 //1초 512MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 class Main{
 	
@@ -13,26 +10,23 @@ class Main{
 	static boolean[] isXor;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+
+		N = read();
+		M = read();
 		tree = new int[N * 4];
 		lazy = new int[N * 4];
 		isXor = new boolean[N * 4];
 		
 		Arrays.fill(lazy, -1);
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			updateRange(1, 1, N, i, i, Integer.parseInt(st.nextToken()), false);
+			updateRange(1, 1, N, i, i, read(), false);
 		
 		while(M-->0)
 		{
-			st = new StringTokenizer(br.readLine());
-			int i = Integer.parseInt(st.nextToken());
-			int l = Integer.parseInt(st.nextToken());
-			int r = Integer.parseInt(st.nextToken());
+			int i = read();
+			int l = read();
+			int r = read();
 			
 			if(i == 1)		updateRange(1, 1, N, l, l, r, false);
 			else if(i == 2)	updateRange(1, 1, N, l, r, 0, true);
@@ -133,5 +127,11 @@ class Main{
 			return query(treeNode << 1, s, mid, targetIdx);
 		
 		return query(treeNode << 1 | 1, mid + 1, e, targetIdx);
+	}
+	private static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32)
+			n = (n << 3) + (n << 1) + (c & 15);
+		return n;
 	}
 }
