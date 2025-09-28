@@ -128,7 +128,7 @@ class Main{
 		
 		return query(treeNode << 1 | 1, mid + 1, e, targetIdx);
 	}
-	private static int read() throws Exception {
+	static int read() throws Exception {
 		int c, n = System.in.read() & 15;
 		while ((c = System.in.read()) > 32)
 			n = (n << 3) + (n << 1) + (c & 15);
