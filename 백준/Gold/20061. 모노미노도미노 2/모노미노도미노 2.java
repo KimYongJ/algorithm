@@ -7,24 +7,18 @@
 //0
 //6
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static boolean map[][] = new boolean[10][10];
 	static int score;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int T = Integer.parseInt(br.readLine());
+		int T = read();
 		while(T-->0)
 		{
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());// 블록크기(1:1칸, 2:가로2개, 3:세로2개)
-			int y = Integer.parseInt(st.nextToken());// 행
-			int x = Integer.parseInt(st.nextToken());// 열
+			int s = read();// 블록크기(1:1칸, 2:가로2개, 3:세로2개)
+			int y = read();// 행
+			int x = read();// 열
 			
 			dropGreen(s, y, x); // 초록 보드에 떨어뜨린다.
 			dropBlue(s, y, x);	// 파란 보드에 떨어드린다.
@@ -166,4 +160,11 @@ class Main{
 		}
 		return cnt;
 	}
+	static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) > 32) {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+        return n;
+    }
 }
