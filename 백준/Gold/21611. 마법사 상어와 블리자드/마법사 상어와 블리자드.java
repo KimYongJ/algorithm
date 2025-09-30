@@ -13,6 +13,7 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -21,7 +22,7 @@ class Main{
 	
 	static final int dxy[][] = {{0,-1},{1,0},{0,1},{-1,0}};// 달팽이 방향 순회시 사용
 	static final int dxy2[][] = {{-1,0},{1,0},{0,-1},{0,1}};// 구슬 파괴시 사용
-	static List<Integer> list;
+	static ArrayDeque<Integer> list;
 	static boolean[][] visit;
 	static boolean flag;
 	static int[][] map;
@@ -37,7 +38,7 @@ class Main{
 		M = Integer.parseInt(st.nextToken());// 스킬 반복 횟수(1<=100)
 		flag = false;
 		sy = sx = (N + 1) / 2;
-		list = new ArrayList<>();
+		list = new ArrayDeque<>();
 		map = new int[N + 2][N + 2];
 		visit = new boolean[N + 2][N + 2];
 		
@@ -89,17 +90,17 @@ class Main{
 	}
 	static void groupChange() {
 		// list에 담긴 값을 변환하여 list2에 담음
-		List<Integer> dummy = new ArrayList<>();
-		List<Integer> list2 = new ArrayList<>();
+		ArrayDeque<Integer> dummy = new ArrayDeque<>();
+		ArrayDeque<Integer> list2 = new ArrayDeque<>();
 		int prev = -1;
-		for(int i=0; i<list.size(); i++)
+		while(!list.isEmpty())
 		{
-			int n = list.get(i);
+			int n = list.poll();
 			
 			if(prev != n && dummy.size() > 0)
 			{
 				list2.add(dummy.size());
-				list2.add(dummy.get(0));
+				list2.add(dummy.poll());
 				dummy.clear();
 			}
 			
@@ -109,7 +110,7 @@ class Main{
 		if(dummy.size() > 0)
 		{
 			list2.add(dummy.size());
-			list2.add(dummy.get(0));
+			list2.add(dummy.poll());
 		}
 		
 		list = list2;
@@ -122,16 +123,16 @@ class Main{
 		
 		while(prevSize != list.size())
 		{
-			List<Integer> dummy = new ArrayList<>();
-			List<Integer> list2 = new ArrayList<>();
+			ArrayDeque<Integer> dummy = new ArrayDeque<>();
+			ArrayDeque<Integer> list2 = new ArrayDeque<>();
 			
 			prevSize = list.size();
 			
-			int prevNum = prevSize != 0 ? list.get(0) : 0;
+			int prevNum = prevSize != 0 ? list.peek() : 0;
 			
-			for(int i=0; i<list.size(); i++)
+			while(!list.isEmpty())
 			{
-				int n = list.get(i);// 값을 꺼내옴
+				int n = list.poll();// 값을 꺼내옴
 				
 				if(n == prevNum)
 				{
@@ -142,7 +143,7 @@ class Main{
 				
 				if(dummy.size() >= 4)// 더미에 들어간 사이즈가 4개 이상이면 폭발시키고 결과에 플러스
 				{
-					res += dummy.size() * dummy.get(0);
+					res += dummy.size() * dummy.poll();
 					isContinue = true;
 				}
 				else
@@ -154,7 +155,7 @@ class Main{
 			}
 			if(dummy.size() >= 4)// 더미에 들어간 사이즈가 4개 이상이면 폭발시키고 결과에 플러스
 			{
-				res += dummy.size() * dummy.get(0);
+				res += dummy.size() * dummy.poll();
 				isContinue = true;
 			}
 			else// 사이즈가 3이하면 list2에 그대로 담음
@@ -171,8 +172,6 @@ class Main{
 	static void search(int y, int x, int dir, int excute) {
 		flag = !flag;
 		visit[y][x] = flag;
-		
-		int idx = 0; // excute가 1이면 안씀
 		
 		while(map[y][x] >= 0)
 		{
@@ -206,7 +205,7 @@ class Main{
 			}
 			else if(excute == 2)
 			{
-				map[ny][nx] = idx<list.size() ? list.get(idx++) : 0;
+				map[ny][nx] = list.isEmpty() ? 0 : list.poll();
 			}
 		}
 	}
