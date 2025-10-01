@@ -4,10 +4,6 @@
 //3 1 2 5 4 // 서로다른 배열원소(1<=10^9)
 //답 : 2 3
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int N, K;
@@ -16,17 +12,14 @@ class Main{
 	static Node[] tree;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());// 배열크기 (5<=10000)
-		K = Integer.parseInt(st.nextToken());// 교환 횟수 (1<=N)
+		N = read();// 배열크기 (5<=10000)
+		K = read();// 교환 횟수 (1<=N)
 		arr = new int[N + 1];
 		tree = new Node[N * 4];
 		dummy = new Node(0,0);
 		
-		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[i] = read();
 		
 		for(int i=0; i<tree.length; i++)
 			tree[i] = new Node(0,0);
@@ -120,5 +113,11 @@ class Main{
 			idx = i;
 			num = n;
 		}
+	}
+	static int read() throws Exception {
+		int c, n = System.in.read() & 15;
+		while ((c = System.in.read()) > 32)
+			n = (n << 3) + (n << 1) + (c & 15);
+		return n;
 	}
 }
