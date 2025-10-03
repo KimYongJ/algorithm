@@ -18,19 +18,24 @@ class Main{
 		for(int i=0; i<N; i++)
 			arr[i] = Integer.parseInt(st.nextToken());
 		
-		for(int i=N-1; i>0; i--) {
-			for(int j=0; j<i; j++) {
-				if(arr[j] > arr[j + 1]) {
+		for(int i=N-1; i>0; i--)
+		{
+			for(int j=0; j<i; j++)
+			{
+				if(arr[j] > arr[j + 1])
+				{
 					int tmp = arr[j];
 					arr[j] = arr[j + 1];
 					arr[j + 1] = tmp;
-					if(--K == 0) {
-						System.out.print(arr[j] + " " + arr[j + 1]);
+					if(--K == 0)
+					{
+						System.out.print(new StringBuilder().append(arr[j]).append('\n').append(arr[j + 1]));
 						return;
 					}
 				}
 			}
 		}
+		
 		System.out.print(-1);
 	}
 }
