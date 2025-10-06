@@ -31,6 +31,10 @@ class Main{
 			
 			now = next;
 		}
-		System.out.print(n[0] + " " + n[1] + " " + n[2]);
+		StringBuilder sb = new StringBuilder();
+		
+		for(int n1 : n) sb.append(n1).append(' ');
+		
+		System.out.print(sb);
 	}
 }
