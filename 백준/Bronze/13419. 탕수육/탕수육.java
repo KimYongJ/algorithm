@@ -20,12 +20,6 @@ class Main{
 			
 			String str = br.readLine();
 			
-			if(str.length() == 1)
-			{
-				sb.append(str).append('\n').append(str).append('\n');
-				continue;
-			}
-			
 			for(int i=0; i<str.length(); i++)
 				if(i % 2 == 0) left.append(str.charAt(i));
 				else right.append(str.charAt(i));
