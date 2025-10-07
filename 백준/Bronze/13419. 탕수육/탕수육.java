@@ -20,16 +20,25 @@ class Main{
 			
 			String str = br.readLine();
 			
-			for(int i=0; i<str.length(); i++)
-				if(i % 2 == 0) left.append(str.charAt(i));
-				else right.append(str.charAt(i));
-			
-			if(str.length() % 2 != 0)
+			if(str.length() == 1)
+			{
+				left.append(str);
+				right.append(str);
+			}
+			else
 			{
 				for(int i=0; i<str.length(); i++)
-					if(i % 2 == 0) right.append(str.charAt(i));
-					else left.append(str.charAt(i));
+					if(i % 2 == 0) left.append(str.charAt(i));
+					else right.append(str.charAt(i));
+				
+				if(str.length() % 2 != 0)
+				{
+					for(int i=0; i<str.length(); i++)
+						if(i % 2 == 0) right.append(str.charAt(i));
+						else left.append(str.charAt(i));
+				}
 			}
+			
 			
 			sb.append(left).append('\n').append(right).append('\n');
 		}
