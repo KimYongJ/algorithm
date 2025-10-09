@@ -3,28 +3,17 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
+
 
 class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		Set<Integer> set = new HashSet<>();
 		int base = Integer.parseInt(br.readLine());
-		int a = base;
 		
-		while(true)
-		{
-			int b = getNext(a);
-			
-			if(set.contains(b))
-			{
-				System.out.print(b ==1 ? "HAPPY" : "UNHAPPY");
-				return;
-			}
-			set.add(b);
-			a = b;
-		}
+		while(base != 1 && base != 4)
+			base = getNext(base);
+		
+		System.out.println(base == 1 ? "HAPPY" : "UNHAPPY");
 	}
 	static int getNext(int a) {
 		int res = 0;
