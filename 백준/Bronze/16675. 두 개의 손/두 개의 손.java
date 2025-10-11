@@ -8,42 +8,34 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String str = br.readLine();
-		char l1 = str.charAt(0);
-		char l2 = str.charAt(2);
-		char r1 = str.charAt(4);
-		char r2 = str.charAt(6);
-		int leftWin = 0;
-		if(isWin(l1, r1)) leftWin++;
-		if(isWin(l1, r2)) leftWin++;
-		if(leftWin > 1)
+		
+		char L[] = new char[] {str.charAt(0),str.charAt(2)};
+		char R[] = new char[] {str.charAt(4),str.charAt(6)};
+		
+		for(char left : L)
 		{
-			System.out.print("MS");
-			return;
+			int leftWin = 0;
+			
+			if(isWin(left, R[0])) leftWin++;
+			if(isWin(left, R[1])) leftWin++;
+			
+			if(leftWin > 1)
+			{
+				System.out.print("MS");
+				return;
+			}
 		}
 		
-		leftWin = 0;
-		if(isWin(l2, r1)) leftWin++;
-		if(isWin(l2, r2)) leftWin++;
-		
-		if(leftWin > 1)
+		for(char right : R)
 		{
-			System.out.print("MS");
-			return;
-		}
-		
-		int rightWin = 0;
-		if(isWin(r1, l1)) rightWin++;
-		if(isWin(r1, l2)) rightWin++;
-		if(rightWin > 1) {
-			System.out.print("TK");
-			return;
-		}
-		rightWin = 0;
-		if(isWin(r2, l1)) rightWin++;
-		if(isWin(r2, l2)) rightWin++;
-		if(rightWin > 1) {
-			System.out.print("TK");
-			return;
+			int rightWin = 0;
+			if(isWin(right, L[0])) rightWin++;
+			if(isWin(right, L[1])) rightWin++;
+			if(rightWin > 1)
+			{
+				System.out.print("TK");
+				return;
+			}
 		}
 		
 		System.out.print("?");
