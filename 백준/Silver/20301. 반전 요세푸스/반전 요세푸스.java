@@ -23,7 +23,9 @@ class Main{
 		boolean clockwise = true;
 		while(q.size() > 1)
 		{
-			for(int i=1; i<K; i++)
+			int cnt = (K-1) % q.size();
+			
+			while(cnt-->0)
 				if(clockwise)	q.addLast(q.pollFirst());
 				else			q.addFirst(q.pollLast());
 			
