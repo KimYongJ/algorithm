@@ -28,13 +28,13 @@ class Main{
 		
 		if(K == 1)
 		{
-			for(int a=0; a<N-2; a++)
+			for(int a=0; a<N; a++)
 				result = Math.min(result, getCal(a,a,a));
 		}
 		else if(K == 2)
 		{
-			for(int a=0; a<N-2; a++)
-				for(int b=a+1; b<N-1; b++)
+			for(int a=0; a<N-1; a++)
+				for(int b=a+1; b<N; b++)
 					result = Math.min(result, getCal(a,b,b));
 		}
 		else if(K == 3)
