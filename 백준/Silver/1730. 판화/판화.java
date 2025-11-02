@@ -34,15 +34,8 @@ class Main{
 			
 			char draw = c == 'R' || c == 'L' ? '-' : '|';
 			
-			if(map[y][x] == draw || map[y][x] == '.')
-				map[y][x] = draw;
-			else
-				map[y][x] = '+';
-			
-			if(map[ny][nx] == draw || map[ny][nx] == '.')
-				map[ny][nx] = draw;
-			else
-				map[ny][nx] = '+';
+			map[y][x] = (map[y][x] != draw && map[y][x] != '.') ? '+' : draw;
+			map[ny][nx] = (map[ny][nx] != draw && map[ny][nx] != '.') ? '+' : draw;
 			
 			y = ny;
 			x = nx;
