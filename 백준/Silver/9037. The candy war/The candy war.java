@@ -33,9 +33,11 @@ class Main{
 				arr[i] = Integer.parseInt(st.nextToken());
 			
 			int round = 0;
+			add(arr);
 			while(!isSame(arr))
 			{
 				turn(arr);
+				add(arr);
 				round++;
 			}
 			sb.append(round).append('\n');
@@ -53,21 +55,17 @@ class Main{
 		for(int i=0; i<arr.length; i++)
 			arr[i] = arr[i] / 2 + brr[i];
 	}
-	static boolean isSame(int[] arr)
-	{
-		boolean isSame = true;
-		if((arr[0] & 1) == 1)
-			++arr[0];
-		
-		for(int i=1; i<arr.length; i++)
-		{
+	static void add(int[] arr) {
+		for(int i=0; i<arr.length; i++)
 			if((arr[i] & 1) == 1)
 				++arr[i];
-			
+	}
+	static boolean isSame(int[] arr)
+	{
+		for(int i=1; i<arr.length; i++)
 			if(arr[i-1] != arr[i])
-				isSame = false;
-		}
+				return false;
 
-		return isSame && arr[arr.length-1] == arr[0];
+		return arr[arr.length-1] == arr[0];
 	}
 }
