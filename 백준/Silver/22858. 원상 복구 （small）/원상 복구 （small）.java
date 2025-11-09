@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 class Main{
 	
-	static int[] arr, dummy, base;
+	static int[] arr[], base;
 	static int N, K;
 	
 	public static void main(String[] args)throws Exception{
@@ -15,30 +15,29 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
-		arr = new int[N + 1];
+		arr = new int[2][N + 1];
 		base = new int[N + 1];
-		dummy = new int[N + 1];
+
 		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			arr[0][i] = Integer.parseInt(st.nextToken());
 		
 		st = new StringTokenizer(br.readLine());
 		for(int i=1; i<=N; i++)
 			base[i] = Integer.parseInt(st.nextToken());
 		
+		int idx = 0;
 		while(K-->0)
 		{
+			idx ^= 1;
 			for(int i=1; i<=N; i++)
-				dummy[base[i]] = arr[i];
-			
-			for(int i=1; i<=N; i++)
-				arr[i] = dummy[i];
+				arr[idx][base[i]] = arr[idx ^ 1][i];
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		
 		for(int i=1; i<=N; i++)
-			sb.append(arr[i]).append(' ');
+			sb.append(arr[idx][i]).append(' ');
 		
 		System.out.print(sb);
 	}
