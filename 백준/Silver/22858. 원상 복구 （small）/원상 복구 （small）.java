@@ -1,32 +1,22 @@
 //https://www.acmicpc.net/problem/22858
 //1초 1024MB
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
 class Main{
 	
 	static int[] arr[], base;
 	static int N, K;
 	
 	public static void main(String[] args)throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		K = Integer.parseInt(st.nextToken());
+		N = read();
+		K = read();
 		arr = new int[2][N + 1];
 		base = new int[N + 1];
 
-		st = new StringTokenizer(br.readLine());
-		for(int i=1; i<=N; i++)
-			arr[0][i] = Integer.parseInt(st.nextToken());
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i=1; i<=N; i++)
-			base[i] = Integer.parseInt(st.nextToken());
+		for(int i=1; i<=N; i++) arr[0][i] = read();
+		for(int i=1; i<=N; i++) base[i] = read();
 		
 		int idx = 0;
+		
 		while(K-->0)
 		{
 			idx ^= 1;
@@ -41,4 +31,10 @@ class Main{
 		
 		System.out.print(sb);
 	}
+    static int read() throws Exception {
+        int c, n = System.in.read() & 15;
+        while ((c = System.in.read()) >= 48)
+            n = (n << 3) + (n << 1) + (c & 15);
+        return n;
+    }
 }
