@@ -25,21 +25,12 @@ class Main{
 					now = 1;
 			}
 			else if(--now <= 0)
-			{
 				now = 12;
-			}
-			
-			String yn = "NO";
 			
 			if(d && now != time)
-			{
 				dir = !dir;
-			}
 			
-			if(!d && now == time)
-				yn = "YES";
-			
-			sb.append(now).append(' ').append(yn).append('\n');
+			sb.append(now).append(' ').append(!d && now == time ? "YES" : "NO").append('\n');
 		}
 		
 		System.out.print(sb);
