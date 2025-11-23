@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 class Main{
 	
 	static int N, M;
-	static int [] cost, weight, park;
+	static int [] cost, weight, park, pos;
 	static ArrayDeque<Integer> q;
 	
 	public static void main(String[]args)throws Exception{
@@ -35,6 +35,7 @@ class Main{
 		cost	= new int[N + 1];
 		weight	= new int[M + 1];
 		park	= new int[N + 1];
+		pos		= new int[M + 1];
 		q		= new ArrayDeque<>();
 		
 		for(int i=1; i<=N; i++)
@@ -52,18 +53,10 @@ class Main{
 			if(num < 0)
 			{
 				num = -num;
-				for(int i=1; i<=N; i++)
-				{
-					if(park[i] == num)
-					{
-						res += cost[i] * weight[park[i]];
-						park[i] = 0;
-						break;
-					}
-				}
-				
+
+				res += cost[pos[num]] * weight[num];
+				park[pos[num]] = 0;
 				parking();
-				
 				continue;
 			}
 			
@@ -84,6 +77,7 @@ class Main{
 			if(park[i] == 0)
 			{
 				park[i] = num;
+				pos[num] = i;
 				q.poll();
 				break;
 			}
