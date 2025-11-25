@@ -1,5 +1,21 @@
 //https://www.acmicpc.net/problem/27161
 //1초 1024MB
+//7 // 카드 개수(1<=1000)
+//WATCH 4 // 시계정보 + 적힌 시간(1<=12)
+//CLOCK 2
+//HOURGLASS 3 // 모래시계
+//CLOCK 5
+//HOURGLASS 3
+//WATCH 2
+//CLOCK 3
+//각차례에 플레이어가 외치는 시각과 행동을 출력
+//1 NO // 게임 중앙판을 내리쳐야 한다면 YES, 아니면 NO
+//2 YES
+//3 NO
+//4 NO
+//5 NO
+//4 NO
+//3 YES
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,29 +26,35 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		int N = Integer.parseInt(br.readLine());
-		int now = 0;
-		boolean dir = false;
+		int time = 1;
+		int plus = 1;
 		
-		for(int i=0; i<N; i++)
+		while(N-->0)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			boolean d = st.nextToken().charAt(0) == 'H';
-			int time = Integer.parseInt(st.nextToken());
+			boolean reverse = "HOURGLASS".equals(st.nextToken());
+			int num = Integer.parseInt(st.nextToken());
+			boolean yes = false;
 			
-			if(!dir)
+			if(!(reverse && num == time))
 			{
-				if(++now == 13)
-					now = 1;
+				if(time == num)
+				{
+					yes = true;
+				}
+				if(reverse)
+				{
+					plus = -plus;
+				}
 			}
-			else if(--now <= 0)
-				now = 12;
+
+			sb.append(time).append(' ').append(yes ? "YES" : "NO").append('\n');
 			
-			if(d && now != time)
-				dir = !dir;
+			time += plus;
 			
-			sb.append(now).append(' ').append(!d && now == time ? "YES" : "NO").append('\n');
+			if(time == 13) time = 1;
+			else if(time == 0) time = 12;
 		}
-		
 		System.out.print(sb);
 	}
 }

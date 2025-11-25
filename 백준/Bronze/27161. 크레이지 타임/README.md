@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 14600 KB, 시간: 116 ms
+메모리: 12040 KB, 시간: 76 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2025년 11월 16일 22:35:05
+2025년 11월 25일 21:04:07
 
 ### 문제 설명
 
@@ -24,10 +24,10 @@
 
 <ol>
 	<li>플레이어는 자기 차례가 되면 개인 더미의 가장 윗장 카드를 펼치며 이번 순서의 시각을 외칩니다. 첫 플레이어는 "1시"로 시작합니다.</li>
-	<li>시계 방향으로 돌아가며 각자의 차례를 가집니다. 다른 방해 요소가 없다면 방금 전에 불린 시각을 기준으로 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$1$</span></mjx-container>시간씩 더해서 외칩니다. 전에 외친 시각이 "12시"라면 다음 사람은 "1시"를 외칩니다.</li>
+	<li>시계 방향으로 돌아가며 각자의 차례를 가집니다. 다른 방해 요소가 없다면 방금 전에 불린 시각을 기준으로 $1$시간씩 더해서 외칩니다. 전에 외친 시각이 "12시"라면 다음 사람은 "1시"를 외칩니다.</li>
 </ol>
 
-<p>단, 펼쳐진 카드에 따라 색다른 방식으로 외치거나 행동해야 할 수 있습니다. 다양한 시간의 법칙이 게임에 영향을 미치게 되는데, 기본적으로 다음 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$2$</span></mjx-container>가지 종류의 시간의 법칙을 지켜야 합니다.</p>
+<p>단, 펼쳐진 카드에 따라 색다른 방식으로 외치거나 행동해야 할 수 있습니다. 다양한 시간의 법칙이 게임에 영향을 미치게 되는데, 기본적으로 다음 $2$가지 종류의 시간의 법칙을 지켜야 합니다.</p>
 
 <ol>
 	<li><strong>시간 역행의 법칙</strong>: 누군가 모래시계 카드를 펼치면 시간이 거꾸로 흐르기 시작합니다. "2시", "1시", "12시" 순으로 외쳐야 합니다. 모래시계 카드가 펼쳐질 때마다 시간의 흐름은 반전됩니다.</li>
@@ -54,19 +54,19 @@
 
 ### 입력 
 
- <p>첫 번째 줄에 펼쳐질 카드의 개수 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$N$</span></mjx-container>이 주어집니다.</p>
+ <p>첫 번째 줄에 펼쳐질 카드의 개수 $N$이 주어집니다.</p>
 
-<p>두 번째 줄부터 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$N$</span></mjx-container>개의 줄에 걸쳐 한 줄에 하나씩 카드의 정보가 주어집니다.</p>
+<p>두 번째 줄부터 $N$개의 줄에 걸쳐 한 줄에 하나씩 카드의 정보가 주어집니다.</p>
 
-<p>카드의 정보는 공백으로 구분된, 카드에 그려진 시계의 종류를 나타내는 문자열 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D446 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>S</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$S$</span></mjx-container>와 카드에 적힌 시간을 나타내는 양의 정수 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44B TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>X</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$X$</span></mjx-container>로 이루어져 있습니다. </p>
+<p>카드의 정보는 공백으로 구분된, 카드에 그려진 시계의 종류를 나타내는 문자열 $S$와 카드에 적힌 시간을 나타내는 양의 정수 $X$로 이루어져 있습니다. </p>
 
-<p><mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"> <mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D446 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>S</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$S$</span></mjx-container>는 <span style="color:#e74c3c;"><code>CLOCK</code></span>, <span style="color:#e74c3c;"><code>WATCH</code></span>, <span style="color:#e74c3c;"><code>HOURGLASS</code></span> 중 하나입니다.</p>
+<p>$S$는 <span style="color:#e74c3c;"><code>CLOCK</code></span>, <span style="color:#e74c3c;"><code>WATCH</code></span>, <span style="color:#e74c3c;"><code>HOURGLASS</code></span> 중 하나입니다.</p>
 
 <p><span style="color:#e74c3c;"><code>CLOCK</code></span>은 벽시계를, <span style="color:#e74c3c;"><code>WATCH</code></span>는 손목시계를, <span style="color:#e74c3c;"><code>HOURGLASS</code></span>는 모래시계를 의미합니다.</p>
 
 ### 출력 
 
- <p><mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"> <mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$N$</span></mjx-container>줄에 걸쳐 해당 카드를 펼쳤을 때 차례를 진행하는 플레이어가 외쳐야 하는 시각과 해야 하는 행동을 공백으로 구분하여 출력해주세요.</p>
+ <p>$N$줄에 걸쳐 해당 카드를 펼쳤을 때 차례를 진행하는 플레이어가 외쳐야 하는 시각과 해야 하는 행동을 공백으로 구분하여 출력해주세요.</p>
 
-<p>시각은 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$1$</span></mjx-container>부터 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c><mjx-c class="mjx-c32"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>12</mn></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$12$</span></mjx-container> 사이의 정수로, 해야 하는 행동은 게임판 중앙을 내리쳐야 한다면 <span style="color:#e74c3c;"><code>YES</code></span>를, 아니면 <span style="color:#e74c3c;"><code>NO</code></span>를 출력해주세요.</p>
+<p>시각은 $1$부터 $12$ 사이의 정수로, 해야 하는 행동은 게임판 중앙을 내리쳐야 한다면 <span style="color:#e74c3c;"><code>YES</code></span>를, 아니면 <span style="color:#e74c3c;"><code>NO</code></span>를 출력해주세요.</p>
 
