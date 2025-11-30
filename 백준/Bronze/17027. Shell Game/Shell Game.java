@@ -11,6 +11,7 @@ class Main{
 		int N = Integer.parseInt(br.readLine());
 		int score[] = new int[4];
 		int now[] = {0,1,2,3};
+		
 		while(N-->0)
 		{
 			StringTokenizer st = new StringTokenizer(br.readLine());
@@ -18,20 +19,15 @@ class Main{
 			int b = Integer.parseInt(st.nextToken());
 			int g = Integer.parseInt(st.nextToken());
 			
-			for(int i=1; i<=3; i++) {
-				if(now[i] == a) {
+			for(int i=1; i<=3; i++)
+			{
+				if(now[i] == a)
 					now[i] = b;
-				}
-				else if(now[i] == b) {
+				else if(now[i] == b)
 					now[i] = a;
-				}
-				if(now[i] == g) {
+				if(now[i] == g)
 					score[i]++;
-				}
 			}
-			
-			
-			
 		}
 		
 		System.out.print(Math.max(score[1], Math.max(score[2], score[3])));
