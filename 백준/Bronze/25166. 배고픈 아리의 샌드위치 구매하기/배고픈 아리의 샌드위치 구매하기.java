@@ -9,9 +9,10 @@ class Main{
 	public static void main(String[] args)throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		String str = "Impossible";
 		int S = Integer.parseInt(st.nextToken()) - ((1<<10)-1);
 		int M = Integer.parseInt(st.nextToken());
+		
+		String str = "Impossible";
 		
 		if(S <= 0)
 			str = "No thanks";
