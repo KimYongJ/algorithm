@@ -13,6 +13,16 @@ class Main{
 				((Integer.parseInt(br.readLine()) & T) << 4) |
 				(Integer.parseInt(br.readLine()) & T);
 		
-		System.out.print(String.format("%04d", A));
+		String a = String.valueOf(A);
+		
+		int need = 4 - a.length();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		while(need-->0)
+			sb.append('0');
+		sb.append(a);
+		
+		System.out.print(sb);
 	}
 }
