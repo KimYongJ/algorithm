@@ -13,21 +13,15 @@ class Main{
 		while(T-->0)
 		{
 			long m = Long.parseLong(br.readLine());
-			boolean isContinue = true;
+			int x = Long.numberOfTrailingZeros(m);
 			
-			for(int x = 0; x<63 && isContinue; x++)
-			{
-				long X = 1L << x;
-				for(int y = x; y<63; y++)
-				{
-					long Y = 1L << y;
-					if(X + Y == m)
-					{
-						sb.append(x).append(' ').append(y).append('\n');
-						isContinue = false;
-						break;
-					}
-				}
+			if(Long.bitCount(m) == 1) {
+				sb.append(x-1).append(' ').append(x-1).append('\n');
+			}
+			else {
+				m &= (m - 1);
+				int y = Long.numberOfTrailingZeros(m);
+				sb.append(x).append(' ').append(y).append('\n');
 			}
 			
 		}
