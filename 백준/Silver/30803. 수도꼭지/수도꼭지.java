@@ -23,22 +23,17 @@ class Main{
 		StringBuilder sb = new StringBuilder();
 		
 		int N = Integer.parseInt(br.readLine());
+		long sum = 0;
 		long arr[] = new long[N];
 		boolean isClosed[] = new boolean[N];
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for(int i=0; i<N; i++)
-			arr[i] = Integer.parseInt(st.nextToken());
+			sum += arr[i] = Integer.parseInt(st.nextToken());
+		
+		sb.append( sum ).append('\n');
 		
 		int Q = Integer.parseInt(br.readLine());
-		
-		long sum = 0;
-		
-		for(int i=0; i<arr.length; i++)
-			if(!isClosed[i])
-				sum += arr[i];
-
-		sb.append( sum ).append('\n');
 		
 		while(Q-->0)
 		{
