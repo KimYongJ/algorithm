@@ -99,6 +99,6 @@ class Main{
 	}
 	static int find(int parent, int[] info) {
 		if(info[parent] == parent) return parent;
-		return find(info[parent], info);
+		return info[parent] = find(info[parent], info);
 	}
 }
