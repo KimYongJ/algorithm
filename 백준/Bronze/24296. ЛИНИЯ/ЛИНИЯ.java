@@ -9,8 +9,8 @@ class Main{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
 		
-		while(N % 2 != 0)
-			N = (N + 1) / 2;
+		while((N & 1) == 1)
+			N = (N + 1) >> 1;
 		
 		System.out.print(N);
 	}
