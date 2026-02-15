@@ -26,10 +26,9 @@ class Main{
 				e -= damage;
 				over = 0;
 			}
-			if(e <= 0) {
-		//		over = -e;
+			
+			if(e <= 0)
 				continue;
-			}
 				
 			while(e > 0)
 			{
