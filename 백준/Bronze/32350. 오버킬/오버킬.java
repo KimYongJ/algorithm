@@ -29,12 +29,15 @@ class Main{
 			
 			if(e <= 0)
 				continue;
-				
-			while(e > 0)
-			{
-				++cnt;
+
+			cnt += e / D;
+			e = e % D;
+			
+			if(e > 0) {
 				e -= D;
+				++cnt;
 			}
+			
 			if(e < 0)
 				over = -e;
 		}
