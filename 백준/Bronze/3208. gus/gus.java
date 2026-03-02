@@ -12,16 +12,13 @@ class Main{
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int Y = Integer.parseInt(st.nextToken());
 		int X = Integer.parseInt(st.nextToken());
-		
+		boolean visit[][] = new boolean[Y][X];
+		visit[0][0] = true;
 		int idx = 0;
 		int turn = 0;
 		int x = 0;
 		int y = 0;
 		int cnt = Y * X - 1;
-		
-		boolean visit[][] = new boolean[Y][X];
-		visit[0][0] = true;
-		
 		while(cnt>0)
 		{
 			int ny = y + dxy[idx][0];
